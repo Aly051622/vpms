@@ -1,0 +1,384 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+/* Container: Fix positioning */
+.container {
+    text-align: center;
+    margin-top: 10vh; /* Keep this if necessary, or adjust */
+    position: relative; /* Ensure relative positioning */
+    top: 0; /* Adjust to keep it at the top */
+}
+
+
+/* Search slot input, button and other input styling */
+.search-slot input, .add-slot input, .add-slot select {
+    padding: 10px;
+    margin-right: 5px;
+    box-sizing: border-box; /* Ensure it doesn't expand beyond container */
+}
+
+.search-slot button, .add-slot button {
+    padding: 10px 20px;
+    background-color: orange;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.select-area button {
+    background-color: orange;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.slots-display {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+
+/* Ensure search form stays inline and doesn't push content down */
+.form-inline {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Optional: Adjust the container to avoid movement */
+.search-slot {
+    margin-bottom: 20px;
+}
+
+
+/* Ensure all slots have the same size */
+.slot {
+    width: 150px;
+    height: 150px;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+/* Hide buttons by default */
+.slot-actions {
+    display: none;
+}
+
+/* Slot when clicked (toggle buttons) */
+.slot.clicked .slot-actions {
+    display: block;
+}
+
+/* Make sure buttons and text are vertically aligned when visible */
+.slot.clicked {
+    justify-content: flex-start; /* Align items to the top when clicked */
+}
+
+/* Center the slot number when buttons are hidden */
+.slot .slot-number {
+    display: block;
+    text-align: center;
+    font-size: 16px;
+}
+
+/* Adjust the slot size when clicked to keep it consistent */
+.slot.clicked .slot-number {
+    margin-bottom: 10px; /* Add space for buttons */
+}
+
+
+.vacant {
+    background-color: green; /* Green for Vacant */
+    color: white;
+}
+
+.occupied {
+    background-color: red; /* Red for Occupied */
+    color: white;
+}
+
+.status-btn {
+    display: block;
+    margin: 5px auto;
+    padding: 5px 10px;
+    background-color: white;
+    color: black;
+    border: none;
+    cursor: pointer;
+}
+
+.vacant-btn {
+    background-color: blue;
+    color: white;
+}
+
+.occupied-btn {
+    background-color: orange;
+    color: white;
+}
+
+.delete-btn {
+    background-color: red;
+    color: white;
+}
+
+/* NAVIGATION BAR SA MONITOR.PHP */
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 7px;
+    color: white;
+    z-index: 1000;
+}
+
+.navbar-brand a{
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+}
+
+.navbar-toggler {
+    display: none;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.navbar-menu {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.navbar-menu.active {
+    display: block;
+}
+
+.navbar-menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+}
+
+.navbar-menu a.manual-input {
+    margin-right: 20px; /* Ensure Manual Input has the same margin */
+}
+
+.navbar-menu a:hover {
+    background-color: #555;
+    border-radius: 5px;
+}
+
+/* Dropdown Styles */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #555;
+}
+
+.dropdown-content.show {
+    display: block !important; /* Ensure the dropdown shows when toggled */
+}
+
+/* Responsive Menu for Mobile */
+.navbar-toggler {
+    display: none;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.navbar-menu {
+    display: flex;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .navbar-menu {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .navbar-menu.active {
+        display: flex; /* Show the menu in mobile view */
+    }
+
+    .navbar-toggler {
+        display: block;
+    }
+
+    .dropdown-content {
+        position: static;
+        background-color: white;
+        width: 100%;
+    }
+
+    .dropdown-content a {
+        padding: 10px;
+        display: block;
+        text-align: left;
+    }
+}
+
+/* Page Layout */
+@media (max-width: 768px) {
+    #slots {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 95%;
+    }
+}
+
+
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+    #slots {
+        grid-template-columns: repeat(3, 1fr); /* 4 columns on medium-sized screens */
+    }
+}
+
+@media (max-width: 992px) {
+    #slots {
+        grid-template-columns: repeat(2, 1fr); /* 3 columns for smaller screens */
+    }
+}
+
+@media (max-width: 600px) {
+    #slots {
+        grid-template-columns: repeat(1, 1fr); /* Full width on mobile */
+    }
+}
+
+
+/* Modal styling */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
+    align-items: center;
+    justify-content: center;
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s;
+}
+
+/* Close Button */
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #aaa;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Fade-in animation for modal */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+.slot.occupied {
+    background-color: red; /* Change to red when occupied */
+    color: white; /* Change text color for better visibility */
+}
+
+
+.select-area button {
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #f5c6cb;
+    border: none;
+    border-radius: 5px;
+    color: #721c24;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.select-area button:hover {
+    background-color: #f8d7da;
+}
