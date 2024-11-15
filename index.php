@@ -1,8 +1,3 @@
-<?php
-
-header("Location: welcome.php");
-exit(); 
-?>
 
 <!DOCTYPE html>
 <html lang="en">
