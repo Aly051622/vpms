@@ -1,3 +1,9 @@
+<?php
+// Redirect to welcome.php located in the vpms folder
+header("Location: vpms/welcome.php");
+exit();
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
