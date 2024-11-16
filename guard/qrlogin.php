@@ -394,13 +394,23 @@ scanner.addListener('scan', function (content) {
     .then(response => response.text())
     .then(data => {
         if (data.includes('Error!')) {
-            document.body.innerHTML = data;
+            // Display the error message on the current page
+            const errorContainer = document.getElementById('scanner-status');
+            errorContainer.textContent = data; // Show error message in scanner status
+            errorContainer.style.color = 'red';
         } else {
+            // Redirect only if the operation was successful
             window.location.href = 'monitor.php';
         }
     })
-    .catch(error => console.error('Error:', error));
+    .catch(error => {
+        console.error('Error:', error);
+        const errorContainer = document.getElementById('scanner-status');
+        errorContainer.textContent = "An unexpected error occurred. Please try again.";
+        errorContainer.style.color = 'red';
+    });
 });
+
 
 function deleteEntry(id) {
     if (confirm("Are you sure you want to delete this entry?")) {
