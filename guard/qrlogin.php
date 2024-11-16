@@ -1,17 +1,17 @@
 <?php session_start(); 
-error_reporting(E_ALL);
-ini_set('display_errors', 1); // Shows errors on the page
 date_default_timezone_set('Asia/Manila');
 
-$conn = mysqli_connect("localhost", "u132092183_parkingz", "@Parkingz!2024", "u132092183_parkingz");
+$server = "localhost";
+$username = "u132092183_parkingz";
+$password = "@Parkingz!2024";
+$dbname = "u132092183_parkingz";
 
-if (mysqli_connect_errno()) {
-    echo "Connection Failed: " . mysqli_connect_error();
-    exit(); // Stop execution if the connection fails
-} else {
-    // Optional: Uncomment for debugging
-    // echo "Database connected successfully.";
+$conn = new mysqli($server, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
+
 if (isset($_POST['id'])) {
     $id = intval($_POST['id']);
     $sql = "DELETE FROM tblqr_login WHERE ID = ?";
@@ -153,20 +153,21 @@ $conn->close();
                 </thead>
                 <tbody>
                 <?php
-$conn = mysqli_connect("localhost", "u132092183_parkingz", "@Parkingz!2024", "u132092183_parkingz");
+$server = "localhost";
+$username = "root";
+$password = "";
+$dbname = "parking";
 
-if (mysqli_connect_errno()) {
-    echo "Connection Failed: " . mysqli_connect_error();
-    exit(); // Stop execution if the connection fails
-} else {
-    // Optional: Uncomment for debugging
-    // echo "Database connected successfully.";
+$conn = new mysqli($server, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
+
 
 // After processing the QR code
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $qrData = $_POST['qrData'];
-
 
     $dataLines = explode("\n", $qrData);
     $vehicleType = str_replace('Vehicle Type: ', '', $dataLines[0]);
@@ -298,7 +299,6 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
                 header('Location: monitor.php');
                 exit();
             } else {
-                error_log('SQL Error: ' . $conn->error);
                 $_SESSION['error'] = 'Error: ' . $conn->error;
             }
         } else {
@@ -325,28 +325,23 @@ if (!$query) {
     die('Error: ' . mysqli_error($conn));
 }
 
-// Check if rows are returned
-if ($query->num_rows > 0) {
-    while ($row = $query->fetch_assoc()) {
-        var_dump($row); // Display the row data for debugging
-        $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('h:i:s A m-d-y');
-        echo "
-        <tr>
-            <td>" . $row['ID'] . "</td>
-            <td>" . $row['Name'] . "</td>
-            <td>" . $row['ContactNumber'] . "</td>
-            <td>" . $row['VehicleType'] . "</td>
-            <td>" . $row['VehiclePlateNumber'] . "</td>
-            <td>" . $row['ParkingSlot'] . "</td>
-            <td>" . $formattedTimeIn . "</td>
-            <td><button class='btn btn-danger deleteBtn' data-id='" . $row['ID'] . "'>Delete</button></td>
-        </tr>
-        ";
-    }
-} else {
-    echo "<tr><td colspan='8'>No data available for today.</td></tr>";
+while ($row = $query->fetch_assoc()) {
+    $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('h:i:s A m-d-y');
+    echo "
+    <tr>
+        <td>" . $row['ID'] . "</td>
+        <td>" . $row['Name'] . "</td>
+        <td>" . $row['ContactNumber'] . "</td>
+        <td>" . $row['VehicleType'] . "</td>
+        <td>" . $row['VehiclePlateNumber'] . "</td>
+        <td>" . $row['ParkingSlot'] . "</td>
+        <td>" . $formattedTimeIn . "</td>
+        <td>
+        <button onclick=\"deleteEntry(" . $row['ID'] . ")\" class=\"btn btn-danger btn-sm\">Delete</button>
+                        </td>
+    </tr>
+    ";
 }
-
 
                 ?>
                 </tbody>
