@@ -388,33 +388,33 @@ scanner.addListener('scan', function (content) {
 
     // Fetch request to process scanned QR data
     fetch('qrlogin.php', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: 'qrData=' + encodeURIComponent(content) + '&selectedArea=' + encodeURIComponent(selectedArea),
-})
-.then(response => response.json()) // Parse JSON response
-.then(data => {
-    console.log('Server Response:', data);
-
-    if (data.status === 'success') {
-        alert(data.message);
-        location.reload();
-    } else if (data.status === 'error') {
-        alert("Error: " + data.message);
-    } else {
-        alert("Unexpected server response.");
-    }
-})
-.catch(error => {
-    console.error('Error:', error);
-    alert("An error occurred while processing the QR code.");
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'qrData=' + encodeURIComponent(content) + '&selectedArea=' + encodeURIComponent(selectedArea),
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log('Server Response:', data); // Log server response
+        
+        // Check if there is an error message
+        if (data.includes('Error!')) {
+            alert("Error processing QR code: " + data); // Show an alert with the error
+        } else if (data.includes('success')) {
+            alert("QR code processed successfully!");
+            
+            // Optionally, update the table dynamically here
+            location.reload(); // Reload only if you need to refresh the table
+        } else {
+            alert("Unexpected server response: " + data);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("An error occurred while processing the QR code.");
+    });
 });
-
-console.log("Content sent to server:", content);
-console.log("Selected Area:", selectedArea);
-
 
 
 function deleteEntry(id) {
