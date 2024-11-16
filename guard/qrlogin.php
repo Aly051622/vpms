@@ -394,7 +394,7 @@ scanner.addListener('scan', function (content) {
     fetch('qrlogin.php', {
         method: 'POST',
         headers: {
-            'Content-Type': 'text/plain',
+            'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: 'qrData=' + encodeURIComponent(content) + '&selectedArea=' + encodeURIComponent(selectedArea),
     })
