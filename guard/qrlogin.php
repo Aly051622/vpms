@@ -1,16 +1,9 @@
 <?php session_start(); 
 date_default_timezone_set('Asia/Manila');
 
-$server = "localhost";
-$username = "root";
-$password = "";
-$dbname = "parking";
+// Include the database connection file
+include('../DBconnection/dbconnection.php');
 
-$conn = new mysqli($server, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 if (isset($_POST['id'])) {
     $id = intval($_POST['id']);
