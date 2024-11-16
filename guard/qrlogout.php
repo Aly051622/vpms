@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $id = $_POST['id'];
     
     $sqlDelete = "DELETE FROM tblqr_logout WHERE ID = '$id'";
-    if ($conn->query($sqlDelete) === TRUE) {
+    if ($con->query($sqlDelete) === TRUE) {
         echo "success";
     } else {
         echo "error";
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
 
     // Check if the vehicle has a recent login entry
     $sqlFindLogin = "SELECT ParkingSlot FROM tblqr_login WHERE VehiclePlateNumber = '$vehiclePlateNumber' AND Name = '$name' ORDER BY TIMEIN DESC LIMIT 1";
-    $resultLogin = $conn->query($sqlFindLogin);
+    $resultLogin = $con->query($sqlFindLogin);
 
     if ($resultLogin->num_rows > 0) {
         $rowLogin = $resultLogin->fetch_assoc();
@@ -39,14 +39,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
         $sqlInsert = "INSERT INTO tblqr_logout (Name, ContactNumber, VehicleType, VehiclePlateNumber, ParkingSlot, TIMEOUT)
                       VALUES ('$name', '$mobilenum', '$vehicleType', '$vehiclePlateNumber', '{$rowLogin['ParkingSlot']}', '$timeOut')";
 
-if ($conn->query($sqlInsert) === TRUE) {
+if ($con->query($sqlInsert) === TRUE) {
     foreach ($occupiedSlots as $slot) {
         $updateSlot = "UPDATE tblparkingslots SET Status = 'Vacant' WHERE SlotNumber = '$slot'";
-        $conn->query($updateSlot);
+        $con->query($updateSlot);
     }
     $_SESSION['success'] = 'Vehicle logged out successfully.';
 } else {
-    $_SESSION['error'] = 'Error: ' . $conn->error;
+    $_SESSION['error'] = 'Error: ' . $con->error;
 }
 } else {
 $_SESSION['error'] = 'No login record found for this vehicle. Please log in first before logging out.';
@@ -58,8 +58,8 @@ $_SESSION['error'] = 'No login record found for this vehicle. Please log in firs
 
 // Query the current day logout records
 $sql = "SELECT ID, Name, ContactNumber, VehicleType, VehiclePlateNumber, ParkingSlot, TIMEOUT FROM tblqr_logout WHERE DATE(TIMEOUT) = CURDATE() ORDER BY TIMEOUT DESC";
-$result = $conn->query($sql);
-$conn->close();
+$result = $con->query($sql);
+$con->close();
 ?>
 
 <html class="no-js" lang="">
