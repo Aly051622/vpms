@@ -196,9 +196,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
         exit();
     }
 
-    file_put_contents('debug.log', print_r($_POST, true), FILE_APPEND);
-
-
     // Check if user is already logged in without logging out
 $checkLogoutQR = "SELECT * FROM tblqr_logout WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEOUT DESC LIMIT 1";
 $checkLoginQR = "SELECT * FROM tblqr_login WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEIN DESC LIMIT 1";
@@ -392,6 +389,7 @@ scanner.addListener('scan', function (content) {
         return;
     }
 
+    // Fetch request to process scanned QR data
     fetch('qrlogin.php', {
         method: 'POST',
         headers: {
@@ -401,16 +399,26 @@ scanner.addListener('scan', function (content) {
     })
     .then(response => response.text())
     .then(data => {
-    console.log('Server Response:', data); // Log server response
-    if (data.includes('Error!')) {
-        document.body.innerHTML = data;
-    } else {
-        window.location.href = 'monitor.php';
-    }
-})
-
-    .catch(error => console.error('Error:', error));
+        console.log('Server Response:', data); // Log server response
+        
+        // Check if there is an error message
+        if (data.includes('Error!')) {
+            alert("Error processing QR code: " + data); // Show an alert with the error
+        } else if (data.includes('success')) {
+            alert("QR code processed successfully!");
+            
+            // Optionally, update the table dynamically here
+            location.reload(); // Reload only if you need to refresh the table
+        } else {
+            alert("Unexpected server response: " + data);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("An error occurred while processing the QR code.");
+    });
 });
+
 
 function deleteEntry(id) {
     if (confirm("Are you sure you want to delete this entry?")) {
