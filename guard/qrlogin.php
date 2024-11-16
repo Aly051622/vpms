@@ -368,6 +368,7 @@ while ($row = $query->fetch_assoc()) {
             })
             .then(response => response.text())
             .then(data => {
+                console.log(data);
                 if (data === "success") {
                     window.location.href = 'monitor.php';
                 } else {
