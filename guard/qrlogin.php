@@ -136,8 +136,7 @@ $conn->close();
             </select>
         </div>
 
-        <!-- Hidden input to store scanned QR data -->
-    <input type="hidden" name="qrData" id="qrData">
+        
 
         <!-- Table Section -->
         <div class="col-md-12 table-container">
@@ -359,15 +358,7 @@ if ($query->num_rows > 0) {
 </div>
 
 <script>
-
-     // JavaScript for handling QR scanner
-document.addEventListener("DOMContentLoaded", function () {
-    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
-    scanner.addListener('scan', function (content) {
-        // Place the scanned content in the hidden input field
-        document.getElementById('qrData').value = content;
-
-
+     let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
 
 // Attempt to get available cameras
 Instascan.Camera.getCameras().then(function (cameras) {
@@ -418,7 +409,6 @@ scanner.addListener('scan', function (content) {
         }
     })
     .catch(error => console.error('Error:', error));
-});
 });
 
 function deleteEntry(id) {
