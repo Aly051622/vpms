@@ -312,8 +312,6 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
 }
 
 
-
-
 $sql = "SELECT ID, Name, ContactNumber, VehicleType, VehiclePlateNumber, ParkingSlot, TIMEIN 
         FROM tblqr_login 
         WHERE DATE(TIMEIN) = CURDATE() 
@@ -337,8 +335,8 @@ while ($row = $query->fetch_assoc()) {
         <td>" . $row['ParkingSlot'] . "</td>
         <td>" . $formattedTimeIn . "</td>
         <td>
-        <button onclick=\"deleteEntry(" . $row['ID'] . ")\" class=\"btn btn-danger btn-sm\">Delete</button>
-                        </td>
+            <button onclick=\"deleteEntry(" . $row['ID'] . ")\" class=\"btn btn-danger btn-sm\">Delete</button>
+        </td>
     </tr>
     ";
 }
