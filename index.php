@@ -1,6 +1,10 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta http-equiv="refresh" content="0;url=welcome.php" />
+
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/9/9a/CTU_new_logo.png">
     <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/9/9a/CTU_new_logo.png">

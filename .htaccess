@@ -1,0 +1,15 @@
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Allow all access to all files
+<Files "*">
+    Require all granted
+</Files>
+
+# Add directory permissions
+<Directory />
+    Require all granted
+</Directory>
+
+# Optional: Allow directory listing
+Options +Indexes

@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>CTU Parking System</title>
+        <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/9/9a/CTU_new_logo.png">
+      <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/9/9a/CTU_new_logo.png">
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+        <!--Social Icons goes here-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        
+    <!-- jQuery, Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+    
+
+
+        <style>
+         
+            @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+            h1{
+            font-size: 2em;
+            color: white;
+            font-weight: bold;
+            transition: color 0.2s ease-in-out;
+       
+            background: linear-gradient(
+                to right,
+                orange 20%,
+                #e9e4f0 30%,
+                #d3cce3 70%,
+                cyan 80%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-fill-color: transparent;
+            background-size: 500% auto;
+            animation: textShine 5s ease-in-out infinite alternate;
+        }
+
+            @keyframes textShine {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+}
+
+            h5{
+              color: orange;
+            }
+    .headingText {
+      color: #e74c3c;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+      animation: textMove 10s infinite, colorChange 10s infinite; /* Apply both animations */
+    }
+
+    @keyframes textMove {
+      0% {
+        transform: translateX(0);
+      }
+      25% {
+        transform: translateX(8px);
+      }
+      50% {
+        transform: translateX(0);
+      }
+      75% {
+        transform: translateX(-8px);
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes colorChange {
+      0% {
+        color: red;
+      }
+      25% {
+        color: darkorange;
+      }
+      50% {
+        color: red;
+      }
+      75% {
+        color: #d3cce3;
+      }
+      100% {
+        color: red;
+      }
+    }
+    .responsive-container-block {
+      min-height: 75px;
+      height: fit-content;
+      width: 100%;
+      padding-top: 0px;
+      padding-right: 0px;
+      padding-bottom: 0px;
+      padding-left: 0px;
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 0px;
+      margin-right: auto;
+      margin-bottom: 0px;
+      margin-left: auto;
+      justify-content: flex-start;
+    }
+
+    .text-blk {
+      margin-top: 0px;
+      margin-right: 0px;
+      margin-bottom: 0px;
+      margin-left: 0px;
+      padding-top: 10px;
+      padding-right: 10px;
+      padding-bottom: 10px;
+      padding-left: 10px;
+      line-height: 25px;
+    }
+
+    .responsive-container-block.bigContainer {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-top: 10px;
+      padding-right: 50px;
+      padding-bottom: 10px;
+      padding-left: 50px;
+    }
+
+    .text-blk.headingText {
+      font-size: 35px;
+      font-weight: 700;
+      line-height: 28px;
+      color: black;
+      margin-top: -10px;
+      margin-right: 0px;
+      margin-bottom: 10px;
+      margin-left: 0px;
+      padding-top: 0px;
+      padding-right: 10px;
+      padding-bottom: 0px;
+      padding-left: 0px;
+    }
+
+    .allText {
+      padding-top: 0px;
+      padding-right: 0px;
+      padding-bottom: 0px;
+      padding-left: 0px;
+      width: 50%;
+      margin-top: -200px;
+      margin-right: 0px;
+      margin-bottom: 0px;
+      margin-left: 0px;
+    }
+
+
+    .text-blk.description, .additinalontent {
+      font-size: 18px;
+      line-height: 28px;
+      padding-top: 0px;
+      padding-right: 10px;
+      padding-bottom: 0px;
+      padding-left: 0px;
+      margin-top: -20px;
+      margin-right: 0px;
+      margin-bottom: 40px;
+      margin-left: 0px;
+    }
+
+    .explore {
+      font-size: 18px;
+      line-height: 28px;
+      background-color: orange;
+      border-top-width: 0px;
+      border-right-width: 0px;
+      border-bottom-width: 0px;
+      border-left-width: 0px;
+      border-top-style: outset;
+      border-right-style: outset;
+      border-bottom-style: outset;
+      border-left-style: outset;
+      border-top-color: rgb(244, 152, 146);
+      border-right-color: rgb(244, 152, 146);
+      border-bottom-color: rgb(244, 152, 146);
+      border-left-color: rgb(244, 152, 146);
+      border-image-source: initial;
+      border-image-slice: initial;
+      border-image-width: initial;
+      border-image-outset: initial;
+      border-image-repeat: initial;
+      box-shadow: rgba(244, 152, 146, 0.25) 0px 10px 20px;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+      border-bottom-left-radius: 10px;
+      padding-top: 9px;
+      padding-right: 45px;
+      padding-bottom: 9px;
+      padding-left: 45px;
+      text-decoration: none;
+    }
+
+    .explore:hover{
+      color: white;
+      background-color: red;
+      text-decoration: none;
+    }
+
+    .responsive-container-block.Container {
+      margin-top: 50px;
+      margin-right: auto;
+      margin-bottom: 50px;
+      margin-left: auto;
+      justify-content: center;
+      align-items: center;
+      max-width: 1320px;
+      padding-top: 10px;
+      padding-right: 10px;
+      padding-bottom: 10px;
+      padding-left: 10px;
+    }
+
+    .responsive-container-block.Container.bottomContainer {
+      flex-direction: row;
+      margin-top: 50px;
+      margin-right: auto;
+      margin-bottom: 50px;
+      margin-left: auto;
+    }
+
+    .allText.aboveText {
+      margin-top: 0px;
+      margin-right: 0px;
+      margin-bottom: 0px;
+      margin-left: 40px;
+    }
+
+    .allText.bottomText {
+      margin-top: 0px;
+      margin-right: 10px;
+      margin-bottom: 0px;
+      margin-left: 0px;
+    }
+
+    .mainVideo {
+      width: 85%;
+      height: 450px;
+      margin-top: -30px;
+      margin-right: 0px;
+      margin-bottom: 0px;
+      margin-left: 0px;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+      border-bottom-left-radius: 10px;
+    }
+
+    .videoContainer {
+      width: 46%;
+      height: 600px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      position: relative;
+      padding-top: 0px;
+      padding-right: 0px;
+      padding-bottom: 0px;
+      padding-left: 10px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .videoContainer:hover {
+      transform: scale(1.03); 
+    }
+
+    .mainVideo {
+      z-index: 10;
+    }
+
+    .dotsImg {
+      position: absolute;
+      width: 80%;
+      height: 600px;
+      top: -30px;
+      bottom: -30px;
+      right: 0px;
+      object-fit: cover;
+      filter: brightness(1) sepia(70%) hue-rotate(650deg);
+      mix-blend-mode: multiply;
+    }
+
+    @media (max-width: 1024px) {
+      .responsive-container-block.Container {
+        max-width: 800px;
+      }
+
+      .text-blk.description {
+        font-size: 18px;
+      }
+
+      .allText {
+        width: 40%;
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+        margin-left: 20px;
+      }
+
+      .responsive-container-block.bigContainer {
+        padding-top: 10px;
+        padding-right: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+      }
+
+      .text-blk.subHeadingText {
+        font-size: 30px;
+      }
+
+      .responsive-container-block.Container.bottomContainer {
+        margin-top: 80px;
+        margin-right: auto;
+        margin-bottom: 50px;
+        margin-left: auto;
+      }
+
+      .responsive-container-block.Container {
+        max-width: 800px;
+      }
+
+      .allText.aboveText {
+        margin-top: 30px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+        margin-left: 40px;
+      }
+
+      .allText.bottomText {
+        margin-top: 30px;
+        margin-right: 40px;
+        margin-bottom: 0px;
+        margin-left: 0px;
+      }
+
+      .allText.bottomText {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 30px;
+        margin-right: 0px;
+        margin-bottom: 30px;
+        margin-left: 0px;
+      }
+
+      .responsive-container-block.Container.bottomContainer {
+        flex-direction: column;
+      }
+
+      .text-blk.headingText {
+        text-align: center;
+        font-size: 22px;
+      }
+
+      .text-blk.subHeadingText {
+        text-align: center;
+      }
+
+      .text-blk.description {
+        text-align: center;
+      }
+
+      .explore {
+        margin-top: 0px;
+        margin-right: auto;
+        margin-bottom: 0px;
+        margin-left: auto;
+      }
+
+      #inc0s {
+        margin-top: 0px;
+        margin-right: auto;
+        margin-bottom: 0px;
+        margin-left: auto;
+      }
+
+      .dotsImg {
+        width: 50%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .videoContainer {
+        width: 100%;
+        padding-top: 0px;
+        padding-right: 0px;
+        padding-bottom: 0px;
+        padding-left: 0px;
+      }
+
+      .mainVideo {
+        width: 100%;
+      }
+
+      .allText.bottomText {
+        margin-top: 30px;
+        margin-right: 0px;
+        margin-bottom: 60px;
+        margin-left: 0px;
+      }
+
+      .text-blk.description {
+        padding-top: 100px;
+        padding-right: 0px;
+        padding-bottom: 0px;
+        padding-left: 0px;
+      }
+
+      .text-blk.headingText {
+        padding-top: 0px;
+        padding-right: 0px;
+        padding-bottom: -50px;
+        padding-left: 0px;
+      }
+
+      .text-blk.subHeadingText {
+        padding-top: 0px;
+        padding-right: 0px;
+        padding-bottom: 50px;
+        padding-left: 0px;
+      }
+
+      .mainVideo {
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+        margin-left: 0px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .allText {
+        width: 100%;
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+        margin-left: 0px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-top: 0px;
+        padding-right: 0px;
+        padding-bottom: 0px;
+        padding-left: 0px;
+      }
+
+      .responsive-container-block.Container {
+        flex-direction: column;
+        height: auto;
+      }
+
+
+      .text-blk.subHeadingText {
+        text-align: center;
+        font-size: 28px;
+        line-height: 38px;
+      }
+
+      .text-blk.description {
+        text-align: justify;
+        font-size: 18px;
+        line-height: 27px;
+      }
+
+      .allText {
+        margin-top: 40px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+        margin-left: 0px;
+      }
+
+      .allText.aboveText {
+        margin-top: 40px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+        margin-left: 0px;
+      }
+
+      .responsive-container-block.Container {
+        margin-top: 80px;
+        margin-right: auto;
+        margin-bottom: 50px;
+        margin-left: auto;
+      }
+
+      .responsive-container-block.Container.bottomContainer {
+        margin-top: 50px;
+        margin-right: auto;
+        margin-bottom: 50px;
+        margin-left: auto;
+        padding-top: 0px;
+        padding-right: 0px;
+        padding-bottom: 0px;
+        padding-left: 10px;
+      }
+
+      .allText.bottomText {
+        margin-top: 40px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+        margin-left: 0px;
+      }
+
+      .allText.bottomText {
+        margin-top: 40px;
+        margin-right: 0px;
+        margin-bottom: 60px;
+        margin-left: 0px;
+      }
+
+      .mainVideo {
+        height: 400px;
+      }
+
+      .videoContainer {
+        height: 550px;
+      }
+
+      .explore {
+        font-size: 16px;
+        padding-top: 8px;
+        padding-right: 40px;
+        padding-bottom: 8px;
+        padding-left: 40px;
+      }
+
+      .responsive-container-block.bigContainer {
+        padding-top: 0px;
+        padding-right: 50px;
+        padding-bottom: 0px;
+        padding-left: 50px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .responsive-container-block.Container {
+        padding-top: 10px;
+        padding-right: 0px;
+        padding-bottom: 10px;
+        padding-left: 0px;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .responsive-container-block.bigContainer {
+        padding-top: 10px;
+        padding-right: 25px;
+        padding-bottom: 10px;
+        padding-left: 25px;
+      }
+
+      .allText {
+        padding-top: 0px;
+        padding-right: 0px;
+        padding-bottom: 0px;
+        padding-left: 0px;
+        width: 100%;
+      }
+
+      .responsive-container-block.bigContainer {
+        padding-top: 10px;
+        padding-right: 20px;
+        padding-bottom: 10px;
+        padding-left: 20px;
+      }
+
+      .explore {
+        font-size: 16px;
+        line-height: 25px;
+        padding: 8px 35px 8px 35px;
+        color: black;
+        text-align: justify;
+      }
+
+      .dotsImg {
+        width: 80%;
+        height: 100%;
+      }
+
+      .mainVideo {
+        height: 260px;
+      }
+
+      .videoContainer {
+        height: 320px;
+      }
+
+      .responsive-container-block.Container.bottomContainer {
+        padding: 0 0 0 0;
+      }
+
+      .text-blk.description {
+        font-size: 16px;
+        line-height: 20px;
+        margin: 0 0 30px 0;
+      }
+
+      .text-blk.subHeadingText {
+        font-size: 24px;
+      }
+    }
+
+    *,
+    *:before,
+    *:after {
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    .wk-desk-1 {
+      width: 8.333333%;
+    }
+
+    .wk-desk-2 {
+      width: 16.666667%;
+    }
+
+    .wk-desk-3 {
+      width: 25%;
+    }
+
+    .wk-desk-4 {
+      width: 33.333333%;
+    }
+
+    .wk-desk-5 {
+      width: 41.666667%;
+    }
+
+    .wk-desk-6 {
+      width: 50%;
+    }
+
+    .wk-desk-7 {
+      width: 58.333333%;
+    }
+
+    .wk-desk-8 {
+      width: 66.666667%;
+    }
+
+    .wk-desk-9 {
+      width: 75%;
+    }
+
+    .wk-desk-10 {
+      width: 83.333333%;
+    }
+
+    .wk-desk-11 {
+      width: 91.666667%;
+    }
+
+    .wk-desk-12 {
+      width: 100%;
+    }
+
+    @media (max-width: 1024px) {
+      .wk-ipadp-1 {
+        width: 8.333333%;
+      }
+
+      .wk-ipadp-2 {
+        width: 16.666667%;
+      }
+
+      .wk-ipadp-3 {
+        width: 25%;
+      }
+
+      .wk-ipadp-4 {
+        width: 33.333333%;
+      }
+
+      .wk-ipadp-5 {
+        width: 41.666667%;
+      }
+
+      .wk-ipadp-6 {
+        width: 50%;
+      }
+
+      .wk-ipadp-7 {
+        width: 58.333333%;
+      }
+
+      .wk-ipadp-8 {
+        width: 66.666667%;
+      }
+
+      .wk-ipadp-9 {
+        width: 75%;
+      }
+
+      .wk-ipadp-10 {
+        width: 83.333333%;
+      }
+
+      .wk-ipadp-11 {
+        width: 91.666667%;
+      }
+
+      .wk-ipadp-12 {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .wk-tab-1 {
+        width: 8.333333%;
+      }
+
+      .wk-tab-2 {
+        width: 16.666667%;
+      }
+
+      .wk-tab-3 {
+        width: 25%;
+      }
+
+      .wk-tab-4 {
+        width: 33.333333%;
+      }
+
+      .wk-tab-5 {
+        width: 41.666667%;
+      }
+
+      .wk-tab-6 {
+        width: 50%;
+      }
+
+      .wk-tab-7 {
+        width: 58.333333%;
+      }
+
+      .wk-tab-8 {
+        width: 66.666667%;
+      }
+
+      .wk-tab-9 {
+        width: 75%;
+      }
+
+      .wk-tab-10 {
+        width: 83.333333%;
+      }
+
+      .wk-tab-11 {
+        width: 91.666667%;
+      }
+
+      .wk-tab-12 {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .wk-mobile-1 {
+        width: 8.333333%;
+      }
+
+      .wk-mobile-2 {
+        width: 16.666667%;
+      }
+
+      .wk-mobile-3 {
+        width: 25%;
+      }
+
+      .wk-mobile-4 {
+        width: 33.333333%;
+      }
+
+      .wk-mobile-5 {
+        width: 41.666667%;
+      }
+
+      .wk-mobile-6 {
+        width: 50%;
+      }
+
+      .wk-mobile-7 {
+        width: 58.333333%;
+      }
+
+      .wk-mobile-8 {
+        width: 66.666667%;
+      }
+
+      .wk-mobile-9 {
+        width: 75%;
+      }
+
+      .wk-mobile-10 {
+        width: 83.333333%;
+      }
+
+      .wk-mobile-11 {
+        width: 91.666667%;
+      }
+
+      .wk-mobile-12 {
+        width: 100%;
+      }
+    }
+
+    #team .card {
+        border-radius: 10px;
+        border: none;
+        background: linear-gradient(to bottom, #D5DEE7 0%, #E8EBF2 50%, #E2E7ED 100%), linear-gradient(to bottom, rgba(0,0,0,0.02) 50%, rgba(255,255,255,0.02) 61%, rgba(0,0,0,0.02) 73%), linear-gradient(33deg, rgba(255,255,255,0.20) 0%, rgba(0,0,0,0.20) 100%);
+        background-blend-mode: normal,color-burn;
+        box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+    }
+
+    .image-flip:hover .backside,
+    .image-flip.hover .backside {
+        -webkit-transform: rotateY(0deg);
+        -moz-transform: rotateY(0deg);
+        -o-transform: rotateY(0deg);
+        -ms-transform: rotateY(0deg);
+        transform: rotateY(0deg);
+        border-radius: .25rem;
+        box-shadow: 5px 7px 9px -4px rgba(158, 158, 158);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .image-flip:hover .frontside,
+    .image-flip.hover .frontside {
+        -webkit-transform: rotateY(180deg);
+        -moz-transform: rotateY(180deg);
+        -o-transform: rotateY(180deg);
+        transform: rotateY(180deg);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .mainflip {
+        -webkit-transition: 1s;
+        -webkit-transform-style: preserve-3d;
+        -ms-transition: 1s;
+        -moz-transition: 1s;
+        -moz-transform: perspective(1000px);
+        -moz-transform-style: preserve-3d;
+        -ms-transform-style: preserve-3d;
+        transition: 1s;
+        transform-style: preserve-3d;
+        position: relative;
+    }
+
+    .frontside {
+        position: relative;
+        -webkit-transform: rotateY(0deg);
+        -ms-transform: rotateY(0deg);
+        -moz-transform: rotateY(0deg);
+        -o-transform: rotateY(0deg);
+        transform: rotateY(0deg);
+        z-index: 2;
+        margin-bottom: 70px;
+    }
+
+    .backside {
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #b8c6db;
+        background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7fa 74%);
+        -webkit-transform: rotateY(-180deg);
+        -moz-transform: rotateY(-180deg);
+        -o-transform: rotateY(-180deg);
+        -ms-transform: rotateY(-180deg);
+        transform: rotateY(-180deg);
+        -webkit-box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
+        -moz-box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
+        box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
+    }
+
+    .frontside,
+    .backside {
+        -webkit-backface-visibility: hidden;
+        -moz-backface-visibility: hidden;
+        -ms-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-transition: 1s;
+        -webkit-transform-style: preserve-3d;
+        -moz-transition: 1s;
+        -moz-transform-style: preserve-3d;
+        -o-transition: 1s;
+        -o-transform-style: preserve-3d;
+        -ms-transition: 1s;
+        -ms-transform-style: preserve-3d;
+        transition: 1s;
+        transform-style: preserve-3d;
+    }
+
+    .frontside .card,
+    .backside .card {
+        min-height: 400px !important;
+        height: 400px;
+        width: 350px;
+        -webkit-box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
+        -moz-box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
+        box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
+        position: relative;
+    }
+
+    .frontside .card::before,
+    .backside .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    .backside .card a {
+        font-size: 16px;
+        color: orange !important;
+    }
+
+    .frontside .card .card-title,
+    .backside .card .card-title {
+        color: #415f87 !important;
+    }
+
+    @keyframes imageAnimation {
+        0% {
+            transform: scale(1) rotate(0deg);
+        }
+        50% {
+            transform: scale(1.2) rotate(15deg);
+        }
+        100% {
+            transform: scale(1) rotate(0deg);
+        }
+    }
+
+    .frontside .card .card-body img {
+        width: 170px;
+        height: 170px !important;
+        border-radius: 50%;
+        animation: imageAnimation 10s;
+    }
+
+    /*demographics*/
+    .demographics {
+        background-color: #f0f0f0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        transition: background-color 0.3s ease;
+        text-align: justify;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+      }
+
+      .demographics:hover {
+        border: groove gray 2px;
+        background-color: #fec84e;
+        background-image: linear-gradient(315deg, #fec84e 0%, #ffdea8 74%);
+      }
+
+      .img-fluid {
+        margin-top: 30px;
+        box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, 
+            rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,
+            rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, 
+            rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+    }
+
+        .navbar a {
+            color: orange;
+            text-decoration: none;
+            margin: 0 15px;
+            position: relative; 
+            transition: color 0.3s ease, transform 0.3s ease; 
+            cursor:pointer;
+          }
+    
+          .navbar {
+            display: flex;
+            justify-content: space-around; /* Adjust alignment as needed */
+            background-color: #ff9933;
+            padding: 10px 0;
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+          }
+
+              
+        .navbar-item {
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+            background-color: white; /* Use a shade of blue for the border */
+            border-radius: 10px;
+            padding: 10px 20px; /* Adjust padding as needed */
+            transition: all 0.3s ease; /* Smoothly transition all properties */
+        }
+
+        .navbar-item:hover {
+            background-color: #2a5298;
+            color: white;
+            box-shadow: rgba(0, 0, 0, 0.06) 0px 4px 8px 0px inset;        
+    }
+        .navbar-brand {
+            font-size: 24px;
+            opacity: 0.8;
+        }
+        .navbar-brand:hover {
+            box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;            
+            transform: scale(1.1);
+            padding: 5px; 
+            border-radius: 5px;
+        }
+
+        .copyright {
+            background-color: #2c2c2c; /* Dark gray color for the road */
+            background-image: 
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(orange 2px, transparent 5px),
+                url('path/to/asphalt-texture.jpg'); 
+            background-size: 5px 100%, 100% 100%; 
+            background-position: center; /* Center the texture image */
+            padding: 1px;
+            text-align: center;
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, 
+                        rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+                        rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+              }
+
+        .copyright small {
+            color: #fff;
+            font-weight: bold;
+        }
+      
+      footer{
+        height: 100%;
+        padding: 1px;
+                background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
+                box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+      }  
+
+        .masthead, .portfolio{
+          background: linear-gradient(to left, #D5DEE7 0%, #E8EBF2 50%, #E2E7ED 100%), 
+                linear-gradient(to left, 
+                rgba(0,0,0,0.02) 50%, 
+                rgba(255,255,255,0.02) 61%, rgba(0,0,0,0.02) 73%), 
+                linear-gradient(33deg, rgba(255,255,255,0.20) 0%, rgba(0,0,0,0.20) 100%);    
+                }
+    section{
+      margin-top: -9%;
+      z-index: 1;
+    }
+
+    
+    @media (prefers-reduced-motion: reduce) {
+        .nav-link {
+            transition: none;
+        }
+    }
+   
+        #surbtn{
+        font-size:20px;
+        box-shadow: none;
+        color: white;
+        border: transparent;
+        border-color: linear-gradient(316deg, #f94327 0%, #ff7d14 74%);
+        background-color: transparent;
+        font-weight: bold;
+        text-shadow: 0px 6px 10px rgb(62, 57, 57);
+    }
+
+    #surbtn:hover{
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        border-radius: 100px;
+        background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
+        text-shadow: none;
+    }
+       
+ /* Custom CSS for Modals using iFrame */
+ p{
+            color: black;
+            font-weight: bold;
+            text-align: left;
+            text-indent: 30px;
+        }
+        h3{
+            color:white;
+            border: none;
+            font-weight: bold;
+            font-size: 20px;
+            text-align: center;
+        }
+        .close{
+            color: red;
+            padding: 5px;
+            border: none;
+            color: white;
+            text-shadow: gray 0px 6px 8px;
+        }
+        .close:hover{
+            color: red;
+            border-radius: 9px;
+        }
+.modal-header{
+  background-color: #ff9933;
+}
+ .modal-dialog {
+            width: 500px; /* Adjust modal width */
+            margin-left: 35em;
+            margin-top: 5em;
+            border-radius: 15px;
+            background: whitesmoke;
+            text-align: center;
+            overflow: auto;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+        }
+        .modal-body {
+            max-height:400px; /* Limit height if needed */
+            overflow:hidden;  /* Enable scrolling for long content */
+            border-radius: 10px;
+        }
+        .close{
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        /*responsiveness*/
+        @media (max-width: 768px) { /* Tablet and small screens */
+    .navbar {
+        padding: 15px 0; /* Adjust padding for smaller screens */
+        flex-direction: column; /* Stack items vertically */
+        align-items: center; /* Center items */
+        font-size: 14px;
+    }
+
+    .navbar a {
+        margin: 4px 0; /* Adjust margin for stacked links */
+    }
+}
+
+@media (max-width: 480px) { /* Mobile screens */
+    .navbar {
+        padding: 5px 0; /* Further adjust padding for mobile */
+    }
+
+}
+ /* Media query for tablets */
+ @media (max-width: 768px) {
+        .navbar-item {
+            padding: 8px 15px; /* Reduce padding for smaller screens */
+            font-size:18px; /* Adjust font size for better fit */
+        }
+    }
+
+    /* Media query for mobile devices */
+    @media (max-width: 480px) {
+     #title{
+      margin-top: -50px;
+      margin-left: 7px;
+     }
+     
+     .navbar-item {
+      margin-top: 10px;
+     } 
+    }
+    @media (max-width: 768px) { /* Tablet and small screens */
+        #surbtn {
+            font-size: 20px; /* Slightly smaller font */
+            padding: 10px 20px; /* Adjust padding */
+        }
+        }
+
+        @media (max-width: 480px) { /* Mobile screens */
+            #surbtn {
+                font-size: 20px; /* Even smaller font */
+                padding: 3px; /* Smaller padding */
+                box-shadow: none; /* Minimal shadow for simplicity */
+                display: space-around;
+            }
+            .responsive-container-block{
+            margin-top: 160px;
+          }
+          #txt{
+            margin-top: -100px;
+            font-size: 18px;
+            text-align: justify;
+          }
+          #additionalContent{
+            padding-top: 7px;
+            font-size: 18px;
+            text-align: justify;
+          }
+        }
+        @media (max-width: 768px) { /* Tablet and small screens */
+    .navbar-brand {
+        font-size: 20px; /* Smaller font for tablet screens */
+        position: static; /* Changes to a more flexible position */
+        text-align: center; /* Centers the brand if needed */
+    }
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .modal-dialog {
+        width: 80%; /* Reduce width on smaller screens */
+        max-width: 90%;
+        margin-top: 3em; /* Adjust top margin */
+        border-radius: 8px;
+    }
+    .modal-body {
+        max-height: 250px; /* Adjust max-height for smaller screens */
+    }
+}
+
+@media (max-width: 500px) {
+    .modal-dialog {
+        width: 90%; /* Further reduce width for very small screens */
+        margin-top: 2em; /* Reduce top margin */
+        border-radius: 15px;
+        margin-left: 20px;
+    }
+    .modal-body {
+        max-height: 500px; /* Reduce max-height for extra small screens */
+        overflow: auto;
+    }
+    #team .card{
+      height: 100%;
+      width: 100%;
+    }
+    .allText.bottomText {
+        margin-top: 30px;
+        margin-right: 0px;
+        margin-bottom: 30px;
+        margin-left: 0px;
+        text-align: justify;
+      }
+
+      .text-blk.description {
+        padding-top: 10px;
+        padding-right: 0px;
+        padding-bottom: 0px;
+        padding-left: 0px;
+        text-align: justify;
+      }
+
+      .text-blk.headingText {
+        padding-top: 0px;
+        padding-right: 0px;
+        padding-bottom: -50px;
+        padding-left: 0px;
+      }
+
+      .text-blk.subHeadingText {
+        padding-top: 0px;
+        padding-right: 0px;
+        padding-bottom: 30px;
+        padding-left: 0px;
+      }
+
+      .dotsImg {
+        margin-top: 10px;
+        width: 80%;
+        height: 100%;
+      }
+
+      .mainVideo {
+        height: 260px;
+      }
+
+      .videoContainer {
+        margin-top: 10px;
+        height: 320px;
+      }
+}
+.navbar-item .cs{
+  margin-left: 2px;
+}
+</style>
+
+    </head>
+    
+    <body id="page-top">
+        <!-- Navigation-->
+    <nav class="navbar fixed-top" id="mainNav" >
+        <div class="container">
+          
+        <a class="navbar-item cs" href="users/service.php" id="surbtn"><i class="bi bi-headset"></i></a>
+          <a class="navbar-brand" id="title" style="color:white; position: absolute; margin-left: 2em;" href="welcome.php" >CTU Danao Parking System</a>
+            <div class="navbar-menu">   
+                <a class="navbar-item" href="admin/index.php">Admin</a>
+                <a class="navbar-item" href="users/login.php">Client</a>
+                <a class="navbar-item" href="index.html">About</a>
+                <a class="navbar-item btn btn-primary" href="#" id="surbtn" data-toggle="modal" data-target="#commentModal">
+                  <i class="bi bi-chat-fill"></i></a>                
+              <a class="navbar-item btn btn-primary" href="#" id="surbtn" data-toggle="modal" data-target="#feedbackModal">
+                  <i class="bi bi-envelope-paper-heart"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    
+    <!-- Modal for Comment Section -->
+<div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h3 class="modal-title" id="commentModalLabel">Comment Section</h3>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">X</span>
+              </button>
+          </div>
+          <div class="modal-body" id="modalContent">
+              <!-- Content from users/comment.php will be loaded here -->
+              <iframe src="users/comment.php" style="width:100%; height:500px; border:none;" title="Comments Section"></iframe>
+
+          </div>
+      </div>
+  </div>
+</div>
+
+ <!-- Modal for Feedbacks -->
+ <div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h3 class="modal-title" id="feedbackModalLabel">Feedbacks</h3>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">X</span>
+              </button>
+          </div>
+          <div class="modal-body" id="modalContent">
+              <!-- Content from users/feedbaacks.php will be loaded here -->
+              <iframe src="users/feedbacks.php" style="width:100%; height:500px; border:none;" title="Feedbacks"></iframe>
+
+          </div>
+      </div>
+  </div>
+</div>
+
+        <!-- Masthead-->
+        <header class="masthead bg-primary text-white text-center">
+            <div class="container d-flex align-items-center flex-column">
+               
+                <div class="responsive-container-block bigContainer" style="color: black;">
+                    <div class="responsive-container-block Container bottomContainer"style=" margin-top: -200px; ">
+                    <div class="allText bottomText">
+                      <p class="text-blk headingText"id="txt2" style="margin-bottom: 70px;"> CTU DANAO - Parking System</p>
+                      <p class="text-blk description" id="txt" style="margin-top: -10vh;" style=" margin-left: 50px;">
+                        Experience the epitome of convenience and efficiency in managing your parking needs. 
+                        At CTU Danao Parking System, we redefine the way you interact with parking services. 
+                        Seamlessly designed and meticulously crafted, our platform offers a comprehensive 
+                        solution tailored to streamline your parking experience.
+                    </p>
+                    <div id="additionalContent" style="display: none; margin-top: -40px; font-size: 18px;">
+                      <p>Our commitment lies in simplifying your parking endeavors. From effortless vehicle registration to real-time space availability, we provide a user-friendly interface for a hassle-free parking system. Whether you're a daily commuter or a visitor seeking parking, our system ensures a swift and convenient solution.
+
+                        Discover the ease of finding, reserving, and managing parking spaces from the comfort of your device. With intuitive navigation and detailed information, we aim to make your parking experience as smooth as possible.
+                        
+                        Join us at CTU Danao Parking System and embrace the future of stress-free parking solutions.
+                        
+                        Welcome aboard! </p>
+                    
+                    </div>
+                    <button class="explore" id="view-more-button" style="color: white; font-weight: bold; text-decoration: none;">View More</button>
+                  </div>
+                      <div class="videoContainer" style=" margin-top: 100px;">
+                        <iframe allowfullscreen="allowfullscreen" class="mainVideo" controls="controls" src="https://www.youtube.com/embed/watch?v=zAhYoX5JTp8">
+                        </iframe>
+                        <img class="dotsImg image-block" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/cw3.svg">
+                      </div>
+                    </div>
+                  </div>
+
+            </div>
+        </header>
+        <!-- Portfolio Section-->
+        <section class="page-section portfolio" id="portfolio">
+           <!-- Team -->
+<section id="team" class="pb-5">
+    <div class="container">
+        <h5 class="section-title h1"><center>OUR TEAM</center></h5>
+        <div class="row">
+            <!-- Team member -->
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="image-flip" >
+                    <div class="mainflip flip-0">
+                        <div class="frontside">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <p><img class=" img-fluid" src="images/aly.png" alt="card image"></p>
+                                    <h4 class="card-title">Alysson Gecozo </h4>
+                                    <p class="card-text">Back End Developer</p>
+                                    <a href="https://www" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="backside">
+                            <div class="card">
+                                <div class="card-body text-center mt-4">
+                                    <h4 class="card-title">Alysson Gecozo</h4>
+                                    <p class="card-text">"Push yourself out of your comfort zone." </p>
+                                        <div class="demographics">
+                                            <p><strong>Age:</strong> 21</p>
+                                            <p><strong>Address:</strong> Sir Glenard's neigborhood</p>
+                                            <p><strong>Status:</strong> Naa nay uyab</p>
+                                            <p><strong>Nationality:</strong> Filipino</p>
+                                        </div>
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">
+                                            <a class="social-icon text-xs-center" target="_blank" href="https://web.facebook.com/aly.gecozo">
+                                                <i class="fab fa-facebook"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a class="social-icon text-xs-center" target="_blank" href="#">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a class="social-icon text-xs-center" target="_blank" href="#">
+                                                <i class="fab fa-skype"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a class="social-icon text-xs-center" target="_blank" href="#">
+                                                <i class="fab fa-google"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ./Team member -->
+            <!-- Team member -->
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+                    <div class="mainflip">
+                        <div class="frontside">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <p><img class=" img-fluid" src="images/rinya.png" alt="card image"></p>
+                                    <h4 class="card-title">Rhynia Impas </h4>
+                                    <p class="card-text">Full Stack Developer</p>
+                                    <a href="https://www" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="backside">
+                            <div class="card">
+                                <div class="card-body text-center mt-4">
+                                    <h4 class="card-title">Rhynia Impas</h4>
+                                    <p class="card-text">"Don't wait for opportunities, create them."</p>
+                                        <div class="demographics">
+                                            <p><strong>Age:</strong> 21</p>
+                                            <p><strong>Address:</strong> CotCot na soon</p>
+                                            <p><strong>Status:</strong> bhebhe ni Judel</p>
+                                            <p><strong>Nationality:</strong> Filipino</p>
+                                        </div>
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">
+                                             <a class="social-icon text-xs-center" target="_blank" href="https://web.facebook.com/rhynia.impasii/">
+                                                <i class="fab fa-facebook"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                             <a class="social-icon text-xs-center" target="_blank" href="#">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a class="social-icon text-xs-center" target="_blank" href="#">
+                                                <i class="fab fa-skype"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                             <a class="social-icon text-xs-center" target="_blank" href="#">
+                                                <i class="fab fa-google"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ./Team member -->
+            <!-- Team member -->
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+                    <div class="mainflip">
+                        <div class="frontside">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <p><img class=" img-fluid" src="images/pithok.png" alt="card image"></p>
+                                    <h4 class="card-title">Faithope Laag</h4>
+                                    <p class="card-text">Front-End Developer</p>
+                                    <a href="https://www" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="backside">
+                            <div class="card">
+                                <div class="card-body text-center mt-4">
+                                    <h4 class="card-title">Faithope Laag</h4>
+                                    <p class="card-text">"Life is a canvas, I am the masterpiece."</p>
+                                        <div class="demographics">
+                                            <p><strong>Age:</strong> 21</p>
+                                            <p><strong>Address:</strong> Aklan aw Liloan sori</p>
+                                            <p><strong>Status:</strong> LDR</p>
+                                            <p><strong>Nationality:</strong> Filipino</p>
+                                        </div>
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">
+                                            <a class="social-icon text-xs-center" target="_blank" href="https://web.facebook.com/FhopeR.laag">
+                                                <i class="fab fa-facebook"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a class="social-icon text-xs-center" target="_blank" href="#">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a class="social-icon text-xs-center" target="_blank" href="#">
+                                                <i class="fab fa-skype"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a class="social-icon text-xs-center" target="_blank" href="#">
+                                                <i class="fab fa-google"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ./Team member -->
+            <!-- Team member -->
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+                    <div class="mainflip">
+                        <div class="frontside">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <p><img class=" img-fluid" src="images/judel.png" alt="card image"></p>
+                                    <h4 class="card-title">Judel Pachoco</h4>
+                                    <p class="card-text">Documentarian</p>
+                                    <a href="https://www" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="backside">
+                            <div class="card">
+                                <div class="card-body text-center mt-4">
+                                    <h4 class="card-title">Judel Pachoco</h4>
+                                    <p class="card-text">"Don't stop when you're tired, stop when you're done." </p>
+                                        <div class="demographics">
+                                            <p><strong>Age:</strong> 21</p>
+                                            <p><strong>Address:</strong> Ilang tatan</p>
+                                            <p><strong>Status:</strong> hubby ni riri</p>
+                                            <p><strong>Nationality:</strong> Filipino</p>
+                                        </div>
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">
+                                             <a class="social-icon text-xs-center" target="_blank" href="https://web.facebook.com/chou.koy.96">
+                                                <i class="fab fa-facebook"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                             <a class="social-icon text-xs-center" target="_blank" href="#">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                             <a class="social-icon text-xs-center" target="_blank" href="#">
+                                                <i class="fab fa-skype"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a class="social-icon text-xs-center" target="_blank" href="#">
+                                                <i class="fab fa-google"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ./Team member -->
+            <!-- Team member -->
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+                    <div class="mainflip">
+                        <div class="frontside">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <p><img class=" img-fluid" src="images/maine.png" alt="card image"></p>
+                                    <h4 class="card-title">Charmaine Serato</h4>
+                                    <p class="card-text">UI/UX Designer</p>
+                                    <a href="https://www." class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="backside">
+                            <div class="card">
+                                <div class="card-body text-center mt-4">
+                                    <h4 class="card-title">Charmaine Serato</h4>
+                                    <p class="card-text">"Turning ideas into digital reality."</p>
+                                        <div class="demographics">
+                                            <p><strong>Age:</strong> 21</p>
+                                            <p><strong>Address:</strong> Camotes</p>
+                                            <p><strong>Status:</strong> No label sila ni Kuya</p>
+                                            <p><strong>Nationality:</strong> Filipino</p>
+                                        </div>
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">
+                                             <a class="social-icon text-xs-center" target="_blank" href="https://web.facebook.com/serato.charmaine">
+                                                <i class="fab fa-facebook"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a class="social-icon text-xs-center" target="_blank" href="#">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                             <a class="social-icon text-xs-center" target="_blank" href="#">
+                                                <i class="fab fa-skype"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a class="social-icon text-xs-center" target="_blank" href="#">
+                                                <i class="fab fa-google"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            <!-- ./Team member -->
+            </div>
+        </section>
+        </section>
+
+
+        <!-- Footer-->
+        <footer class="footer text-center">
+            <div class="container">
+                <div class="row">
+                    <!-- Footer Location-->
+                    <div class="col-lg-4 mb-5 mb-lg-0">
+                        <h4 class="text-uppercase mb-4">Location</h4>
+                        <p class="lead mb-0" style="color: white;">
+                            Cebu Technological University - Danao Campus
+                            <br />
+                            Sabang, Danao
+                        </p>
+                    </div>
+                    <!-- Footer Social Icons-->
+                    <div class="col-lg-4 mb-5 mb-lg-0">
+                        <h4 class="text-uppercase mb-4">Around the Web</h4>
+                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-facebook-f"></i></a>
+                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-twitter"></i></a>
+                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-linkedin-in"></i></a>
+                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-instagram"></i></a>
+                    </div>
+                    <!-- Footer About Text-->
+                    <div class="col-lg-4">
+                        <h4 class="text-uppercase mb-4">Explore Now!</h4>
+                        <p class="lead mb-0"style="color: white;">
+                            If you want to use the system, start clicking this link to explore the website.<br>
+                            <a href="index.php" style=" text-decoration: none;"><i class="bi bi-house-door-fill" style="color: orange;"></i> CTU Parking System</a>
+                            .
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Copyright Section-->
+        <div class="copyright py-4 text-center text-white">
+            <div class="container"><small><marquee direction="left">🚈Copyright &copy; CTU Parking System 2023</marquee></small></div>
+        </div>
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        <script>
+            // Function to show the logout alert
+            function showLogoutAlert() {
+               var alertMessage = document.getElementById("logout-alert");
+                          alertMessage.style.display = "block";
+                          // You can add additional actions here if needed (e.g., redirect to a login page).
+                      }
+                      function toggleAdditionalContent(event) {
+                  event.preventDefault(); // Prevent the default link behavior
+              
+                  var additionalContent = document.getElementById("additionalContent");
+                  var viewMoreButton = document.getElementById("view-more-button");
+              
+                  if (additionalContent.style.display === "none" || additionalContent.style.display === "") {
+                    additionalContent.style.display = "block";
+                    viewMoreButton.textContent = "View Less";
+                  } else {
+                    additionalContent.style.display = "none";
+                    viewMoreButton.textContent = "View More";
+                  }
+                }
+              
+                // Attach the toggleAdditionalContent function to the "View More" button
+                document.getElementById("view-more-button").addEventListener("click", toggleAdditionalContent);
+       </script>
+       
+    </body>
+</html>
