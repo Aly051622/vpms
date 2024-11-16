@@ -383,8 +383,6 @@ scanner.addListener('scan', function (content) {
         return;
     }
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
-
 });
 
 function deleteEntry(id) {
