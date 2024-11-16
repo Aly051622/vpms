@@ -359,7 +359,6 @@ if ($query->num_rows > 0) {
 </div>
 
 <script>
-     let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
 
      // JavaScript for handling QR scanner
 document.addEventListener("DOMContentLoaded", function () {
@@ -367,7 +366,8 @@ document.addEventListener("DOMContentLoaded", function () {
     scanner.addListener('scan', function (content) {
         // Place the scanned content in the hidden input field
         document.getElementById('qrData').value = content;
-}));
+
+
 
 // Attempt to get available cameras
 Instascan.Camera.getCameras().then(function (cameras) {
@@ -418,6 +418,7 @@ scanner.addListener('scan', function (content) {
         }
     })
     .catch(error => console.error('Error:', error));
+});
 });
 
 function deleteEntry(id) {
