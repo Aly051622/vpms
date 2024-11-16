@@ -169,6 +169,9 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+error_log("Selected Area: " . $_POST['selectedArea']);
+error_log("QR Data: " . $_POST['qrData']);
+
 
 // After processing the QR code
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
@@ -415,6 +418,10 @@ scanner.addListener('scan', function (content) {
         alert("An error occurred while processing the QR code.");
     });
 });
+
+console.log("Content sent to server:", content);
+console.log("Selected Area:", selectedArea);
+
 
 
 function deleteEntry(id) {
