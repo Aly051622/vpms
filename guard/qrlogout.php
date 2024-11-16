@@ -2,16 +2,8 @@
 session_start();
 date_default_timezone_set('Asia/Manila');
 
-$server = "localhost";
-$username = "root";
-$password = "";
-$dbname = "parking";
-
-$conn = new mysqli($server, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Include the database connection file
+include('../DBconnection/dbconnection.php');
 
 // Handle the delete request
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
