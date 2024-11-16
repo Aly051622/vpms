@@ -1,13 +1,17 @@
 <?php
-$conn = mysqli_connect("localhost", "u132092183_parkingz", "@Parkingz!2024", "u132092183_parkingz");
+// Database connection
+$server = "localhost";
+$username = "u132092183_parkingz";
+$password = "@Parkingz!2024";
+$dbname = "u132092183_parkingz";
 
-if (mysqli_connect_errno()) {
-    echo "Connection Failed: " . mysqli_connect_error();
-    exit(); // Stop execution if the connection fails
-} else {
-    // Optional: Uncomment for debugging
-    // echo "Database connected successfully.";
+$conn = new mysqli($server, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
+
 
 
 // Function to check if the slot number already exists
