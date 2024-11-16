@@ -31,7 +31,6 @@ if (isset($_POST['id'])) {
 $conn->close();
 ?>
 
-?>
 <html class="no-js" lang="">
 <head>
     <script type="text/javascript" src="js/adapter.min.js"></script>
