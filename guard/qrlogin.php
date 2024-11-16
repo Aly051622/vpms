@@ -378,25 +378,27 @@ Instascan.Camera.getCameras().then(function (cameras) {
 // Handle QR code scan event
 scanner.addListener('scan', function (content) {
     const selectedArea = document.getElementById('areaSelect').value;
-
     if (!selectedArea) {
         alert('Please select an area first!');
         return;
     }
 
+    // Properly encode and send data
+    const formData = new FormData();
+    formData.append('qrData', content);
+    formData.append('selectedArea', selectedArea);
+
     fetch('qrlogin.php', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: 'qrData=' + encodeURIComponent(content) + '&selectedArea=' + encodeURIComponent(selectedArea),
+        body: formData
     })
     .then(response => response.text())
     .then(data => {
-        if (data.includes('Error!')) {
-            document.body.innerHTML = data;
-        } else {
+        console.log(data);
+        if (data === "success") {
             window.location.href = 'monitor.php';
+        } else {
+            alert("Error: " + data);
         }
     })
     .catch(error => console.error('Error:', error));
