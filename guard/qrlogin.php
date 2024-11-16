@@ -165,10 +165,18 @@ if ($conn->connect_error) {
 }
 
 
-// After processing the QR code
+// Handle QR code processing
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $qrData = $_POST['qrData'];
+    $selectedArea = $_POST['selectedArea'];
 
+    if (!$selectedArea) {
+        $_SESSION['error'] = 'Please select an area first.';
+        header('Location: qrlogin.php');
+        exit();
+    }
+
+    // Parse QR data
     $dataLines = explode("\n", $qrData);
     $vehicleType = str_replace('Vehicle Type: ', '', $dataLines[0]);
     $vehiclePlateNumber = str_replace('Plate Number: ', '', $dataLines[1]);
@@ -177,20 +185,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $model = str_replace('Model: ', '', $dataLines[4]);
     $timeIn = date("Y-m-d h:i:s A");
 
-    // Define models that require 5 slots
+    // Large vehicle models
     $largeModels = ['Fortuner', 'MU-X', 'Montero Sport', 'Everest', 'Terra', 'Trailblazer', 'Land Cruiser', 'Patrol', 'Expedition'];
 
-
-
-    // Get the selected area prefix
-    $selectedArea = $_POST['selectedArea'];
-    
-    if (!$selectedArea) {
-        $_SESSION['error'] = 'Please select an area first.';
-        // Stay on the current page (no redirection to monitor.php)
-        header('Location: qrlogin.php');
-        exit();
-    }
 
     // Check if user is already logged in without logging out
 $checkLogoutQR = "SELECT * FROM tblqr_logout WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEOUT DESC LIMIT 1";
@@ -351,36 +348,18 @@ while ($row = $query->fetch_assoc()) {
 </div>
 
 <script>
-     let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+      let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
 
-// Attempt to get available cameras
 Instascan.Camera.getCameras().then(function (cameras) {
-        if (cameras.length > 0) {
-            let selectedCamera = cameras[0]; // Default to the first camera
+    if (cameras.length > 0) {
+        scanner.start(cameras[0]).catch(e => console.error(e));
+    } else {
+        alert('No cameras found.');
+    }
+}).catch(e => console.error(e));
 
-            // Attempt to prioritize the back camera for mobile devices
-            cameras.forEach(function (camera) {
-                if (camera.name.toLowerCase().includes('back')) {
-                    selectedCamera = camera;
-                }
-            });
-
-            scanner.start(selectedCamera).catch(function (e) {
-                console.error("Error starting scanner:", e);
-                document.getElementById('scanner-status').textContent = "Error: Unable to start the scanner. Please check camera permissions.";
-            });
-        } else {
-            document.getElementById('scanner-status').textContent = "No camera detected. Please check if the device has an available camera.";
-        }
-    }).catch(function (e) {
-        console.error("Error accessing cameras:", e);
-        document.getElementById('scanner-status').textContent = "Error: Unable to access cameras. Make sure permissions are allowed and refresh the page.";
-    });
-
-// Handle QR code scan event
 scanner.addListener('scan', function (content) {
     const selectedArea = document.getElementById('areaSelect').value;
-
     if (!selectedArea) {
         alert('Please select an area first!');
         return;
@@ -388,17 +367,15 @@ scanner.addListener('scan', function (content) {
 
     fetch('qrlogin.php', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: 'qrData=' + encodeURIComponent(content) + '&selectedArea=' + encodeURIComponent(selectedArea),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `qrData=${encodeURIComponent(content)}&selectedArea=${encodeURIComponent(selectedArea)}`
     })
     .then(response => response.text())
     .then(data => {
-        if (data.includes('Error!')) {
-            document.body.innerHTML = data;
-        } else {
+        if (data === "success") {
             window.location.href = 'monitor.php';
+        } else {
+            alert("Error: " + data);
         }
     })
     .catch(error => console.error('Error:', error));
