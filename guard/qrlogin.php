@@ -155,7 +155,7 @@ include('../DBconnection/dbconnection.php');
 
 // After processing the QR code
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
-    error_log("QR Data received: " . $_POST['qrData']); // Log received data
+    $qrData = $_POST['qrData'];
 
     $dataLines = explode("\n", $qrData);
     $vehicleType = str_replace('Vehicle Type: ', '', $dataLines[0]);
