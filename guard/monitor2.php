@@ -1,34 +1,7 @@
 <?php
 
-session_start(); // Start the session
-
-// Example: Setting the username for demonstration
-// In a real application, you would get this from the login process.
-$_SESSION['username'] = 'inguard'; // or 'outguard' depending on the logged-in user
-
-// Check if the username is set in the session and display the correct header
-if (isset($_SESSION['username'])) {
-    if ($_SESSION['username'] === 'inguard') {
-        include_once('includes/headerin.php');
-    } elseif ($_SESSION['username'] === 'outguard') {
-        include_once('includes/headerout.php');
-    }
-}
-
-
-
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "parking";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Include the database connection file
+include('../DBconnection/dbconnection.php');
 
 // Function to check if the slot number already exists
 function isSlotNumberExists($conn, $slotNumber) {
