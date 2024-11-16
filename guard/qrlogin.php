@@ -169,10 +169,6 @@ if ($conn->connect_error) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $qrData = $_POST['qrData'];
 
-    // Sanitize inputs (optional but recommended)
-    $qrData = $conn->real_escape_string($qrData);
-    $selectedArea = $conn->real_escape_string($selectedArea);
-
     $dataLines = explode("\n", $qrData);
     $vehicleType = str_replace('Vehicle Type: ', '', $dataLines[0]);
     $vehiclePlateNumber = str_replace('Plate Number: ', '', $dataLines[1]);
@@ -382,27 +378,25 @@ Instascan.Camera.getCameras().then(function (cameras) {
 // Handle QR code scan event
 scanner.addListener('scan', function (content) {
     const selectedArea = document.getElementById('areaSelect').value;
+
     if (!selectedArea) {
         alert('Please select an area first!');
         return;
     }
 
-    // Properly encode and send data
-    const formData = new FormData();
-    formData.append('qrData', content);
-    formData.append('selectedArea', selectedArea);
-
     fetch('qrlogin.php', {
         method: 'POST',
-        body: formData
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'qrData=' + encodeURIComponent(content) + '&selectedArea=' + encodeURIComponent(selectedArea),
     })
     .then(response => response.text())
     .then(data => {
-        console.log(data);
-        if (data === "success") {
-            window.location.href = 'monitor.php';
+        if (data.includes('Error!')) {
+            document.body.innerHTML = data;
         } else {
-            alert("Error: " + data);
+            window.location.href = 'monitor.php';
         }
     })
     .catch(error => console.error('Error:', error));
