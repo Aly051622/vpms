@@ -340,27 +340,27 @@ $conn->close();
 
 // Attempt to get available cameras
 Instascan.Camera.getCameras().then(function (cameras) {
-    if (cameras.length > 0) {
-        let selectedCamera = cameras[0]; // Default to the first camera
+        if (cameras.length > 0) {
+            let selectedCamera = cameras[0]; // Default to the first camera
 
-        // Attempt to prioritize the back camera for mobile devices
-        cameras.forEach(function (camera) {
-            if (camera.name.toLowerCase().includes('back')) {
-                selectedCamera = camera;
-            }
-        });
+            // Attempt to prioritize the back camera for mobile devices
+            cameras.forEach(function (camera) {
+                if (camera.name.toLowerCase().includes('back')) {
+                    selectedCamera = camera;
+                }
+            });
 
-        scanner.start(selectedCamera).catch(function (e) {
-            console.error("Error starting scanner:", e);
-            document.getElementById('scanner-status').textContent = "Error: Unable to start the scanner. Please check camera permissions.";
-        });
-    } else {
-        document.getElementById('scanner-status').textContent = "No camera detected. Please check if the device has an available camera.";
-    }
-}).catch(function (e) {
-    console.error("Error accessing cameras:", e);
-    document.getElementById('scanner-status').textContent = "Error: Unable to access cameras. Make sure permissions are allowed and refresh the page.";
-});
+            scanner.start(selectedCamera).catch(function (e) {
+                console.error("Error starting scanner:", e);
+                document.getElementById('scanner-status').textContent = "Error: Unable to start the scanner. Please check camera permissions.";
+            });
+        } else {
+            document.getElementById('scanner-status').textContent = "No camera detected. Please check if the device has an available camera.";
+        }
+    }).catch(function (e) {
+        console.error("Error accessing cameras:", e);
+        document.getElementById('scanner-status').textContent = "Error: Unable to access cameras. Make sure permissions are allowed and refresh the page.";
+    });
 
 // Handle QR code scan event
 scanner.addListener('scan', function (content) {
@@ -378,23 +378,15 @@ scanner.addListener('scan', function (content) {
         },
         body: 'qrData=' + encodeURIComponent(content) + '&selectedArea=' + encodeURIComponent(selectedArea),
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.text();
-    })
+    .then(response => response.text())
     .then(data => {
         if (data.includes('Error!')) {
-            alert(data);
+            document.body.innerHTML = data;
         } else {
             window.location.href = 'monitor.php';
         }
     })
-    .catch(error => {
-        console.error('Fetch error:', error);
-        alert(`Error: ${error.message}`);
-    });
+    .catch(error => console.error('Error:', error));
 });
 
 function deleteEntry(id) {
