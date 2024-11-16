@@ -1,7 +1,7 @@
 <?php session_start(); 
 date_default_timezone_set('Asia/Manila');
 
-$con = mysqli_connect("localhost", "u132092183_parkingz", "@Parkingz!2024", "u132092183_parkingz");
+$conn = mysqli_connect("localhost", "u132092183_parkingz", "@Parkingz!2024", "u132092183_parkingz");
 
 if (mysqli_connect_errno()) {
     echo "Connection Failed: " . mysqli_connect_error();
@@ -10,12 +10,10 @@ if (mysqli_connect_errno()) {
     // Optional: Uncomment for debugging
     // echo "Database connected successfully.";
 }
-
-
 if (isset($_POST['id'])) {
     $id = intval($_POST['id']);
     $sql = "DELETE FROM tblqr_login WHERE ID = ?";
-    $stmt = $con->prepare($sql);
+    $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
     $stmt->execute();
 
@@ -28,7 +26,7 @@ if (isset($_POST['id'])) {
     exit; // Stop further processing after deletion response
 }
 
-$con->close();
+$conn->close();
 ?>
 
 ?>
@@ -153,7 +151,7 @@ $con->close();
                 </thead>
                 <tbody>
                 <?php
-$con = mysqli_connect("localhost", "u132092183_parkingz", "@Parkingz!2024", "u132092183_parkingz");
+$conn = mysqli_connect("localhost", "u132092183_parkingz", "@Parkingz!2024", "u132092183_parkingz");
 
 if (mysqli_connect_errno()) {
     echo "Connection Failed: " . mysqli_connect_error();
@@ -195,10 +193,10 @@ $checkLogoutManual = "SELECT * FROM tblmanual_logout WHERE Name = '$name' AND Re
 $checkLoginManual = "SELECT * FROM tblmanual_login WHERE Name = '$name' AND RegistrationNumber = '$vehiclePlateNumber' ORDER BY TIMEIN DESC LIMIT 1";
 
 // Execute the queries
-$logoutResultQR = $con->query($checkLogoutQR);
-$loginResultQR = $con->query($checkLoginQR);
-$logoutResultManual = $con->query($checkLogoutManual);
-$loginResultManual = $con->query($checkLoginManual);
+$logoutResultQR = $conn->query($checkLogoutQR);
+$loginResultQR = $conn->query($checkLoginQR);
+$logoutResultManual = $conn->query($checkLogoutManual);
+$loginResultManual = $conn->query($checkLoginManual);
 
 // Determine the latest logout and login times across both tables
 $lastLogoutTime = null;
@@ -241,7 +239,7 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
                   AND SlotNumber LIKE '$selectedArea%' 
                   ORDER BY CAST(SUBSTRING(SlotNumber, 2) AS UNSIGNED)";
 
-    $slotResult = $con->query($slotQuery);
+    $slotResult = $conn->query($slotQuery);
     $availableSlots = [];
 
     if ($slotResult->num_rows > 0) {
@@ -275,15 +273,15 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
             // Update the status of the occupied slots
             foreach ($occupiedSlots as $slot) {
                 $updateSlot = "UPDATE tblparkingslots SET Status = 'Occupied' WHERE SlotNumber = '$slot'";
-                $con->query($updateSlot);
+                $conn->query($updateSlot);
             }
 
-            if ($con->query($sql) === TRUE) {
+            if ($conn->query($sql) === TRUE) {
                 $_SESSION['success'] = 'Vehicle added successfully.';
                 header('Location: monitor.php');
                 exit();
             } else {
-                $_SESSION['error'] = 'Error: ' . $con->error;
+                $_SESSION['error'] = 'Error: ' . $conn->error;
             }
         } else {
             $_SESSION['error'] = 'No consecutive slots available for this vehicle type.';
@@ -303,10 +301,10 @@ $sql = "SELECT ID, Name, ContactNumber, VehicleType, VehiclePlateNumber, Parking
         WHERE DATE(TIMEIN) = CURDATE() 
         ORDER BY TIMEIN DESC";
 
-$query = $con->query($sql);
+$query = $conn->query($sql);
 
 if (!$query) {
-    die('Error: ' . mysqli_error($con));
+    die('Error: ' . mysqli_error($conn));
 }
 
 while ($row = $query->fetch_assoc()) {
