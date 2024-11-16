@@ -28,13 +28,25 @@ if (isset($_POST['id'])) {
     exit; // Stop further processing after deletion response
 }
 
+$conn->close();
 ?>
 
 <html class="no-js" lang="">
 <head>
-
+    <script type="text/javascript" src="js/adapter.min.js"></script>
+    <script type="text/javascript" src="js/vue.min.js"></script>
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
+    <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="apple-touch-icon" href="images/ctu.png">
+    <link rel="shortcut icon" href="images/ctu.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="guard.css">
 
@@ -155,15 +167,7 @@ if ($conn->connect_error) {
 // After processing the QR code
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $qrData = $_POST['qrData'];
-    $selectedArea = $_POST['selectedArea'];
 
-    if (!$selectedArea) {
-        $_SESSION['error'] = 'Please select an area first.';
-        header('Location: qrlogin.php');
-        exit();
-    }
-
-    // Parse QR data
     $dataLines = explode("\n", $qrData);
     $vehicleType = str_replace('Vehicle Type: ', '', $dataLines[0]);
     $vehiclePlateNumber = str_replace('Plate Number: ', '', $dataLines[1]);
@@ -172,18 +176,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $model = str_replace('Model: ', '', $dataLines[4]);
     $timeIn = date("Y-m-d h:i:s A");
 
-    // Large vehicle models
+    // Define models that require 5 slots
     $largeModels = ['Fortuner', 'MU-X', 'Montero Sport', 'Everest', 'Terra', 'Trailblazer', 'Land Cruiser', 'Patrol', 'Expedition'];
 
-    // Determine slot requirements
-    if ($vehicleType === 'Four Wheeler Vehicle' && in_array($model, $largeModels)) {
-        $limit = 5;
-    } elseif ($vehicleType === 'Four Wheeler Vehicle') {
-        $limit = 4;
-    } elseif ($vehicleType === 'Two Wheeler Vehicle') {
-        $limit = 1;
-    }
 
+
+    // Get the selected area prefix
+    $selectedArea = $_POST['selectedArea'];
+    
+    if (!$selectedArea) {
+        $_SESSION['error'] = 'Please select an area first.';
+        // Stay on the current page (no redirection to monitor.php)
+        header('Location: qrlogin.php');
+        exit();
+    }
 
     // Check if user is already logged in without logging out
 $checkLogoutQR = "SELECT * FROM tblqr_logout WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEOUT DESC LIMIT 1";
@@ -226,11 +232,21 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
 }
 
 
-    // Check for available slots
+     // Determine slot requirements based on vehicle type and model
+     if ($vehicleType === 'Four Wheeler Vehicle' && in_array($model, $largeModels)) {
+        $limit = 5; // Specific large models need 5 slots
+    } elseif ($vehicleType === 'Four Wheeler Vehicle') {
+        $limit = 4; // General four-wheeler needs 4 slots
+    } elseif ($vehicleType === 'Two Wheeler Vehicle') {
+        $limit = 1; // Two-wheeler needs 1 slot
+    }
+
+    // Find consecutive vacant slots
     $slotQuery = "SELECT SlotNumber FROM tblparkingslots 
                   WHERE Status = 'Vacant' 
                   AND SlotNumber LIKE '$selectedArea%' 
                   ORDER BY CAST(SUBSTRING(SlotNumber, 2) AS UNSIGNED)";
+
     $slotResult = $conn->query($slotQuery);
     $availableSlots = [];
 
@@ -241,7 +257,7 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
 
         // Check for sufficient consecutive slots
         $occupiedSlots = [];
-        $sequence = [];
+        $sequence = []; // Temporary array to hold consecutive slots
 
         foreach ($availableSlots as $slot) {
             if (empty($sequence)) {
@@ -253,7 +269,7 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
                 if ($currentSlotNumber === $lastSlotNumber + 1) {
                     $sequence[] = $slot;
                 } else {
-                    $sequence = [$slot];
+                    $sequence = [$slot]; // Reset sequence if it's broken
                 }
             }
 
@@ -263,13 +279,15 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
             }
         }
 
+
         if (count($occupiedSlots) == $limit) {
             $slots = implode(', ', $occupiedSlots);
 
-            // Insert login information
+            // Insert login information and parking slot
             $sql = "INSERT INTO tblqr_login (Name, ContactNumber, VehicleType, VehiclePlateNumber, ParkingSlot, TIMEIN)
                     VALUES ('$name', '$mobilenum', '$vehicleType', '$vehiclePlateNumber', '$slots', '$timeIn')";
 
+            // Update the status of the occupied slots
             foreach ($occupiedSlots as $slot) {
                 $updateSlot = "UPDATE tblparkingslots SET Status = 'Occupied' WHERE SlotNumber = '$slot'";
                 $conn->query($updateSlot);
@@ -277,7 +295,7 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
 
             if ($conn->query($sql) === TRUE) {
                 $_SESSION['success'] = 'Vehicle added successfully.';
-                echo "success";
+                header('Location: monitor.php');
                 exit();
             } else {
                 $_SESSION['error'] = 'Error: ' . $conn->error;
@@ -288,7 +306,7 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
     } else {
         $_SESSION['error'] = 'No vacant slots available in this area.';
     }
-    echo "error";
+
     exit();
 }
 
@@ -332,39 +350,39 @@ while ($row = $query->fetch_assoc()) {
 </div>
 
 <script>
-        let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+     let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
 
-        Instascan.Camera.getCameras().then(function (cameras) {
-            if (cameras.length > 0) {
-                scanner.start(cameras[0]).catch(e => console.error(e));
-            } else {
-                alert('No cameras found.');
-            }
-        }).catch(e => console.error(e));
+Instascan.Camera.getCameras().then(function (cameras) {
+    if (cameras.length > 0) {
+        scanner.start(cameras[0]).catch(e => console.error(e));
+    } else {
+        alert('No cameras found.');
+    }
+}).catch(e => console.error(e));
 
-        scanner.addListener('scan', function (content) {
-            const selectedArea = document.getElementById('areaSelect').value;
-            if (!selectedArea) {
-                alert('Please select an area first!');
-                return;
-            }
+scanner.addListener('scan', function (content) {
+    const selectedArea = document.getElementById('areaSelect').value;
+    if (!selectedArea) {
+        alert('Please select an area first!');
+        return;
+    }
 
-            fetch('qrlogin.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `qrData=${encodeURIComponent(content)}&selectedArea=${encodeURIComponent(selectedArea)}`
-            })
-            .then(response => response.text())
-            .then(data => {
-                console.log(data);
-                if (data === "success") {
-                    window.location.href = 'monitor.php';
-                } else {
-                    alert("Error: " + data);
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        });
+    fetch('qrlogin.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `qrData=${encodeURIComponent(content)}&selectedArea=${encodeURIComponent(selectedArea)}`
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log(data);
+        if (data === "success") {
+            window.location.href = 'monitor.php';
+        } else {
+            alert("Error: " + data);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
 
 function deleteEntry(id) {
     if (confirm("Are you sure you want to delete this entry?")) {
