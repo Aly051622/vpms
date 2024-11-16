@@ -1,12 +1,19 @@
 <?php
-// Include the database connection file
-include('../DBconnection/dbconnection.php');
+$conn = mysqli_connect("localhost", "u132092183_parkingz", "@Parkingz!2024", "u132092183_parkingz");
+
+if (mysqli_connect_errno()) {
+    echo "Connection Failed: " . mysqli_connect_error();
+    exit(); // Stop execution if the connection fails
+} else {
+    // Optional: Uncomment for debugging
+    // echo "Database connected successfully.";
+}
 
 
 // Function to check if the slot number already exists
-function isSlotNumberExists($con, $slotNumber) {
+function isSlotNumberExists($conn, $slotNumber) {
     $sql = "SELECT COUNT(*) as count FROM tblparkingslots WHERE SlotNumber = ?";
-    $stmt = $con->prepare($sql);
+    $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $slotNumber);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -15,9 +22,9 @@ function isSlotNumberExists($con, $slotNumber) {
 }
 
 // Function to get the next available slot number for an area
-function getNextSlotNumber($con, $area, $prefix) {
+function getNextSlotNumber($conn, $area, $prefix) {
     $sql = "SELECT MAX(SUBSTRING(SlotNumber, 2) * 1) as max_num FROM tblparkingslots WHERE Area = ? AND SlotNumber LIKE ?";
-    $stmt = $con->prepare($sql);
+    $stmt = $conn->prepare($sql);
     $prefixLike = $prefix . '%';
     $stmt->bind_param("ss", $area, $prefixLike);
     $stmt->execute();
@@ -55,7 +62,7 @@ if (isset($_POST['add_slot'])) {
         // Validate slot number format and check if it already exists
         if (!preg_match("/^$prefix\d+$/", $manualSlotNumber)) {
             echo "<script>alert('Invalid slot number! Slot number should start with $prefix and be followed by numbers.');</script>";
-        } elseif (isSlotNumberExists($con, $manualSlotNumber)) {
+        } elseif (isSlotNumberExists($conn, $manualSlotNumber)) {
             echo "<script>alert('Slot number already exists! Please choose a different number.');</script>";
         } else {
             $slotNumber = $manualSlotNumber;
@@ -64,7 +71,7 @@ if (isset($_POST['add_slot'])) {
 
     // Insert the new slot into the database if slot number is valid
     if (isset($slotNumber)) {
-        $stmt = $con->prepare("INSERT INTO tblparkingslots (Area, SlotNumber, Status) VALUES (?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO tblparkingslots (Area, SlotNumber, Status) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $area, $slotNumber, $status);
         if ($stmt->execute()) {
             header("Location: monitor.php");
@@ -82,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $slotNumber = trim($_POST['slotNumber']); // Trim whitespace
         if (isset($_POST['action']) && $_POST['action'] === 'updateStatus') {
             $status = $_POST['status'];
-            $stmt = $con->prepare("UPDATE tblparkingslots SET Status = ? WHERE SlotNumber = ?");
+            $stmt = $conn->prepare("UPDATE tblparkingslots SET Status = ? WHERE SlotNumber = ?");
             $stmt->bind_param("ss", $status, $slotNumber);
             $stmt->execute();
             $stmt->close();
@@ -91,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (isset($_POST['action']) && $_POST['action'] === 'deleteSlot') {
-            $stmt = $con->prepare("DELETE FROM tblparkingslots WHERE SlotNumber = ?");
+            $stmt = $conn->prepare("DELETE FROM tblparkingslots WHERE SlotNumber = ?");
             $stmt->bind_param("s", $slotNumber);
             $stmt->execute();
             $stmt->close();
@@ -103,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Fetch parking slots from the database, sorted by the numerical portion of SlotNumber
 // Fetch parking slots from the database, sorted by Area prefix (A, B, C, D) and then by numeric portion
-$slots_result = $con->query("SELECT * FROM tblparkingslots ORDER BY 
+$slots_result = $conn->query("SELECT * FROM tblparkingslots ORDER BY 
     CASE 
         WHEN LEFT(SlotNumber, 1) = 'A' THEN 1
         WHEN LEFT(SlotNumber, 1) = 'B' THEN 2
@@ -114,9 +121,9 @@ $slots_result = $con->query("SELECT * FROM tblparkingslots ORDER BY
 
 
 // Function to fetch and display slots
-function fetchAndDisplaySlots($con, $area, $prefix) {
+function fetchAndDisplaySlots($conn, $area, $prefix) {
     $sql = "SELECT SlotNumber, Status FROM tblparkingslots WHERE Area = ? AND SlotNumber LIKE ? ORDER BY CAST(SUBSTRING(SlotNumber, 2) AS UNSIGNED)";
-    $stmt = $con->prepare($sql);
+    $stmt = $conn->prepare($sql);
     $prefixLike = $prefix . '%';
     $stmt->bind_param("ss", $area, $prefixLike);
     $stmt->execute();
