@@ -6,16 +6,8 @@ ini_set('display_errors', 1); // Disable on-screen error display
 
 date_default_timezone_set('Asia/Manila');
 
-$server = "localhost";
-$username = "u132092183_parkingz";
-$password = "@Parkingz!2024";
-$dbname = "u132092183_parkingz";
-
-$conn = new mysqli($server, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Include the database connection file
+include('../DBconnection/dbconnection.php');
 
 if (isset($_POST['id'])) {
     $id = intval($_POST['id']);
@@ -158,16 +150,8 @@ $conn->close();
                 </thead>
                 <tbody>
                 <?php
-$server = "localhost";
-$username = "u132092183_parkingz";
-$password = "@Parkingz!2024";
-$dbname = "u132092183_parkingz";
-
-$conn = new mysqli($server, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Include the database connection file
+include('../DBconnection/dbconnection.php');
 
 // After processing the QR code
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
