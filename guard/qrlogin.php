@@ -1,165 +1,34 @@
-<?php
-session_start();
+<?php session_start(); 
 date_default_timezone_set('Asia/Manila');
 
-// Database Configuration
 $server = "localhost";
 $username = "u132092183_parkingz";
 $password = "@Parkingz!2024";
 $dbname = "u132092183_parkingz";
 
-// Establish Database Connection
 $conn = new mysqli($server, $username, $password, $dbname);
 
-// Check Database Connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Handle Delete Request
 if (isset($_POST['id'])) {
     $id = intval($_POST['id']);
-    $stmt = $conn->prepare("DELETE FROM tblqr_login WHERE ID = ?");
+    $sql = "DELETE FROM tblqr_login WHERE ID = ?";
+    $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
     $stmt->execute();
 
-    echo $stmt->affected_rows > 0 ? "success" : "error";
-    $stmt->close();
-    exit;
-}
-
-// Handle QR Code Processing
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
-    $qrData = $_POST['qrData'];
-    $selectedArea = $_POST['selectedArea'];
-
-    if (!$selectedArea) {
-        $_SESSION['error'] = 'Please select an area first.';
-        header('Location: qrlogin.php');
-        exit();
-    }
-
-    // Parse QR Data
-    $dataLines = explode("\n", $qrData);
-    list($vehicleType, $vehiclePlateNumber, $name, $mobilenum, $model) = array_map(function ($line) {
-        return trim(explode(": ", $line)[1]);
-    }, $dataLines);
-
-    $timeIn = date("Y-m-d h:i:s A");
-    $largeModels = ['Fortuner', 'MU-X', 'Montero Sport', 'Everest', 'Terra', 'Trailblazer', 'Land Cruiser', 'Patrol', 'Expedition'];
-
-    // Check Logout/Login State
-    $logoutQuery = "SELECT MAX(TIMEOUT) AS LastLogout FROM tblqr_logout 
-                    WHERE Name = ? AND VehiclePlateNumber = ?";
-    $loginQuery = "SELECT MAX(TIMEIN) AS LastLogin FROM tblqr_login 
-                   WHERE Name = ? AND VehiclePlateNumber = ?";
-
-    $stmtLogout = $conn->prepare($logoutQuery);
-    $stmtLogin = $conn->prepare($loginQuery);
-
-    $stmtLogout->bind_param("ss", $name, $vehiclePlateNumber);
-    $stmtLogin->bind_param("ss", $name, $vehiclePlateNumber);
-
-    $stmtLogout->execute();
-    $stmtLogin->execute();
-
-    $lastLogoutTime = $stmtLogout->get_result()->fetch_assoc()['LastLogout'] ?? null;
-    $lastLoginTime = $stmtLogin->get_result()->fetch_assoc()['LastLogin'] ?? null;
-
-    $stmtLogout->close();
-    $stmtLogin->close();
-
-    if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
-        $_SESSION['error'] = 'You cannot log in again without logging out first.';
-        header('Location: qrlogin.php');
-        exit();
-    }
-
-    // Determine Slot Requirements
-    $limit = match ($vehicleType) {
-        'Four Wheeler Vehicle' => in_array($model, $largeModels) ? 5 : 4,
-        'Two Wheeler Vehicle' => 1,
-        default => 0,
-    };
-
-    // Find Vacant Slots
-    $slotQuery = "SELECT SlotNumber FROM tblparkingslots 
-                  WHERE Status = 'Vacant' AND SlotNumber LIKE ?
-                  ORDER BY CAST(SUBSTRING(SlotNumber, 2) AS UNSIGNED)";
-    $stmtSlots = $conn->prepare($slotQuery);
-    $likeArea = $selectedArea . '%';
-    $stmtSlots->bind_param("s", $likeArea);
-    $stmtSlots->execute();
-
-    $availableSlots = [];
-    $resultSlots = $stmtSlots->get_result();
-    while ($row = $resultSlots->fetch_assoc()) {
-        $availableSlots[] = $row['SlotNumber'];
-    }
-    $stmtSlots->close();
-
-    // Find Consecutive Slots
-    $occupiedSlots = [];
-    $sequence = [];
-    foreach ($availableSlots as $slot) {
-        if (empty($sequence)) {
-            $sequence[] = $slot;
-        } else {
-            $lastSlotNumber = intval(substr(end($sequence), 1));
-            $currentSlotNumber = intval(substr($slot, 1));
-            $sequence = ($currentSlotNumber === $lastSlotNumber + 1) ? array_merge($sequence, [$slot]) : [$slot];
-        }
-
-        if (count($sequence) === $limit) {
-            $occupiedSlots = $sequence;
-            break;
-        }
-    }
-
-    if (count($occupiedSlots) === $limit) {
-        $slots = implode(', ', $occupiedSlots);
-
-        // Insert Login Record
-        $insertLogin = "INSERT INTO tblqr_login 
-                        (Name, ContactNumber, VehicleType, VehiclePlateNumber, ParkingSlot, TIMEIN) 
-                        VALUES (?, ?, ?, ?, ?, ?)";
-        $stmtInsert = $conn->prepare($insertLogin);
-        $stmtInsert->bind_param("ssssss", $name, $mobilenum, $vehicleType, $vehiclePlateNumber, $slots, $timeIn);
-        $stmtInsert->execute();
-
-        // Update Slot Status
-        foreach ($occupiedSlots as $slot) {
-            $updateSlot = "UPDATE tblparkingslots SET Status = 'Occupied' WHERE SlotNumber = ?";
-            $stmtUpdate = $conn->prepare($updateSlot);
-            $stmtUpdate->bind_param("s", $slot);
-            $stmtUpdate->execute();
-            $stmtUpdate->close();
-        }
-
-        if ($stmtInsert->affected_rows > 0) {
-            $_SESSION['success'] = 'Vehicle added successfully.';
-            header('Location: monitor.php');
-        } else {
-            $_SESSION['error'] = 'Error: ' . $conn->error;
-        }
-        $stmtInsert->close();
+    if ($stmt->affected_rows > 0) {
+        echo "success";
     } else {
-        $_SESSION['error'] = 'No consecutive slots available for this vehicle type.';
+        echo "error";
     }
-
-    exit();
+    $stmt->close();
+    exit; // Stop further processing after deletion response
 }
 
-// Fetch Today's Logins
-$sql = "SELECT ID, Name, ContactNumber, VehicleType, VehiclePlateNumber, ParkingSlot, TIMEIN 
-        FROM tblqr_login 
-        WHERE DATE(TIMEIN) = CURDATE() 
-        ORDER BY TIMEIN DESC";
-$query = $conn->query($sql);
-
-if (!$query) {
-    die('Error: ' . $conn->error);
-}
+$conn->close();
 ?>
 
 <html class="no-js" lang="">
@@ -282,7 +151,179 @@ if (!$query) {
                     </tr>
                 </thead>
                 <tbody>
-            
+                <?php
+$server = "localhost";
+$username = "u132092183_parkingz";
+$password = "@Parkingz!2024";
+$dbname = "u132092183_parkingz";
+
+$conn = new mysqli($server, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+
+// Handle QR code processing
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
+    $qrData = $_POST['qrData'];
+    $selectedArea = $_POST['selectedArea'];
+
+    if (!$selectedArea) {
+        $_SESSION['error'] = 'Please select an area first.';
+        header('Location: qrlogin.php');
+        exit();
+    }
+
+    // Parse QR data
+    $dataLines = explode("\n", $qrData);
+    $vehicleType = str_replace('Vehicle Type: ', '', $dataLines[0]);
+    $vehiclePlateNumber = str_replace('Plate Number: ', '', $dataLines[1]);
+    $name = str_replace('Name: ', '', $dataLines[2]);
+    $mobilenum = str_replace('Contact Number: ', '', $dataLines[3]);
+    $model = str_replace('Model: ', '', $dataLines[4]);
+    $timeIn = date("Y-m-d h:i:s A");
+
+    // Large vehicle models
+    $largeModels = ['Fortuner', 'MU-X', 'Montero Sport', 'Everest', 'Terra', 'Trailblazer', 'Land Cruiser', 'Patrol', 'Expedition'];
+
+
+    // Check if user is already logged in without logging out
+$checkLogoutQR = "SELECT * FROM tblqr_logout WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEOUT DESC LIMIT 1";
+$checkLoginQR = "SELECT * FROM tblqr_login WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEIN DESC LIMIT 1";
+
+$checkLogoutManual = "SELECT * FROM tblmanual_logout WHERE Name = '$name' AND RegistrationNumber = '$vehiclePlateNumber' ORDER BY TIMEOUT DESC LIMIT 1";
+$checkLoginManual = "SELECT * FROM tblmanual_login WHERE Name = '$name' AND RegistrationNumber = '$vehiclePlateNumber' ORDER BY TIMEIN DESC LIMIT 1";
+
+// Execute the queries
+$logoutResultQR = $conn->query($checkLogoutQR);
+$loginResultQR = $conn->query($checkLoginQR);
+$logoutResultManual = $conn->query($checkLogoutManual);
+$loginResultManual = $conn->query($checkLoginManual);
+
+// Determine the latest logout and login times across both tables
+$lastLogoutTime = null;
+$lastLoginTime = null;
+
+if ($logoutResultQR->num_rows > 0) {
+    $lastLogoutTime = $logoutResultQR->fetch_assoc()['TIMEOUT'];
+}
+
+if ($logoutResultManual->num_rows > 0) {
+    $lastLogoutTime = max($lastLogoutTime, $logoutResultManual->fetch_assoc()['TIMEOUT']);
+}
+
+if ($loginResultQR->num_rows > 0) {
+    $lastLoginTime = $loginResultQR->fetch_assoc()['TIMEIN'];
+}
+
+if ($loginResultManual->num_rows > 0) {
+    $lastLoginTime = max($lastLoginTime, $loginResultManual->fetch_assoc()['TIMEIN']);
+}
+
+// Ensure last login time is later than last logout time, or no previous login exists
+if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
+    $_SESSION['error'] = 'You cannot log in again without logging out first.';
+    header('Location: qrlogin.php');
+    exit();
+}
+
+
+     // Determine slot requirements based on vehicle type and model
+     if ($vehicleType === 'Four Wheeler Vehicle' && in_array($model, $largeModels)) {
+        $limit = 5; // Specific large models need 5 slots
+    } elseif ($vehicleType === 'Four Wheeler Vehicle') {
+        $limit = 4; // General four-wheeler needs 4 slots
+    } elseif ($vehicleType === 'Two Wheeler Vehicle') {
+        $limit = 1; // Two-wheeler needs 1 slot
+    }
+
+    // Find consecutive vacant slots
+    $slotQuery = "SELECT SlotNumber FROM tblparkingslots 
+                  WHERE Status = 'Vacant' 
+                  AND SlotNumber LIKE '$selectedArea%' 
+                  ORDER BY CAST(SUBSTRING(SlotNumber, 2) AS UNSIGNED)";
+
+    $slotResult = $conn->query($slotQuery);
+    $availableSlots = [];
+
+    if ($slotResult->num_rows > 0) {
+        while ($row = $slotResult->fetch_assoc()) {
+            $availableSlots[] = $row['SlotNumber'];
+        }
+
+        // Check for sufficient consecutive slots
+        $occupiedSlots = [];
+        $sequence = []; // Temporary array to hold consecutive slots
+
+        foreach ($availableSlots as $slot) {
+            if (empty($sequence)) {
+                $sequence[] = $slot;
+            } else {
+                $lastSlotNumber = intval(substr(end($sequence), 1));
+                $currentSlotNumber = intval(substr($slot, 1));
+
+                if ($currentSlotNumber === $lastSlotNumber + 1) {
+                    $sequence[] = $slot;
+                } else {
+                    $sequence = [$slot]; // Reset sequence if it's broken
+                }
+            }
+
+            if (count($sequence) === $limit) {
+                $occupiedSlots = $sequence;
+                break;
+            }
+        }
+
+
+        if (count($occupiedSlots) == $limit) {
+            $slots = implode(', ', $occupiedSlots);
+
+            // Insert login information and parking slot
+            $sql = "INSERT INTO tblqr_login (Name, ContactNumber, VehicleType, VehiclePlateNumber, ParkingSlot, TIMEIN)
+                    VALUES ('$name', '$mobilenum', '$vehicleType', '$vehiclePlateNumber', '$slots', '$timeIn')";
+
+            // Update the status of the occupied slots
+            foreach ($occupiedSlots as $slot) {
+                $updateSlot = "UPDATE tblparkingslots SET Status = 'Occupied' WHERE SlotNumber = '$slot'";
+                $conn->query($updateSlot);
+            }
+
+            if ($conn->query($sql) === TRUE) {
+                $_SESSION['success'] = 'Vehicle added successfully.';
+                header('Location: monitor.php');
+                exit();
+            } else {
+                $_SESSION['error'] = 'Error: ' . $conn->error;
+            }
+        } else {
+            $_SESSION['error'] = 'No consecutive slots available for this vehicle type.';
+        }
+    } else {
+        $_SESSION['error'] = 'No vacant slots available in this area.';
+    }
+
+    exit();
+}
+
+
+
+
+$sql = "SELECT ID, Name, ContactNumber, VehicleType, VehiclePlateNumber, ParkingSlot, TIMEIN 
+        FROM tblqr_login 
+        WHERE DATE(TIMEIN) = CURDATE() 
+        ORDER BY TIMEIN DESC";
+
+$query = $conn->query($sql);
+
+if (!$query) {
+    die('Error: ' . mysqli_error($conn));
+}
+
+while ($row = $query->fetch_assoc()) {
+    $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('h:i:s A m-d-y');
+    echo "
     <tr>
         <td>" . $row['ID'] . "</td>
         <td>" . $row['Name'] . "</td>
@@ -295,6 +336,10 @@ if (!$query) {
         <button onclick=\"deleteEntry(" . $row['ID'] . ")\" class=\"btn btn-danger btn-sm\">Delete</button>
                         </td>
     </tr>
+    ";
+}
+
+                ?>
                 </tbody>
             </table>
         </div>
