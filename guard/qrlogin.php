@@ -349,36 +349,36 @@ while ($row = $query->fetch_assoc()) {
 <script>
       let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
 
-Instascan.Camera.getCameras().then(function (cameras) {
-    if (cameras.length > 0) {
-        scanner.start(cameras[0]).catch(e => console.error(e));
-    } else {
-        alert('No cameras found.');
-    }
-}).catch(e => console.error(e));
+        Instascan.Camera.getCameras().then(function (cameras) {
+            if (cameras.length > 0) {
+                scanner.start(cameras[0]).catch(e => console.error(e));
+            } else {
+                alert('No cameras found.');
+            }
+        }).catch(e => console.error(e));
 
-scanner.addListener('scan', function (content) {
-    const selectedArea = document.getElementById('areaSelect').value;
-    if (!selectedArea) {
-        alert('Please select an area first!');
-        return;
-    }
+        scanner.addListener('scan', function (content) {
+            const selectedArea = document.getElementById('areaSelect').value;
+            if (!selectedArea) {
+                alert('Please select an area first!');
+                return;
+            }
 
-    fetch('qrlogin.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `qrData=${encodeURIComponent(content)}&selectedArea=${encodeURIComponent(selectedArea)}`
-    })
-    .then(response => response.text())
-    .then(data => {
-        if (data === "success") {
-            window.location.href = 'monitor.php';
-        } else {
-            alert("Error: " + data);
-        }
-    })
-    .catch(error => console.error('Error:', error));
-});
+            fetch('qrlogin.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `qrData=${encodeURIComponent(content)}&selectedArea=${encodeURIComponent(selectedArea)}`
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data === "success") {
+                    window.location.href = 'monitor.php';
+                } else {
+                    alert("Error: " + data);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
 
 function deleteEntry(id) {
     if (confirm("Are you sure you want to delete this entry?")) {
