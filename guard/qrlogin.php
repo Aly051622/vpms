@@ -1,4 +1,6 @@
 <?php session_start(); 
+error_reporting(E_ALL);
+ini_set('display_errors', 1); // Shows errors on the page
 date_default_timezone_set('Asia/Manila');
 
 $conn = mysqli_connect("localhost", "u132092183_parkingz", "@Parkingz!2024", "u132092183_parkingz");
@@ -326,6 +328,7 @@ if (!$query) {
 // Check if rows are returned
 if ($query->num_rows > 0) {
     while ($row = $query->fetch_assoc()) {
+        var_dump($row); // Display the row data for debugging
         $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('h:i:s A m-d-y');
         echo "
         <tr>
