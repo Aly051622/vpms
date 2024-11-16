@@ -1,17 +1,17 @@
-<?php 
-session_start(); 
+<?php session_start(); 
 error_reporting(E_ALL);
-ini_set('display_errors', 1); // Show errors on the page
+ini_set('display_errors', 1); // Shows errors on the page
 date_default_timezone_set('Asia/Manila');
 
-// Database connection
 $conn = mysqli_connect("localhost", "u132092183_parkingz", "@Parkingz!2024", "u132092183_parkingz");
 
 if (mysqli_connect_errno()) {
-    die("Connection Failed: " . mysqli_connect_error());
+    echo "Connection Failed: " . mysqli_connect_error();
+    exit(); // Stop execution if the connection fails
+} else {
+    // Optional: Uncomment for debugging
+    // echo "Database connected successfully.";
 }
-
-// Handle deletion of entries if 'id' is set in POST request
 if (isset($_POST['id'])) {
     $id = intval($_POST['id']);
     $sql = "DELETE FROM tblqr_login WHERE ID = ?";
@@ -25,15 +25,150 @@ if (isset($_POST['id'])) {
         echo "error";
     }
     $stmt->close();
-    $conn->close();
     exit; // Stop further processing after deletion response
 }
 
-// Process QR data after scanning
+$conn->close();
+?>
+
+?>
+<html class="no-js" lang="">
+<head>
+    <script type="text/javascript" src="js/adapter.min.js"></script>
+    <script type="text/javascript" src="js/vue.min.js"></script>
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
+    <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="apple-touch-icon" href="images/ctu.png">
+    <link rel="shortcut icon" href="images/ctu.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="guard.css">
+
+    <title>QR Code Login Scanner | CTU DANAO Parking System</title>
+
+    <style>
+        body {
+            color: black;
+            background-color: #f9fcff;
+            background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
+        }
+        .no-js {
+            background-color: #f9fcff;
+            background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
+        }
+        .container {
+            padding: 20px;
+        }
+        .scanner-container, .table-container {
+            margin-top: 20px;
+        }
+        video {
+            width: 500px;
+            height: 300px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: block;
+            margin: 0 auto;
+        }
+        .scanner-label {
+            font-weight: bold; 
+            color: orange; 
+            font-size: 20px; 
+            text-align: center; 
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<!-- Responsive Navigation Bar -->
+<?php include_once('includes/headerin.php');?>
+
+<div class="container" style="background: transparent;">
+    <div class="row">
+        <!-- Scanner Section -->
+        <div class="col-md-12">
+                <video id="preview" style="width: 100%; max-width: 500px; height: auto;"></video>
+                <div id="scanner-status" style="text-align: center; font-weight: bold; color: orange; margin-top: 10px;"></div>
+            </div>
+
+            <?php
+            if (isset($_SESSION['error'])) {
+                echo "
+                <div class='alert alert-danger mt-2'>
+                    <h4>Error!</h4>
+                    " . $_SESSION['error'] . "
+                </div>
+                ";
+                unset($_SESSION['error']); // Clear the error message after displaying
+            }
+
+            if (isset($_SESSION['success'])) {
+                echo "
+                <div class='alert alert-primary mt-2 alert-dismissible fade show' role='alert' id='successAlert'>
+                    <h4>Success!</h4>
+                    Added Successfully
+                    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                        <span aria-hidden='true'>&times;</span>
+                    </button>
+                </div>
+                ";
+                unset($_SESSION['success']); // Clear the success message after displaying
+            }
+            ?>
+        </div>
+
+        <!-- Area Selection Dropdown -->
+        <div class="col-md-12">
+            <label for="areaSelect" style="font-weight: bold; color: orange; font-size: 18px;">Select Area:</label>
+            <select id="areaSelect" class="form-control" required>
+                <option value="">--Select Area--</option>
+                <option value="A">Front Admin</option>
+                <option value="B">Beside CME</option>
+                <option value="C">Kadasig</option>
+                <option value="D">Behind</option>
+            </select>
+        </div>
+
+        <!-- Table Section -->
+        <div class="col-md-12 table-container">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td>No.</td>
+                        <td>Name</td>
+                        <td>Contact Number</td>
+                        <td>Vehicle Type</td>
+                        <td>Vehicle Plate Number</td>
+                        <td>Parking Slot</td>
+                        <td>TIMEIN</td>
+                        <td>Action</td> <!-- New column for delete action -->
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+$conn = mysqli_connect("localhost", "u132092183_parkingz", "@Parkingz!2024", "u132092183_parkingz");
+
+if (mysqli_connect_errno()) {
+    echo "Connection Failed: " . mysqli_connect_error();
+    exit(); // Stop execution if the connection fails
+} else {
+    // Optional: Uncomment for debugging
+    // echo "Database connected successfully.";
+}
+
+// After processing the QR code
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $qrData = $_POST['qrData'];
-    $dataLines = explode("\n", $qrData);
 
+
+    $dataLines = explode("\n", $qrData);
     $vehicleType = str_replace('Vehicle Type: ', '', $dataLines[0]);
     $vehiclePlateNumber = str_replace('Plate Number: ', '', $dataLines[1]);
     $name = str_replace('Name: ', '', $dataLines[2]);
@@ -44,57 +179,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     // Define models that require 5 slots
     $largeModels = ['Fortuner', 'MU-X', 'Montero Sport', 'Everest', 'Terra', 'Trailblazer', 'Land Cruiser', 'Patrol', 'Expedition'];
 
+
+
     // Get the selected area prefix
     $selectedArea = $_POST['selectedArea'];
-
+    
     if (!$selectedArea) {
         $_SESSION['error'] = 'Please select an area first.';
+        // Stay on the current page (no redirection to monitor.php)
         header('Location: qrlogin.php');
         exit();
     }
 
     // Check if user is already logged in without logging out
-    $checkLogoutQR = "SELECT * FROM tblqr_logout WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEOUT DESC LIMIT 1";
-    $checkLoginQR = "SELECT * FROM tblqr_login WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEIN DESC LIMIT 1";
+$checkLogoutQR = "SELECT * FROM tblqr_logout WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEOUT DESC LIMIT 1";
+$checkLoginQR = "SELECT * FROM tblqr_login WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEIN DESC LIMIT 1";
 
-    $checkLogoutManual = "SELECT * FROM tblmanual_logout WHERE Name = '$name' AND RegistrationNumber = '$vehiclePlateNumber' ORDER BY TIMEOUT DESC LIMIT 1";
-    $checkLoginManual = "SELECT * FROM tblmanual_login WHERE Name = '$name' AND RegistrationNumber = '$vehiclePlateNumber' ORDER BY TIMEIN DESC LIMIT 1";
+$checkLogoutManual = "SELECT * FROM tblmanual_logout WHERE Name = '$name' AND RegistrationNumber = '$vehiclePlateNumber' ORDER BY TIMEOUT DESC LIMIT 1";
+$checkLoginManual = "SELECT * FROM tblmanual_login WHERE Name = '$name' AND RegistrationNumber = '$vehiclePlateNumber' ORDER BY TIMEIN DESC LIMIT 1";
 
-    // Execute the queries
-    $logoutResultQR = $conn->query($checkLogoutQR);
-    $loginResultQR = $conn->query($checkLoginQR);
-    $logoutResultManual = $conn->query($checkLogoutManual);
-    $loginResultManual = $conn->query($checkLoginManual);
+// Execute the queries
+$logoutResultQR = $conn->query($checkLogoutQR);
+$loginResultQR = $conn->query($checkLoginQR);
+$logoutResultManual = $conn->query($checkLogoutManual);
+$loginResultManual = $conn->query($checkLoginManual);
 
-    // Determine the latest logout and login times across both tables
-    $lastLogoutTime = null;
-    $lastLoginTime = null;
+// Determine the latest logout and login times across both tables
+$lastLogoutTime = null;
+$lastLoginTime = null;
 
-    if ($logoutResultQR->num_rows > 0) {
-        $lastLogoutTime = $logoutResultQR->fetch_assoc()['TIMEOUT'];
-    }
+if ($logoutResultQR->num_rows > 0) {
+    $lastLogoutTime = $logoutResultQR->fetch_assoc()['TIMEOUT'];
+}
 
-    if ($logoutResultManual->num_rows > 0) {
-        $lastLogoutTime = max($lastLogoutTime, $logoutResultManual->fetch_assoc()['TIMEOUT']);
-    }
+if ($logoutResultManual->num_rows > 0) {
+    $lastLogoutTime = max($lastLogoutTime, $logoutResultManual->fetch_assoc()['TIMEOUT']);
+}
 
-    if ($loginResultQR->num_rows > 0) {
-        $lastLoginTime = $loginResultQR->fetch_assoc()['TIMEIN'];
-    }
+if ($loginResultQR->num_rows > 0) {
+    $lastLoginTime = $loginResultQR->fetch_assoc()['TIMEIN'];
+}
 
-    if ($loginResultManual->num_rows > 0) {
-        $lastLoginTime = max($lastLoginTime, $loginResultManual->fetch_assoc()['TIMEIN']);
-    }
+if ($loginResultManual->num_rows > 0) {
+    $lastLoginTime = max($lastLoginTime, $loginResultManual->fetch_assoc()['TIMEIN']);
+}
 
-    // Ensure last login time is later than last logout time, or no previous login exists
-    if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
-        $_SESSION['error'] = 'You cannot log in again without logging out first.';
-        header('Location: qrlogin.php');
-        exit();
-    }
+// Ensure last login time is later than last logout time, or no previous login exists
+if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
+    $_SESSION['error'] = 'You cannot log in again without logging out first.';
+    header('Location: qrlogin.php');
+    exit();
+}
 
-    // Determine slot requirements based on vehicle type and model
-    if ($vehicleType === 'Four Wheeler Vehicle' && in_array($model, $largeModels)) {
+
+     // Determine slot requirements based on vehicle type and model
+     if ($vehicleType === 'Four Wheeler Vehicle' && in_array($model, $largeModels)) {
         $limit = 5; // Specific large models need 5 slots
     } elseif ($vehicleType === 'Four Wheeler Vehicle') {
         $limit = 4; // General four-wheeler needs 4 slots
@@ -140,6 +279,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
             }
         }
 
+
         if (count($occupiedSlots) == $limit) {
             $slots = implode(', ', $occupiedSlots);
 
@@ -167,9 +307,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     } else {
         $_SESSION['error'] = 'No vacant slots available in this area.';
     }
+
+    exit();
 }
 
-// Retrieve and display current login data
+
+
+
 $sql = "SELECT ID, Name, ContactNumber, VehicleType, VehiclePlateNumber, ParkingSlot, TIMEIN 
         FROM tblqr_login 
         WHERE DATE(TIMEIN) = CURDATE() 
@@ -180,88 +324,33 @@ $query = $conn->query($sql);
 if (!$query) {
     die('Error: ' . mysqli_error($conn));
 }
-?>
 
-<html class="no-js" lang="">
-<head>
-    <script type="text/javascript" src="js/adapter.min.js"></script>
-    <script type="text/javascript" src="js/vue.min.js"></script>
-    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+// Check if rows are returned
+if ($query->num_rows > 0) {
+    while ($row = $query->fetch_assoc()) {
+        var_dump($row); // Display the row data for debugging
+        $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('h:i:s A m-d-y');
+        echo "
+        <tr>
+            <td>" . $row['ID'] . "</td>
+            <td>" . $row['Name'] . "</td>
+            <td>" . $row['ContactNumber'] . "</td>
+            <td>" . $row['VehicleType'] . "</td>
+            <td>" . $row['VehiclePlateNumber'] . "</td>
+            <td>" . $row['ParkingSlot'] . "</td>
+            <td>" . $formattedTimeIn . "</td>
+            <td><button class='btn btn-danger deleteBtn' data-id='" . $row['ID'] . "'>Delete</button></td>
+        </tr>
+        ";
+    }
+} else {
+    echo "<tr><td colspan='8'>No data available for today.</td></tr>";
+}
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
-    <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
-    <link rel="stylesheet" href="assets/css/style.css">
 
-    <title>QR Login</title>
-</head>
-<body>
-    <!-- Display error or success messages -->
-    <?php if (isset($_SESSION['error'])): ?>
-        <div class="alert alert-danger">
-            <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
-        </div>
-    <?php endif; ?>
-
-    <?php if (isset($_SESSION['success'])): ?>
-        <div class="alert alert-success">
-            <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
-        </div>
-    <?php endif; ?>
-
-    <div class="container">
-        <h2>QR Login</h2>
-        <form method="POST" action="qrlogin.php">
-            <div class="form-group">
-                <label for="selectedArea">Select Area:</label>
-                <select id="selectedArea" name="selectedArea" class="form-control">
-                    <option value="">--Select Area--</option>
-                    <option value="A">Front Admin Area (A)</option>
-                    <option value="B">Beside CME (B)</option>
-                    <option value="C">Kadasig Area (C)</option>
-                    <option value="D">Behind (D)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="qrData">QR Data:</label>
-                <textarea id="qrData" name="qrData" class="form-control" rows="5"></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-
-        <h3>Today's Login Records</h3>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Contact Number</th>
-                    <th>Vehicle Type</th>
-                    <th>Vehicle Plate Number</th>
-                    <th>Parking Slot</th>
-                    <th>Time In</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($row = $query->fetch_assoc()): ?>
-                    <tr>
-                        <td><?php echo $row['ID']; ?></td>
-                        <td><?php echo $row['Name']; ?></td>
-                        <td><?php echo $row['ContactNumber']; ?></td>
-                        <td><?php echo $row['VehicleType']; ?></td>
-                        <td><?php echo $row['VehiclePlateNumber']; ?></td>
-                        <td><?php echo $row['ParkingSlot']; ?></td>
-                        <td><?php echo $row['TIMEIN']; ?></td>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
+                ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
