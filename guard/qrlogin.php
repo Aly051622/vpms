@@ -178,7 +178,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
         exit();
     }
 
+    // Check if user is already logged in without logging out
+$checkLogoutQR = "SELECT * FROM tblqr_logout WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEOUT DESC LIMIT 1";
+$checkLoginQR = "SELECT * FROM tblqr_login WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEIN DESC LIMIT 1";
 
+$checkLogoutManual = "SELECT * FROM tblmanual_logout WHERE Name = '$name' AND RegistrationNumber = '$vehiclePlateNumber' ORDER BY TIMEOUT DESC LIMIT 1";
+$checkLoginManual = "SELECT * FROM tblmanual_login WHERE Name = '$name' AND RegistrationNumber = '$vehiclePlateNumber' ORDER BY TIMEIN DESC LIMIT 1";
+
+// Execute the queries
+$logoutResultQR = $con->query($checkLogoutQR);
+$loginResultQR = $con->query($checkLoginQR);
+$logoutResultManual = $con->query($checkLogoutManual);
+$loginResultManual = $con->query($checkLoginManual);
 
 // Determine the latest logout and login times across both tables
 $lastLogoutTime = null;
