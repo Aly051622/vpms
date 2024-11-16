@@ -167,7 +167,15 @@ if ($conn->connect_error) {
 // After processing the QR code
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $qrData = $_POST['qrData'];
+    $selectedArea = $_POST['selectedArea'];
 
+    if (!$selectedArea) {
+        $_SESSION['error'] = 'Please select an area first.';
+        header('Location: qrlogin.php');
+        exit();
+    }
+
+    // Parse QR data
     $dataLines = explode("\n", $qrData);
     $vehicleType = str_replace('Vehicle Type: ', '', $dataLines[0]);
     $vehiclePlateNumber = str_replace('Plate Number: ', '', $dataLines[1]);
@@ -176,20 +184,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $model = str_replace('Model: ', '', $dataLines[4]);
     $timeIn = date("Y-m-d h:i:s A");
 
-    // Define models that require 5 slots
+    // Large vehicle models
     $largeModels = ['Fortuner', 'MU-X', 'Montero Sport', 'Everest', 'Terra', 'Trailblazer', 'Land Cruiser', 'Patrol', 'Expedition'];
 
-
-
-    // Get the selected area prefix
-    $selectedArea = $_POST['selectedArea'];
-    
-    if (!$selectedArea) {
-        $_SESSION['error'] = 'Please select an area first.';
-        // Stay on the current page (no redirection to monitor.php)
-        header('Location: qrlogin.php');
-        exit();
+    // Determine slot requirements
+    if ($vehicleType === 'Four Wheeler Vehicle' && in_array($model, $largeModels)) {
+        $limit = 5;
+    } elseif ($vehicleType === 'Four Wheeler Vehicle') {
+        $limit = 4;
+    } elseif ($vehicleType === 'Two Wheeler Vehicle') {
+        $limit = 1;
     }
+
 
     // Check if user is already logged in without logging out
 $checkLogoutQR = "SELECT * FROM tblqr_logout WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEOUT DESC LIMIT 1";
@@ -232,21 +238,11 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
 }
 
 
-     // Determine slot requirements based on vehicle type and model
-     if ($vehicleType === 'Four Wheeler Vehicle' && in_array($model, $largeModels)) {
-        $limit = 5; // Specific large models need 5 slots
-    } elseif ($vehicleType === 'Four Wheeler Vehicle') {
-        $limit = 4; // General four-wheeler needs 4 slots
-    } elseif ($vehicleType === 'Two Wheeler Vehicle') {
-        $limit = 1; // Two-wheeler needs 1 slot
-    }
-
-    // Find consecutive vacant slots
+    // Check for available slots
     $slotQuery = "SELECT SlotNumber FROM tblparkingslots 
                   WHERE Status = 'Vacant' 
                   AND SlotNumber LIKE '$selectedArea%' 
                   ORDER BY CAST(SUBSTRING(SlotNumber, 2) AS UNSIGNED)";
-
     $slotResult = $conn->query($slotQuery);
     $availableSlots = [];
 
@@ -257,7 +253,7 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
 
         // Check for sufficient consecutive slots
         $occupiedSlots = [];
-        $sequence = []; // Temporary array to hold consecutive slots
+        $sequence = [];
 
         foreach ($availableSlots as $slot) {
             if (empty($sequence)) {
@@ -269,7 +265,7 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
                 if ($currentSlotNumber === $lastSlotNumber + 1) {
                     $sequence[] = $slot;
                 } else {
-                    $sequence = [$slot]; // Reset sequence if it's broken
+                    $sequence = [$slot];
                 }
             }
 
@@ -279,15 +275,13 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
             }
         }
 
-
         if (count($occupiedSlots) == $limit) {
             $slots = implode(', ', $occupiedSlots);
 
-            // Insert login information and parking slot
+            // Insert login information
             $sql = "INSERT INTO tblqr_login (Name, ContactNumber, VehicleType, VehiclePlateNumber, ParkingSlot, TIMEIN)
                     VALUES ('$name', '$mobilenum', '$vehicleType', '$vehiclePlateNumber', '$slots', '$timeIn')";
 
-            // Update the status of the occupied slots
             foreach ($occupiedSlots as $slot) {
                 $updateSlot = "UPDATE tblparkingslots SET Status = 'Occupied' WHERE SlotNumber = '$slot'";
                 $conn->query($updateSlot);
@@ -295,7 +289,7 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
 
             if ($conn->query($sql) === TRUE) {
                 $_SESSION['success'] = 'Vehicle added successfully.';
-                header('Location: monitor.php');
+                echo "success";
                 exit();
             } else {
                 $_SESSION['error'] = 'Error: ' . $conn->error;
@@ -306,7 +300,7 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
     } else {
         $_SESSION['error'] = 'No vacant slots available in this area.';
     }
-
+    echo "error";
     exit();
 }
 
@@ -350,58 +344,38 @@ while ($row = $query->fetch_assoc()) {
 </div>
 
 <script>
-     let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+        let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
 
-// Attempt to get available cameras
-Instascan.Camera.getCameras().then(function (cameras) {
-        if (cameras.length > 0) {
-            let selectedCamera = cameras[0]; // Default to the first camera
+        Instascan.Camera.getCameras().then(function (cameras) {
+            if (cameras.length > 0) {
+                scanner.start(cameras[0]).catch(e => console.error(e));
+            } else {
+                alert('No cameras found.');
+            }
+        }).catch(e => console.error(e));
 
-            // Attempt to prioritize the back camera for mobile devices
-            cameras.forEach(function (camera) {
-                if (camera.name.toLowerCase().includes('back')) {
-                    selectedCamera = camera;
+        scanner.addListener('scan', function (content) {
+            const selectedArea = document.getElementById('areaSelect').value;
+            if (!selectedArea) {
+                alert('Please select an area first!');
+                return;
+            }
+
+            fetch('qrlogin.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `qrData=${encodeURIComponent(content)}&selectedArea=${encodeURIComponent(selectedArea)}`
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data === "success") {
+                    window.location.href = 'monitor.php';
+                } else {
+                    alert("Error: " + data);
                 }
-            });
-
-            scanner.start(selectedCamera).catch(function (e) {
-                console.error("Error starting scanner:", e);
-                document.getElementById('scanner-status').textContent = "Error: Unable to start the scanner. Please check camera permissions.";
-            });
-        } else {
-            document.getElementById('scanner-status').textContent = "No camera detected. Please check if the device has an available camera.";
-        }
-    }).catch(function (e) {
-        console.error("Error accessing cameras:", e);
-        document.getElementById('scanner-status').textContent = "Error: Unable to access cameras. Make sure permissions are allowed and refresh the page.";
-    });
-
-// Handle QR code scan event
-scanner.addListener('scan', function (content) {
-    const selectedArea = document.getElementById('areaSelect').value;
-
-    if (!selectedArea) {
-        alert('Please select an area first!');
-        return;
-    }
-
-    fetch('qrlogin.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: 'qrData=' + encodeURIComponent(content) + '&selectedArea=' + encodeURIComponent(selectedArea),
-    })
-    .then(response => response.text())
-    .then(data => {
-        if (data.includes('Error!')) {
-            document.body.innerHTML = data;
-        } else {
-            window.location.href = 'monitor.php';
-        }
-    })
-    .catch(error => console.error('Error:', error));
-});
+            })
+            .catch(error => console.error('Error:', error));
+        });
 
 function deleteEntry(id) {
     if (confirm("Are you sure you want to delete this entry?")) {
