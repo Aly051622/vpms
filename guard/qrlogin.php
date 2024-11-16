@@ -2,17 +2,23 @@
 ini_set('log_errors', 1);
 ini_set('error_log', 'error_log.txt'); // Set log file path
 ini_set('display_errors', 1); // Disable on-screen error display
-
-
 date_default_timezone_set('Asia/Manila');
 
-// Include the database connection file
-include('../DBconnection/dbconnection.php');
+$server = "localhost";
+$username = "u132092183_parkingz";
+$password = "@Parkingz!2024";
+$dbname = "u132092183_parkingz";
+
+$conn = new mysqli($server, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
 if (isset($_POST['id'])) {
     $id = intval($_POST['id']);
     $sql = "DELETE FROM tblqr_login WHERE ID = ?";
-    $stmt = $con->prepare($sql);
+    $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
     $stmt->execute();
 
@@ -25,10 +31,9 @@ if (isset($_POST['id'])) {
     exit; // Stop further processing after deletion response
 }
 
-$con->close();
+$conn->close();
 ?>
 
-?>
 <html class="no-js" lang="">
 <head>
     <script type="text/javascript" src="js/adapter.min.js"></script>
@@ -150,13 +155,29 @@ $con->close();
                 </thead>
                 <tbody>
                 <?php
-// Include the database connection file
-include('../DBconnection/dbconnection.php');
+$server = "localhost";
+$username = "u132092183_parkingz";
+$password = "@Parkingz!2024";
+$dbname = "u132092183_parkingz";
+
+$conn = new mysqli($server, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
 
 // After processing the QR code
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData']) && isset($_POST['selectedArea'])) {
     $qrData = $_POST['qrData'];
+    $selectedArea = $_POST['selectedArea'];
 
+    // Sanitize inputs (optional but recommended)
+    $qrData = $conn->real_escape_string($qrData);
+    $selectedArea = $conn->real_escape_string($selectedArea);
+
+    // Proceed with your data processing logic (same as you've already done)
+    // Example: Parsing QR data
     $dataLines = explode("\n", $qrData);
     $vehicleType = str_replace('Vehicle Type: ', '', $dataLines[0]);
     $vehiclePlateNumber = str_replace('Plate Number: ', '', $dataLines[1]);
@@ -174,11 +195,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $selectedArea = $_POST['selectedArea'];
     
     if (!$selectedArea) {
-        echo json_encode(['status' => 'error', 'message' => 'Please select an area first.']);
+        $_SESSION['error'] = 'Please select an area first.';
+        // Stay on the current page (no redirection to monitor.php)
+        header('Location: qrlogin.php');
         exit();
     }
 
+    // Check if user is already logged in without logging out
+$checkLogoutQR = "SELECT * FROM tblqr_logout WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEOUT DESC LIMIT 1";
+$checkLoginQR = "SELECT * FROM tblqr_login WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEIN DESC LIMIT 1";
 
+$checkLogoutManual = "SELECT * FROM tblmanual_logout WHERE Name = '$name' AND RegistrationNumber = '$vehiclePlateNumber' ORDER BY TIMEOUT DESC LIMIT 1";
+$checkLoginManual = "SELECT * FROM tblmanual_login WHERE Name = '$name' AND RegistrationNumber = '$vehiclePlateNumber' ORDER BY TIMEIN DESC LIMIT 1";
+
+// Execute the queries
+$logoutResultQR = $conn->query($checkLogoutQR);
+$loginResultQR = $conn->query($checkLoginQR);
+$logoutResultManual = $conn->query($checkLogoutManual);
+$loginResultManual = $conn->query($checkLoginManual);
 
 // Determine the latest logout and login times across both tables
 $lastLogoutTime = null;
@@ -202,7 +236,8 @@ if ($loginResultManual->num_rows > 0) {
 
 // Ensure last login time is later than last logout time, or no previous login exists
 if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
-    echo json_encode(['status' => 'error', 'message' => 'You cannot log in again without logging out first.']);
+    $_SESSION['error'] = 'You cannot log in again without logging out first.';
+    header('Location: qrlogin.php');
     exit();
 }
 
@@ -222,7 +257,7 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
                   AND SlotNumber LIKE '$selectedArea%' 
                   ORDER BY CAST(SUBSTRING(SlotNumber, 2) AS UNSIGNED)";
 
-    $slotResult = $con->query($slotQuery);
+    $slotResult = $conn->query($slotQuery);
     $availableSlots = [];
 
     if ($slotResult->num_rows > 0) {
@@ -265,14 +300,15 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
             // Update the status of the occupied slots
             foreach ($occupiedSlots as $slot) {
                 $updateSlot = "UPDATE tblparkingslots SET Status = 'Occupied' WHERE SlotNumber = '$slot'";
-                $con->query($updateSlot);
+                $conn->query($updateSlot);
             }
 
-            if ($con->query($sql) === TRUE) {
-                echo json_encode(['status' => 'success', 'message' => 'Vehicle added successfully.']);
-exit();
+            if ($conn->query($sql) === TRUE) {
+                $_SESSION['success'] = 'Vehicle added successfully.';
+                header('Location: monitor.php');
+                exit();
             } else {
-                $_SESSION['error'] = 'Error: ' . $con->error;
+                $_SESSION['error'] = 'Error: ' . $conn->error;
             }
         } else {
             $_SESSION['error'] = 'No consecutive slots available for this vehicle type.';
@@ -285,17 +321,18 @@ exit();
 }
 
 
+
+
 $sql = "SELECT ID, Name, ContactNumber, VehicleType, VehiclePlateNumber, ParkingSlot, TIMEIN 
         FROM tblqr_login 
         WHERE DATE(TIMEIN) = CURDATE() 
         ORDER BY TIMEIN DESC";
 
-$query = $con->query($sql);
+$query = $conn->query($sql);
 
 if (!$query) {
-    die('Error fetching data: ' . $con->error);
+    die('Error: ' . mysqli_error($conn));
 }
-
 
 while ($row = $query->fetch_assoc()) {
     $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('h:i:s A m-d-y');
@@ -309,8 +346,8 @@ while ($row = $query->fetch_assoc()) {
         <td>" . $row['ParkingSlot'] . "</td>
         <td>" . $formattedTimeIn . "</td>
         <td>
-            <button onclick=\"deleteEntry(" . $row['ID'] . ")\" class=\"btn btn-danger btn-sm\">Delete</button>
-        </td>
+        <button onclick=\"deleteEntry(" . $row['ID'] . ")\" class=\"btn btn-danger btn-sm\">Delete</button>
+                        </td>
     </tr>
     ";
 }
@@ -349,7 +386,7 @@ Instascan.Camera.getCameras().then(function (cameras) {
         document.getElementById('scanner-status').textContent = "Error: Unable to access cameras. Make sure permissions are allowed and refresh the page.";
     });
 
-// Handle QR code scan event
+   // Handle QR code scan event
 scanner.addListener('scan', function (content) {
     const selectedArea = document.getElementById('areaSelect').value;
 
@@ -390,7 +427,6 @@ scanner.addListener('scan', function (content) {
 
 console.log("Content sent to server:", content);
 console.log("Selected Area:", selectedArea);
-
 
 
 function deleteEntry(id) {
