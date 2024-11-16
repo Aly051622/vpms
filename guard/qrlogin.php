@@ -1,4 +1,8 @@
 <?php session_start(); 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 date_default_timezone_set('Asia/Manila');
 
 $server = "localhost";
@@ -192,6 +196,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
         exit();
     }
 
+    file_put_contents('debug.log', print_r($_POST, true), FILE_APPEND);
+
+
     // Check if user is already logged in without logging out
 $checkLogoutQR = "SELECT * FROM tblqr_logout WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEOUT DESC LIMIT 1";
 $checkLoginQR = "SELECT * FROM tblqr_login WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEIN DESC LIMIT 1";
@@ -320,8 +327,9 @@ $sql = "SELECT ID, Name, ContactNumber, VehicleType, VehiclePlateNumber, Parking
 $query = $conn->query($sql);
 
 if (!$query) {
-    die('Error: ' . mysqli_error($conn));
+    die('Error fetching data: ' . $conn->error);
 }
+
 
 while ($row = $query->fetch_assoc()) {
     $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('h:i:s A m-d-y');
@@ -393,12 +401,14 @@ scanner.addListener('scan', function (content) {
     })
     .then(response => response.text())
     .then(data => {
-        if (data.includes('Error!')) {
-            document.body.innerHTML = data;
-        } else {
-            window.location.href = 'monitor.php';
-        }
-    })
+    console.log('Server Response:', data); // Log server response
+    if (data.includes('Error!')) {
+        document.body.innerHTML = data;
+    } else {
+        window.location.href = 'monitor.php';
+    }
+})
+
     .catch(error => console.error('Error:', error));
 });
 
