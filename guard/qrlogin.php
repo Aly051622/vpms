@@ -161,7 +161,6 @@ if (mysqli_connect_errno()) {
     // echo "Database connected successfully.";
 }
 
-
 // After processing the QR code
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $qrData = $_POST['qrData'];
@@ -171,8 +170,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $vehiclePlateNumber = str_replace('Plate Number: ', '', $dataLines[1]);
     $name = str_replace('Name: ', '', $dataLines[2]);
     $mobilenum = str_replace('Contact Number: ', '', $dataLines[3]);
-
+    $model = str_replace('Model: ', '', $dataLines[4]);
     $timeIn = date("Y-m-d h:i:s A");
+
+    // Define models that require 5 slots
+    $largeModels = ['Fortuner', 'MU-X', 'Montero Sport', 'Everest', 'Terra', 'Trailblazer', 'Land Cruiser', 'Patrol', 'Expedition'];
+
 
 
     // Get the selected area prefix
@@ -226,9 +229,11 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
 }
 
 
-    // Check for available slots based on vehicle type
-    if ($vehicleType === 'Four Wheeler Vehicle') {
-        $limit = 3; // Four-wheeler needs 3 slots
+     // Determine slot requirements based on vehicle type and model
+     if ($vehicleType === 'Four Wheeler Vehicle' && in_array($model, $largeModels)) {
+        $limit = 5; // Specific large models need 5 slots
+    } elseif ($vehicleType === 'Four Wheeler Vehicle') {
+        $limit = 4; // General four-wheeler needs 4 slots
     } elseif ($vehicleType === 'Two Wheeler Vehicle') {
         $limit = 1; // Two-wheeler needs 1 slot
     }
@@ -249,19 +254,28 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
 
         // Check for sufficient consecutive slots
         $occupiedSlots = [];
-        for ($i = 0; $i <= count($availableSlots) - $limit; $i++) {
-            $isConsecutive = true;
-            for ($j = 1; $j < $limit; $j++) {
-                if (intval(substr($availableSlots[$i + $j], 1)) !== intval(substr($availableSlots[$i], 1)) + $j) {
-                    $isConsecutive = false;
-                    break;
+        $sequence = []; // Temporary array to hold consecutive slots
+
+        foreach ($availableSlots as $slot) {
+            if (empty($sequence)) {
+                $sequence[] = $slot;
+            } else {
+                $lastSlotNumber = intval(substr(end($sequence), 1));
+                $currentSlotNumber = intval(substr($slot, 1));
+
+                if ($currentSlotNumber === $lastSlotNumber + 1) {
+                    $sequence[] = $slot;
+                } else {
+                    $sequence = [$slot]; // Reset sequence if it's broken
                 }
             }
-            if ($isConsecutive) {
-                $occupiedSlots = array_slice($availableSlots, $i, $limit);
+
+            if (count($sequence) === $limit) {
+                $occupiedSlots = $sequence;
                 break;
             }
         }
+
 
         if (count($occupiedSlots) == $limit) {
             $slots = implode(', ', $occupiedSlots);
