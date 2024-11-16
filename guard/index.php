@@ -12,7 +12,7 @@ if (isset($_POST['login'])) {
     $hashed_password = hash('sha256', $_POST['password']);
     
     // Query to check the username and hashed password
-    $query = mysqli_query($conn, "SELECT ID, UserName FROM tblguard WHERE UserName='$guarduser' AND Password='$hashed_password'");
+    $query = mysqli_query($con, "SELECT ID, UserName FROM tblguard WHERE UserName='$guarduser' AND Password='$hashed_password'");
     $ret = mysqli_fetch_array($query);
 
     if ($ret) {
