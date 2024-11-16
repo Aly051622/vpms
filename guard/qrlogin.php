@@ -169,6 +169,10 @@ if ($conn->connect_error) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $qrData = $_POST['qrData'];
 
+    // Sanitize inputs (optional but recommended)
+    $qrData = $conn->real_escape_string($qrData);
+    $selectedArea = $conn->real_escape_string($selectedArea);
+
     $dataLines = explode("\n", $qrData);
     $vehicleType = str_replace('Vehicle Type: ', '', $dataLines[0]);
     $vehiclePlateNumber = str_replace('Plate Number: ', '', $dataLines[1]);
