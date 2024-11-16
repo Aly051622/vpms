@@ -165,6 +165,7 @@ if (mysqli_connect_errno()) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $qrData = $_POST['qrData'];
 
+
     $dataLines = explode("\n", $qrData);
     $vehicleType = str_replace('Vehicle Type: ', '', $dataLines[0]);
     $vehiclePlateNumber = str_replace('Plate Number: ', '', $dataLines[1]);
@@ -295,6 +296,7 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
                 header('Location: monitor.php');
                 exit();
             } else {
+                error_log('SQL Error: ' . $conn->error);
                 $_SESSION['error'] = 'Error: ' . $conn->error;
             }
         } else {
@@ -321,23 +323,27 @@ if (!$query) {
     die('Error: ' . mysqli_error($conn));
 }
 
-while ($row = $query->fetch_assoc()) {
-    $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('h:i:s A m-d-y');
-    echo "
-    <tr>
-        <td>" . $row['ID'] . "</td>
-        <td>" . $row['Name'] . "</td>
-        <td>" . $row['ContactNumber'] . "</td>
-        <td>" . $row['VehicleType'] . "</td>
-        <td>" . $row['VehiclePlateNumber'] . "</td>
-        <td>" . $row['ParkingSlot'] . "</td>
-        <td>" . $formattedTimeIn . "</td>
-        <td>
-        <button onclick=\"deleteEntry(" . $row['ID'] . ")\" class=\"btn btn-danger btn-sm\">Delete</button>
-                        </td>
-    </tr>
-    ";
+// Check if rows are returned
+if ($query->num_rows > 0) {
+    while ($row = $query->fetch_assoc()) {
+        $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('h:i:s A m-d-y');
+        echo "
+        <tr>
+            <td>" . $row['ID'] . "</td>
+            <td>" . $row['Name'] . "</td>
+            <td>" . $row['ContactNumber'] . "</td>
+            <td>" . $row['VehicleType'] . "</td>
+            <td>" . $row['VehiclePlateNumber'] . "</td>
+            <td>" . $row['ParkingSlot'] . "</td>
+            <td>" . $formattedTimeIn . "</td>
+            <td><button class='btn btn-danger deleteBtn' data-id='" . $row['ID'] . "'>Delete</button></td>
+        </tr>
+        ";
+    }
+} else {
+    echo "<tr><td colspan='8'>No data available for today.</td></tr>";
 }
+
 
                 ?>
                 </tbody>
