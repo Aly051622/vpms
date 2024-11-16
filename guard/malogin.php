@@ -2,18 +2,8 @@
 session_start(); 
 date_default_timezone_set('Asia/Manila');
 
-// Database connection
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$dbname = 'parking';
-
-$conn = new mysqli($host, $user, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Include the database connection file
+include('../DBconnection/dbconnection.php');
 
 // Define the number of records per page
 $recordsPerPage = 10;
@@ -23,7 +13,7 @@ $start = ($page - 1) * $recordsPerPage;
 // Fetch records with pagination
 $vehicles = [];
 $query = "SELECT * FROM tblmanual_login WHERE DATE(TimeIn) = CURDATE() ORDER BY ID DESC LIMIT $start, $recordsPerPage";
-$result = $conn->query($query);
+$result = $con->query($query);
 
 
 if ($result && $result->num_rows > 0) {
@@ -34,7 +24,7 @@ if ($result && $result->num_rows > 0) {
 
 // Calculate total pages
 $totalQuery = "SELECT COUNT(*) as count FROM tblmanual_login WHERE DATE(TimeIn) = CURDATE()";
-$totalResult = $conn->query($totalQuery);
+$totalResult = $con->query($totalQuery);
 $totalRow = $totalResult->fetch_assoc();
 $totalRecords = $totalRow['count'];
 $totalPages = ceil($totalRecords / $recordsPerPage);
@@ -50,10 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Check if the contact number and plate number exist
         $query = "SELECT * FROM tblvehicle WHERE OwnerContactNumber = ? AND RegistrationNumber = ?";
-        $stmt = $conn->prepare($query);
+        $stmt = $con->prepare($query);
         
         if (!$stmt) {
-            die("SQL Error: " . $conn->error);
+            die("SQL Error: " . $con->error);
         }
         
         $stmt->bind_param("ss", $contactNumber, $plateNumber);
@@ -76,10 +66,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Insert new vehicle data into tblmanual_login
         $insertQuery = "INSERT INTO tblmanual_login (OwnerName, OwnerContactNumber, VehicleCategory, RegistrationNumber, ParkingSlot, TimeIn) VALUES (?, ?, ?, ?, ?, NOW())";
-        $insertStmt = $conn->prepare($insertQuery);
+        $insertStmt = $con->prepare($insertQuery);
 
         if (!$insertStmt) {
-            die("SQL Error: " . $conn->error);
+            die("SQL Error: " . $con->error);
         }
         
         $insertStmt->bind_param("sssss", $ownerName, $contactNumber, $vehicleType, $registrationNumber, $parkingSlot);
@@ -93,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         // Delete vehicle data
         $deleteQuery = "DELETE FROM tblmanual_login WHERE id = ?";
-        $deleteStmt = $conn->prepare($deleteQuery);
+        $deleteStmt = $con->prepare($deleteQuery);
         
         $deleteStmt->bind_param("i", $id);
         $deleteStmt->execute();
@@ -107,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         // Update parking slot
         $updateQuery = "UPDATE tblmanual_login SET ParkingSlot = ? WHERE id = ?";
-        $updateStmt = $conn->prepare($updateQuery);
+        $updateStmt = $con->prepare($updateQuery);
         
         $updateStmt->bind_param("si", $parkingSlot, $id);
         $updateStmt->execute();
@@ -118,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$conn->close();
+$con->close();
 ?>
 
 
