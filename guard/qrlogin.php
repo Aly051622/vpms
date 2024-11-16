@@ -28,7 +28,6 @@ if (isset($_POST['id'])) {
     exit; // Stop further processing after deletion response
 }
 
-$conn->close();
 ?>
 
 <html class="no-js" lang="">
