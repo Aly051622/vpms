@@ -8,7 +8,7 @@ include('../DBconnection/dbconnection.php');
 if (isset($_POST['id'])) {
     $id = intval($_POST['id']);
     $sql = "DELETE FROM tblqr_login WHERE ID = ?";
-    $stmt = $conn->prepare($sql);
+    $stmt = $con->prepare($sql);
     $stmt->bind_param("i", $id);
     $stmt->execute();
 
@@ -21,7 +21,7 @@ if (isset($_POST['id'])) {
     exit; // Stop further processing after deletion response
 }
 
-$conn->close();
+$con->close();
 ?>
 
 ?>
@@ -146,16 +146,8 @@ $conn->close();
                 </thead>
                 <tbody>
                 <?php
-$server = "localhost";
-$username = "root";
-$password = "";
-$dbname = "parking";
-
-$conn = new mysqli($server, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Include the database connection file
+include('../DBconnection/dbconnection.php');
 
 
 // After processing the QR code
@@ -189,10 +181,10 @@ $checkLogoutManual = "SELECT * FROM tblmanual_logout WHERE Name = '$name' AND Re
 $checkLoginManual = "SELECT * FROM tblmanual_login WHERE Name = '$name' AND RegistrationNumber = '$vehiclePlateNumber' ORDER BY TIMEIN DESC LIMIT 1";
 
 // Execute the queries
-$logoutResultQR = $conn->query($checkLogoutQR);
-$loginResultQR = $conn->query($checkLoginQR);
-$logoutResultManual = $conn->query($checkLogoutManual);
-$loginResultManual = $conn->query($checkLoginManual);
+$logoutResultQR = $con->query($checkLogoutQR);
+$loginResultQR = $con->query($checkLoginQR);
+$logoutResultManual = $con->query($checkLogoutManual);
+$loginResultManual = $con->query($checkLoginManual);
 
 // Determine the latest logout and login times across both tables
 $lastLogoutTime = null;
@@ -235,7 +227,7 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
                   AND SlotNumber LIKE '$selectedArea%' 
                   ORDER BY CAST(SUBSTRING(SlotNumber, 2) AS UNSIGNED)";
 
-    $slotResult = $conn->query($slotQuery);
+    $slotResult = $con->query($slotQuery);
     $availableSlots = [];
 
     if ($slotResult->num_rows > 0) {
@@ -269,15 +261,15 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
             // Update the status of the occupied slots
             foreach ($occupiedSlots as $slot) {
                 $updateSlot = "UPDATE tblparkingslots SET Status = 'Occupied' WHERE SlotNumber = '$slot'";
-                $conn->query($updateSlot);
+                $con->query($updateSlot);
             }
 
-            if ($conn->query($sql) === TRUE) {
+            if ($con->query($sql) === TRUE) {
                 $_SESSION['success'] = 'Vehicle added successfully.';
                 header('Location: monitor.php');
                 exit();
             } else {
-                $_SESSION['error'] = 'Error: ' . $conn->error;
+                $_SESSION['error'] = 'Error: ' . $con->error;
             }
         } else {
             $_SESSION['error'] = 'No consecutive slots available for this vehicle type.';
@@ -297,10 +289,10 @@ $sql = "SELECT ID, Name, ContactNumber, VehicleType, VehiclePlateNumber, Parking
         WHERE DATE(TIMEIN) = CURDATE() 
         ORDER BY TIMEIN DESC";
 
-$query = $conn->query($sql);
+$query = $con->query($sql);
 
 if (!$query) {
-    die('Error: ' . mysqli_error($conn));
+    die('Error: ' . mysqli_error($con));
 }
 
 while ($row = $query->fetch_assoc()) {
