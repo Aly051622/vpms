@@ -1,7 +1,8 @@
 <?php session_start(); 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+ini_set('log_errors', 1);
+ini_set('error_log', 'error_log.txt'); // Set log file path
+ini_set('display_errors', 1); // Disable on-screen error display
+
 
 date_default_timezone_set('Asia/Manila');
 
@@ -393,7 +394,7 @@ scanner.addListener('scan', function (content) {
     fetch('qrlogin.php', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'text/plain',
         },
         body: 'qrData=' + encodeURIComponent(content) + '&selectedArea=' + encodeURIComponent(selectedArea),
     })
