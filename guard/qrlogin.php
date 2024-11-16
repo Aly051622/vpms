@@ -28,142 +28,6 @@ if (isset($_POST['id'])) {
     exit; // Stop further processing after deletion response
 }
 
-$conn->close();
-?>
-
-<html class="no-js" lang="">
-<head>
-    <script type="text/javascript" src="js/adapter.min.js"></script>
-    <script type="text/javascript" src="js/vue.min.js"></script>
-    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
-    <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="apple-touch-icon" href="images/ctu.png">
-    <link rel="shortcut icon" href="images/ctu.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="guard.css">
-
-    <title>QR Code Login Scanner | CTU DANAO Parking System</title>
-
-    <style>
-        body {
-            color: black;
-            background-color: #f9fcff;
-            background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
-        }
-        .no-js {
-            background-color: #f9fcff;
-            background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
-        }
-        .container {
-            padding: 20px;
-        }
-        .scanner-container, .table-container {
-            margin-top: 20px;
-        }
-        video {
-            width: 500px;
-            height: 300px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            display: block;
-            margin: 0 auto;
-        }
-        .scanner-label {
-            font-weight: bold; 
-            color: orange; 
-            font-size: 20px; 
-            text-align: center; 
-            margin-top: 10px;
-        }
-    </style>
-</head>
-<body>
-<!-- Responsive Navigation Bar -->
-<?php include_once('includes/headerin.php');?>
-
-<div class="container" style="background: transparent;">
-    <div class="row">
-        <!-- Scanner Section -->
-        <div class="col-md-12">
-                <video id="preview" style="width: 100%; max-width: 500px; height: auto;"></video>
-                <div id="scanner-status" style="text-align: center; font-weight: bold; color: orange; margin-top: 10px;"></div>
-            </div>
-
-            <?php
-            if (isset($_SESSION['error'])) {
-                echo "
-                <div class='alert alert-danger mt-2'>
-                    <h4>Error!</h4>
-                    " . $_SESSION['error'] . "
-                </div>
-                ";
-                unset($_SESSION['error']); // Clear the error message after displaying
-            }
-
-            if (isset($_SESSION['success'])) {
-                echo "
-                <div class='alert alert-primary mt-2 alert-dismissible fade show' role='alert' id='successAlert'>
-                    <h4>Success!</h4>
-                    Added Successfully
-                    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                        <span aria-hidden='true'>&times;</span>
-                    </button>
-                </div>
-                ";
-                unset($_SESSION['success']); // Clear the success message after displaying
-            }
-            ?>
-        </div>
-
-        <!-- Area Selection Dropdown -->
-        <div class="col-md-12">
-            <label for="areaSelect" style="font-weight: bold; color: orange; font-size: 18px;">Select Area:</label>
-            <select id="areaSelect" class="form-control" required>
-                <option value="">--Select Area--</option>
-                <option value="A">Front Admin</option>
-                <option value="B">Beside CME</option>
-                <option value="C">Kadasig</option>
-                <option value="D">Behind</option>
-            </select>
-        </div>
-
-        <!-- Table Section -->
-        <div class="col-md-12 table-container">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <td>No.</td>
-                        <td>Name</td>
-                        <td>Contact Number</td>
-                        <td>Vehicle Type</td>
-                        <td>Vehicle Plate Number</td>
-                        <td>Parking Slot</td>
-                        <td>TIMEIN</td>
-                        <td>Action</td> <!-- New column for delete action -->
-                    </tr>
-                </thead>
-                <tbody>
-                <?php
-$server = "localhost";
-$username = "u132092183_parkingz";
-$password = "@Parkingz!2024";
-$dbname = "u132092183_parkingz";
-
-$conn = new mysqli($server, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-
 // After processing the QR code
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $qrData = $_POST['qrData'];
@@ -311,39 +175,161 @@ if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
 }
 
 
+$conn->close();
+?>
 
+<html class="no-js" lang="">
+<head>
+    <script type="text/javascript" src="js/adapter.min.js"></script>
+    <script type="text/javascript" src="js/vue.min.js"></script>
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 
-$sql = "SELECT ID, Name, ContactNumber, VehicleType, VehiclePlateNumber, ParkingSlot, TIMEIN 
-        FROM tblqr_login 
-        WHERE DATE(TIMEIN) = CURDATE() 
-        ORDER BY TIMEIN DESC";
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
+    <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="apple-touch-icon" href="images/ctu.png">
+    <link rel="shortcut icon" href="images/ctu.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="guard.css">
 
-$query = $conn->query($sql);
+    <title>QR Code Login Scanner | CTU DANAO Parking System</title>
 
-if (!$query) {
-    die('Error: ' . mysqli_error($conn));
-}
+    <style>
+        body {
+            color: black;
+            background-color: #f9fcff;
+            background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
+        }
+        .no-js {
+            background-color: #f9fcff;
+            background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
+        }
+        .container {
+            padding: 20px;
+        }
+        .scanner-container, .table-container {
+            margin-top: 20px;
+        }
+        video {
+            width: 500px;
+            height: 300px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: block;
+            margin: 0 auto;
+        }
+        .scanner-label {
+            font-weight: bold; 
+            color: orange; 
+            font-size: 20px; 
+            text-align: center; 
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<!-- Responsive Navigation Bar -->
+<?php include_once('includes/headerin.php');?>
 
-while ($row = $query->fetch_assoc()) {
-    $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('h:i:s A m-d-y');
-    echo "
-    <tr>
-        <td>" . $row['ID'] . "</td>
-        <td>" . $row['Name'] . "</td>
-        <td>" . $row['ContactNumber'] . "</td>
-        <td>" . $row['VehicleType'] . "</td>
-        <td>" . $row['VehiclePlateNumber'] . "</td>
-        <td>" . $row['ParkingSlot'] . "</td>
-        <td>" . $formattedTimeIn . "</td>
-        <td>
-        <button onclick=\"deleteEntry(" . $row['ID'] . ")\" class=\"btn btn-danger btn-sm\">Delete</button>
-                        </td>
-    </tr>
-    ";
-}
+<div class="container" style="background: transparent;">
+    <div class="row">
+        <!-- Scanner Section -->
+        <div class="col-md-12">
+                <video id="preview" style="width: 100%; max-width: 500px; height: auto;"></video>
+                <div id="scanner-status" style="text-align: center; font-weight: bold; color: orange; margin-top: 10px;"></div>
+            </div>
 
-                ?>
-                </tbody>
+            <?php
+            if (isset($_SESSION['error'])) {
+                echo "
+                <div class='alert alert-danger mt-2'>
+                    <h4>Error!</h4>
+                    " . $_SESSION['error'] . "
+                </div>
+                ";
+                unset($_SESSION['error']); // Clear the error message after displaying
+            }
+
+            if (isset($_SESSION['success'])) {
+                echo "
+                <div class='alert alert-primary mt-2 alert-dismissible fade show' role='alert' id='successAlert'>
+                    <h4>Success!</h4>
+                    Added Successfully
+                    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                        <span aria-hidden='true'>&times;</span>
+                    </button>
+                </div>
+                ";
+                unset($_SESSION['success']); // Clear the success message after displaying
+            }
+            ?>
+        </div>
+
+        <!-- Area Selection Dropdown -->
+        <div class="col-md-12">
+            <label for="areaSelect" style="font-weight: bold; color: orange; font-size: 18px;">Select Area:</label>
+            <select id="areaSelect" class="form-control" required>
+                <option value="">--Select Area--</option>
+                <option value="A">Front Admin</option>
+                <option value="B">Beside CME</option>
+                <option value="C">Kadasig</option>
+                <option value="D">Behind</option>
+            </select>
+        </div>
+
+        <!-- Table Section -->
+    <div class="col-md-12 table-container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>No.</td>
+                    <td>Name</td>
+                    <td>Contact Number</td>
+                    <td>Vehicle Type</td>
+                    <td>Vehicle Plate Number</td>
+                    <td>Parking Slot</td>
+                    <td>TIMEIN</td>
+                    <td>Action</td> <!-- New column for delete action -->
+                </tr>
+            </thead>
+            <tbody>
+            <?php
+            // Fetch the data for today's logins
+            $sql = "SELECT ID, Name, ContactNumber, VehicleType, VehiclePlateNumber, ParkingSlot, TIMEIN 
+                    FROM tblqr_login 
+                    WHERE DATE(TIMEIN) = CURDATE() 
+                    ORDER BY TIMEIN DESC";
+
+            $query = $conn->query($sql);
+
+            if (!$query) {
+                die('Error: ' . mysqli_error($conn));
+            }
+
+            while ($row = $query->fetch_assoc()) {
+                $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('h:i:s A m-d-y');
+                echo "
+                <tr>
+                    <td>" . $row['ID'] . "</td>
+                    <td>" . $row['Name'] . "</td>
+                    <td>" . $row['ContactNumber'] . "</td>
+                    <td>" . $row['VehicleType'] . "</td>
+                    <td>" . $row['VehiclePlateNumber'] . "</td>
+                    <td>" . $row['ParkingSlot'] . "</td>
+                    <td>" . $formattedTimeIn . "</td>
+                    <td>
+                    <button onclick=\"deleteEntry(" . $row['ID'] . ")\" class=\"btn btn-danger btn-sm\">Delete</button>
+                    </td>
+                </tr>
+                ";
+            }
+            ?>
+            </tbody>
             </table>
         </div>
     </div>
@@ -354,27 +340,27 @@ while ($row = $query->fetch_assoc()) {
 
 // Attempt to get available cameras
 Instascan.Camera.getCameras().then(function (cameras) {
-        if (cameras.length > 0) {
-            let selectedCamera = cameras[0]; // Default to the first camera
+    if (cameras.length > 0) {
+        let selectedCamera = cameras[0]; // Default to the first camera
 
-            // Attempt to prioritize the back camera for mobile devices
-            cameras.forEach(function (camera) {
-                if (camera.name.toLowerCase().includes('back')) {
-                    selectedCamera = camera;
-                }
-            });
+        // Attempt to prioritize the back camera for mobile devices
+        cameras.forEach(function (camera) {
+            if (camera.name.toLowerCase().includes('back')) {
+                selectedCamera = camera;
+            }
+        });
 
-            scanner.start(selectedCamera).catch(function (e) {
-                console.error("Error starting scanner:", e);
-                document.getElementById('scanner-status').textContent = "Error: Unable to start the scanner. Please check camera permissions.";
-            });
-        } else {
-            document.getElementById('scanner-status').textContent = "No camera detected. Please check if the device has an available camera.";
-        }
-    }).catch(function (e) {
-        console.error("Error accessing cameras:", e);
-        document.getElementById('scanner-status').textContent = "Error: Unable to access cameras. Make sure permissions are allowed and refresh the page.";
-    });
+        scanner.start(selectedCamera).catch(function (e) {
+            console.error("Error starting scanner:", e);
+            document.getElementById('scanner-status').textContent = "Error: Unable to start the scanner. Please check camera permissions.";
+        });
+    } else {
+        document.getElementById('scanner-status').textContent = "No camera detected. Please check if the device has an available camera.";
+    }
+}).catch(function (e) {
+    console.error("Error accessing cameras:", e);
+    document.getElementById('scanner-status').textContent = "Error: Unable to access cameras. Make sure permissions are allowed and refresh the page.";
+});
 
 // Handle QR code scan event
 scanner.addListener('scan', function (content) {
@@ -392,15 +378,23 @@ scanner.addListener('scan', function (content) {
         },
         body: 'qrData=' + encodeURIComponent(content) + '&selectedArea=' + encodeURIComponent(selectedArea),
     })
-    .then(response => response.text())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text();
+    })
     .then(data => {
         if (data.includes('Error!')) {
-            document.body.innerHTML = data;
+            alert(data);
         } else {
             window.location.href = 'monitor.php';
         }
     })
-    .catch(error => console.error('Error:', error));
+    .catch(error => {
+        console.error('Fetch error:', error);
+        alert(`Error: ${error.message}`);
+    });
 });
 
 function deleteEntry(id) {
