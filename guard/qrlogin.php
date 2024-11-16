@@ -169,10 +169,6 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-error_log("Selected Area: " . $_POST['selectedArea']);
-error_log("QR Data: " . $_POST['qrData']);
-
-
 // After processing the QR code
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     error_log("QR Data received: " . $_POST['qrData']); // Log received data
