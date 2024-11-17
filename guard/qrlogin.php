@@ -390,7 +390,6 @@ Instascan.Camera.getCameras().then(function (cameras) {
         return;
     }
 
-    // Fetch request to process scanned QR data
     fetch('qrlogin.php', {
         method: 'POST',
         headers: {
@@ -400,16 +399,9 @@ Instascan.Camera.getCameras().then(function (cameras) {
     })
     .then(response => response.text())
     .then(data => {
-        console.log('Server Response:', data); // Log server response
-        
-        // Check if there is an error message
+        console.log('Server Response:', data);
         if (data.includes('Error!')) {
-            alert("Error processing QR code: " + data); // Show an alert with the error
-        } else if (data.includes('success')) {
-            alert("QR code processed successfully!");
-            
-            // Optionally, update the table dynamically here
-            location.reload(); // Reload only if you need to refresh the table
+            document.body.innerHTML = data;
         } else {
             alert("Unexpected server response: " + data);
         }
