@@ -403,7 +403,7 @@ Instascan.Camera.getCameras().then(function (cameras) {
         if (data.includes('Error!')) {
             document.body.innerHTML = data;
         } else {
-            alert("Unexpected server response: " + data);
+            window.location.href = 'monitor.php';
         }
     })
     .catch(error => {
