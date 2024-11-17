@@ -4,6 +4,7 @@ ini_set('error_log', 'error_log.txt'); // Set log file path
 ini_set('display_errors', 1); // Disable on-screen error display
 date_default_timezone_set('Asia/Manila');
 
+
 $server = "localhost";
 $username = "u132092183_parkingz";
 $password = "@Parkingz!2024";
@@ -34,6 +35,7 @@ if (isset($_POST['id'])) {
 $conn->close();
 ?>
 
+?>
 <html class="no-js" lang="">
 <head>
     <script type="text/javascript" src="js/adapter.min.js"></script>
@@ -168,16 +170,9 @@ if ($conn->connect_error) {
 
 
 // After processing the QR code
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData']) && isset($_POST['selectedArea'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $qrData = $_POST['qrData'];
-    $selectedArea = $_POST['selectedArea'];
 
-    // Sanitize inputs (optional but recommended)
-    $qrData = $conn->real_escape_string($qrData);
-    $selectedArea = $conn->real_escape_string($selectedArea);
-
-    // Proceed with your data processing logic (same as you've already done)
-    // Example: Parsing QR data
     $dataLines = explode("\n", $qrData);
     $vehicleType = str_replace('Vehicle Type: ', '', $dataLines[0]);
     $vehiclePlateNumber = str_replace('Plate Number: ', '', $dataLines[1]);
@@ -386,8 +381,8 @@ Instascan.Camera.getCameras().then(function (cameras) {
         document.getElementById('scanner-status').textContent = "Error: Unable to access cameras. Make sure permissions are allowed and refresh the page.";
     });
 
-   // Handle QR code scan event
-scanner.addListener('scan', function (content) {
+ // Handle QR code scan event
+ scanner.addListener('scan', function (content) {
     const selectedArea = document.getElementById('areaSelect').value;
 
     if (!selectedArea) {
@@ -424,10 +419,6 @@ scanner.addListener('scan', function (content) {
         alert("An error occurred while processing the QR code.");
     });
 });
-
-console.log("Content sent to server:", content);
-console.log("Selected Area:", selectedArea);
-
 
 function deleteEntry(id) {
     if (confirm("Are you sure you want to delete this entry?")) {
