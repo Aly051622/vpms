@@ -201,7 +201,7 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
         <!-- Manual Input Button -->
         <a href="malogin.php" class="navbar-item dropbtns"><i class="bi bi-display-fill"></i> Manual Log-in</a>
 
-        <a href="logout.php" class="navbar-item dropbtns"><i class="bi bi-car-front"></i> Logout</a>
+        <a href="logout.php" class="navbar-item dropbtns"><i class="bi bi-house-fill"></i> Home</a>
        
     </div>
 </div>
