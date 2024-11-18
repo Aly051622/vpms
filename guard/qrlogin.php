@@ -103,7 +103,7 @@ $conn->close();
         <!-- Scanner Section -->
         <div class="col-md-12">
                 <video id="preview" style="width: 100%; max-width: 500px; height: auto;"></video>
-                <div id="scanner-status" style="text-align: center; font-weight: bold; color: orange; margin-top: 10px;"></div>
+                <div id="scanner-status" style="text-align: center; font-weight: bold; color: orange; margin-top: 20px;"></div>
             </div>
 
             <?php
