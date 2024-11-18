@@ -13,7 +13,7 @@ $start = ($page - 1) * $recordsPerPage;
 // Fetch records with pagination
 $vehicles = [];
 $query = "SELECT * FROM tblmanual_login WHERE DATE(TimeIn) = CURDATE() ORDER BY ID DESC LIMIT $start, $recordsPerPage";
-$result = $con->query($query);
+$result = $conn->query($query);
 
 
 if ($result && $result->num_rows > 0) {
@@ -24,7 +24,7 @@ if ($result && $result->num_rows > 0) {
 
 // Calculate total pages
 $totalQuery = "SELECT COUNT(*) as count FROM tblmanual_login WHERE DATE(TimeIn) = CURDATE()";
-$totalResult = $con->query($totalQuery);
+$totalResult = $conn->query($totalQuery);
 $totalRow = $totalResult->fetch_assoc();
 $totalRecords = $totalRow['count'];
 $totalPages = ceil($totalRecords / $recordsPerPage);
@@ -40,10 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Check if the contact number and plate number exist
         $query = "SELECT * FROM tblvehicle WHERE OwnerContactNumber = ? AND RegistrationNumber = ?";
-        $stmt = $con->prepare($query);
+        $stmt = $conn->prepare($query);
         
         if (!$stmt) {
-            die("SQL Error: " . $con->error);
+            die("SQL Error: " . $conn->error);
         }
         
         $stmt->bind_param("ss", $contactNumber, $plateNumber);
@@ -66,10 +66,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Insert new vehicle data into tblmanual_login
         $insertQuery = "INSERT INTO tblmanual_login (OwnerName, OwnerContactNumber, VehicleCategory, RegistrationNumber, ParkingSlot, TimeIn) VALUES (?, ?, ?, ?, ?, NOW())";
-        $insertStmt = $con->prepare($insertQuery);
+        $insertStmt = $conn->prepare($insertQuery);
 
         if (!$insertStmt) {
-            die("SQL Error: " . $con->error);
+            die("SQL Error: " . $conn->error);
         }
         
         $insertStmt->bind_param("sssss", $ownerName, $contactNumber, $vehicleType, $registrationNumber, $parkingSlot);
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         // Delete vehicle data
         $deleteQuery = "DELETE FROM tblmanual_login WHERE id = ?";
-        $deleteStmt = $con->prepare($deleteQuery);
+        $deleteStmt = $conn->prepare($deleteQuery);
         
         $deleteStmt->bind_param("i", $id);
         $deleteStmt->execute();
@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         // Update parking slot
         $updateQuery = "UPDATE tblmanual_login SET ParkingSlot = ? WHERE id = ?";
-        $updateStmt = $con->prepare($updateQuery);
+        $updateStmt = $conn->prepare($updateQuery);
         
         $updateStmt->bind_param("si", $parkingSlot, $id);
         $updateStmt->execute();
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$con->close();
+$conn->close();
 ?>
 
 
@@ -127,17 +127,76 @@ $con->close();
     <link rel="stylesheet" href="guard.css">
 
     <title>QR Code Login Scanner | CTU DANAO Parking System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+     .containers{
+        padding-top:10px;
+        margin-top:-3em;
+        padding: 10px;
+        margin-left: 27em;
+    }
+    /*qrbutton add css*/
+    .dropbtns{
+        margin-top: 40px;
+            color: white;
+            padding:1px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: orange;
+            border-radius: 9px;
+            font-weight: bold;
+            border: solid;
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        }
+        .dropbtns:hover{
+            background-color: white;
+            color: orange;
+            border: solid orange;
+        }
+    @media (max-width: 480px){
+    .containers{
+        padding-top:10px;
+        margin-top:-8px;
+    }
+    .navbar-brand{
+        margin-left: 10px;
+    }
+    .navbar-toggler{
+        margin-top: -33px;
+        margin-left: 11em;
+    }
+}
+</style>
 
+<nav class="navbar">
+    
+<div class="navbar-brand"><a href="monitor.php" style="color: black; margin-top: 10px; margin-left: 10px;">Parking Slot Manager</a></div>
+<div class="containers">
+    <div class="navbar-toggler" onclick="toggleMenu()">&#9776;</div>
+    <div class="navbar-menu" id="navbarMenu" >
+
+        <!-- QR Login Button -->
+        <a href="qrlogin.php" class=" dropbtns"><i class="bi bi-car-front-fill"></i> QR Log-in</a>
+      
+
+        <!-- Manual Input Button -->
+        <a href="malogin.php" class=" dropbtns"><i class="bi bi-display-fill"></i> Manual Log-in</a>
+
+        <a href="logout.php" class=" dropbtns"><i class="bi bi-car-front"></i> Logout</a>
+       
+    </div>
+</div>
+</nav>
     <style>
          /* Body and Container */
         body {
             color: black;
-            background-color: #f9fcff;
-            background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
+            background-color: whitesmoke;
         }
         .container {
             max-width: 600px;
-            margin-top: 50px;
+            margin-top: 100px;
             text-align: center;
         }
         .hidden-field{
@@ -158,11 +217,21 @@ $con->close();
         }
 
         /* Search Button */
-        .btn-primary {
-            width: 100%;
-            font-size: 1.2em;
-            padding: 10px;
+            .btn-primary{
+                border: solid lightgray;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: rgb(53, 97, 255);
+                color: white;
+                cursor: pointer;
+                font-family: 'Montserrat',sans-serif;
+                font-weight: bolder;
         }
+
+           .btn-primary:hover{
+                background-color: darkblue;
+                border: solid blue;
+            }
 
         /* Modal Styles */
         .modal-overlay {
@@ -245,12 +314,56 @@ $con->close();
             padding: 6px;
         }
     }
+    #deletebtn{
+                border: solid darkred;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: red;
+                color: white;
+                cursor: pointer;
+                font-family: 'Montserrat',sans-serif;
+                font-weight: bolder;
+        }
+        #deletebtn:hover{
+            background-color: darkblue;
+            border: solid blue;
+        }
+            #editbtn{
+                border: solid lightgray;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: rgb(53, 97, 255);
+                color: white;
+                cursor: pointer;
+                font-family: 'Montserrat',sans-serif;
+                font-weight: bolder;
+        }
 
+           #editbtn:hover{
+                background-color: darkblue;
+                border: solid blue;
+            }
+            .dropbtns{
+            color: white;
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: orange;
+            border-radius: 9px;
+            font-weight: bold;
+            border: solid;
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        }
+        .navbar-item .dropbtns:hover{
+            background-color: white;
+            color: orange;
+            border: solid orange;
+            border-radius: 9px;
+        }
     </style>
 </head>
 <body>
-    <!-- Responsive Navigation Bar -->
-    <?php include_once('includes/headerin.php');?>
 
 <!-- Form for Contact Number and Plate Number Search -->
 <div class="container">
@@ -337,8 +450,8 @@ $con->close();
 
                         <td><?= date("h:i:s A m-d-y", strtotime($vehicle['TimeIn'])); ?></td>
                         <td>
-                            <button class="btn btn-warning btn-sm" onclick="editSlot(<?= $vehicle['id'] ?>)">Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteVehicle(<?= $vehicle['id'] ?>)">Delete</button>
+                            <button class="btn btn-warning btn-sm" onclick="editSlot(<?= $vehicle['id'] ?>)" id="editbtn">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteVehicle(<?= $vehicle['id'] ?>)" id="deletebtn">Delete</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>

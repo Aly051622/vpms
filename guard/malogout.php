@@ -2,16 +2,8 @@
 session_start();
 date_default_timezone_set('Asia/Manila');
 
-$server = "localhost";
-$username = "root";
-$password = "";
-$dbname = "parking";
-
-$conn = new mysqli($server, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Include the database connection file
+include('../DBconnection/dbconnection.php');
 
 $response = ['exists' => false, 'vehicle' => null];
 
@@ -20,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = $_POST['id'];
     
         $query = "DELETE FROM tblmanual_logout WHERE ID = ?";
-        $stmt = $conn->prepare($query);
+        $stmt = $con->prepare($query);
         
         if ($stmt) {
             $stmt->bind_param("i", $id);
@@ -37,10 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
         // Modify the query to select only the most recent login entry for the given contact number
         $query = "SELECT * FROM tblmanual_login WHERE OwnerContactNumber = ? ORDER BY TimeIn DESC LIMIT 1"; 
-        $stmt = $conn->prepare($query);
+        $stmt = $con->prepare($query);
         
         if (!$stmt) {
-            die("SQL Error: " . $conn->error);
+            die("SQL Error: " . $con->error);
         }
         
         $stmt->bind_param("s", $contactNumber);
@@ -53,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
             $logoutQuery = "INSERT INTO tblmanual_logout (OwnerName, OwnerContactNumber, VehicleCategory, RegistrationNumber, ParkingSlot, TimeOut) 
                             VALUES (?, ?, ?, ?, ?, NOW())";
-            $logoutStmt = $conn->prepare($logoutQuery);
+            $logoutStmt = $con->prepare($logoutQuery);
             
             if ($logoutStmt) {
                 $logoutStmt->bind_param(
@@ -79,13 +71,13 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
 $totalCountQuery = "SELECT COUNT(*) AS count FROM tblmanual_logout WHERE DATE(Timeout) = CURDATE()";
-$totalCountResult = $conn->query($totalCountQuery);
+$totalCountResult = $con->query($totalCountQuery);
 $totalCountRow = $totalCountResult->fetch_assoc();
 $totalCount = $totalCountRow['count'];
 $totalPages = ceil($totalCount / $limit);
 
 $vehiclesQuery = "SELECT * FROM tblmanual_logout WHERE DATE(TimeOut) = CURDATE() ORDER BY TimeOut DESC LIMIT $limit OFFSET $offset";
-$vehiclesResult = $conn->query($vehiclesQuery);
+$vehiclesResult = $con->query($vehiclesQuery);
 
 
 if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
