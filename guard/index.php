@@ -33,12 +33,11 @@ if (isset($_POST['login'])) {
 }
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
    <head>
       <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <title>Security Login | CTU DANAO Parking System</title>
       <link rel="apple-touch-icon" href="../images/ctu.png">
     <link rel="shortcut icon" href="../images/ctu.png">
@@ -62,7 +61,7 @@ if (isset($_POST['login'])) {
       user-select: none;
     }
     .bg-img{
-      background: url('../guard/images/sud.jpg');
+      background: url('images/ctuguard.png');
       height: 100vh;
       background-size: cover;
       background-position: center;
@@ -72,7 +71,7 @@ if (isset($_POST['login'])) {
       content: '';
       top: 0;
       left: 0;
-      height: 100%;
+      height: 100vh;
       width: 100%;
       background: rgba(0,0,0,0.7);
     }
@@ -81,19 +80,20 @@ if (isset($_POST['login'])) {
     position: absolute;
     top: 50%;
     left: 50%;
+    height: 470px;
     z-index: 999;
     text-align: center;
     padding: 60px 32px;
-    width: 370px;
-    opacity: 0.7;
+    width: 360px;
     transform: translate(-50%, -50%);
-    background: rgba(255, 255, 255, 0.04);
-    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    background-color:#ff9933;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, 
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, 
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   }
 
   .content:hover {
       opacity: 1;
-      background-image: linear-gradient(316deg, #f94327 0%, #ff7d14 74%);
       box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
           rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
           rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
@@ -157,18 +157,18 @@ if (isset($_POST['login'])) {
       text-decoration: underline;
     }
     .field input[type="submit"]{
-      background: orange;
-      border: 1px solid #2691d9;
+      border-radius: 9px;
+      background-color: rgb(53, 97, 255);        
       color: white;
-      font-size: 18px;
-      letter-spacing: 1px;
-      font-weight: 600;
-      font-family: 'Montserrat',sans-serif;
-      border-radius: 10px;
+      border: solid ;
+        cursor:pointer;
+        font-weight:bold;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     }
     .field input[type="submit"]:hover{
-      background-color: #1b8b00;
-      background-image: linear-gradient(314deg, #1b8b00 0%, #a2d240 74%);
+      background-color: darkblue;
+      border: solid blue;
+
     }
     .login{
       color: white;
@@ -188,46 +188,42 @@ if (isset($_POST['login'])) {
       text-decoration: underline;
     }
 
-    header{
-        border-bottom: 2px solid ;    
-    }
-
     input[type="text"]:hover, input[type="password"]:hover {
                 background-color: #f7e791; 
                 border: 2px solid #ffbe58; 
             }
 
-    #home {
-        margin: 2vw 0 0 15vw; /* Adjusted margin for responsiveness */
-        background-color: red;
+      #home{
+      margin: 2vw 0 0 15vw; /* Adjusted margin for responsiveness */
+        background-color: rgb(53, 97, 255);
         border-radius: 10px;
-    }
+        cursor: pointer;
+        border: solid;
+        font-weight:bold;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+      }
     #home:hover{
-        background-color: #1b8b00;
-        background-image: linear-gradient(314deg, #1b8b00 0%, #a2d240 74%);
-        color: black;
+      background-color: darkblue;
+        border: solid blue;
         border-radius: 10px;
-        box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, 
-        rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, 
-        rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
     }
-    #loginbtn{
-        background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
-        color: white;
-    }
-    #loginbtn:hover {
-      background-color: #1b8b00;
-      background-image: linear-gradient(314deg, #1b8b00 0%, #a2d240 74%);
-      color: white;
-      box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, 
-      rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, 
-      rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-    }
+  
+    input[type="text"]:hover, input[type="password"]:hover {
+                background-color: whitesmoke;
+                border: 2px solid lightblue;
+            }
 
     /*bag o ni nga loading*/
     #loading-spinner {
         display: none;
-        color: orange;
+        color: white;
+      }
+
+      @media ( max-width: 480px){
+        #home{
+      margin-top: 12px;
+      margin-left: 15em;
+    }
       }
 
       /* Adjust styles for devices with a maximum width of 600px */
@@ -235,7 +231,7 @@ if (isset($_POST['login'])) {
   .content {
         width: 90%; /* Adjusted width for smaller screens */
         padding: 40px 20px; /* Adjusted padding for smaller screens */
-        margin: 2vw 0 0 15vw; /* Adjusted margin for responsiveness */
+        margin: 1vw 0 0 10vw; /* Adjusted margin for responsiveness */
     }
 
     .content header {
@@ -283,9 +279,7 @@ if (isset($_POST['login'])) {
         background-color: #f7e791;
         border: 2px solid #ffbe58;
     }
-    #home {
-        margin: 2vw 0 0 8vw; /* Adjusted margin for smaller screens */
-    }
+   
 }
     </style>
    <script>
@@ -305,7 +299,7 @@ if (isset($_POST['login'])) {
    <body>
       <div class="bg-img">
          <div class="content">
-         <a href="../welcome.php" style="text-decoration:none;">   
+         <a style="text-decoration:none;">   
          <header>S E C U R I T Y &nbsp; LOGIN</header> </a>
     <form method="post">
                <div class="field">
@@ -320,8 +314,8 @@ if (isset($_POST['login'])) {
                <div class="pass">
                <a href="forgot-password.php">Forgot Password?</a>
                </div>
-               <div class="field">
-                  <input type="submit"name="login" value="LOGIN" id="loginbtn">
+               <div class="field btn-success">
+                  <input type="submit" name="login" value="LOGIN" id="loginbtn">
                </div>
                <div id="loading-spinner" class="fa fa-spinner fa-spin fa-3x"></div>
                <a href="../welcome.php" class="btn btn-primary" id="home">
