@@ -52,7 +52,7 @@
       <!-- Manual Input Button -->
       <a href="malogout.php" class="navbar-item dropbtns"><i class="bi bi-display-fill"></i> Manual Log-out</a>
 
-      <a href="logout.php" class="navbar-item dropbtns"><i class="bi bi-car-front"></i> Logout</a>
+      <a href="logout.php" class="navbar-item dropbtns"><i class="bi bi-house"></i> Home</a>
        
     </div>
 </nav>
