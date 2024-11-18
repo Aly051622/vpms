@@ -492,7 +492,7 @@
 }
  .modal-dialog {
             width: 500px; /* Adjust modal width */
-            margin-left: 27em;
+            margin-left: 35em;
             margin-top: 5em;
             border-radius: 15px;
             background: whitesmoke;
@@ -589,7 +589,6 @@ document.addEventListener('DOMContentLoaded', function () {
           <a class="navbar-brand" id="title" style="color:white; position: absolute; margin-left: 3.5em;">CTU Danao Parking System</a>
             <div class="navbar-menu">   
                 <a class="navbar-item" href="admin/index.php">Admin</a>
-                <a class="navbar-item" href="guard/index.php">Security</a>
                 <a class="navbar-item" href="users/login.php">Client</a>
                 <a class="navbar-item" href="index.html">About</a>
                 <a class="navbar-item btn btn-primary" href="#" id="surbtn" data-toggle="modal" data-target="#commentModal">
