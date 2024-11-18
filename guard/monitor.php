@@ -12,8 +12,6 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-
-
 // Function to check if the slot number already exists
 function isSlotNumberExists($conn, $slotNumber) {
     $sql = "SELECT COUNT(*) as count FROM tblparkingslots WHERE SlotNumber = ?";
@@ -148,8 +146,66 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" href="images/ctul.png">
+    <link rel="shortcut icon" href="images/ctul.png">
     <title>Parking Slot Manager</title>
     <link rel="stylesheet" href="guard.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+     .container{
+        padding-top:10px;
+        margin-top:-8px;
+    }
+    /*qrbutton add css*/
+    .dropbtns{
+            color: white;
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: orange;
+            border-radius: 9px;
+            font-weight: bold;
+            border: solid;
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        }
+        .dropbtns:hover{
+            background-color: white;
+            color: orange;
+            border: solid orange;
+        }
+    @media (max-width: 480px){
+    .container{
+        padding-top:10px;
+        margin-top:-8px;
+    }
+    .navbar-brand{
+        margin-left: 10px;
+    }
+    .navbar-toggler{
+        margin-top: -33px;
+        margin-left: 11em;
+    }
+}
+</style>
+
+<nav class="navbar" style="padding: 10px;">
+<div class="navbar-brand"><a href="monitor.php" style="margin-left: 10px;">Parking Slot Manager</a></div>
+<div class="container">
+    <div class="navbar-toggler" onclick="toggleMenu()">&#9776;</div>
+    <div class="navbar-menu" id="navbarMenu" style="margin-right: 30px;">
+        <!-- QR Login Button -->
+        <a href="qrlogin.php" class="navbar-item dropbtns"><i class="bi bi-car-front-fill"></i> QR Log-in</a>
+      
+
+        <!-- Manual Input Button -->
+        <a href="malogin.php" class="navbar-item dropbtns"><i class="bi bi-display-fill"></i> Manual Log-in</a>
+
+        <a href="logout.php" class="navbar-item dropbtns"><i class="bi bi-car-front"></i> Logout</a>
+       
+    </div>
+</div>
+</nav>
 
     <style>
         /* Style for the alert prompt using CSS */
@@ -171,41 +227,297 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
             width: 300px;
         }
 
-      
+        /*navbar add css*/
+        .navbar{
+            background-color: rgb(53, 97, 255);
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+            }
+        #title{
+            margin-left: 50px;
+        }
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            #title{
+                margin-top: 25px; /* Add space between buttons */
+                text-align: center; /* Center text in buttons */
+                margin-left: 20px;
+            }
+        }
+        @media (max-width: 480px) {
+            #title{
+                margin-left: 25px;
+                margin-top: 20px; /* Add space between buttons */
+                text-align: center; /* Center text in buttons */
+            }
+        }
+        .toggle-menu{
+            margin-top: 4px;
+            margin-left: 15px;
+            padding: 5px;
+            border: none;
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        }
+                
+        .toggle-menu:hover{
+            color: orange;
+            box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+        }
+         /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .toggle-menu {
+                margin-top: -10px; /* Reduced margin for smaller screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .toggle-menu {
+                margin-top: -5px; /* Further reduced margin for very small screens */
+                margin-left: 35px;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                margin-top: 17em; /* Reduced margin for smaller screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin-top: 12em; /* Further reduced margin for very small screens */
+            }
+        }
+
+        
+
+        .slot-action{
+            align-items: left;
+        }
+        /*slot add css*/
+        .slot{
+            width: 100px;
+            height: 100px;
+            border-radius: 15px;
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 
+            0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+            font-size: 20px;
+            }
+            
+        .vacant {
+            background-color: rgba(34, 191, 16, 0.949); 
+            color: white;
+        }
+
+        .occupied {
+            background-color: rgba(255, 43, 43, 0.95); 
+            color: white;
+        }
+
+        /*function for slots css*/
+        #stat, #areaSelect, #searchInput, #slotNumberInput {
+            margin-top: 7px;
+            border-radius:9px;
+            cursor:text;    
+            border: solid;
+        }
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+
+            #stat, #areaSelect, #searchInput, #slotNumberInput {
+                margin-left: 7px; /* Add space between buttons */
+                text-align: center; /* Center text in buttons */
+            }
+        }
+        #stat:hover, #areaSelect:hover, #searchInput:hover, #slotNumberInput:hover{
+            border:solid orange;
+            background-color: aliceblue;
+        }
+        #areaSelect{
+            border-bottom-left-radius: 9px;
+            border-bottom-right-radius: 9px;
+        }
+        #btnFrontAdmin, #btnBesideCME, 
+        #btnKadasig, #btnBehind {
+            background-color: rgb(53, 97, 255);        
+            color: white;
+            border-radius: 9px;
+            border: 2px solid white;
+            cursor: pointer;
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        }
+        #btnFrontAdmin:hover, #btnBesideCME:hover, #btnKadasig:hover,#btnsearch:hover, 
+        #btnBehind:hover, #btnadd:hover, #btnsearch:hover .slot-action button:hover{
+            background-color: white;
+            color: darkblue;
+            border: solid 2px blue;
+            box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+        }
+
+        .legend {
+            margin-top: -40px;
+            margin-left: 50px;
+            display: block;
+            align-items: flex-start; 
+        }
+
+        /* Adding flexbox for better alignment */
+        .legend-container {
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: flex-start;
+        }
+
+        .v-legend {
+            color: rgba(34, 191, 16, 0.949);
+            margin-right: 10px; 
+        }
+
+        .o-legend {
+            color: rgba(255, 43, 43, 0.95);
+            margin-right: 10px; 
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .legend {
+                margin-left: 20px; 
+                margin-top: -18px; 
+            }
+
+            .v-legend,
+            .o-legend {
+                font-size: 16px; 
+                margin-right: 10px; 
+            }
+        }
+
+        @media (max-width: 480px) {
+            .legend {
+                margin-left: 10px; 
+                margin-top: 3px;  
+            }
+
+            .v-legend,
+            .o-legend {
+                font-size: 16px;
+                margin-right: 10px; 
+            }
+        }
+        .dropdown-content{
+            font-size: 12px;
+            border-bottom-left-radius: 9px;
+            border-bottom-right-radius: 9px;
+            margin-top: 0px;
+            width: 135px;
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f3ab19e0;
+            color:white;
+        }
+        #drp-con2,  #drp-con1{
+                margin-top: -2px;
+                width: 82%; 
+                text-align: center; 
+                padding: -1px;
+                z-index:1007;
+            }
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .dropbtns {
+                margin-top: 9px;
+                display: inline;
+                position: relative;
+                z-index: 1006;
+            }
+
+            #drp-con1{
+                margin-top: -7px; 
+                width: 40%; 
+                text-align: center; 
+                padding: 0px;
+                z-index:1007;
+                margin-left: 20px;
+                position: absolute;
+            }
+            #drp-con2 {
+                margin-top: -7px; 
+                width: 40%; 
+                text-align: center; 
+                padding: -1px;
+                z-index:1007;
+                margin-left: 195px;
+                position: absolute;
+            }
+            #bt1{
+                margin-bottom: 8px; 
+                width: 40%;
+                text-align: center;
+                padding: 5px;
+                margin-left: 20px;  
+            }
+            #bt2{
+                margin-left: 195px;
+                margin-top: -42px;
+                width: 40%;
+                padding: 5px;
+                z-index: 1006;
+            }
+        }
+
+
+        .search, .add {
+                color: white;
+                padding: 8px;
+                font-size: 16px;
+                border: solid 2px white;
+                background: #2fadce;
+                cursor: pointer;
+                border-radius: 9px;
+                font-weight: bold;
+                margin-right: 30px;
+                box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    }
+
+    .search:hover, .add:hover{
+        background-color: white;
+        color: darkblue;
+        box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    }
     </style>
 </head>
 <body>
-    <!-- Responsive Navigation Bar -->
-    <?php include_once('includes/headerin.php');?>
-
-    <div class="container">
-        <h1>Parking Slot Manager</h1>
+    <div class="container2">
         <!-- Search Slot -->
-        <a href="qrlogin.php">Log-in</a>
-                    <a href="qrlogout.php">Log-out</a>
-                    <a href="test.php">Test</a>
-            <!-- Search Slot -->
-<div class="search-slot">
+        <a href="qrlogin.php"><i class="bi bi-car-front-fill"> </i> Log-in</a>
+                    <a href="qrlogout.php"><i class="bi bi-car-front"></i> Log-out</a>
+                    <a href="test.php"><i class="bi bi-bug-fill"></i> Test</a>
+           
+<div class="container">
+        <!-- Search Slot -->
+<div class="search-slot" style="margin-top: 5em;">
     <input type="text" id="searchInput" placeholder="Enter Slot Number or Prefix" maxlength="10">
-    <button onclick="filterSlots()">Search</button> <!-- Added Search Button -->
+    <button onclick="filterSlots()" class="search" >Search</button> <!-- Added Search Button -->
 </div>
 
 
         <!-- Add New Slot -->
         <form method="POST" action="monitor.php">
             <div class="add-slot">
-                <select name="area" id="areaSelect">
+                <select name="area" id="areaSelect"> 
                     <option value="Front Admin" selected>Front Admin</option>
                     <option value="Beside CME">Beside CME</option>
                     <option value="Kadasig">Kadasig</option>
                     <option value="Behind">Behind</option>
                 </select>
-                <input type="text" name="slotNumber" id="slotNumberInput" placeholder="Enter Slot Number (or leave empty for auto)" maxlength="10">
-                <select name="status">
+                <select name="status" id="areaSelect">
                     <option value="Vacant">Vacant</option>
                     <option value="Occupied">Occupied</option>
                 </select>
-                <button type="submit" name="add_slot">Add Slot</button>
+                <input type="text" name="slotNumber" id="slotNumberInput" placeholder="Enter Slot Number (or leave empty for auto)" maxlength="10">
+                <button type="submit" name="add_slot" class="add">Add Slot</button>
             </div>
         </form>
 
@@ -216,6 +528,14 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
     <button id="btnKadasig" onclick="selectArea('Kadasig')">Kadasig</button>
     <button id="btnBehind" onclick="selectArea('Behind')">Behind</button>
 </div>
+
+</div>
+
+          <!-- Slot's Legend -->
+          <div class="legend">
+            <span class="v-legend"><i class="bi bi-square-fill"></i> Vacant</span><br>
+            <span class="o-legend"><i class="bi bi-dash-square-fill"></i> Occupied</span>
+        </div>
 
         <!-- Slots Display -->
         <div class="slots-display" id="slotsDisplay">
@@ -237,7 +557,7 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
             <?php endwhile; ?>
         </div>
     </div>
-
+</div>
     <script src="guard.js"></script>
 <script>
 
