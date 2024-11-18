@@ -2,8 +2,17 @@
 session_start(); 
 date_default_timezone_set('Asia/Manila');
 
-// Include the database connection file
-include('../DBconnection/dbconnection.php');
+$server = "localhost";
+$username = "u132092183_parkingz";
+$password = "@Parkingz!2024";
+$dbname = "u132092183_parkingz";
+
+$conn = new mysqli($server, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
 // Define the number of records per page
 $recordsPerPage = 10;
