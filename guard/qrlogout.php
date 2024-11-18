@@ -83,8 +83,9 @@ $con->close();
 
     <title>QR Code Logout Scanner | CTU DANAO Parking System</title>
 
-    <style>
-        /*qrbutton add css*/
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+    /*qrbutton add css*/
     .dropbtns{
             color: white;
             padding: 8px;
@@ -123,6 +124,78 @@ $con->close();
     }
 }
 </style>
+
+<nav class="navbar">
+    <div class="navbar-brand"><a href="monitor2.php">Parking Slot Manager</a></div>
+    <div class="navbar-toggler" onclick="toggleMenu()">&#9776;</div>
+    <div class="navbar-menu" id="navbarMenu">
+         <!-- QR Logout Button -->
+         <a href="qrlogout.php" class="navbar-item dropbtns"><i class="bi bi-car-front-fill"></i> QR Log-out</a>
+      
+
+      <!-- Manual Input Button -->
+      <a href="malogout.php" class="navbar-item dropbtns"><i class="bi bi-display-fill"></i> Manual Log-out</a>
+
+      <a href="logout.php" class="navbar-item dropbtns"><i class="bi bi-car-front"></i> Logout</a>
+       
+    </div>
+</nav>
+
+    <style>
+        body {
+            color: black;
+            background-color: whitesmoke;
+            height: 100vh;
+        }
+        .no-js {
+            background-color: #f9fcff;
+            background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
+        }
+        .container {
+            padding: 20px;
+        }
+        .scanner-container, .table-container {
+            margin-top: 20px;
+        }
+        video {
+            width: 500px; /* Reduced size */
+            height: 300px; /* Square scanner */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: block;
+            margin: 0 auto; /* Centered */
+        }
+        table {
+            width: 100%;
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+            border-radius: 5px;
+        }
+        .scanner-label {
+            font-weight: bold; 
+            color: orange; 
+            font-size: 20px; 
+            text-align: center; 
+            margin-top: 10px;
+        }
+        .alert {
+            transition: opacity 0.5s ease;
+        }
+        
+        .btn-danger{
+                border: solid darkred;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: red;
+                color: white;
+                cursor: pointer;
+                font-family: 'Montserrat',sans-serif;
+                font-weight: bolder;
+        }
+        .btn-danger:hover{
+            background-color: darkblue;
+            border: solid blue;
+        }
+    </style>
 </head>
 <body>
 
@@ -132,7 +205,7 @@ $con->close();
 <div class="container" style="background: transparent;">
     <div class="row">
         <!-- Scanner Section -->
-        <div class="col-md-12 scanner-container">
+        <div class="col-md-12 scanner-container" style=" margin-top: 5em;">
             <video id="preview"></video>
             <div class="scanner-label">SCAN QR CODE <i class="fas fa-qrcode"></i></div>
 
