@@ -102,8 +102,8 @@ $conn->close();
     <div class="row">
         <!-- Scanner Section -->
         <div class="col-md-12">
-                <video id="preview" style="width: 100%; max-width: 500px; height: auto;"></video>
-                <div id="scanner-status" style="text-align: center; font-weight: bold; color: orange; margin-top: 20px;"></div>
+        <video id="preview" style="width: 100%; max-width: 500px; height: auto; margin-top: 10em;"></video>
+        <div id="scanner-status" style="text-align: center; font-weight: bold; color: orange; margin-top: 10px;"></div>
             </div>
 
             <?php
