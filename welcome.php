@@ -591,10 +591,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 <a class="navbar-item" href="admin/index.php">Admin</a>
                 <a class="navbar-item" href="guard/index.php">Security</a>
                 <a class="navbar-item" href="index.html">About</a>
-                <a class="navbar-item btn btn-primary" href="#" id="surbtn" data-toggle="modal" data-target="#commentModal">
+               <!-- <a class="navbar-item btn btn-primary" href="#" id="surbtn" data-toggle="modal" data-target="#commentModal">
                   <i class="bi bi-chat-fill"></i></a>                
               <a class="navbar-item btn btn-primary" href="#" id="surbtn" data-toggle="modal" data-target="#feedbackModal">
-                  <i class="bi bi-envelope-paper-heart"></i></a>
+                  <i class="bi bi-envelope-paper-heart"></i></a> -->
             </div>
         </div>
     </nav>
