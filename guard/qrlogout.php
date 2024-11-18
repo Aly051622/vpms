@@ -84,45 +84,45 @@ $con->close();
     <title>QR Code Logout Scanner | CTU DANAO Parking System</title>
 
     <style>
-        body {
-            color: black;
-            background-color: #f9fcff;
-            background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
-        }
-        .no-js {
-            background-color: #f9fcff;
-            background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
-        }
-        .container {
-            padding: 20px;
-        }
-        .scanner-container, .table-container {
-            margin-top: 20px;
-        }
-        video {
-            width: 500px; /* Reduced size */
-            height: 300px; /* Square scanner */
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            display: block;
-            margin: 0 auto; /* Centered */
-        }
-        table {
-            width: 100%;
+        /*qrbutton add css*/
+    .dropbtns{
+            color: white;
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: orange;
+            border-radius: 9px;
+            font-weight: bold;
+            border: solid;
             box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-            border-radius: 5px;
         }
-        .scanner-label {
-            font-weight: bold; 
-            color: orange; 
-            font-size: 20px; 
-            text-align: center; 
-            margin-top: 10px;
+        .navbar-item .dropbtns:hover{
+            background-color: white;
+            color: orange;
+            border: solid orange;
+            border-radius: 9px;
         }
-        .alert {
-            transition: opacity 0.5s ease;
-        }
-    </style>
+        
+        /*navbar add css*/
+        .navbar{
+            background-color: rgb(53, 97, 255);
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+            }
+    @media (max-width: 480px){
+    .container{
+        padding-top:10px;
+        margin-top:-8px;
+    }
+    .navbar-brand{
+        margin-left: 10px;
+    }
+    .navbar-toggler{
+        margin-top: -33px;
+        margin-left: 11em;
+    }
+}
+</style>
 </head>
 <body>
 
