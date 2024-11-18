@@ -127,18 +127,36 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
         <style>
             body {
                 color: black;
-                background-color: #f9fcff;
-                background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
+                background-color:whitesmoke;
+                height: 100vh;
             }
             .container {
-                max-width: 600px;
-                margin-top: 50px;
+                max-width: 1000px;
                 text-align: center;
             }
-            .btn-primary {
+            .navbar{
+            background-color: rgb(53, 97, 255);
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+            }
+            .submit {
                 width: 100%;
                 font-size: 1.2em;
-                padding: 10px;
+                color: white;
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: rgb(53, 97, 255);
+            border-radius: 9px;
+            font-weight: bold;
+            border: solid;
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+            }
+            .submit:hover{
+                background-color: darkblue;
+            color: white;
+            border: solid blue;
+            border-radius: 9px;
             }
             .modal-overlay {
                 display: none;
@@ -188,6 +206,34 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
             .close-button.success:hover {
                 background-color: #4cae4c;
             }
+            #btn-sm{
+                border: solid darkred;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: red;
+                color: white;
+                cursor: pointer;
+                font-family: 'Montserrat',sans-serif;
+                font-weight: bolder;
+        }
+        #btn-sm:hover{
+            background-color: darkblue;
+            border: solid blue;
+        }
+        #btn-danger{
+                border: solid darkred;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: red;
+                color: white;
+                cursor: pointer;
+                font-family: 'Montserrat',sans-serif;
+                font-weight: bolder;
+        }
+        #btn-danger:hover{
+            background-color: darkblue;
+            border: solid blue;
+        }
         </style>
     </head>
     <body>
@@ -195,14 +241,14 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
     <?php include_once('includes/headerout.php');?>
 
         <!-- Vehicle Information Table -->
-        <div class="container mt-5">
+        <div class="container " style="margin-top: 5em; width: 500px;">
         <h2>Logout Vehicle</h2>
         <form id="logoutForm" method="post">
             <div class="form-group">
                 <label for="contactNumber">Contact Number:</label>
                 <input type="text" class="form-control" id="contactNumber" name="contactNumber" placeholder="Enter contact number">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>    
+            <button type="submit" class="submit">Submit</button>    
         </form>
 
         <!-- Error Modal -->
@@ -223,7 +269,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
     </div>
 
 
-    <div class="container mt-5">
+    <div class="container mt-5" id="table">
             <h2>Vehicle Information</h2>
             <table class="table table-striped">
                 <thead>
