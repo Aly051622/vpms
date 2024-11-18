@@ -599,7 +599,7 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
     </nav>
 
-    <!-- Modal for Comment Section -->
+    <!-- Modal for Comment Section 
 <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -610,7 +610,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 </button>
             </div>
             <div class="modal-body" id="modalContent">
-                <!-- Content from users/comment.php will be loaded here -->
+                Content from users/comment.php will be loaded here 
                 <iframe src="users/comment.php" style="width:100%; height:500px; border:none;" title="Comments Section"></iframe>
 
             </div>
@@ -618,7 +618,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
 </div>
 
-   <!-- Modal for Feedbacks -->
+   Modal for Feedbacks 
    <div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -629,13 +629,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 </button>
             </div>
             <div class="modal-body" id="modalContent">
-                <!-- Content from users/feedbaacks.php will be loaded here -->
+                Content from users/feedbaacks.php will be loaded here 
                 <iframe src="users/feedbacks.php" style="width:100%; height:500px; border:none;" title="Feedbacks"></iframe>
 
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
     <!-- Masthead-->
     <header class="masthead">
