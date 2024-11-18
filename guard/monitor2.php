@@ -77,7 +77,7 @@ if (isset($_POST['add_slot'])) {
         $stmt = $conn->prepare("INSERT INTO tblparkingslots (Area, SlotNumber, Status) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $area, $slotNumber, $status);
         if ($stmt->execute()) {
-            header("Location: monitor.php");
+            header("Location: monitor2.php");
             exit;
         } else {
             echo "<script>alert('Error: " . $stmt->error . "');</script>";
@@ -445,7 +445,7 @@ $slots_result = $conn->query("SELECT * FROM tblparkingslots ORDER BY
 
 
         <!-- Add New Slot -->
-        <form method="POST" action="monitor.php">
+        <form method="POST" action="monitor2.php">
             <div class="add-slot">
                 <select name="area" id="areaSelect">
                     <option value="Front Admin" selected>Front Admin</option>
@@ -510,7 +510,7 @@ function checkSlotStatusUpdates() {
     slots.forEach(slot => {
         const slotNumber = slot.getAttribute('data-slot-number');
         const xhr = new XMLHttpRequest();
-        xhr.open("POST", "monitor.php", true);
+        xhr.open("POST", "monitor2.php", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onload = function() {
             if (xhr.status === 200) {
@@ -589,7 +589,7 @@ function filterSlots() {
             data.append('slotNumber', slotNumber);
             data.append('status', status);
 
-            fetch('monitor.php', {
+            fetch('monitor2.php', {
                 method: 'POST',
                 body: data
             })
@@ -610,7 +610,7 @@ function filterSlots() {
             data.append('action', 'deleteSlot');
             data.append('slotNumber', slotNumber);
 
-            fetch('monitor.php', {
+            fetch('monitor2.php', {
                 method: 'POST',
                 body: data
             })
