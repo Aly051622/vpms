@@ -656,7 +656,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </header>
     <!-- Copyright Section-->
     <div class="copyright">
-        <div class="container"><marquee direction="left"><small> CTU Danao Parking System @ 2023</small></marquee></div>
+        <div class="container"><marquee direction="left"><small> CTU Danao Parking System @ 2024</small></marquee></div>
     </div>
    
 </body>
