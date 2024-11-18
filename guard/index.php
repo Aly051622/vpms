@@ -9,7 +9,7 @@ include('../DBconnection/dbconnection.php');
 if (isset($_POST['login'])) {
     $guarduser = $_POST['username'];
     // Hash the password using SHA2 (256-bit)
-    $hashed_password = hash('sha256', $_POST['password']);
+    $hashed_password = hash('sha512', $_POST['password']);
     
     // Query to check the username and hashed password
     $query = mysqli_query($con, "SELECT ID, UserName FROM tblguard WHERE UserName='$guarduser' AND Password='$hashed_password'");
