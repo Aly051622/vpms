@@ -184,7 +184,7 @@ $conn->close();
 
 <nav class="navbar">
     
-<div class="navbar-brand"><a href="monitor.php" style="color: black; margin-top: 10px; margin-left: 10px;">Parking Slot Manager</a></div>
+<div class="navbar-brand"><a href="monitor.php" style="color: white; margin-top: 10px; margin-left: 10px;">Parking Slot Manager</a></div>
 <div class="containers">
     <div class="navbar-toggler" onclick="toggleMenu()">&#9776;</div>
     <div class="navbar-menu" id="navbarMenu" >
