@@ -1,8 +1,8 @@
 <?php session_start(); 
+date_default_timezone_set('Asia/Manila');
 ini_set('log_errors', 1);
 ini_set('error_log', 'error_log.txt'); // Set log file path
 ini_set('display_errors', 1); // Disable on-screen error display
-date_default_timezone_set('Asia/Manila');
 
 
 $server = "localhost";
@@ -183,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $name = str_replace('Name: ', '', $dataLines[2]);
     $mobilenum = str_replace('Contact Number: ', '', $dataLines[3]);
     $model = str_replace('Model: ', '', $dataLines[4]);
-    $timeIn = date("Y-m-d h:i:s A");
+    $timeIn = (new DateTime())->format('Y-m-d h:i:s A');
 
     // Define models that require 5 slots
     $largeModels = ['Fortuner', 'MU-X', 'Montero Sport', 'Everest', 'Terra', 'Trailblazer', 'Land Cruiser', 'Patrol', 'Expedition'];
