@@ -337,7 +337,7 @@ if (!$query) {
 }
 
 while ($row = $query->fetch_assoc()) {
-    $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('h:i:s A m-d-Y'); 
+    $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('H:i:s Y-m-d');
     echo "
     <tr>
         <td>" . $row['ID'] . "</td>
