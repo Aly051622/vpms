@@ -508,9 +508,9 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
             <div class="add-slot">
                 <select name="area" id="areaSelect"> 
                     <option value="Front Admin" selected>A</option>
-                    <option value="Beside CME">Beside CME</option>
-                    <option value="Kadasig">Kadasig</option>
-                    <option value="Behind">Behind</option>
+                    <option value="Beside CME">B</option>
+                    <option value="Kadasig">C</option>
+                    <option value="Behind">D</option>
                 </select>
                 <select name="status" id="areaSelect">
                     <option value="Vacant">Vacant</option>
@@ -524,9 +524,9 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
         <!-- Select Area -->
         <div class="select-area">
     <button id="btnFrontAdmin" onclick="selectArea('Front Admin')">A</button>
-    <button id="btnBesideCME" onclick="selectArea('Beside CME')">Beside CME</button>
-    <button id="btnKadasig" onclick="selectArea('Kadasig')">Kadasig</button>
-    <button id="btnBehind" onclick="selectArea('Behind')">Behind</button>
+    <button id="btnBesideCME" onclick="selectArea('Beside CME')">B</button>
+    <button id="btnKadasig" onclick="selectArea('Kadasig')">C</button>
+    <button id="btnBehind" onclick="selectArea('Behind')">D</button>
 </div>
 
 </div>
