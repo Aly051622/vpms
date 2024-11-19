@@ -1,0 +1,26 @@
+terrasact install
+
+Step-by-Step Fix
+Install Tesseract:
+
+If you haven't installed Tesseract yet, download it from the official Tesseract OCR GitHub page or the appropriate installer for your operating system:
+For Windows: Tesseract at UB Mannheim.
+Follow the installation instructions provided on the site.
+Add Tesseract to Environment Variables (Windows):
+
+Find the directory where Tesseract is installed (e.g., C:\Program Files\Tesseract-OCR).
+Right-click on This PC or My Computer and select Properties.
+Click on Advanced system settings.
+In the System Properties window, click on the Environment Variables button.
+In the System variables section, find the Path variable and select it, then click Edit.
+In the Edit Environment Variable window, click New and add the path to your Tesseract installation (e.g., C:\Program Files\Tesseract-OCR).
+Click OK to close all windows.
+Verify Installation:
+
+Open a new Command Prompt window (make sure to open a new one after changing environment variables).
+Type tesseract -v and press Enter. You should see the version of Tesseract displayed if the installation was successful.
+
+
+
+
+restart the xampp
