@@ -521,6 +521,7 @@ $count_lastsevendays_vehentries=mysqli_num_rows($query2);
                     }
                 });
             }
+            // Traffic Chart using chartist End
             //Traffic chart chart-js
             if ($('#TrafficChart').length) {
                 var ctx = document.getElementById( "TrafficChart" );
