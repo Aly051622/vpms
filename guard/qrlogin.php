@@ -186,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $name = str_replace('Name: ', '', $dataLines[2]);
     $mobilenum = str_replace('Contact Number: ', '', $dataLines[3]);
     $model = str_replace('Model: ', '', $dataLines[4]);
-    $timeIn = date("Y-m-d h:i:s A");
+    $timeIn = date("H:i:s Y-m-d");
 
     // Define models that require 5 slots
     $largeModels = ['Fortuner', 'MU-X', 'Montero Sport', 'Everest', 'Terra', 'Trailblazer', 'Land Cruiser', 'Patrol', 'Expedition'];
@@ -337,7 +337,7 @@ if (!$query) {
 }
 
 while ($row = $query->fetch_assoc()) {
-    $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('%Y-%m-%d %H:%i:%s');
+    $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('H:i:s Y-m-d');
     echo "
     <tr>
         <td>" . $row['ID'] . "</td>
