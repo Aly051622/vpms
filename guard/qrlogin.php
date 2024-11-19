@@ -186,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $name = str_replace('Name: ', '', $dataLines[2]);
     $mobilenum = str_replace('Contact Number: ', '', $dataLines[3]);
     $model = str_replace('Model: ', '', $dataLines[4]);
-    $timeIn = date("H:i:s Y-m-d");
+    $timeIn = date("Y-m-d H:i:s");
 
     // Define models that require 5 slots
     $largeModels = ['Fortuner', 'MU-X', 'Montero Sport', 'Everest', 'Terra', 'Trailblazer', 'Land Cruiser', 'Patrol', 'Expedition'];
