@@ -43,14 +43,14 @@ if (isset($_POST['add_slot'])) {
     $manualSlotNumber = trim($_POST['slotNumber']); // Trim whitespace
 
     // Validate area input
-    $validAreas = ["A", "Beside CME", "Kadasig", "Behind"];
+    $validAreas = ["Front Admin", "Beside CME", "Kadasig", "Behind"];
     if (!in_array($area, $validAreas)) {
         echo "<script>alert('Invalid area selected.');</script>";
     }
 
     // Determine the area prefix based on selected area
     $prefix = match ($area) {
-        "A" => "A",
+        "Front Admin" => "A",
         "Beside CME" => "B",
         "Kadasig" => "C",
         "Behind" => "D",
@@ -507,7 +507,7 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
         <form method="POST" action="monitor.php">
             <div class="add-slot">
                 <select name="area" id="areaSelect"> 
-                    <option value="A" selected>A</option>
+                    <option value="Front Admin" selected>A</option>
                     <option value="Beside CME">Beside CME</option>
                     <option value="Kadasig">Kadasig</option>
                     <option value="Behind">Behind</option>
@@ -523,7 +523,7 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
 
         <!-- Select Area -->
         <div class="select-area">
-    <button id="btnFrontAdmin" onclick="selectArea('A')">A</button>
+    <button id="btnFrontAdmin" onclick="selectArea('Front Admin')">A</button>
     <button id="btnBesideCME" onclick="selectArea('Beside CME')">Beside CME</button>
     <button id="btnKadasig" onclick="selectArea('Kadasig')">Kadasig</button>
     <button id="btnBehind" onclick="selectArea('Behind')">Behind</button>
@@ -645,7 +645,7 @@ function filterSlots() {
 
     // Automatically set a default area if none is selected
     if (!localStorage.getItem('selectedArea')) {
-        localStorage.setItem('selectedArea', 'A');
+        localStorage.setItem('selectedArea', 'Front Admin');
     }
 </script>
 
