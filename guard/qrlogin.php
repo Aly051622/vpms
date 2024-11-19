@@ -1,4 +1,5 @@
 <?php session_start(); 
+date_default_timezone_set('Asia/Manila');
 ini_set('log_errors', 1);
 ini_set('error_log', 'error_log.txt'); // Set log file path
 ini_set('display_errors', 1); // Disable on-screen error display
@@ -163,7 +164,6 @@ $conn->close();
                 </thead>
                 <tbody>
                 <?php
-                date_default_timezone_set('Asia/Manila');
 $server = "localhost";
 $username = "u132092183_parkingz";
 $password = "@Parkingz!2024";
@@ -337,7 +337,7 @@ if (!$query) {
 }
 
 while ($row = $query->fetch_assoc()) {
-    $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('h:i:s A m-d-Y');
+    $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('%Y-%m-%d %H:%i:%s');
     echo "
     <tr>
         <td>" . $row['ID'] . "</td>
