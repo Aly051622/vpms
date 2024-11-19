@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Include the database connection
-include('includes/dbconnection.php');
+include('../DBconnection/dbconnection.php');
 
 // Fetch comments from the database
 $query = "SELECT username, comment, created_at FROM comments ORDER BY created_at DESC";

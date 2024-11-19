@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('includes/dbconnection.php'); // Ensure this path is correct
+include('../DBconnection/dbconnection.php');
 
 if (isset($_POST['submit'])) {
     $fname = $_POST['firstname'];

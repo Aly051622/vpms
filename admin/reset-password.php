@@ -1,7 +1,7 @@
 <?php
 session_start();
 error_reporting(0);
-include('includes/dbconnection.php');
+include('../DBconnection/dbconnection.php');
 error_reporting(0);
 
 if(isset($_POST['submit']))

@@ -1,6 +1,6 @@
 <?php
 // Include the database connection
-include('includes/dbconnection.php');
+include('../DBconnection/dbconnection.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $input = json_decode(file_get_contents('php://input'), true);

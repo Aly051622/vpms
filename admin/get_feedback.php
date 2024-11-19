@@ -1,6 +1,6 @@
 <?php
 // Include the database connection
-include('includes/dbconnection.php');
+include('../DBconnection/dbconnection.php');
 
 // Fetch feedback from the database
 $query = "SELECT username, feedback FROM feedbacks ORDER BY created_at DESC"; // Assuming you have a timestamp for ordering
