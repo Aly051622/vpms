@@ -359,6 +359,7 @@ while ($row = $query->fetch_assoc()) {
         </div>
     </div>
 </div>
+
 <script>
     let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
     let selectedCameraIndex = 0; // Track the selected camera index
@@ -377,6 +378,14 @@ while ($row = $query->fetch_assoc()) {
             document.getElementById('scanner-status').textContent =
                 "Error: Unable to start the scanner. Please check camera permissions.";
         });
+
+        // Apply a CSS transformation to correct mirroring for the back camera
+        const videoElement = document.getElementById('preview');
+        if (camera.name.toLowerCase().includes('back')) {
+            videoElement.style.transform = "scaleX(1)"; // Normal view
+        } else {
+            videoElement.style.transform = "scaleX(-1)"; // Mirrored view for front camera
+        }
     }
 
     // Attempt to get available cameras
@@ -460,6 +469,7 @@ while ($row = $query->fetch_assoc()) {
         }
     }
 </script>
+
 
 
 </body>
