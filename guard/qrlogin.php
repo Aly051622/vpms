@@ -359,89 +359,108 @@ while ($row = $query->fetch_assoc()) {
         </div>
     </div>
 </div>
-
 <script>
-     let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+    let selectedCameraIndex = 0; // Track the selected camera index
 
-// Attempt to get available cameras
-Instascan.Camera.getCameras().then(function (cameras) {
+    // Function to switch cameras (front/back)
+    function switchCamera(cameras) {
+        selectedCameraIndex = (selectedCameraIndex + 1) % cameras.length;
+        startScanner(cameras[selectedCameraIndex]);
+    }
+
+    // Function to start the scanner with a given camera
+    function startScanner(camera) {
+        scanner.stop(); // Stop any existing scanner instance
+        scanner.start(camera).catch(function (e) {
+            console.error("Error starting scanner:", e);
+            document.getElementById('scanner-status').textContent =
+                "Error: Unable to start the scanner. Please check camera permissions.";
+        });
+    }
+
+    // Attempt to get available cameras
+    Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
-            let selectedCamera = cameras[0]; // Default to the first camera
+            // Default to prioritizing the back camera
+            let backCameraIndex = cameras.findIndex(camera => camera.name.toLowerCase().includes('back'));
+            selectedCameraIndex = backCameraIndex >= 0 ? backCameraIndex : 0;
 
-            // Attempt to prioritize the back camera for mobile devices
-            cameras.forEach(function (camera) {
-                if (camera.name.toLowerCase().includes('back')) {
-                    selectedCamera = camera;
-                }
-            });
+            // Start the scanner with the selected camera
+            startScanner(cameras[selectedCameraIndex]);
 
-            scanner.start(selectedCamera).catch(function (e) {
-                console.error("Error starting scanner:", e);
-                document.getElementById('scanner-status').textContent = "Error: Unable to start the scanner. Please check camera permissions.";
-            });
+            // Add a button for switching cameras
+            const switchButton = document.createElement('button');
+            switchButton.textContent = "Switch Camera";
+            switchButton.onclick = () => switchCamera(cameras);
+            document.body.appendChild(switchButton);
         } else {
-            document.getElementById('scanner-status').textContent = "No camera detected. Please check if the device has an available camera.";
+            document.getElementById('scanner-status').textContent =
+                "No camera detected. Please check if the device has an available camera.";
         }
     }).catch(function (e) {
         console.error("Error accessing cameras:", e);
-        document.getElementById('scanner-status').textContent = "Error: Unable to access cameras. Make sure permissions are allowed and refresh the page.";
+        document.getElementById('scanner-status').textContent =
+            "Error: Unable to access cameras. Make sure permissions are allowed and refresh the page.";
     });
 
- // Handle QR code scan event
- scanner.addListener('scan', function (content) {
-    const selectedArea = document.getElementById('areaSelect').value;
+    // Handle QR code scan event
+    scanner.addListener('scan', function (content) {
+        const selectedArea = document.getElementById('areaSelect').value;
 
-    if (!selectedArea) {
-        alert('Please select an area first!');
-        return;
-    }
-
-    fetch('qrlogin.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: 'qrData=' + encodeURIComponent(content) + '&selectedArea=' + encodeURIComponent(selectedArea),
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log('Server Response:', data);
-        if (data.includes('Error!')) {
-            document.body.innerHTML = data;
-        } else {
-            window.location.href = 'monitor.php';
+        if (!selectedArea) {
+            alert('Please select an area first!');
+            return;
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert("An error occurred while processing the QR code.");
-    });
-});
 
-function deleteEntry(id) {
-    if (confirm("Are you sure you want to delete this entry?")) {
-        fetch("", { // Use the same script URL
-            method: "POST",
+        fetch('qrlogin.php', {
+            method: 'POST',
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: "id=" + id
+            body: 'qrData=' + encodeURIComponent(content) + '&selectedArea=' + encodeURIComponent(selectedArea),
         })
-        .then(response => response.text())
-        .then(result => {
-            if (result === "success") {
-                alert("Entry deleted successfully.");
-                location.reload(); // Reload the page to refresh the table
-            } else {
-                alert("Failed to delete entry.");
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
+            .then(response => response.text())
+            .then(data => {
+                console.log('Server Response:', data);
+                if (data.includes('Error!')) {
+                    document.body.innerHTML = data;
+                } else {
+                    window.location.href = 'monitor.php';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("An error occurred while processing the QR code.");
+            });
+    });
+
+    // Function to delete an entry
+    function deleteEntry(id) {
+        if (confirm("Are you sure you want to delete this entry?")) {
+            fetch("", { // Use the same script URL
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: "id=" + id
+            })
+                .then(response => response.text())
+                .then(result => {
+                    if (result === "success") {
+                        alert("Entry deleted successfully.");
+                        location.reload(); // Reload the page to refresh the table
+                    } else {
+                        alert("Failed to delete entry.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+        }
     }
-}
 </script>
+
 
 </body>
 </html>
