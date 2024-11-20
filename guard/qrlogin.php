@@ -1,8 +1,8 @@
 <?php session_start(); 
+date_default_timezone_set('Asia/Manila');
 ini_set('log_errors', 1);
 ini_set('error_log', 'error_log.txt'); // Set log file path
 ini_set('display_errors', 1); // Disable on-screen error display
-date_default_timezone_set('Asia/Manila');
 
 
 $server = "localhost";
@@ -15,6 +15,8 @@ $conn = new mysqli($server, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+
 
 if (isset($_POST['id'])) {
     $id = intval($_POST['id']);
@@ -102,7 +104,7 @@ $conn->close();
     <div class="row">
         <!-- Scanner Section -->
         <div class="col-md-12">
-        <video id="preview" style="width: 100%; max-width: 500px; height: auto; margin-top: 10em;"></video>
+        <video id="preview" style="width: 100%; max-width: 500px; height: auto; margin-top: 5em;"></video>
         <div id="scanner-status" style="text-align: center; font-weight: bold; color: orange; margin-top: 10px;"></div>
             </div>
 
@@ -183,7 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $name = str_replace('Name: ', '', $dataLines[2]);
     $mobilenum = str_replace('Contact Number: ', '', $dataLines[3]);
     $model = str_replace('Model: ', '', $dataLines[4]);
-    $timeIn = date("Y-m-d h:i:s A");
+    $timeIn = date("Y-m-d H:i:s");
 
     // Define models that require 5 slots
     $largeModels = ['Fortuner', 'MU-X', 'Montero Sport', 'Everest', 'Terra', 'Trailblazer', 'Land Cruiser', 'Patrol', 'Expedition'];
@@ -334,7 +336,7 @@ if (!$query) {
 }
 
 while ($row = $query->fetch_assoc()) {
-    $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('h:i:s A m-d-y');
+    $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('H:i:s m-d-Y');
     echo "
     <tr>
         <td>" . $row['ID'] . "</td>

@@ -448,10 +448,10 @@ $slots_result = $conn->query("SELECT * FROM tblparkingslots ORDER BY
         <form method="POST" action="monitor2.php">
             <div class="add-slot">
                 <select name="area" id="areaSelect">
-                    <option value="Front Admin" selected>Front Admin</option>
-                    <option value="Beside CME">Beside CME</option>
-                    <option value="Kadasig">Kadasig</option>
-                    <option value="Behind">Behind</option>
+                    <option value="Front Admin" selected>A</option>
+                    <option value="Beside CME">B</option>
+                    <option value="Kadasig">C</option>
+                    <option value="Behind">D</option>
                 </select>
                 <input type="text" name="slotNumber" id="slotNumberInput" placeholder="Enter Slot Number (or leave empty for auto)" maxlength="10">
                 <select name="status">
@@ -464,10 +464,10 @@ $slots_result = $conn->query("SELECT * FROM tblparkingslots ORDER BY
 
         <!-- Select Area -->
         <div class="select-area">
-    <button id="btnFrontAdmin" onclick="selectArea('Front Admin')">Front Admin</button>
-    <button id="btnBesideCME" onclick="selectArea('Beside CME')">Beside CME</button>
-    <button id="btnKadasig" onclick="selectArea('Kadasig')">Kadasig</button>
-    <button id="btnBehind" onclick="selectArea('Behind')">Behind</button>
+    <button id="btnFrontAdmin" onclick="selectArea('Front Admin')">A</button>
+    <button id="btnBesideCME" onclick="selectArea('Beside CME')">B</button>
+    <button id="btnKadasig" onclick="selectArea('Kadasig')">C</button>
+    <button id="btnBehind" onclick="selectArea('Behind')">D</button>
 </div>
 
         

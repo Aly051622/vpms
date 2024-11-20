@@ -254,7 +254,7 @@ $con->close();
                 <?php
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        $formattedTimeout = date("h:i:s A m-d-y", strtotime($row['TIMEOUT']));
+                        $formattedTimeout = date("H:i:s m-d-Y", strtotime($row['TIMEOUT']));
                         echo "
                         <tr>
                             <td>{$row['ID']}</td>
