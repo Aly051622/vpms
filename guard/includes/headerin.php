@@ -4,6 +4,9 @@
         padding-top:10px;
         margin-top:-8px;
     }
+    .navbar{
+        padding: 10px;
+    }
     /*qrbutton add css*/
     .dropbtns{
             color: white;
