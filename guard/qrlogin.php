@@ -115,6 +115,22 @@ $conn->close();
             margin-left: 11em;
         }
     }
+
+        #switchCameraBtn {
+            margin-top: 10px;
+            cursor: pointer; /* Change cursor to pointer */
+            background-color: #007bff; /* Bootstrap primary color */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        #switchCameraBtn:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
     </style>
 </head>
 <body>
@@ -127,6 +143,7 @@ $conn->close();
         <div class="col-md-12 scanner-container" style=" margin-top: 7em;">
         <video id="preview"></video>
         <div id="scanner-status" style="text-align: center; font-weight: bold; color: orange; margin-top: 10px;"></div>
+        <button id="switchCameraBtn" class="btn btn-primary">Switch Camera</button> <!-- Add button here -->
             </div>
 
             <?php
@@ -410,20 +427,16 @@ while ($row = $query->fetch_assoc()) {
     }
 
     // Attempt to get available cameras
+    // Update the scanner initialization code to bind the button action
     Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
-            // Default to prioritizing the back camera
             let backCameraIndex = cameras.findIndex(camera => camera.name.toLowerCase().includes('back'));
             selectedCameraIndex = backCameraIndex >= 0 ? backCameraIndex : 0;
 
-            // Start the scanner with the selected camera
             startScanner(cameras[selectedCameraIndex]);
 
-            // Add a button for switching cameras
-            const switchButton = document.createElement('button');
-            switchButton.textContent = "Switch Camera";
-            switchButton.onclick = () => switchCamera(cameras);
-            document.body.appendChild(switchButton);
+            // Add functionality to the button
+            document.getElementById('switchCameraBtn').addEventListener('click', () => switchCamera(cameras));
         } else {
             document.getElementById('scanner-status').textContent =
                 "No camera detected. Please check if the device has an available camera.";
@@ -433,6 +446,7 @@ while ($row = $query->fetch_assoc()) {
         document.getElementById('scanner-status').textContent =
             "Error: Unable to access cameras. Make sure permissions are allowed and refresh the page.";
     });
+
 
     // Handle QR code scan event
     scanner.addListener('scan', function (content) {
