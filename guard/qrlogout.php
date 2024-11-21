@@ -125,7 +125,21 @@ $con->close();
 }
 </style>
 
+<nav class="navbar">
+    <div class="navbar-brand"><a href="monitor2.php">Parking Slot Manager</a></div>
+    <div class="navbar-toggler" onclick="toggleMenu()">&#9776;</div>
+    <div class="navbar-menu" id="navbarMenu">
+         <!-- QR Logout Button -->
+         <a href="qrlogout.php" class="navbar-item dropbtns"><i class="bi bi-car-front-fill"></i> QR Log-out</a>
+      
 
+      <!-- Manual Input Button -->
+      <a href="malogout.php" class="navbar-item dropbtns"><i class="bi bi-display-fill"></i> Manual Log-out</a>
+
+      <a href="logout.php" class="navbar-item dropbtns"><i class="bi bi-car-front"></i> Logout</a>
+       
+    </div>
+</nav>
 
     <style>
         body {
