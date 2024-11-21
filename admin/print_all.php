@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('../DBconnection/dbconnection.php');
+include('includes/dbconnection.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,15 +37,13 @@ include('../DBconnection/dbconnection.php');
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Parking Number</th>
                     <th>Vehicle Category</th>
-                    <th>Company</th>
+                    <th>Plate Number</th>
+                    <th>Make/Brand</th>
                     <th>Owner</th>
                     <th>Contact</th>
-                    <th>In Time</th>
-                    <th>Out Time</th>
-                    <th>Status</th>
-                    <th>Remark</th>
+                    <th>Registration</th>
+                   
                 </tr>
             </thead>
             <tbody>
@@ -59,15 +57,14 @@ include('../DBconnection/dbconnection.php');
                     $remark = ($row['Status'] == "Out") ? $row['Remark'] : "N/A";
                 ?>
                     <tr>
-                        <td><?php echo $row['ParkingNumber']; ?></td>
                         <td><?php echo $row['VehicleCategory']; ?></td>
+                        <td><?php echo $row['RegistrationNumber']; ?></td>
+                        
                         <td><?php echo $row['VehicleCompanyname']; ?></td>
                         <td><?php echo $row['OwnerName']; ?></td>
                         <td><?php echo $row['OwnerContactNumber']; ?></td>
                         <td><?php echo $row['InTime']; ?></td>
-                        <td><?php echo $outTime; ?></td>
-                        <td><?php echo $status; ?></td>
-                        <td><?php echo $remark; ?></td>
+                        
                     </tr>
                 <?php } ?>
             </tbody>

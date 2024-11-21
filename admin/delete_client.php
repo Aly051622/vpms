@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('../DBconnection/dbconnection.php');
+include 'includes/dbconnection.php';
 
 // Ensure email is passed and valid
 if (isset($_POST['email'])) {

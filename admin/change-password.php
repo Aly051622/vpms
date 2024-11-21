@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('../DBconnection/dbconnection.php');
+include('includes/dbconnection.php');
 error_reporting(0);
 if (strlen($_SESSION['vpmsaid']==0)) {
   header('location:logout.php');

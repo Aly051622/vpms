@@ -1,17 +1,23 @@
 <?php
 session_start();
 error_reporting(0);
-include('../DBconnection/dbconnection.php');
+include('includes/dbconnection.php');
 if (strlen($_SESSION['vpmsaid']==0)) {
   header('location:logout.php');
   } else{
-// For deleting    
-if($_GET['del']){
-$catid=$_GET['del'];
-mysqli_query($con,"delete from tblvehicle where ID ='$catid'");
-echo "<script>alert('Data Deleted');</script>";
-echo "<script>window.location.href='manage-incomingvehicle.php'</script>";
-          }
+// For deleting
+if(isset($_GET['del'])) {
+    $catid = intval($_GET['del']); // Use intval to ensure it's an integer
+    $result = mysqli_query($con, "DELETE FROM tblvehicle WHERE ID = '$catid'");
+
+    if($result) {
+        echo "<script>alert('Data Deleted');</script>";
+        echo "<script>window.location.href='manage-reg.php'</script>";
+    } else {
+        echo "<script>alert('Deletion failed.');</script>";
+    }
+}
+
 
 
   ?>
@@ -20,7 +26,7 @@ echo "<script>window.location.href='manage-incomingvehicle.php'</script>";
 <html class="no-js" lang="">
 <head>
    
-    <title>CTU Danao- Manage Incoming Vehicle</title>
+    <title>CTU Danao | Manage Vehicle</title>
 
 
     <link rel="apple-touch-icon" href="images/ctu.png">
@@ -69,14 +75,12 @@ echo "<script>window.location.href='manage-incomingvehicle.php'</script>";
 
 
     body{ 
-        background-color: #f9fcff;
-        background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
+        background-color: whitesmoke;
          }
          .card, .card-header{
-            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, 
-            rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, 
-            rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+            box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
          }
+         
          
     </style>
 </head>
@@ -97,7 +101,7 @@ echo "<script>window.location.href='manage-incomingvehicle.php'</script>";
                     <div class="col-sm-4">
                         <div class="page-header float-left">
                             <div class="page-title">
-                                <h1>Dashboard</h1>
+                                <h1>Manage Registered Client Vehicles</h1>
                             </div>
                         </div>
                     </div>
@@ -107,7 +111,7 @@ echo "<script>window.location.href='manage-incomingvehicle.php'</script>";
                                 <ol class="breadcrumb text-right">
                                     <li><a href="dashboard.php">Dashboard</a></li>
                                     <li><a href="manage-incomingvehicle.php">Manage Vehicle</a></li>
-                                    <li class="active">Manage Incoming Vehicle</li>
+                                    <li class="active">Manage Vehicle</li>
                                 </ol>
                             </div>
                         </div>
@@ -125,7 +129,7 @@ echo "<script>window.location.href='manage-incomingvehicle.php'</script>";
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <strong class="card-title">Manage Incoming Vehicle</strong>
+                            <strong class="card-title">Manage Registered Vehicle</strong>
                         </div>
                         <div class="card-body">
                              <table class="table">
@@ -157,11 +161,13 @@ while ($row=mysqli_fetch_array($ret)) {
                   <td><?php  echo $row['OwnerName'];?></td>
                   <td><?php  echo $row['RegistrationNumber'];?></td>
                   
-                  <td><a href="view-incomingvehicle-detail.php?viewid=<?php echo $row['ID'];?>" class="btn btn-primary" id="viewbtn">🖹 View</a> 
+                  <td>
+    <a href="view-register.php?viewid=<?php echo $row['ID']; ?>" class="btn btn-primary" id="viewbtn">🖹 View</a> 
+    <a href="print.php?vid=<?php echo $row['ID']; ?>" style="cursor:pointer" target="_blank" class="btn btn-warning" id="printbtn">🖶 Print</a>
+    <a href="manage-reg.php?del=<?php echo $row['ID']; ?>" class="btn btn-danger" onClick="return confirm('Are you sure you want to delete?')" id="deletebtn">🗑 Delete</a>
 
-<a href="print.php?vid=<?php echo $row['ID'];?>" style="cursor:pointer" target="_blank" class="btn btn-warning" id="printbtn">🖶 Print</a>
-<a href="manage-incomingvehicle.php?del=<?php echo $row['ID'];?>" class="btn btn-danger" onClick="return confirm('Are you sure you want to delete?')" id="deletebtn">🗑 Delete</a>
-                  </td>
+</td>
+
                 </tr>
                 <?php 
 $cnt=$cnt+1;
@@ -179,8 +185,6 @@ $cnt=$cnt+1;
 </div><!-- .content -->
 
 <div class="clearfix"></div>
-
-<?php include_once('includes/footer.php');?>
 
 </div><!-- /#right-panel -->
 

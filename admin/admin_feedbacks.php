@@ -1,6 +1,6 @@
 <?php
 // Include the database connection
-include('../DBconnection/dbconnection.php');
+include('includes/dbconnection.php');
 ?>
 
 <!DOCTYPE html>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('../DBconnection/dbconnection.php');
+include 'includes/dbconnection.php';
 
 // Fetch invalidated clients (validity = 0) without duplicates based on email
 $queryInvalidated = "
@@ -25,22 +25,14 @@ if (mysqli_num_rows($resultInvalidated) > 0) {
     echo "<tr>
             <th>Email</th>
             <th>Expiration Date</th>
-            <th>Validity</th>
-            <th>CR Image</th>
-            <th>NV Image</th>
-            <th>OR Image</th>
-            <th>Profile Picture</th>
+    
           </tr>";
 
     while ($row = mysqli_fetch_assoc($resultInvalidated)) {
         echo "<tr>
                 <td>{$row['email']}</td>
                 <td>{$row['expiration_date']}</td>
-                <td>{$row['validity']}</td>
-                <td><img src='uploads/validated/{$row['cr_image']}' width='100'></td>
-                <td><img src='uploads/validated/{$row['nv_image']}' width='100'></td>
-                <td><img src='uploads/validated/{$row['or_image']}' width='100'></td>
-                <td><img src='../uploads/profile_uploads/{$row['profile_pictures']}' width='100'></td>
+               
               </tr>";
     }
     echo "</table>";

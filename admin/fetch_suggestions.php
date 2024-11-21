@@ -1,5 +1,5 @@
 <?php
-include('../DBconnection/dbconnection.php');
+include('includes/dbconnection.php');
 
 if (isset($_POST['query'])) {
     // Escape user input to prevent SQL injection

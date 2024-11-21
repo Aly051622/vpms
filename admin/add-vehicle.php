@@ -3,7 +3,9 @@ session_start();
 error_reporting(E_ALL); // Enable error reporting for debugging
 ini_set('display_errors', 1);
 
-include('../DBconnection/dbconnection.php');
+date_default_timezone_set('Asia/Manila');
+
+include('includes/dbconnection.php');
 
 if (strlen($_SESSION['vpmsaid'] == 0)) {
     header('location:logout.php');
@@ -63,7 +65,7 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
                 $lastName = $userData['LastName'];
                 $contactno = $userData['MobileNumber'];
 
-                $qrCodeData = "Vehicle Type: $catename\nPlate Number: $vehreno\nName: $firstName $lastName\nContact Number: $contactno";
+                $qrCodeData = "Vehicle Type: $catename\nPlate Number: $vehreno\nName: $firstName $lastName\nContact Number: $contactno \nModel: $model";
                 $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" . urlencode($qrCodeData) . "&size=150x150";
 
                 $qrImageName = "qr" . $vehreno . "_" . time() . ".png";
@@ -71,13 +73,15 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
                 $qrCodeContent = file_get_contents($qrCodeUrl);
                 file_put_contents($qrImagePath, $qrCodeContent);
 
+                $inTime = date('Y-m-d H:i:s');
+
                 // Update INSERT query to include the ImagePath column
-                $query = "INSERT INTO tblvehicle (VehicleCategory, VehicleCompanyname, Model, Color, RegistrationNumber, OwnerName, OwnerContactNumber, QRCodePath, ImagePath) 
-                          VALUES ('$catename', '$vehcomp', '$model', '$color', '$vehreno', '$ownername', '$ownercontno', '$qrImagePath', '$imagePath')";
+                $query = "INSERT INTO tblvehicle (VehicleCategory, VehicleCompanyname, Model, Color, RegistrationNumber, OwnerName, OwnerContactNumber, QRCodePath, ImagePath, InTime) 
+                          VALUES ('$catename', '$vehcomp', '$model', '$color', '$vehreno', '$ownername', '$ownercontno', '$qrImagePath', '$imagePath', '$inTime')";
 
                 if (mysqli_query($con, $query)) {
                     echo "<script>alert('Vehicle Entry Detail has been added');</script>";
-                    echo "<script>window.location.href ='manage-incomingvehicle.php'</script>";
+                    echo "<script>window.location.href ='manage-reg.php'</script>";
                 } else {
                     echo "<script>alert('Error: " . mysqli_error($con) . "');</script>";
                 }
@@ -126,8 +130,7 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
             width: 100%; 
             height: 100%; 
             overflow: auto; 
-            background-color: rgb(0,0,0); 
-            background-color: rgba(0,0,0,0.4); 
+            background-color: whitesmoke; 
             padding-top: 60px; 
         }
         
@@ -183,7 +186,7 @@ function updateMakeBrandOptions() {
     const otherMakeInput = document.getElementById("otherMake");
     vehcomp.innerHTML = '<option value="">Select Make/Brand</option>';
     const options = {
-        "Two Wheeler Vehicle": ["Benelli", "CFMoto", "Honda Motors", "Kawasaki", "Kymco", "MotorStar", "Piaggio", "Rusi", "Suzuki Motors", "SYM", "TVS", "Yamaha", "Others, please specify"],
+        "Two Wheeler Vehicle": ["Benelli", "CFMoto", "Honda Motors", "Kawasaki", "Kymco", "MotorStar", "Piaggio","Racal", "Rusi", "Suzuki Motors", "SYM", "TVS", "Yamaha", "Others, please specify"],
         "Four Wheeler Vehicle": ["Chevrolet", "Ford", "Honda", "Hyundai", "Isuzu", "Kia", "Lexus", "MG (Morris Garages)", "Mitsubishi", "Nissan", "Peugeot", "Subaru", "Suzuki", "Toyota", "Volkswagen", "Others, please specify"],
         "Bicycles": ["Battle", "Brusko", "Cannondale", "GT", "Hiland", "Kona", "Nakto", "RoyalBaby", "Others, please specify"]
     };
@@ -218,9 +221,10 @@ function updateModelOptions() {
         "Suzuki Motors": ["Suzuki Raider R150", "Suzuki Skydrive", "Suzuki Burgman Street", "Suzuki Smash 115", "Suzuki GSX-R150", "Suzuki Gixxer"],
         "SYM": ["SYM Maxsym 400i", "SYM Bonus X", "SYM RV1-2"],
         "TVS": ["TVS Apache RTR 200", "TVS Apache RTR 160", "TVS Dazz", "TVS XL100"],
+        "Racal" : ["Racal 115", "Racal King 175", "Racal Raptor 250", "Racal Classic 150", "Racal KRZ 150", "Racal Adventure 200", "Racal 160"],
         "Yamaha": ["Yamaha Mio Aerox", "Yamaha Mio Soul i 125", "Yamaha Mio i 125", "Yamaha Mio Sporty", "Yamaha NMAX", "Yamaha XMAX", "Yamaha FZi", "Yamaha YZF-R15", "Yamaha Sniper 155"],
         "Chevrolet": ["Colorado", "Spark", "Trailblazer", "Tracker", "Trax", "Tahoe", "Suburban", "Corvette", "Camaro", "Captiva"],
-        "Ford": ["EcoSport", "Everest", "Mustang", "Ranger"],
+        "Ford": ["EcoSport", "Everest", "Mustang", "Ranger", "Expedition"],
         "Honda": ["Accord", "Brio", "Civic", "City", "CR-V", "HR-V", "Pilot"],
         "Hyundai": ["Accent", "Kona", "Santa Fe", "Tucson", "Elantra"],
         "Isuzu": ["Alterra", "D-Max", "MU-X", "N-Series (Truck)", "F-Series (Truck)"],
@@ -269,7 +273,7 @@ function updateModelOptions() {
             <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1>Dashboard</h1>
+                        <h1>Add Vehicle</h1>
                     </div>
                 </div>
             </div>
@@ -439,7 +443,6 @@ function updateModelOptions() {
 
     <div class="clearfix"></div>
 
-   <?php include_once('includes/footer.php');?>
 
 </div><!-- /#right-panel -->
 

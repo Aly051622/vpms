@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('../DBconnection/dbconnection.php');
+include 'includes/dbconnection.php';
 
 $dir = 'uploads/validity'; // Directory where images are stored
 $files = scandir($dir); // Get all files in the directory
