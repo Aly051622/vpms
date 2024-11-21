@@ -138,6 +138,11 @@ $conn->close();
 <?php include_once('includes/headerin.php');?>
 
 <div class="container" style="background: transparent;">
+<div style="position: absolute; top: 10px; left: 10px;">
+        <a href="monitor.php" class="btn btn-light">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+    </div>
     <div class="row">
         <!-- Scanner Section -->
         <div class="col-md-12 scanner-container" style=" margin-top: 7em;">
