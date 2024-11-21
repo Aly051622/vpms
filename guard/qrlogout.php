@@ -282,32 +282,57 @@ $con->close();
 
 <!-- QR Scanner Script -->
 <script>
-    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+        let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+    let selectedCameraIndex = 0; // Track the selected camera index
 
-// Attempt to get available cameras
-Instascan.Camera.getCameras().then(function (cameras) {
-    if (cameras.length > 0) {
-        let selectedCamera = cameras[0];  // Default to the first camera
-
-        // Prioritize back camera if available
-        cameras.forEach(function (camera) {
-            if (camera.name.toLowerCase().includes('back')) {
-                selectedCamera = camera;
-            }
-        });
-
-        scanner.start(selectedCamera).catch(function (e) {
-            console.error("Error starting scanner:", e);
-            document.getElementById('scanner-status').textContent = "Error: Unable to start the scanner.";
-        });
-    } else {
-        // No camera found
-        document.getElementById('scanner-status').textContent = "Scanner is not available. Please check with the admin.";
+    // Function to switch cameras (front/back)
+    function switchCamera(cameras) {
+        selectedCameraIndex = (selectedCameraIndex + 1) % cameras.length;
+        startScanner(cameras[selectedCameraIndex]);
     }
-}).catch(function (e) {
-    console.error("Error accessing cameras:", e);
-    document.getElementById('scanner-status').textContent = "Error: Unable to access cameras.";
-});
+
+    // Function to start the scanner with a given camera
+    function startScanner(camera) {
+        scanner.stop(); // Stop any existing scanner instance
+        scanner.start(camera).catch(function (e) {
+            console.error("Error starting scanner:", e);
+            document.getElementById('scanner-status').textContent =
+                "Error: Unable to start the scanner. Please check camera permissions.";
+        });
+
+        // Apply a CSS transformation to correct mirroring for the back camera
+        const videoElement = document.getElementById('preview');
+        if (camera.name.toLowerCase().includes('back')) {
+            videoElement.style.transform = "scaleX(1)"; // Normal view
+        } else {
+            videoElement.style.transform = "scaleX(-1)"; // Mirrored view for front camera
+        }
+    }
+
+    // Attempt to get available cameras
+    Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+            // Default to prioritizing the back camera
+            let backCameraIndex = cameras.findIndex(camera => camera.name.toLowerCase().includes('back'));
+            selectedCameraIndex = backCameraIndex >= 0 ? backCameraIndex : 0;
+
+            // Start the scanner with the selected camera
+            startScanner(cameras[selectedCameraIndex]);
+
+            // Add a button for switching cameras
+            const switchButton = document.createElement('button');
+            switchButton.textContent = "Switch Camera";
+            switchButton.onclick = () => switchCamera(cameras);
+            document.body.appendChild(switchButton);
+        } else {
+            document.getElementById('scanner-status').textContent =
+                "No camera detected. Please check if the device has an available camera.";
+        }
+    }).catch(function (e) {
+        console.error("Error accessing cameras:", e);
+        document.getElementById('scanner-status').textContent =
+            "Error: Unable to access cameras. Make sure permissions are allowed and refresh the page.";
+    });
 
     scanner.addListener('scan', function (content) {
         // Post the scanned content to the same page for logout processing
