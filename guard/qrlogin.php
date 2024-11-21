@@ -137,11 +137,6 @@ $conn->close();
 <!-- Responsive Navigation Bar -->
 <?php include_once('includes/headerin.php');?>
 
-<div style="position: absolute; top: 10px; left: 10px; z-index: 10;">
-        <a href="monitor.php" class="btn btn-light">
-            <i class="fas fa-arrow-left"></i> Back
-        </a>
-    </div>
 <div class="container" style="background: transparent;">
     <div class="row">
         <!-- Scanner Section -->
