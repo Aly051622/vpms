@@ -207,6 +207,7 @@ $con->close();
         <!-- Scanner Section -->
         <div class="col-md-12 scanner-container" style=" margin-top: 5em;">
             <video id="preview"></video>
+            <div id="scanner-status" style="text-align: center; font-weight: bold; color: orange; margin-top: 10px;"></div>
             <div class="scanner-label">SCAN QR CODE <i class="fas fa-qrcode"></i></div>
 
             <?php
