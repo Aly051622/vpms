@@ -8,28 +8,39 @@ include('../DBconnection/dbconnection.php');
 if (isset($_POST['login'])) {
     $guarduser = $_POST['username'];
     $hashed_password = hash('sha512', $_POST['password']);
-    
-    // Query to check the username and hashed password
-    $query = mysqli_query($con, "SELECT ID, UserName FROM tblguard WHERE UserName='$guarduser' AND Password='$hashed_password'");
-    $ret = mysqli_fetch_array($query);
 
-    if ($ret) {
-        // Set session for guard ID
-        $_SESSION['guardid'] = $ret['ID'];
+    try {
+        // Use PDO to prepare and execute the query
+        $stmt = $con->prepare("SELECT ID, UserName FROM tblguard WHERE UserName = :username AND Password = :password");
+        $stmt->bindParam(':username', $guarduser);
+        $stmt->bindParam(':password', $hashed_password);
+        $stmt->execute();
+        
+        // Fetch the result
+        $ret = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Redirect based on the username
-        if ($guarduser == 'inguard') {
-            header('Location: monitor.php');
-        } elseif ($guarduser == 'outguard') {
-            header('Location: monitor2.php');
+        if ($ret) {
+            // Set session for guard ID
+            $_SESSION['guardid'] = $ret['ID'];
+
+            // Redirect based on the username
+            if ($guarduser == 'inguard') {
+                header('Location: monitor.php');
+            } elseif ($guarduser == 'outguard') {
+                header('Location: monitor2.php');
+            } else {
+                echo "<script>alert('Invalid Guard Username.');</script>";
+            }
         } else {
-            echo "<script>alert('Invalid Guard Username.');</script>";
+            echo "<script>alert('Invalid Details.');</script>";
         }
-    } else {
-        echo "<script>alert('Invalid Details.');</script>";
+    } catch (PDOException $e) {
+        // Handle any errors
+        echo "Error: " . $e->getMessage();
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
