@@ -3,7 +3,7 @@ session_start();
 date_default_timezone_set('Asia/Manila');
 
 // Include the database connection file
-include('../DBconnection/dbconnection.php');
+include('includes/dbconnection.php');
 
 // Handle the delete request
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
