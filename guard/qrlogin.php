@@ -1,4 +1,12 @@
-<?php session_start(); 
+<?php 
+session_start();
+
+if (!isset($_SESSION['guardid'])) {
+    // If the user is not logged in, redirect to the login page
+    header('Location: index.php');
+    exit();
+}
+
 date_default_timezone_set('Asia/Manila');
 ini_set('log_errors', 1);
 ini_set('error_log', 'error_log.txt'); // Set log file path
