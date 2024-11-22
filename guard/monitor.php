@@ -1,4 +1,14 @@
 <?php
+
+// Start the session
+session_start();
+
+// Check if the user is logged in, if not redirect to login page
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: index.php");
+    exit;
+}
+
 // Database connection
 $server = "localhost";
 $username = "u132092183_parkingz";
@@ -151,6 +161,13 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
     <title>Parking Slot Manager</title>
     <link rel="stylesheet" href="guard.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script>
+        // Prevent the user from using the Back button to return to the monitor page
+        history.pushState(null, null, location.href);
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, location.href);
+        });
+    </script>
 <style>
      .container{
         padding-top:10px;
