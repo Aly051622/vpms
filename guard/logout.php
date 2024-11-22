@@ -1,10 +1,7 @@
 <?php
 session_start();
-// Destroy all session data
 session_unset();
 session_destroy();
+header('location:../welcome.php');
 
-// Redirect to the home or login page
-header("Location: index.php");
-exit;
 ?>
