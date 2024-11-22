@@ -2,6 +2,8 @@
 session_start();
 session_unset();
 session_destroy();
-header('location:../welcome.php');
 
+// Redirect to the login page after logout
+header("Location: index.php");
+exit();
 ?>

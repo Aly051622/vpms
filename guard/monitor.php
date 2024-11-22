@@ -1,4 +1,11 @@
 <?php
+
+// Redirect to login if the user is not authenticated
+if (!isset($_SESSION['guardid'])) {
+    header("Location: index.php");
+    exit();
+}
+
 // Database connection
 $server = "localhost";
 $username = "u132092183_parkingz";
