@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['guardid'])) {
+    // If the user is not logged in, redirect to the login page
+    header('Location: index.php');
+    exit();
+}
+
 // Database connection
 $server = "localhost";
 $username = "u132092183_parkingz";

@@ -3,12 +3,10 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Include the database connection
 include('../DBconnection/dbconnection.php');
 
 if (isset($_POST['login'])) {
     $guarduser = $_POST['username'];
-    // Hash the password using SHA2 (256-bit)
     $hashed_password = hash('sha512', $_POST['password']);
     
     // Query to check the username and hashed password
@@ -32,6 +30,7 @@ if (isset($_POST['login'])) {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">

@@ -1,5 +1,12 @@
 <?php 
-session_start(); 
+session_start();
+
+if (!isset($_SESSION['guardid'])) {
+    // If the user is not logged in, redirect to the login page
+    header('Location: index.php');
+    exit();
+}
+
 date_default_timezone_set('Asia/Manila');
 
 $server = "localhost";
