@@ -1,18 +1,18 @@
 <?php 
 session_start();
 
+// Check if the user is logged in
 if (!isset($_SESSION['guardid'])) {
-    // If the user is not logged in, redirect to the login page
     header('Location: index.php');
     exit();
 }
 
 date_default_timezone_set('Asia/Manila');
 ini_set('log_errors', 1);
-ini_set('error_log', 'error_log.txt'); // Set log file path
-ini_set('display_errors', 1); // Disable on-screen error display
+ini_set('error_log', 'error_log.txt');  // Ensure error_log.txt is writable
+ini_set('display_errors', 1);  // Display errors on the screen for debugging (disable in production)
 
-
+// Database connection
 $server = "localhost";
 $username = "u132092183_parkingz";
 $password = "@Parkingz!2024";
@@ -24,8 +24,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-
-
+// Handle QR logout deletion logic if ID is passed via POST
 if (isset($_POST['id'])) {
     $id = intval($_POST['id']);
     $sql = "DELETE FROM tblqr_login WHERE ID = ?";
@@ -42,6 +41,40 @@ if (isset($_POST['id'])) {
     exit; // Stop further processing after deletion response
 }
 
+// Step 1: Retrieve QR data from GET or POST
+if (isset($_GET['qrdata'])) {
+    $qrData = $_GET['qrdata'];  // Assuming QR data is sent via GET request
+} else {
+    echo "Error: QR data not provided.";
+    exit;
+}
+
+// Step 2: Decode the base64 data
+$decodedData = base64_decode($qrData);
+
+if ($decodedData === false) {
+    echo "Error: Failed to decode QR data.";
+    exit;
+}
+
+// Step 3: Assuming the decoded data is JSON, decode it
+$decodedJson = json_decode($decodedData, true);  // true to return as an associative array
+
+if ($decodedJson === null) {
+    echo "Error: Failed to decode JSON from QR data.";
+    exit;
+}
+
+// Step 4: Process the decoded data (e.g., login validation)
+if (isset($decodedJson['user_id'])) {
+    $userId = $decodedJson['user_id'];  // Example of using the user_id from decoded JSON
+    // Continue with your login logic, like validating the user ID, checking database, etc.
+    echo "User ID: " . $userId;  // Example output for debugging
+} else {
+    echo "Error: user_id not found in QR data.";
+}
+
+// Close the database connection
 $conn->close();
 ?>
 

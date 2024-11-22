@@ -5,52 +5,84 @@ date_default_timezone_set('Asia/Manila');
 // Include the database connection file
 include('../DBconnection/dbconnection.php');
 
+// Define your encryption parameters
+define('ENCRYPTION_KEY', 'your-encryption-key');  // Replace this with your encryption key
+define('ENCRYPTION_METHOD', 'aes-256-cbc');  // Example AES method
+
+// Function to decrypt the data
+function decryptData($encryptedData) {
+    $iv = substr($encryptedData, 0, 16);  // Assume the IV is the first 16 bytes
+    $ciphertext = substr($encryptedData, 16);  // The rest is the encrypted data
+    return openssl_decrypt($ciphertext, ENCRYPTION_METHOD, ENCRYPTION_KEY, 0, $iv);
+}
+
 // Handle the delete request
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     $id = $_POST['id'];
-    
-    $sqlDelete = "DELETE FROM tblqr_logout WHERE ID = '$id'";
-    if ($con->query($sqlDelete) === TRUE) {
+    $stmt = $con->prepare("DELETE FROM tblqr_logout WHERE ID = ?");
+    $stmt->bind_param("i", $id);  // "i" for integer parameter
+    if ($stmt->execute()) {
         echo "success";
     } else {
         echo "error";
     }
+    $stmt->close();
     exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $qrData = $_POST['qrData'];
-    $dataLines = explode("\n", $qrData);
+
+    // Decrypt the QR data
+    $decryptedData = decryptData($qrData);
+    
+    if (!$decryptedData) {
+        echo "Error: Decryption failed.";
+        exit();
+    }
+
+    // Assuming the decrypted data is in the format of plain text lines
+    $dataLines = explode("\n", $decryptedData);
+    if (count($dataLines) < 4) {
+        echo "Error: Invalid QR data.";
+        exit();
+    }
+
     $vehicleType = str_replace('Vehicle Type: ', '', $dataLines[0]);
     $vehiclePlateNumber = str_replace('Plate Number: ', '', $dataLines[1]);
     $name = str_replace('Name: ', '', $dataLines[2]);
     $mobilenum = str_replace('Contact Number: ', '', $dataLines[3]);
 
     // Check if the vehicle has a recent login entry
-    $sqlFindLogin = "SELECT ParkingSlot FROM tblqr_login WHERE VehiclePlateNumber = '$vehiclePlateNumber' AND Name = '$name' ORDER BY TIMEIN DESC LIMIT 1";
-    $resultLogin = $con->query($sqlFindLogin);
+    $sqlFindLogin = "SELECT ParkingSlot FROM tblqr_login WHERE VehiclePlateNumber = ? AND Name = ? ORDER BY TIMEIN DESC LIMIT 1";
+    $stmt = $con->prepare($sqlFindLogin);
+    $stmt->bind_param("ss", $vehiclePlateNumber, $name);
+    $stmt->execute();
+    $resultLogin = $stmt->get_result();
 
     if ($resultLogin->num_rows > 0) {
         $rowLogin = $resultLogin->fetch_assoc();
         $occupiedSlots = explode(', ', $rowLogin['ParkingSlot']);
 
-        // Proceed with logout regardless of existing logout entries
+        // Proceed with logout
         $timeOut = date("Y-m-d h:i:s A");
         $sqlInsert = "INSERT INTO tblqr_logout (Name, ContactNumber, VehicleType, VehiclePlateNumber, ParkingSlot, TIMEOUT)
-                      VALUES ('$name', '$mobilenum', '$vehicleType', '$vehiclePlateNumber', '{$rowLogin['ParkingSlot']}', '$timeOut')";
+                      VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $con->prepare($sqlInsert);
+        $stmt->bind_param("ssssss", $name, $mobilenum, $vehicleType, $vehiclePlateNumber, $rowLogin['ParkingSlot'], $timeOut);
+        $stmt->execute();
 
-if ($con->query($sqlInsert) === TRUE) {
-    foreach ($occupiedSlots as $slot) {
-        $updateSlot = "UPDATE tblparkingslots SET Status = 'Vacant' WHERE SlotNumber = '$slot'";
-        $con->query($updateSlot);
+        foreach ($occupiedSlots as $slot) {
+            $updateSlot = "UPDATE tblparkingslots SET Status = 'Vacant' WHERE SlotNumber = ?";
+            $stmt = $con->prepare($updateSlot);
+            $stmt->bind_param("s", $slot);  // assuming SlotNumber is a string
+            $stmt->execute();
+        }
+
+        $_SESSION['success'] = 'Vehicle logged out successfully.';
+    } else {
+        $_SESSION['error'] = 'No login record found for this vehicle. Please log in first before logging out.';
     }
-    $_SESSION['success'] = 'Vehicle logged out successfully.';
-} else {
-    $_SESSION['error'] = 'Error: ' . $con->error;
-}
-} else {
-$_SESSION['error'] = 'No login record found for this vehicle. Please log in first before logging out.';
-}
 
     header('Location: qrlogout.php');
     exit();
@@ -61,6 +93,7 @@ $sql = "SELECT ID, Name, ContactNumber, VehicleType, VehiclePlateNumber, Parking
 $result = $con->query($sql);
 $con->close();
 ?>
+
 
 <html class="no-js" lang="">
 <head>
