@@ -1,10 +1,9 @@
 <?php
 
 // Redirect to login if the user is not authenticated
-if (!isset($_SESSION['guardid'])) {
-    header("Location: index.php");
-    exit();
-}
+if (strlen($_SESSION['guardid']==0)) {
+    header('location:logout.php');
+    } else{
 
 // Database connection
 $server = "localhost";
@@ -655,6 +654,9 @@ function filterSlots() {
         localStorage.setItem('selectedArea', 'Front Admin');
     }
 </script>
+<?php
+    }
 
+    ?>
 </body>
 </html>
