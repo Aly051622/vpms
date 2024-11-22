@@ -1,160 +1,4 @@
-<?php
-session_start();
-date_default_timezone_set('Asia/Manila');
-
-// Include the database connection file
-include('../DBconnection/dbconnection.php');
-
-// Define your encryption parameters
-define('ENCRYPTION_KEY', 'your-encryption-key');  // Replace this with your encryption key
-define('ENCRYPTION_METHOD', 'aes-256-cbc');  // Example AES method
-
-// Function to decrypt the data
-function decryptData($encryptedData) {
-    $iv = substr($encryptedData, 0, 16);  // Assume the IV is the first 16 bytes
-    $ciphertext = substr($encryptedData, 16);  // The rest is the encrypted data
-    return openssl_decrypt($ciphertext, ENCRYPTION_METHOD, ENCRYPTION_KEY, 0, $iv);
-}
-
-// Handle the delete request
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
-    $id = $_POST['id'];
-    $stmt = $con->prepare("DELETE FROM tblqr_logout WHERE ID = ?");
-    $stmt->bind_param("i", $id);  // "i" for integer parameter
-    if ($stmt->execute()) {
-        echo "success";
-    } else {
-        echo "error";
-    }
-    $stmt->close();
-    exit();
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
-    $qrData = $_POST['qrData'];
-
-    // Decrypt the QR data
-    $decryptedData = decryptData($qrData);
-    
-    if (!$decryptedData) {
-        echo "Error: Decryption failed.";
-        exit();
-    }
-
-    // Assuming the decrypted data is in the format of plain text lines
-    $dataLines = explode("\n", $decryptedData);
-    if (count($dataLines) < 4) {
-        echo "Error: Invalid QR data.";
-        exit();
-    }
-
-    $vehicleType = str_replace('Vehicle Type: ', '', $dataLines[0]);
-    $vehiclePlateNumber = str_replace('Plate Number: ', '', $dataLines[1]);
-    $name = str_replace('Name: ', '', $dataLines[2]);
-    $mobilenum = str_replace('Contact Number: ', '', $dataLines[3]);
-
-    // Check if the vehicle has a recent login entry
-    $sqlFindLogin = "SELECT ParkingSlot FROM tblqr_login WHERE VehiclePlateNumber = ? AND Name = ? ORDER BY TIMEIN DESC LIMIT 1";
-    $stmt = $con->prepare($sqlFindLogin);
-    $stmt->bind_param("ss", $vehiclePlateNumber, $name);
-    $stmt->execute();
-    $resultLogin = $stmt->get_result();
-
-    if ($resultLogin->num_rows > 0) {
-        $rowLogin = $resultLogin->fetch_assoc();
-        $occupiedSlots = explode(', ', $rowLogin['ParkingSlot']);
-
-        // Proceed with logout
-        $timeOut = date("Y-m-d h:i:s A");
-        $sqlInsert = "INSERT INTO tblqr_logout (Name, ContactNumber, VehicleType, VehiclePlateNumber, ParkingSlot, TIMEOUT)
-                      VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt = $con->prepare($sqlInsert);
-        $stmt->bind_param("ssssss", $name, $mobilenum, $vehicleType, $vehiclePlateNumber, $rowLogin['ParkingSlot'], $timeOut);
-        $stmt->execute();
-
-        foreach ($occupiedSlots as $slot) {
-            $updateSlot = "UPDATE tblparkingslots SET Status = 'Vacant' WHERE SlotNumber = ?";
-            $stmt = $con->prepare($updateSlot);
-            $stmt->bind_param("s", $slot);  // assuming SlotNumber is a string
-            $stmt->execute();
-        }
-
-        $_SESSION['success'] = 'Vehicle logged out successfully.';
-    } else {
-        $_SESSION['error'] = 'No login record found for this vehicle. Please log in first before logging out.';
-    }
-
-    header('Location: qrlogout.php');
-    exit();
-}
-
-// Query the current day logout records
-$sql = "SELECT ID, Name, ContactNumber, VehicleType, VehiclePlateNumber, ParkingSlot, TIMEOUT FROM tblqr_logout WHERE DATE(TIMEOUT) = CURDATE() ORDER BY TIMEOUT DESC";
-$result = $con->query($sql);
-$con->close();
-?>
-
-
-<html class="no-js" lang="">
-<head>
-    <script type="text/javascript" src="js/adapter.min.js"></script>
-    <script type="text/javascript" src="js/vue.min.js"></script>
-    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
-    <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="apple-touch-icon" href="images/ctu.png">
-    <link rel="shortcut icon" href="images/ctu.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="guard.css">
-
-    <title>QR Code Logout Scanner | CTU DANAO Parking System</title>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<style>
-    /*qrbutton add css*/
-    .dropbtns{
-            color: white;
-            padding: 8px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            background-color: orange;
-            border-radius: 9px;
-            font-weight: bold;
-            border: solid;
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-        }
-        .navbar-item .dropbtns:hover{
-            background-color: white;
-            color: orange;
-            border: solid orange;
-            border-radius: 9px;
-        }
-        
-        /*navbar add css*/
-        .navbar{
-            background-color: rgb(53, 97, 255);
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-            }
-    @media (max-width: 480px){
-    .container{
-        padding-top:10px;
-        margin-top:-8px;
-    }
-    .navbar-brand{
-        margin-left: 10px;
-    }
-    .navbar-toggler{
-        margin-top: -33px;
-        margin-left: 11em;
-    }
+@ -125,279 +125,265 @@
 }
 </style>
 
@@ -173,6 +17,7 @@ $con->close();
        
     </div>
 </nav>
+
 
     <style>
         body {
@@ -228,21 +73,6 @@ $con->close();
             background-color: darkblue;
             border: solid blue;
         }
-        #switchCameraBtn {
-            margin-top: 10px;
-            cursor: pointer; /* Change cursor to pointer */
-            background-color: #007bff; /* Bootstrap primary color */
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
-
-        #switchCameraBtn:hover {
-            background-color: #0056b3; /* Darker shade on hover */
-        }
     </style>
 </head>
 <body>
@@ -256,8 +86,7 @@ $con->close();
         <div class="col-md-12 scanner-container" style=" margin-top: 5em;">
             <video id="preview"></video>
             <div id="scanner-status" style="text-align: center; font-weight: bold; color: orange; margin-top: 10px;"></div>
-            <button id="switchCameraBtn" class="btn btn-primary">Switch Camera</button> <!-- Add button here -->
-            <div class="scanner-label">LOG-OUT QR SCAN <i class="fas fa-qrcode"></i></div>
+            <div class="scanner-label">SCAN QR CODE <i class="fas fa-qrcode"></i></div>
 
             <?php
                 if (isset($_SESSION['error'])) {
@@ -360,16 +189,20 @@ $con->close();
     }
 
     // Attempt to get available cameras
-    // Update the scanner initialization code to bind the button action
     Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
+            // Default to prioritizing the back camera
             let backCameraIndex = cameras.findIndex(camera => camera.name.toLowerCase().includes('back'));
             selectedCameraIndex = backCameraIndex >= 0 ? backCameraIndex : 0;
 
+            // Start the scanner with the selected camera
             startScanner(cameras[selectedCameraIndex]);
 
-            // Add functionality to the button
-            document.getElementById('switchCameraBtn').addEventListener('click', () => switchCamera(cameras));
+            // Add a button for switching cameras
+            const switchButton = document.createElement('button');
+            switchButton.textContent = "Switch Camera";
+            switchButton.onclick = () => switchCamera(cameras);
+            document.body.appendChild(switchButton);
         } else {
             document.getElementById('scanner-status').textContent =
                 "No camera detected. Please check if the device has an available camera.";
