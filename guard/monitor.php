@@ -1,12 +1,4 @@
 <?php
-
-session_start();
-error_reporting(0);
-include('includes/dbconnection.php');
-if (strlen($_SESSION['guardid']==0)) {
-  header('location:logout.php');
-  } else{
-
 // Database connection
 $server = "localhost";
 $username = "u132092183_parkingz";
@@ -659,4 +651,3 @@ function filterSlots() {
 
 </body>
 </html>
-<?php }  ?>
