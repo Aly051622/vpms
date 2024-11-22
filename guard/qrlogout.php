@@ -354,7 +354,7 @@ $con->close();
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: `qrData=${encodeURIComponent(content)}`,
+            body: qrData=${encodeURIComponent(content)},
         })
         .then(response => {
             if (response.ok) {
