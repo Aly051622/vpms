@@ -36,7 +36,6 @@ $result = $conn->query($query);
 
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $row['TimeIn'] = date("h:i:s A m-d-y", strtotime($row['TimeIn'] . ' +8 hours'));
         $vehicles[] = $row;
     }
 }
@@ -471,7 +470,7 @@ $conn->close();
                         <td><?= htmlspecialchars($vehicle['RegistrationNumber']); ?></td>
                         <td id="slot_<?= htmlspecialchars($vehicle['id']); ?>"><?= htmlspecialchars($vehicle['ParkingSlot']); ?></td>
 
-                        <td><?= htmlspecialchars($vehicle['TimeIn']); ?></td>
+                        <td><?= date("h:i:s A m-d-y", strtotime($vehicle['TimeIn'])); ?></td>
                         <td>
                             <button class="btn btn-warning btn-sm" onclick="editSlot(<?= $vehicle['id'] ?>)" id="editbtn">Edit</button>
                             <button class="btn btn-danger btn-sm" onclick="deleteVehicle(<?= $vehicle['id'] ?>)" id="deletebtn">Delete</button>
