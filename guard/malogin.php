@@ -21,8 +21,6 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$conn->query("SET time_zone = 'Asia/Manila'");
-
 // Define the number of records per page
 $recordsPerPage = 10;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
