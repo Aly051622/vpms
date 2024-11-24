@@ -250,15 +250,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
         exit();
     }
 
-// Check logout status in tblqr_logout and login status in tblqr_login
+// Check if user is already logged in without logging out
 $checkLogoutQR = "SELECT * FROM tblqr_logout WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEOUT DESC LIMIT 1";
 $checkLoginQR = "SELECT * FROM tblqr_login WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEIN DESC LIMIT 1";
+
+$checkLogoutManual = "SELECT * FROM tblmanual_logout WHERE Name = '$name' AND RegistrationNumber = '$vehiclePlateNumber' ORDER BY TIMEOUT DESC LIMIT 1";
+$checkLoginManual = "SELECT * FROM tblmanual_login WHERE Name = '$name' AND RegistrationNumber = '$vehiclePlateNumber' ORDER BY TIMEIN DESC LIMIT 1";
 
 // Execute the queries
 $logoutResultQR = $conn->query($checkLogoutQR);
 $loginResultQR = $conn->query($checkLoginQR);
+$logoutResultManual = $conn->query($checkLogoutManual);
+$loginResultManual = $conn->query($checkLoginManual);
 
-// Determine the latest logout and login times
+// Determine the latest logout and login times across both tables
 $lastLogoutTime = null;
 $lastLoginTime = null;
 
@@ -266,26 +271,25 @@ if ($logoutResultQR->num_rows > 0) {
     $lastLogoutTime = $logoutResultQR->fetch_assoc()['TIMEOUT'];
 }
 
+if ($logoutResultManual->num_rows > 0) {
+    $lastLogoutTime = max($lastLogoutTime, $logoutResultManual->fetch_assoc()['TIMEOUT']);
+}
+
 if ($loginResultQR->num_rows > 0) {
     $lastLoginTime = $loginResultQR->fetch_assoc()['TIMEIN'];
 }
 
-// Ensure the user has logged out before logging in again
+if ($loginResultManual->num_rows > 0) {
+    $lastLoginTime = max($lastLoginTime, $loginResultManual->fetch_assoc()['TIMEIN']);
+}
+
+// Ensure last login time is later than last logout time, or no previous login exists
 if ($lastLoginTime && (!$lastLogoutTime || $lastLoginTime > $lastLogoutTime)) {
     $_SESSION['error'] = 'You cannot log in again without logging out first.';
     header('Location: qrlogin.php');
     exit();
 }
 
-// Check if parking slots are already occupied (if logged in)
-$checkParkingSlotQuery = "SELECT ParkingSlot FROM tblqr_login WHERE VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEIN DESC LIMIT 1";
-$parkingSlotResult = $conn->query($checkParkingSlotQuery);
-if ($parkingSlotResult->num_rows > 0) {
-    // If the vehicle is already logged in, prevent re-login without logout
-    $_SESSION['error'] = 'You cannot log in again without logging out first, as parking slots are still occupied.';
-    header('Location: qrlogin.php');
-    exit();
-}
 
 
 
