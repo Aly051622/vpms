@@ -80,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $registrationNumber = $_POST['registrationNumber'];
         $parkingSlot = $_POST['parkingSlot'];
 
+        SET time_zone = 'Asia/Manila';
         // Insert new vehicle data into tblmanual_login
         $insertQuery = "INSERT INTO tblmanual_login (OwnerName, OwnerContactNumber, VehicleCategory, RegistrationNumber, ParkingSlot, TimeIn) VALUES (?, ?, ?, ?, ?, NOW())";
         $insertStmt = $conn->prepare($insertQuery);
