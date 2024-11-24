@@ -574,6 +574,36 @@ h4{
     <script src="guard.js"></script>
 <script>
 
+   // Polling interval
+   setInterval(checkSlotStatusUpdates, 1000);
+
+// Check slot status updates
+function checkSlotStatusUpdates() {
+    const slots = document.querySelectorAll('.slot');
+    slots.forEach(slot => {
+        const slotNumber = slot.getAttribute('data-slot-number');
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "monitor2.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.slotNumber && response.status) {
+                    const updatedSlot = document.querySelector(`[data-slot-number='${response.slotNumber}']`);
+                    if (updatedSlot && updatedSlot.getAttribute('data-status') !== response.status) {
+                        updatedSlot.setAttribute('data-status', response.status);
+                        updatedSlot.classList.remove('vacant', 'occupied');
+                        updatedSlot.classList.add(response.status.toLowerCase());
+                        updatedSlot.querySelector('span.status').textContent = response.status;
+                    }
+                }
+            }
+        };
+        xhr.send("action=checkStatusUpdate&slotNumber=" + encodeURIComponent(slotNumber));
+    });
+}
+
+
     
     // Function to toggle the menu visibility
 function toggleMenu() {
