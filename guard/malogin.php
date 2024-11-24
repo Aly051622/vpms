@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $parkingSlot = $_POST['parkingSlot'];
 
         // Insert new vehicle data into tblmanual_login
-        $insertQuery = "INSERT INTO tblmanual_login (OwnerName, OwnerContactNumber, VehicleCategory, RegistrationNumber, ParkingSlot, TimeIn) VALUES (?, ?, ?, ?, ?, CONVERT_TZ(NOW(), 'UTC', '+08:00'))";
+        $insertQuery = "INSERT INTO tblmanual_login (OwnerName, OwnerContactNumber, VehicleCategory, RegistrationNumber, ParkingSlot, TimeIn) VALUES (?, ?, ?, ?, ?, NOW())";
         $insertStmt = $conn->prepare($insertQuery);
 
         if (!$insertStmt) {
@@ -469,6 +469,7 @@ $conn->close();
                         <td id="slot_<?= htmlspecialchars($vehicle['id']); ?>"><?= htmlspecialchars($vehicle['ParkingSlot']); ?></td>
 
                         <td><?= date("h:i:s A m-d-y", strtotime($vehicle['TimeIn'])); ?></td>
+
                         <td>
                             <button class="btn btn-warning btn-sm" onclick="editSlot(<?= $vehicle['id'] ?>)" id="editbtn">Edit</button>
                             <button class="btn btn-danger btn-sm" onclick="deleteVehicle(<?= $vehicle['id'] ?>)" id="deletebtn">Delete</button>
