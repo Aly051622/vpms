@@ -504,9 +504,8 @@ h4{
     }
     </style>
 </head>
-<>
+
     <div class="container">
-        <h1>Parking Slot Manager</h1>
             <!-- Search Slot -->
 <div class="search-slot">
     <input type="text" id="searchInput" placeholder="Enter Slot Number or Prefix" maxlength="10">
