@@ -21,6 +21,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+$conn->query("SET time_zone = 'Asia/Manila'");
+
 // Define the number of records per page
 $recordsPerPage = 10;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -34,6 +36,7 @@ $result = $conn->query($query);
 
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
+        $row['TimeIn'] = date("h:i:s A m-d-y", strtotime($row['TimeIn'] . ' +8 hours'));
         $vehicles[] = $row;
     }
 }
