@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 if (!isset($_SESSION['guardid'])) {
@@ -19,7 +20,6 @@ $conn = new mysqli($server, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
 
 // Function to check if the slot number already exists
 function isSlotNumberExists($conn, $slotNumber) {
@@ -85,7 +85,7 @@ if (isset($_POST['add_slot'])) {
         $stmt = $conn->prepare("INSERT INTO tblparkingslots (Area, SlotNumber, Status) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $area, $slotNumber, $status);
         if ($stmt->execute()) {
-            header("Location: monitor.php");
+            header("Location: monitor2.php");
             exit;
         } else {
             echo "<script>alert('Error: " . $stmt->error . "');</script>";
@@ -98,29 +98,46 @@ if (isset($_POST['add_slot'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
         $slotNumber = trim($_POST['slotNumber']); // Trim whitespace
-        if (isset($_POST['action']) && $_POST['action'] === 'updateStatus') {
+        if ($_POST['action'] === 'updateStatus') {
             $status = $_POST['status'];
             $stmt = $conn->prepare("UPDATE tblparkingslots SET Status = ? WHERE SlotNumber = ?");
             $stmt->bind_param("ss", $status, $slotNumber);
             $stmt->execute();
             $stmt->close();
-            echo "Slot $slotNumber marked as $status.";
+            echo json_encode(["status" => "success", "slotNumber" => $slotNumber, "newStatus" => $status]);
             exit;
         }
 
-        if (isset($_POST['action']) && $_POST['action'] === 'deleteSlot') {
+        if ($_POST['action'] === 'deleteSlot') {
             $stmt = $conn->prepare("DELETE FROM tblparkingslots WHERE SlotNumber = ?");
             $stmt->bind_param("s", $slotNumber);
             $stmt->execute();
             $stmt->close();
-            echo "Slot $slotNumber deleted.";
+            echo json_encode(["status" => "success", "message" => "Slot $slotNumber deleted."]);
+            exit;
+        }
+
+        // Handle status update checks
+        if ($_POST['action'] === 'checkStatusUpdate') {
+            $slotNumber = $_POST['slotNumber'];
+            $stmt = $conn->prepare("SELECT Status FROM tblparkingslots WHERE SlotNumber = ?");
+            $stmt->bind_param("s", $slotNumber);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            if ($row) {
+                echo json_encode([
+                    'slotNumber' => $slotNumber,
+                    'status' => $row['Status']
+                ]);
+            }
+            $stmt->close();
             exit;
         }
     }
 }
 
 // Fetch parking slots from the database, sorted by the numerical portion of SlotNumber
-// Fetch parking slots from the database, sorted by Area prefix (A, B, C, D) and then by numeric portion
 $slots_result = $conn->query("SELECT * FROM tblparkingslots ORDER BY 
     CASE 
         WHEN LEFT(SlotNumber, 1) = 'A' THEN 1
@@ -129,109 +146,15 @@ $slots_result = $conn->query("SELECT * FROM tblparkingslots ORDER BY
         WHEN LEFT(SlotNumber, 1) = 'D' THEN 4
     END, 
     CAST(SUBSTRING(SlotNumber, 2) AS UNSIGNED) ASC");
-
-
-// Function to fetch and display slots
-function fetchAndDisplaySlots($conn, $area, $prefix) {
-    $sql = "SELECT SlotNumber, Status FROM tblparkingslots WHERE Area = ? AND SlotNumber LIKE ? ORDER BY CAST(SUBSTRING(SlotNumber, 2) AS UNSIGNED)";
-    $stmt = $conn->prepare($sql);
-    $prefixLike = $prefix . '%';
-    $stmt->bind_param("ss", $area, $prefixLike);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    // Display slots with appropriate styles
-    while ($row = $result->fetch_assoc()) {
-        $slotClass = $row['Status'] === 'Occupied' ? 'occupied' : 'vacant';
-        echo "<div class='slot $slotClass' data-slot='{$row['SlotNumber']}'>";
-        echo htmlspecialchars($row['SlotNumber']) . " (" . htmlspecialchars($row['Status']) . ")";
-        echo "</div>";
-    }
-}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" href="images/ctul.png">
-    <link rel="shortcut icon" href="images/ctul.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parking Slot Manager</title>
     <link rel="stylesheet" href="guard.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<style>
-     .container{
-        padding-top:10px;
-        margin-top:-8px;
-    }
-    /*qrbutton add css*/
-    .dropbtns{
-            color: white;
-            padding: 8px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            background-color: orange;
-            border-radius: 9px;
-            font-weight: bold;
-            border: solid;
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-        }
-        .dropbtns:hover{
-            background-color: white;
-            color: orange;
-            border: solid orange;
-        }
-    @media (max-width: 480px){
-   
-    .navbar{
-        margin-top:-10px;
-        position: absolute;
-        height: 100px;
-    }
-    .navbar-brand{
-        margin-left: 10px;
-        padding-bottom:2px;
-    }
-    .navbar-toggler{
-        margin-right: 20px;
-        margin-top:-6em;
-    }
-    .navbar-item{
-        position: relative;
-    }
-    h4{
-        margin-top: 30px;
-
-    }
-    .dropbtns{
-        margin-right: 1em;
-    }
-}
-h4{
-    margin-left: 20px;
-}
-</style>
-
-<nav class="navbar">
-<div class="navbar-brand"><a href="monitor.php"><h4>Parking Slot Manager</h4></a></div>
-<div class="container">
-    <div class="navbar-toggler" onclick="toggleMenu()"  >&#9776;</div>
-    <div class="navbar-menu" id="navbarMenu" style="margin-right: 30px;">
-        <!-- QR Login Button -->
-        <a href="qrlogout.php" class="navbar-item dropbtns"><i class="bi bi-car-front-fill"></i> QR Log-out</a>
-      
-
-        <!-- Manual Input Button -->
-        <a href="malogout.php" class="navbar-item dropbtns"><i class="bi bi-display-fill"></i> Manual Log-out</a>
-
-        <a href="logout.php" class="navbar-item dropbtns"><i class="bi bi-car-front"></i> Logout</a>
-       
-    </div>
-</div>
-</nav>
 
     <style>
         /* Style for the alert prompt using CSS */
@@ -255,7 +178,6 @@ h4{
 
         /*navbar add css*/
         .navbar{
-            padding: 1px;
             background-color: rgb(53, 97, 255);
             box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
             }
@@ -277,7 +199,18 @@ h4{
                 text-align: center; /* Center text in buttons */
             }
         }
-      
+        .toggle-menu{
+            margin-top: 4px;
+            margin-left: 15px;
+            padding: 5px;
+            border: none;
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        }
+                
+        .toggle-menu:hover{
+            color: orange;
+            box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+        }
          /* Responsive adjustments */
         @media (max-width: 768px) {
             .toggle-menu {
@@ -290,9 +223,6 @@ h4{
                 margin-top: -5px; /* Further reduced margin for very small screens */
                 margin-left: 35px;
             }
-            body{
-                margin-top: -15em;
-            }
         }
 
         /* Responsive adjustments */
@@ -302,7 +232,11 @@ h4{
             }
         }
 
-       
+        @media (max-width: 480px) {
+            .container {
+                margin-top: 12em; /* Further reduced margin for very small screens */
+            }
+        }
 
         
 
@@ -369,9 +303,10 @@ h4{
             box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
         }
 
+       
         .legend {
-            margin-top: -40px;
-            margin-left: 50px;
+            margin-top: -1em;
+            margin-left:-70em;
             display: block;
             align-items: flex-start; 
         }
@@ -482,7 +417,6 @@ h4{
             }
         }
 
-
         .search, .add {
                 color: white;
                 padding: 8px;
@@ -501,35 +435,37 @@ h4{
         color: darkblue;
         box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
     }
-    .search-slot{
-        margin-top: 7em;
-    }
+
+      
     </style>
 </head>
 <body>
+    <!-- Responsive Navigation Bar -->
+    <?php include_once('includes/headerout.php');?>
 
-<div class="container">
-        <!-- Search Slot -->
+    <div class="container">
+        <h1>Parking Slot Manager</h1>
+            <!-- Search Slot -->
 <div class="search-slot">
     <input type="text" id="searchInput" placeholder="Enter Slot Number or Prefix" maxlength="10">
-    <button onclick="filterSlots()" class="search" >Search</button> <!-- Added Search Button -->
+    <button onclick="filterSlots()" class="search">Search</button> <!-- Added Search Button -->
 </div>
 
 
         <!-- Add New Slot -->
-        <form method="POST" action="monitor.php">
+        <form method="POST" action="monitor2.php">
             <div class="add-slot">
-                <select name="area" id="areaSelect"> 
+                <select name="area" id="areaSelect">
                     <option value="Front Admin" selected>A</option>
                     <option value="Beside CME">B</option>
                     <option value="Kadasig">C</option>
                     <option value="Behind">D</option>
                 </select>
-                <select name="status" id="areaSelect">
+                <input type="text" name="slotNumber" id="slotNumberInput" placeholder="Enter Slot Number (or leave empty for auto)" maxlength="10">
+                <select name="status">
                     <option value="Vacant">Vacant</option>
                     <option value="Occupied">Occupied</option>
                 </select>
-                <input type="text" name="slotNumber" id="slotNumberInput" placeholder="Enter Slot Number (or leave empty for auto)" maxlength="10">
                 <button type="submit" name="add_slot" class="add">Add Slot</button>
             </div>
         </form>
@@ -542,14 +478,13 @@ h4{
     <button id="btnBehind" onclick="selectArea('Behind')">D</button>
 </div>
 
-</div>
-
+        
           <!-- Slot's Legend -->
           <div class="legend">
             <span class="v-legend"><i class="bi bi-square-fill"></i> Vacant</span><br>
             <span class="o-legend"><i class="bi bi-dash-square-fill"></i> Occupied</span>
         </div>
-
+        
         <!-- Slots Display -->
         <div class="slots-display" id="slotsDisplay">
             <?php while ($row = $slots_result->fetch_assoc()): 
@@ -570,9 +505,38 @@ h4{
             <?php endwhile; ?>
         </div>
     </div>
-</div>
+
     <script src="guard.js"></script>
 <script>
+
+                // Polling interval
+        setInterval(checkSlotStatusUpdates, 1000);
+
+// Check slot status updates
+function checkSlotStatusUpdates() {
+    const slots = document.querySelectorAll('.slot');
+    slots.forEach(slot => {
+        const slotNumber = slot.getAttribute('data-slot-number');
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "monitor2.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.slotNumber && response.status) {
+                    const updatedSlot = document.querySelector(`[data-slot-number='${response.slotNumber}']`);
+                    if (updatedSlot && updatedSlot.getAttribute('data-status') !== response.status) {
+                        updatedSlot.setAttribute('data-status', response.status);
+                        updatedSlot.classList.remove('vacant', 'occupied');
+                        updatedSlot.classList.add(response.status.toLowerCase());
+                        updatedSlot.querySelector('span.status').textContent = response.status;
+                    }
+                }
+            }
+        };
+        xhr.send("action=checkStatusUpdate&slotNumber=" + encodeURIComponent(slotNumber));
+    });
+}
 
     
     // Function to toggle the menu visibility
@@ -626,35 +590,47 @@ function filterSlots() {
         actions.style.display = actions.style.display === 'none' ? 'block' : 'none';
     }
 
-    // Function to update slot status via AJAX
-    function updateSlotStatus(slotNumber, status) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "monitor.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                alert(xhr.responseText);
-                window.location.reload(); // Reload page after updating
-            }
-        };
-        xhr.send("action=updateStatus&slotNumber=" + encodeURIComponent(slotNumber) + "&status=" + encodeURIComponent(status));
-    }
+     // AJAX function to update slot status
+     function updateSlotStatus(slotNumber, status) {
+            const data = new FormData();
+            data.append('action', 'updateStatus');
+            data.append('slotNumber', slotNumber);
+            data.append('status', status);
 
-    // Function to delete a slot via AJAX
-    function deleteSlot(slotNumber) {
-        if (confirm("Are you sure you want to delete this slot?")) {
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "monitor.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    alert(xhr.responseText);
-                    window.location.reload(); // Reload page after deleting
+            fetch('monitor2.php', {
+                method: 'POST',
+                body: data
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const slot = document.querySelector(`.slot[data-slot-number="${data.slotNumber}"]`);
+                    slot.classList.remove('vacant', 'occupied');
+                    slot.classList.add(data.newStatus.toLowerCase());
+                    alert(`Slot ${data.slotNumber} updated to ${data.newStatus}.`);
                 }
-            };
-            xhr.send("action=deleteSlot&slotNumber=" + encodeURIComponent(slotNumber));
+            });
         }
-    }
+
+        // AJAX function to delete a slot
+        function deleteSlot(slotNumber) {
+            const data = new FormData();
+            data.append('action', 'deleteSlot');
+            data.append('slotNumber', slotNumber);
+
+            fetch('monitor2.php', {
+                method: 'POST',
+                body: data
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const slot = document.querySelector(`.slot[data-slot-number="${slotNumber}"]`);
+                    slot.remove();
+                    alert(data.message);
+                }
+            });
+        }
 
     // Automatically set a default area if none is selected
     if (!localStorage.getItem('selectedArea')) {
