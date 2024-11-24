@@ -504,7 +504,7 @@ h4{
     }
     </style>
 </head>
-<body>
+<>
     <div class="container">
         <h1>Parking Slot Manager</h1>
             <!-- Search Slot -->
@@ -539,7 +539,7 @@ h4{
     <button id="btnKadasig" onclick="selectArea('Kadasig')">C</button>
     <button id="btnBehind" onclick="selectArea('Behind')">D</button>
 </div>
-
+</div>
         
           <!-- Slot's Legend -->
           <div class="legend">
