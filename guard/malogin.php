@@ -407,10 +407,10 @@ $conn->close();
                 <label for="area">Area:</label>
                 <select class="form-control" id="area" name="area">
                     <option value="">--Select Area--</option>
-                    <option value="A">Front Admin</option>
-                    <option value="B">Beside CME</option>
-                    <option value="C">Kadasig</option>
-                    <option value="D">Behind</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
                 </select>
             </div>
         </div>
