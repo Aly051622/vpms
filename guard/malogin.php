@@ -7,6 +7,7 @@ if (!isset($_SESSION['guardid'])) {
     exit();
 }
 
+$conn->query("SET time_zone = 'Asia/Manila'");
 date_default_timezone_set('Asia/Manila');
 
 $server = "localhost";
@@ -81,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $parkingSlot = $_POST['parkingSlot'];
 
         // Insert new vehicle data into tblmanual_login
-        $insertQuery = "INSERT INTO tblmanual_login (OwnerName, OwnerContactNumber, VehicleCategory, RegistrationNumber, ParkingSlot, TimeIn) VALUES (?, ?, ?, ?, ?, NOW())";
+        $insertQuery = "INSERT INTO tblmanual_login (OwnerName, OwnerContactNumber, VehicleCategory, RegistrationNumber, ParkingSlot, TimeIn) VALUES (?, ?, ?, ?, ?, CONVERT_TZ(NOW(), '+00:00', '+08:00'))";
         $insertStmt = $conn->prepare($insertQuery);
 
         if (!$insertStmt) {
