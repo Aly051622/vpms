@@ -192,8 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
     $vehiclePlateNumber = str_replace('Plate Number: ', '', $dataLines[1]);
     $name = str_replace('Name: ', '', $dataLines[2]);
     $mobilenum = str_replace('Contact Number: ', '', $dataLines[3]);
-
-    $timeIn = date("Y-m-d h:i:s A");
+    $timeIn = date("Y-m-d H:i:s");
 
 
     // Get the selected area prefix
