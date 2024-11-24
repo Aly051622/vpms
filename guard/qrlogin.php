@@ -141,6 +141,13 @@ $conn->close();
         #switchCameraBtn:hover {
             background-color: #0056b3; /* Darker shade on hover */
         }
+        .alert {
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%; /* You can adjust this width as needed */
+            text-align: center; /* Center the text inside the alert */
+            display: block; /* Make sure the alert takes up block space */
+        }
     </style>
 </head>
 <body>
