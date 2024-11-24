@@ -172,9 +172,9 @@ $conn->close();
                 <tbody>
                 <?php
 $server = "localhost";
-$username = "root";
-$password = "";
-$dbname = "parking";
+$username = "u132092183_parkingz";
+$password = "@Parkingz!2024";
+$dbname = "u132092183_parkingz";
 
 $conn = new mysqli($server, $username, $password, $dbname);
 
