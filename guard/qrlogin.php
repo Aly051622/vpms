@@ -1,6 +1,5 @@
 
-<?php session_start(); 
-
+<?php
 session_start();
 
 if (!isset($_SESSION['guardid'])) {
@@ -384,7 +383,7 @@ if (!$query) {
 }
 
 while ($row = $query->fetch_assoc()) {
-    $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('H:i:s m-d-Y');
+    $formattedTimeIn = (new DateTime($row['TIMEIN']))->format('h:i A m-d-Y');
     echo "
     <tr>
         <td>" . $row['ID'] . "</td>
