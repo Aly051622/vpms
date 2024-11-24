@@ -514,19 +514,19 @@ h4{
 
 
         <!-- Add New Slot -->
-        <form method="POST" action="monitor2.php">
+        <form method="POST" action="monitor.php">
             <div class="add-slot">
-                <select name="area" id="areaSelect">
+                <select name="area" id="areaSelect"> 
                     <option value="Front Admin" selected>A</option>
                     <option value="Beside CME">B</option>
                     <option value="Kadasig">C</option>
                     <option value="Behind">D</option>
                 </select>
-                <input type="text" name="slotNumber" id="slotNumberInput" placeholder="Enter Slot Number (or leave empty for auto)" maxlength="10">
-                <select name="status">
+                <select name="status" id="areaSelect">
                     <option value="Vacant">Vacant</option>
                     <option value="Occupied">Occupied</option>
                 </select>
+                <input type="text" name="slotNumber" id="slotNumberInput" placeholder="Enter Slot Number (or leave empty for auto)" maxlength="10">
                 <button type="submit" name="add_slot" class="add">Add Slot</button>
             </div>
         </form>
