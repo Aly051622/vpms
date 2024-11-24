@@ -585,21 +585,21 @@ document.addEventListener('DOMContentLoaded', function () {
     <nav class="navbar fixed-top" id="mainNav">
         <div class="container">
           
-        <a class="navbar-item" href="users/service.php" id="surbtn"><!--<i class="bi bi-headset"></i>--></a>
+        <a class="navbar-item" href="users/service.php" id="surbtn"><i class=""></i></a>
           <a class="navbar-brand" id="title" style="color:white; position: absolute; margin-left: 3.5em;">CTU Danao Parking System</a>
             <div class="navbar-menu">   
                 <a class="navbar-item" href="admin/index.php">Admin</a>
-                <a class="navbar-item" href="guard/index.php">Security</a>
+                <a class="navbar-item" href="users/login.php">Client</a>
                 <a class="navbar-item" href="index.html">About</a>
-               <!-- <a class="navbar-item btn btn-primary" href="#" id="surbtn" data-toggle="modal" data-target="#commentModal">
+                <a class="navbar-item btn btn-primary" href="#" id="surbtn" data-toggle="modal" data-target="#commentModal">
                   <i class="bi bi-chat-fill"></i></a>                
               <a class="navbar-item btn btn-primary" href="#" id="surbtn" data-toggle="modal" data-target="#feedbackModal">
-                  <i class="bi bi-envelope-paper-heart"></i></a> -->
+                  <i class="bi bi-envelope-paper-heart"></i></a>
             </div>
         </div>
     </nav>
 
-    <!-- Modal for Comment Section 
+    <!-- Modal for Comment Section -->
 <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -610,7 +610,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 </button>
             </div>
             <div class="modal-body" id="modalContent">
-                Content from users/comment.php will be loaded here 
+                <!-- Content from users/comment.php will be loaded here -->
                 <iframe src="users/comment.php" style="width:100%; height:500px; border:none;" title="Comments Section"></iframe>
 
             </div>
@@ -618,7 +618,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
 </div>
 
-   Modal for Feedbacks 
+   <!-- Modal for Feedbacks -->
    <div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -629,13 +629,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 </button>
             </div>
             <div class="modal-body" id="modalContent">
-                Content from users/feedbaacks.php will be loaded here 
+                <!-- Content from users/feedbaacks.php will be loaded here -->
                 <iframe src="users/feedbacks.php" style="width:100%; height:500px; border:none;" title="Feedbacks"></iframe>
 
             </div>
         </div>
     </div>
-</div> -->
+</div>
 
     <!-- Masthead-->
     <header class="masthead">
@@ -643,7 +643,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <!-- Masthead Avatar Image-->
             <img class="masthead-avatar" src="images/welcome.png" alt="Logo" />
             <!-- Masthead Heading-->
-            <h1 class="masthead-heading">hahahahaARKING SYSTEM</h1>
+            <h1 class="masthead-heading">CTU DANAO PARKING SYSTEM</h1>
             <!-- Icon Divider-->
             <div class="divider-custom">
     <div class="divider-custom-icon">
