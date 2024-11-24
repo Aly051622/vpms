@@ -249,12 +249,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
         exit();
     }
 
-    // Check if user is already logged in without logging out
+   // Check if user is already logged in without logging out
 $checkLogoutQR = "SELECT * FROM tblqr_logout WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEOUT DESC LIMIT 1";
 $checkLoginQR = "SELECT * FROM tblqr_login WHERE Name = '$name' AND VehiclePlateNumber = '$vehiclePlateNumber' ORDER BY TIMEIN DESC LIMIT 1";
 
-$checkLogoutManual = "SELECT * FROM tblmanual_logout WHERE OwnerName = '$name' AND RegistrationNumber = '$vehiclePlateNumber' ORDER BY TimeOut DESC LIMIT 1";
-$checkLoginManual = "SELECT * FROM tblmanual_login WHERE OwnerName = '$name' AND RegistrationNumber = '$vehiclePlateNumber' ORDER BY TimeIn DESC LIMIT 1";
+$checkLogoutManual = "SELECT * FROM tblmanual_logout WHERE Name = '$name' AND RegistrationNumber = '$vehiclePlateNumber' ORDER BY TIMEOUT DESC LIMIT 1";
+$checkLoginManual = "SELECT * FROM tblmanual_login WHERE Name = '$name' AND RegistrationNumber = '$vehiclePlateNumber' ORDER BY TIMEIN DESC LIMIT 1";
 
 // Execute the queries
 $logoutResultQR = $conn->query($checkLogoutQR);
@@ -271,7 +271,7 @@ if ($logoutResultQR->num_rows > 0) {
 }
 
 if ($logoutResultManual->num_rows > 0) {
-    $lastLogoutTime = max($lastLogoutTime, $logoutResultManual->fetch_assoc()['TimeOut']);
+    $lastLogoutTime = max($lastLogoutTime, $logoutResultManual->fetch_assoc()['TIMEOUT']);
 }
 
 if ($loginResultQR->num_rows > 0) {
@@ -279,7 +279,7 @@ if ($loginResultQR->num_rows > 0) {
 }
 
 if ($loginResultManual->num_rows > 0) {
-    $lastLoginTime = max($lastLoginTime, $loginResultManual->fetch_assoc()['TimeIn']);
+    $lastLoginTime = max($lastLoginTime, $loginResultManual->fetch_assoc()['TIMEIN']);
 }
 
 // Ensure last login time is later than last logout time, or no previous login exists
