@@ -28,7 +28,7 @@ $start = ($page - 1) * $recordsPerPage;
 
 // Fetch records with pagination
 $vehicles = [];
-$query = "SELECT * FROM tblmanual_login WHERE DATE(TimeIn) = CURDATE() ORDER BY ID DESC LIMIT $start, $recordsPerPage";
+$query = "SELECT *, CONVERT_TZ(TimeIn, '+00:00', '+08:00') AS TimeInLocal FROM tblmanual_login WHERE DATE(TimeIn) = CURDATE() ORDER BY ID DESC LIMIT $start, $recordsPerPage";
 $result = $conn->query($query);
 
 
@@ -468,7 +468,8 @@ $conn->close();
                         <td><?= htmlspecialchars($vehicle['RegistrationNumber']); ?></td>
                         <td id="slot_<?= htmlspecialchars($vehicle['id']); ?>"><?= htmlspecialchars($vehicle['ParkingSlot']); ?></td>
 
-                        <td><?= (new DateTime($vehicle['TimeIn']))->format('h:i A m-d-Y'); ?></td>
+                        <td><?= date("h:i:s A m-d-y", strtotime($vehicle['TimeInLocal'])); ?></td>
+
                         <td>
                             <button class="btn btn-warning btn-sm" onclick="editSlot(<?= $vehicle['id'] ?>)" id="editbtn">Edit</button>
                             <button class="btn btn-danger btn-sm" onclick="deleteVehicle(<?= $vehicle['id'] ?>)" id="deletebtn">Delete</button>
