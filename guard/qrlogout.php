@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
         $occupiedSlots = explode(', ', $rowLogin['ParkingSlot']);
 
         // Proceed with logout regardless of existing logout entries
-        $timeOut = date("Y-m-d h:i:s A");
+        $timeOut = date("Y-m-d H:i:s ");
         $sqlInsert = "INSERT INTO tblqr_logout (Name, ContactNumber, VehicleType, VehiclePlateNumber, ParkingSlot, TIMEOUT)
                       VALUES ('$name', '$mobilenum', '$vehicleType', '$vehiclePlateNumber', '{$rowLogin['ParkingSlot']}', '$timeOut')";
 
