@@ -50,6 +50,7 @@ $conn->close();
 
 <html class="no-js" lang="">
 <head>
+
     <script type="text/javascript" src="js/adapter.min.js"></script>
     <script type="text/javascript" src="js/vue.min.js"></script>
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
@@ -70,84 +71,196 @@ $conn->close();
     <title>QR Code Login Scanner | CTU DANAO Parking System</title>
 
     <style>
-        body {
-            color: black;
-            background-color: #f9fcff;
-            background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
-        }
-        .no-js {
-            background-color: #f9fcff;
-            background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
-        }
-        .container {
-            padding: 20px;
-        }
-        .scanner-container, .table-container {
-            margin-top: 20px;
-        }
-        video {
-            width: 500px;
-            height: 300px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            display: block;
-            margin: 0 auto;
-        }
-        .scanner-label {
-            font-weight: bold; 
-            color: orange; 
-            font-size: 20px; 
-            text-align: center; 
-            margin-top: 10px;
-        }
-        .navbar-item .dropbtns:hover{
-            background-color: white;
-            color: orange;
-            border: solid orange;
-            border-radius: 9px;
-        }
-        
-        /*navbar add css*/
-        .navbar{
-            background-color: rgb(53, 97, 255);
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-            }
-        @media (max-width: 480px){
-        .container{
-            padding-top:10px;
-            margin-top:-8px;
-        }
-        .navbar-brand{
-            margin-left: 10px;
-        }
-        .navbar-toggler{
-            margin-top: -33px;
-            margin-left: 11em;
-        }
+      body {
+    color: black;
+    background-color: #f9fcff;
+    background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
+}
+
+.no-js {
+    background-color: #f9fcff;
+    background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
+}
+
+.container {
+    padding: 20px;
+}
+
+.scanner-container, 
+.table-container {
+    margin-top: 20px;
+}
+
+video {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 auto;
+}
+
+.scanner-label {
+    font-weight: bold;
+    color: orange;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.navbar-item .dropbtns:hover {
+    background-color: white;
+    color: orange;
+    border: solid orange;
+    border-radius: 9px;
+}
+
+/* Navbar styling */
+.navbar {
+    background-color: rgb(53, 97, 255);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+/* Button styling */
+#switchCameraBtn {
+    margin-top: 10px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#switchCameraBtn:hover {
+    background-color: #0056b3;
+}
+
+.alert {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    text-align: center;
+    display: block;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .container {
+        padding: 15px;
     }
 
-        #switchCameraBtn {
-            margin-top: 10px;
-            cursor: pointer; /* Change cursor to pointer */
-            background-color: #007bff; /* Bootstrap primary color */
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
+    video {
+        max-width: 450px;
+    }
 
-        #switchCameraBtn:hover {
-            background-color: #0056b3; /* Darker shade on hover */
-        }
-        .alert {
-            margin-left: auto;
-            margin-right: auto;
-            width: 50%; /* You can adjust this width as needed */
-            text-align: center; /* Center the text inside the alert */
-            display: block; /* Make sure the alert takes up block space */
-        }
+    .scanner-label {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 954px) {
+    .container {
+        padding: 10px;
+    }
+
+    video {
+        max-width: 400px;
+    }
+
+    #switchCameraBtn {
+        padding: 8px 18px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    video {
+        max-width: 350px;
+    }
+
+    .scanner-label {
+        font-size: 16px;
+    }
+
+    #switchCameraBtn {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 500px) {
+    .container {
+        padding: 8px;
+    }
+
+    video {
+        max-width: 300px;
+    }
+
+    .scanner-label {
+        font-size: 14px;
+    }
+
+    #switchCameraBtn {
+        font-size: 13px;
+        padding: 8px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 8px;
+        margin-top: -8px;
+    }
+
+    .navbar-brand {
+        margin-left: 10px;
+    }
+
+    .navbar-toggler {
+        margin-top: -33px;
+        margin-left: 11em;
+    }
+
+    video {
+        max-width: 280px;
+    }
+
+    .scanner-label {
+        font-size: 13px;
+    }
+
+    #switchCameraBtn {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 300px) {
+    .container {
+        padding: 5px;
+    }
+
+    video {
+        max-width: 250px;
+    }
+
+    .scanner-label {
+        font-size: 12px;
+    }
+
+    #switchCameraBtn {
+        font-size: 11px;
+        padding: 6px 12px;
+    }
+}
+
     </style>
 </head>
 <body>
