@@ -11,7 +11,7 @@ if (isset($_POST['login'])) {
     $guarduser = $_POST['username'];
     $password = $_POST['password'];
 
-    // Hash the entered password using SHA-512
+    // Hash the entered password using SHA-512 (or check if the passwords are already hashed in the database)
     $hashed_password = hash('sha512', $password);
 
     // Use prepared statements to avoid SQL injection
