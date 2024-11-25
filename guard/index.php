@@ -11,7 +11,7 @@ if (isset($_POST['login'])) {
     $guarduser = $_POST['username'];
     $password = $_POST['password'];
 
-    // Hash the entered password using SHA-512 (or check if the passwords are already hashed in the database)
+    // Hash the entered password using SHA-512
     $hashed_password = hash('sha512', $password);
 
     // Use prepared statements to avoid SQL injection
@@ -33,6 +33,10 @@ if (isset($_POST['login'])) {
     if ($result->num_rows > 0) {
         // Fetch the user data
         $ret = $result->fetch_assoc();
+
+        // Debug: Log both passwords to check if they match
+        error_log("Input hashed password: " . $hashed_password);
+        error_log("Stored password: " . $ret['Password']);
 
         // Compare the hashed password with the stored one
         if ($hashed_password === $ret['Password']) {
