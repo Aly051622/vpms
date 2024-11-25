@@ -1301,6 +1301,48 @@
         height: 320px;
       }
 }
+.navbar-brand {
+      display: block;
+      text-align: center;
+      margin-bottom: 0.5em;
+    }
+
+    .navbar-menu {
+      display: flex;
+      justify-content: center;
+      gap: 1em;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+      .navbar-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar-menu {
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: nowrap;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .navbar-brand {
+        font-size: 0.9em;
+      }
+      .navbar-menu a {
+        font-size: 0.8em;
+      }
+    }
+
+    @media (max-width: 300px) {
+      .navbar-menu a {
+        font-size: 0.7em;
+      }
+    }
 </style>
 
     </head>
