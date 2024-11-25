@@ -6,35 +6,53 @@ ini_set('display_errors', 1);
 include('../DBconnection/dbconnection.php');
 
 if (isset($_POST['login'])) {
+    // Get user input
     $guarduser = $_POST['username'];
-    // Hash the entered password using SHA512
-    $hashed_password = hash('sha512', $_POST['password']);
+    $password = $_POST['password'];
+
+    // Hash the entered password using SHA-512
+    $hashed_password = hash('sha512', $password);
     
     // Use prepared statements to avoid SQL injection
-    $stmt = $con->prepare("SELECT ID, UserName FROM tblguard WHERE UserName = ? AND Password = ?");
-    $stmt->bind_param("ss", $guarduser, $hashed_password);
+    $stmt = $con->prepare("SELECT ID, UserName, Password FROM tblguard WHERE UserName = ?");
+    $stmt->bind_param("s", $guarduser);  // Bind the username to prevent SQL injection
     $stmt->execute();
     $result = $stmt->get_result();
 
+    // Check if the username exists
     if ($result->num_rows > 0) {
         // Fetch the user data
         $ret = $result->fetch_assoc();
 
-        // Set session for guard ID
-        $_SESSION['guardid'] = $ret['ID'];
+        // Compare the hashed password with the stored one
+        if ($hashed_password === $ret['Password']) {
+            // Set session for guard ID
+            $_SESSION['guardid'] = $ret['ID'];
 
-        // Redirect based on the username
-        if ($guarduser == 'inguard') {
-            header('Location: monitor.php');
-            exit();
-        } elseif ($guarduser == 'outguard') {
-            header('Location: monitor2.php');
-            exit();
+            // Redirect based on the username
+            if ($guarduser == 'inguard') {
+                header('Location: monitor.php');
+                exit();
+            } elseif ($guarduser == 'outguard') {
+                header('Location: monitor2.php');
+                exit();
+            } elseif ($guarduser == 'SuperAdmin') {
+                header('Location: superadmin_dashboard.php');
+                exit();
+            } elseif ($guarduser == 'admin1') {
+                header('Location: admin_dashboard.php');
+                exit();
+            } elseif ($guarduser == 'admin2') {
+                header('Location: admin2_dashboard.php');
+                exit();
+            } else {
+                echo "<script>alert('Invalid Guard Username.');</script>";
+            }
         } else {
-            echo "<script>alert('Invalid Guard Username.');</script>";
+            echo "<script>alert('Invalid password.');</script>";
         }
     } else {
-        echo "<script>alert('Invalid Details.');</script>";
+        echo "<script>alert('Invalid username.');</script>";
     }
 
     // Close the prepared statement
