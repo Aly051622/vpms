@@ -7,29 +7,41 @@ include('../DBconnection/dbconnection.php');
 
 if (isset($_POST['login'])) {
     $guarduser = $_POST['username'];
+    // Hash the entered password using SHA512
     $hashed_password = hash('sha512', $_POST['password']);
     
-    // Query to check the username and hashed password
-    $query = mysqli_query($con, "SELECT ID, UserName FROM tblguard WHERE UserName='$guarduser' AND Password='$hashed_password'");
-    $ret = mysqli_fetch_array($query);
+    // Use prepared statements to avoid SQL injection
+    $stmt = $con->prepare("SELECT ID, UserName FROM tblguard WHERE UserName = ? AND Password = ?");
+    $stmt->bind_param("ss", $guarduser, $hashed_password);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if ($ret) {
+    if ($result->num_rows > 0) {
+        // Fetch the user data
+        $ret = $result->fetch_assoc();
+
         // Set session for guard ID
         $_SESSION['guardid'] = $ret['ID'];
 
         // Redirect based on the username
         if ($guarduser == 'inguard') {
             header('Location: monitor.php');
+            exit();
         } elseif ($guarduser == 'outguard') {
             header('Location: monitor2.php');
+            exit();
         } else {
             echo "<script>alert('Invalid Guard Username.');</script>";
         }
     } else {
         echo "<script>alert('Invalid Details.');</script>";
     }
+
+    // Close the prepared statement
+    $stmt->close();
 }
 ?>
+
 
 
 <!DOCTYPE html>
