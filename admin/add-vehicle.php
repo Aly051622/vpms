@@ -70,52 +70,50 @@ $encryptionKey = getenv('ENCRYPTION_KEY');  // Fetch encryption key securely fro
 if (!$encryptionKey) {
     die("Encryption key not set in environment variables.");
 }
-$encryptionKey = base64_decode($encryptionKey);  // Base64 decode the key
+$encryptionKey = base64_decode($encryptionKey);  // Decode the base64-encoded key
 
 $cipher = "AES-256-CBC";  // Encryption method
-$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher));  // Generate initialization vector
+$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher));  // Generate an initialization vector
 
 // Generate random values for the QR code
-$randomVehicleType = bin2hex(random_bytes(3));  // Random string for vehicle type
-$randomPlateNumber = bin2hex(random_bytes(5));  // Random string for plate number
-$randomName = bin2hex(random_bytes(6));  // Random string for name
-$randomContactNumber = bin2hex(random_bytes(4));  // Random string for contact number
-$randomModel = bin2hex(random_bytes(4));  // Random string for model
+$randomValues = [
+    'VehicleType' => bin2hex(random_bytes(3)),  // Random string for vehicle type
+    'PlateNumber' => bin2hex(random_bytes(5)),  // Random string for plate number
+    'Name' => bin2hex(random_bytes(6)),        // Random string for name
+    'ContactNumber' => bin2hex(random_bytes(4)), // Random string for contact number
+    'Model' => bin2hex(random_bytes(4)),       // Random string for model
+];
 
-// Prepare data for encryption with random values
-$qrCodeData = json_encode([
-    'VehicleType' => $randomVehicleType,
-    'PlateNumber' => $randomPlateNumber,
-    'Name' => $randomName,
-    'ContactNumber' => $randomContactNumber,
-    'Model' => $randomModel,
-]);
+// Prepare data for encryption
+$qrCodeData = json_encode($randomValues);
 
 // Encrypt the data
-$encryptedQrCodeData = openssl_encrypt($qrCodeData, $cipher, $encryptionKey, 0, $iv);
-$encryptedQrCodeData = base64_encode($encryptedQrCodeData . "::" . base64_encode($iv));  // Base64 encode the encrypted data and IV
+$encryptedData = openssl_encrypt($qrCodeData, $cipher, $encryptionKey, 0, $iv);
+if ($encryptedData === false) {
+    die("Encryption failed.");
+}
 
-// Generate QR Code with the encrypted data
+// Combine encrypted data and IV, then encode as base64
+$encryptedQrCodeData = base64_encode($encryptedData . "::" . base64_encode($iv));
+
+// Generate the QR code with the encrypted data
 $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" . urlencode($encryptedQrCodeData) . "&size=150x150";
-$qrImageName = "qr" . $vehreno . "_" . time() . ".png";
+
+// Save the generated QR code as an image
+$qrImageName = "qr_" . uniqid() . ".png";  // Generate a unique name for the QR code image
 $qrImagePath = "qrcodes/" . $qrImageName;
 $qrCodeContent = file_get_contents($qrCodeUrl);
-file_put_contents($qrImagePath, $qrCodeContent);
+if ($qrCodeContent === false) {
+    die("Failed to fetch QR code from the server.");
+}
 
-   
-                   // Generate QR Code with Encrypted Data
-                   $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" . urlencode($encryptedQrCodeData) . "&size=150x150";
-                   $qrImageName = "qr" . $vehreno . "_" . time() . ".png";
-                   $qrImagePath = "qrcodes/" . $qrImageName;
-                   $qrCodeContent = file_get_contents($qrCodeUrl);
-                   file_put_contents($qrImagePath, $qrCodeContent);
+if (file_put_contents($qrImagePath, $qrCodeContent) === false) {
+    die("Failed to save the QR code image.");
+}
 
-            // Generate QR Code with Encrypted Data
-            $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" . urlencode($encryptedQrCodeData) . "&size=150x150";
-            $qrImageName = "qr" . $vehreno . "_" . time() . ".png";
-            $qrImagePath = "qrcodes/" . $qrImageName;
-            $qrCodeContent = file_get_contents($qrCodeUrl);
-            file_put_contents($qrImagePath, $qrCodeContent);
+// Output the result
+echo "QR code generated and saved as: " . $qrImagePath;
+
 
                 $inTime = date('Y-m-d H:i:s');
 
