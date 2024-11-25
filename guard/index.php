@@ -14,6 +14,10 @@ if (isset($_POST['login'])) {
     // Hash the entered password using SHA-1
     $hashed_password = sha1($password);
 
+    // Log the hashed password and the username
+    error_log("Entered username: " . $guarduser);
+    error_log("Entered password (hashed): " . $hashed_password);
+
     // Use prepared statements to avoid SQL injection
     // First, check tblguard
     $stmt = $con->prepare("SELECT ID, UserName, Password FROM tblguard WHERE UserName = ?");
@@ -33,6 +37,9 @@ if (isset($_POST['login'])) {
     if ($result->num_rows > 0) {
         // Fetch the user data
         $ret = $result->fetch_assoc();
+
+        // Log the stored password
+        error_log("Stored password (hash): " . $ret['Password']);
 
         // Compare the hashed password with the stored one
         if ($hashed_password === $ret['Password']) {
@@ -65,6 +72,7 @@ if (isset($_POST['login'])) {
     // Close the prepared statement
     $stmt->close();
 }
+
 
 
 ?>
