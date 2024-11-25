@@ -144,52 +144,7 @@ $conn->close();
 
     <title>QR Code Login Scanner | CTU DANAO Parking System</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<style>
-     .containers{
-        padding-top:10px;
-        margin-top:-3em;
-        padding: 10px;
-        margin-left: 27em;
-    }
-    /*qrbutton add css*/
-    .dropbtns{
-        margin-top: 40px;
-            color: white;
-            padding:1px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            background-color: orange;
-            border-radius: 9px;
-            font-weight: bold;
-            border: solid;
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-        }
-        .dropbtns:hover{
-            background-color: white;
-            color: orange;
-            border: solid orange;
-        }
-        .navbar{
-            background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, 
-                rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
-                rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-            }
-    @media (max-width: 480px){
-    .containers{
-        padding-top:10px;
-        margin-top:-8px;
-    }
-    .navbar-brand{
-        margin-left: 10px;
-    }
-    .navbar-toggler{
-        margin-top: -33px;
-        margin-left: 11em;
-    }
-}
-</style>
+
 
 <nav class="navbar">
     
@@ -211,178 +166,130 @@ $conn->close();
 </div>
 </nav>
     <style>
-         /* Body and Container */
-        body {
-            color: black;
-            background-color: whitesmoke;
-        }
-        .container {
-            max-width: 600px;
-            margin-top: 100px;
-            text-align: center;
-        }
-        .hidden-field{
-            display: none;
-        }
-        h2 {
-            font-size: 2em;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        label {
-            font-weight: bold;
-        }
-
-        /* Form */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        /* Search Button */
-            .btn-primary{
-                border: solid lightgray;
-                border-radius: 10px;
-                padding: 10px;
-                background-color: rgb(53, 97, 255);
-                color: white;
-                cursor: pointer;
-                font-family: 'Montserrat',sans-serif;
-                font-weight: bolder;
-        }
-
-           .btn-primary:hover{
-                background-color: darkblue;
-                border: solid blue;
-            }
-
-        /* Modal Styles */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            z-index: 1000;
-        }
-        .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fefefe;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 300px;
-            text-align: center;
-            font-family: Arial, sans-serif;
-        }
-        .modal-content p {
-            color: #d9534f;
-            font-size: 16px;
-            margin: 0;
-            padding: 10px 0;
-        }
-        .close-button {
-            background-color: #d9534f;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 5px 10px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        .close-button:hover {
-            background-color: #c9302c;
-        }
-        .table-responsive {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        margin-top: 20px;
-        align-items: center;
-        overflow-x: hidden; /* Prevent horizontal scrolling */
+  /* General Responsive Settings */
+  body {
+        color: black;
+        background-color: whitesmoke;
     }
+
+    .container {
+        max-width: 600px;
+        margin-top: 100px;
+        text-align: center;
+    }
+
+    /* Navbar Styles */
+    .navbar {
+        background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, 
+                    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
+                    rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .navbar-brand {
+        color: white;
+        margin-left: 10px;
+        font-size: 1.2rem;
+    }
+
+    /* Button Styles */
+    .dropbtns {
+        color: white;
+        padding: 8px 10px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        background-color: orange;
+        border-radius: 9px;
+        font-weight: bold;
+        border: solid;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, 
+                    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
+                    rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        margin-bottom: 10px;
+    }
+
+    .dropbtns:hover {
+        background-color: white;
+        color: orange;
+        border: solid orange;
+    }
+
+    /* Responsive Table Settings */
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+        margin-top: 20px;
+    }
+
     .table {
-        width: 50%;
-        table-layout: fixed; /* Ensure columns fit within the table width */
+        width: 100%;
+        table-layout: auto;
         border-collapse: collapse;
         background-color: #f9fcff;
-        word-wrap: break-word; /* Wrap text within cells */
     }
-    .table th, .table td {
+
+    .table th,
+    .table td {
         padding: 8px;
         text-align: left;
         border: 1px solid #ddd;
-        white-space: normal; /* Allow text wrapping */
+        white-space: nowrap;
     }
+
     .table th {
         font-weight: bold;
         background-color: #e0e6ed;
     }
-    .table td {
-        background-color: #ffffff;
-    }
-    h3{
-        text-align: center;
-    }
-    /* Column Responsiveness */
+
+    /* Responsiveness */
     @media (max-width: 768px) {
-        .table th,
-        .table td {
+        .navbar-brand {
+            font-size: 1rem;
+        }
+        
+        .dropbtns {
+            font-size: 14px;
+            padding: 6px 8px;
+        }
+
+        .table th, .table td {
             font-size: 12px;
             padding: 6px;
         }
     }
-    #deletebtn{
-                border: solid darkred;
-                border-radius: 10px;
-                padding: 10px;
-                background-color: red;
-                color: white;
-                cursor: pointer;
-                font-family: 'Montserrat',sans-serif;
-                font-weight: bolder;
+
+    @media (max-width: 480px) {
+        .containers {
+            padding: 5px;
+            margin: 0;
         }
-        #deletebtn:hover{
-            background-color: darkblue;
-            border: solid blue;
+        
+        .navbar {
+            flex-direction: column;
+            align-items: flex-start;
         }
-            #editbtn{
-                border: solid lightgray;
-                border-radius: 10px;
-                padding: 10px;
-                background-color: rgb(53, 97, 255);
-                color: white;
-                cursor: pointer;
-                font-family: 'Montserrat',sans-serif;
-                font-weight: bolder;
+        
+        .navbar-toggler {
+            margin-top: 10px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .table th, .table td {
+            font-size: 10px;
+            padding: 4px;
         }
 
-           #editbtn:hover{
-                background-color: darkblue;
-                border: solid blue;
-            }
-            .dropbtns{
-            color: white;
-            padding: 8px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            background-color: orange;
-            border-radius: 9px;
-            font-weight: bold;
-            border: solid;
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        .dropbtns {
+            width: 100%;
+            text-align: center;
         }
-        .navbar-item .dropbtns:hover{
-            background-color: white;
-            color: orange;
-            border: solid orange;
-            border-radius: 9px;
-        }
+    }
     </style>
 </head>
 <body>
