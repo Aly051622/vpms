@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -8,17 +9,13 @@ include('../DBconnection/dbconnection.php');
 // Check if login form is submitted
 if (isset($_POST['login'])) {
     // Get user input
-    $guarduser = $_POST['username'];
-    $password = $_POST['password'];
+    $guarduser = trim($_POST['username']); // Trim to avoid extra spaces
+    $password = trim($_POST['password']);  // Trim to avoid extra spaces
 
-    // Hash the entered password using SHA-1
-    $hashed_password = sha1($password);
-
-    // Log the hashed password and the username
+    // Debugging: log the entered username and password
     error_log("Entered username: " . $guarduser);
-    error_log("Entered password (hashed): " . $hashed_password);
+    error_log("Entered password: " . $password);
 
-    // Use prepared statements to avoid SQL injection
     // First, check tblguard
     $stmt = $con->prepare("SELECT ID, UserName, Password FROM tblguard WHERE UserName = ?");
     $stmt->bind_param("s", $guarduser);  // Bind the username to prevent SQL injection
@@ -38,11 +35,11 @@ if (isset($_POST['login'])) {
         // Fetch the user data
         $ret = $result->fetch_assoc();
 
-        // Log the stored password
-        error_log("Stored password (hash): " . $ret['Password']);
+        // Debugging: log the stored password hash
+        error_log("Stored password hash in DB: " . $ret['Password']);
 
-        // Compare the hashed password with the stored one
-        if ($hashed_password === $ret['Password']) {
+        // Verify the password using password_verify (recommended for security)
+        if (password_verify($password, $ret['Password'])) {
             // Set session for user ID
             $_SESSION['userid'] = $ret['ID'];
 
@@ -63,19 +60,23 @@ if (isset($_POST['login'])) {
                 echo "<script>alert('Invalid Guard Username.');</script>";
             }
         } else {
+            // If password doesn't match, log the error and show message
+            error_log("Password does not match.");
             echo "<script>alert('Invalid password.');</script>";
         }
     } else {
+        // If username doesn't exist in both tables, show message
         echo "<script>alert('Invalid username.');</script>";
     }
 
     // Close the prepared statement
     $stmt->close();
 }
-
-
-
 ?>
+
+
+
+
 
 
 
