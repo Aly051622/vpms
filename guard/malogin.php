@@ -212,6 +212,10 @@ $conn->close();
 </nav>
     <style>
          /* Body and Container */
+        body {
+            color: black;
+            background-color: whitesmoke;
+        }
         .container {
             max-width: 600px;
             margin-top: 100px;
