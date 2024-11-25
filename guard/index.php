@@ -11,8 +11,8 @@ if (isset($_POST['login'])) {
     $guarduser = $_POST['username'];
     $password = $_POST['password'];
 
-    // Hash the entered password using SHA-512
-    $hashed_password = hash('sha512', $password);
+    // Hash the entered password (test SHA-1 or SHA-256)
+    $hashed_password = sha1($password);  // Change this to sha256 if needed
 
     // Use prepared statements to avoid SQL injection
     // First, check tblguard
