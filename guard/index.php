@@ -1,37 +1,84 @@
 <?php
+
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Include the database connection
 include('../DBconnection/dbconnection.php');
 
+// Check if login form is submitted
 if (isset($_POST['login'])) {
-    $guarduser = $_POST['username'];
-    // Hash the password using SHA2 (256-bit)
-    $hashed_password = hash('sha512', $_POST['password']);
-    
-    // Query to check the username and hashed password
-    $query = mysqli_query($con, "SELECT ID, UserName FROM tblguard WHERE UserName='$guarduser' AND Password='$hashed_password'");
-    $ret = mysqli_fetch_array($query);
+    // Get user input
+    $guarduser = trim($_POST['username']); // Trim to avoid extra spaces
+    $password = trim($_POST['password']);  // Trim to avoid extra spaces
 
-    if ($ret) {
-        // Set session for guard ID
-        $_SESSION['guardid'] = $ret['ID'];
+    // Debugging: log the entered username and password
+    error_log("Entered username: " . $guarduser);
+    error_log("Entered password: " . $password);
 
-        // Redirect based on the username
-        if ($guarduser == 'inguard') {
-            header('Location: monitor.php');
-        } elseif ($guarduser == 'outguard') {
-            header('Location: monitor2.php');
+    // First, check tblguard
+    $stmt = $con->prepare("SELECT ID, UserName, Password FROM tblguard WHERE UserName = ?");
+    $stmt->bind_param("s", $guarduser);  // Bind the username to prevent SQL injection
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // If not found in tblguard, check tbladmin
+    if ($result->num_rows === 0) {
+        $stmt = $con->prepare("SELECT ID, UserName, Password FROM tbladmin WHERE UserName = ?");
+        $stmt->bind_param("s", $guarduser);  // Bind the username to prevent SQL injection
+        $stmt->execute();
+        $result = $stmt->get_result();
+    }
+
+    // Check if the username exists in either table
+    if ($result->num_rows > 0) {
+        // Fetch the user data
+        $ret = $result->fetch_assoc();
+
+        // Debugging: log the stored password hash
+        error_log("Stored password hash in DB: " . $ret['Password']);
+
+        // Verify the password using password_verify (recommended for security)
+        if (password_verify($password, $ret['Password'])) {
+            // Set session for user ID
+            $_SESSION['userid'] = $ret['ID'];
+
+            // Define redirect based on username
+            $redirects = [
+                'inguard' => 'monitor.php',
+                'outguard' => 'monitor2.php',
+                'SuperAdmin' => 'superadmin_dashboard.php',
+                'admin1' => 'admin_dashboard.php',
+                'admin2' => 'admin2_dashboard.php'
+            ];
+
+            // Redirect based on username
+            if (array_key_exists($guarduser, $redirects)) {
+                header('Location: ' . $redirects[$guarduser]);
+                exit();
+            } else {
+                echo "<script>alert('Invalid Guard Username.');</script>";
+            }
         } else {
-            echo "<script>alert('Invalid Guard Username.');</script>";
+            // If password doesn't match, log the error and show message
+            error_log("Password does not match.");
+            echo "<script>alert('Invalid password.');</script>";
         }
     } else {
-        echo "<script>alert('Invalid Details.');</script>";
+        // If username doesn't exist in both tables, show message
+        echo "<script>alert('Invalid username.');</script>";
     }
+
+    // Close the prepared statement
+    $stmt->close();
 }
 ?>
+
+
+
+
+
+
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">

@@ -1,5 +1,13 @@
 <?php
 
+session_start();
+
+if (!isset($_SESSION['guardid'])) {
+    // If the user is not logged in, redirect to the login page
+    header('Location: index.php');
+    exit();
+}
+
 // Database connection
 $server = "localhost";
 $username = "u132092183_parkingz";
@@ -144,9 +152,84 @@ $slots_result = $conn->query("SELECT * FROM tblparkingslots ORDER BY
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" href="images/ctul.png">
+    <link rel="shortcut icon" href="images/ctul.png">
     <title>Parking Slot Manager</title>
     <link rel="stylesheet" href="guard.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+     .container{
+        padding-top:10px;
+        margin-top:-8px;
+    }
+    /*qrbutton add css*/
+    .dropbtns{
+            color: white;
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: orange;
+            border-radius: 9px;
+            font-weight: bold;
+            border: solid;
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        }
+        .dropbtns:hover{
+            background-color: white;
+            color: orange;
+            border: solid orange;
+        }
+    @media (max-width: 480px){
+   
+    .navbar{
+        margin-top:-10px;
+        position: absolute;
+        height: 100px;
+    }
+    .navbar-brand{
+        margin-left: 10px;
+        padding-bottom:2px;
+    }
+    .navbar-toggler{
+        margin-right: 20px;
+        margin-top:-6em;
+    }
+    .navbar-item{
+        position: relative;
+    }
+    h4{
+        margin-top: 30px;
+
+    }
+    .dropbtns{
+        margin-right: 1em;
+    }
+}
+h4{
+    margin-left: 20px;
+}
+</style>
+
+<nav class="navbar">
+<div class="navbar-brand"><a href="monitor2.php"><h4>Parking Slot Manager</h4></a></div>
+<div class="container">
+    <div class="navbar-toggler" onclick="toggleMenu()"  >&#9776;</div>
+    <div class="navbar-menu" id="navbarMenu" style="margin-right: 30px;">
+        <!-- QR Login Button -->
+        <a href="qrlogout.php" class="navbar-item dropbtns"><i class="bi bi-car-front-fill"></i> QR Log-out</a>
+      
+
+        <!-- Manual Input Button -->
+        <a href="malogout.php" class="navbar-item dropbtns"><i class="bi bi-display-fill"></i> Manual Log-out</a>
+
+        <a href="logout.php" class="navbar-item dropbtns"><i class="bi bi-car-front"></i> Logout</a>
+       
+    </div>
+</div>
+</nav>
 
     <style>
         /* Style for the alert prompt using CSS */
@@ -170,8 +253,11 @@ $slots_result = $conn->query("SELECT * FROM tblparkingslots ORDER BY
 
         /*navbar add css*/
         .navbar{
-            background-color: rgb(53, 97, 255);
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+            padding: 1px;
+            background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, 
+                rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
+                rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
             }
         #title{
             margin-left: 50px;
@@ -191,18 +277,7 @@ $slots_result = $conn->query("SELECT * FROM tblparkingslots ORDER BY
                 text-align: center; /* Center text in buttons */
             }
         }
-        .toggle-menu{
-            margin-top: 4px;
-            margin-left: 15px;
-            padding: 5px;
-            border: none;
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-        }
-                
-        .toggle-menu:hover{
-            color: orange;
-            box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
-        }
+      
          /* Responsive adjustments */
         @media (max-width: 768px) {
             .toggle-menu {
@@ -215,6 +290,9 @@ $slots_result = $conn->query("SELECT * FROM tblparkingslots ORDER BY
                 margin-top: -5px; /* Further reduced margin for very small screens */
                 margin-left: 35px;
             }
+            body{
+                margin-top: -15em;
+            }
         }
 
         /* Responsive adjustments */
@@ -224,11 +302,7 @@ $slots_result = $conn->query("SELECT * FROM tblparkingslots ORDER BY
             }
         }
 
-        @media (max-width: 480px) {
-            .container {
-                margin-top: 12em; /* Further reduced margin for very small screens */
-            }
-        }
+       
 
         
 
@@ -295,10 +369,9 @@ $slots_result = $conn->query("SELECT * FROM tblparkingslots ORDER BY
             box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
         }
 
-       
         .legend {
-            margin-top: -1em;
-            margin-left:-70em;
+            margin-top: -40px;
+            margin-left: 50px;
             display: block;
             align-items: flex-start; 
         }
@@ -409,6 +482,7 @@ $slots_result = $conn->query("SELECT * FROM tblparkingslots ORDER BY
             }
         }
 
+
         .search, .add {
                 color: white;
                 padding: 8px;
@@ -427,16 +501,13 @@ $slots_result = $conn->query("SELECT * FROM tblparkingslots ORDER BY
         color: darkblue;
         box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
     }
-
-      
+    .search-slot{
+        margin-top: 7em;
+    }
     </style>
 </head>
-<body>
-    <!-- Responsive Navigation Bar -->
-    <?php include_once('includes/headerout.php');?>
 
     <div class="container">
-        <h1>Parking Slot Manager</h1>
             <!-- Search Slot -->
 <div class="search-slot">
     <input type="text" id="searchInput" placeholder="Enter Slot Number or Prefix" maxlength="10">
@@ -445,19 +516,19 @@ $slots_result = $conn->query("SELECT * FROM tblparkingslots ORDER BY
 
 
         <!-- Add New Slot -->
-        <form method="POST" action="monitor2.php">
+        <form method="POST" action="monitor.php">
             <div class="add-slot">
-                <select name="area" id="areaSelect">
+                <select name="area" id="areaSelect"> 
                     <option value="Front Admin" selected>A</option>
                     <option value="Beside CME">B</option>
                     <option value="Kadasig">C</option>
                     <option value="Behind">D</option>
                 </select>
-                <input type="text" name="slotNumber" id="slotNumberInput" placeholder="Enter Slot Number (or leave empty for auto)" maxlength="10">
-                <select name="status">
+                <select name="status" id="areaSelect">
                     <option value="Vacant">Vacant</option>
                     <option value="Occupied">Occupied</option>
                 </select>
+                <input type="text" name="slotNumber" id="slotNumberInput" placeholder="Enter Slot Number (or leave empty for auto)" maxlength="10">
                 <button type="submit" name="add_slot" class="add">Add Slot</button>
             </div>
         </form>
@@ -469,7 +540,7 @@ $slots_result = $conn->query("SELECT * FROM tblparkingslots ORDER BY
     <button id="btnKadasig" onclick="selectArea('Kadasig')">C</button>
     <button id="btnBehind" onclick="selectArea('Behind')">D</button>
 </div>
-
+</div>
         
           <!-- Slot's Legend -->
           <div class="legend">

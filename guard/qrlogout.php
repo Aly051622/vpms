@@ -1,5 +1,11 @@
 <?php
 session_start();
+if (!isset($_SESSION['guardid'])) {
+    // If the user is not logged in, redirect to the login page
+    header('Location: index.php');
+    exit();
+}
+
 date_default_timezone_set('Asia/Manila');
 
 // Include the database connection file
@@ -35,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['qrData'])) {
         $occupiedSlots = explode(', ', $rowLogin['ParkingSlot']);
 
         // Proceed with logout regardless of existing logout entries
-        $timeOut = date("Y-m-d h:i:s A");
+        $timeOut = date("Y-m-d H:i:s ");
         $sqlInsert = "INSERT INTO tblqr_logout (Name, ContactNumber, VehicleType, VehiclePlateNumber, ParkingSlot, TIMEOUT)
                       VALUES ('$name', '$mobilenum', '$vehicleType', '$vehiclePlateNumber', '{$rowLogin['ParkingSlot']}', '$timeOut')";
 
@@ -107,8 +113,10 @@ $con->close();
         
         /*navbar add css*/
         .navbar{
-            background-color: rgb(53, 97, 255);
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+            background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, 
+                rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
+                rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
             }
     @media (max-width: 480px){
     .container{
@@ -271,7 +279,7 @@ $con->close();
                 <?php
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        $formattedTimeout = date("H:i:s m-d-Y", strtotime($row['TIMEOUT']));
+                        $formattedTimeout = date("h:i:s A m-d-Y", strtotime($row['TIMEOUT']));
                         echo "
                         <tr>
                             <td>{$row['ID']}</td>

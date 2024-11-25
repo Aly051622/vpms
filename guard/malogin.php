@@ -1,5 +1,12 @@
 <?php 
-session_start(); 
+session_start();
+
+if (!isset($_SESSION['guardid'])) {
+    // If the user is not logged in, redirect to the login page
+    header('Location: index.php');
+    exit();
+}
+
 date_default_timezone_set('Asia/Manila');
 
 $server = "localhost";
@@ -21,7 +28,7 @@ $start = ($page - 1) * $recordsPerPage;
 
 // Fetch records with pagination
 $vehicles = [];
-$query = "SELECT * FROM tblmanual_login WHERE DATE(TimeIn) = CURDATE() ORDER BY ID DESC LIMIT $start, $recordsPerPage";
+$query = "SELECT *, CONVERT_TZ(TimeIn, '+00:00', '+08:00') AS TimeInLocal FROM tblmanual_login WHERE DATE(TimeIn) = CURDATE() ORDER BY ID DESC LIMIT $start, $recordsPerPage";
 $result = $conn->query($query);
 
 
@@ -120,9 +127,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $conn->close();
 ?>
 
-
 <html class="no-js" lang="">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
@@ -164,8 +171,10 @@ $conn->close();
             border: solid orange;
         }
         .navbar{
-                background-color: rgb(53, 97, 255);
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+            background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, 
+                rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
+                rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
             }
     @media (max-width: 480px){
     .containers{
@@ -400,10 +409,10 @@ $conn->close();
                 <label for="area">Area:</label>
                 <select class="form-control" id="area" name="area">
                     <option value="">--Select Area--</option>
-                    <option value="A">Front Admin</option>
-                    <option value="B">Beside CME</option>
-                    <option value="C">Kadasig</option>
-                    <option value="D">Behind</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
                 </select>
             </div>
         </div>
@@ -461,7 +470,8 @@ $conn->close();
                         <td><?= htmlspecialchars($vehicle['RegistrationNumber']); ?></td>
                         <td id="slot_<?= htmlspecialchars($vehicle['id']); ?>"><?= htmlspecialchars($vehicle['ParkingSlot']); ?></td>
 
-                        <td><?= date("h:i:s A m-d-y", strtotime($vehicle['TimeIn'])); ?></td>
+                        <td><?= date("h:i:s A m-d-y", strtotime($vehicle['TimeInLocal'])); ?></td>
+
                         <td>
                             <button class="btn btn-warning btn-sm" onclick="editSlot(<?= $vehicle['id'] ?>)" id="editbtn">Edit</button>
                             <button class="btn btn-danger btn-sm" onclick="deleteVehicle(<?= $vehicle['id'] ?>)" id="deletebtn">Delete</button>

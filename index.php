@@ -266,23 +266,62 @@
     </div>
 
     <script>
-    // Function to redirect to welcome.php
-    function redirectToIndex() {
-        // Add fade-out effect
-        document.body.style.transition = "opacity 2s";
-        document.body.style.opacity = 0;
+    // Function to measure internet speed
+    async function measureInternetSpeed() {
+        const imageSrc = "https://via.placeholder.com/1"; // Small image to test download speed
+        const startTime = performance.now();
 
-        // Redirect to welcome.php after 2 seconds (adjust timing as needed)
-        setTimeout(function () {
-            window.location.href = "welcome.php";
-        }, 2000);
+        try {
+            await fetch(imageSrc, { cache: "no-cache" });
+            const endTime = performance.now();
+            const speedInMs = endTime - startTime; // Approximate latency in milliseconds
+            return speedInMs;
+        } catch {
+            return 500; // Default fallback for slow or offline scenarios
+        }
     }
 
-    // Set a timeout to redirect after 5 seconds
-    setTimeout(function () {
-        redirectToIndex();
-    }, 5000);
+    // Function to set animation duration dynamically
+    function setAnimationDuration(speed) {
+        // Scale the animation duration based on speed
+        const duration = Math.min(Math.max(speed / 100, 4), 20); // Clamp between 4s and 20s
+
+        document.querySelectorAll('.tree, .tree:nth-child(2), .tree:nth-child(3)').forEach(el => {
+            el.style.animationDuration = `${duration}s`;
+        });
+        document.querySelector('.mountain').style.animationDuration = `${duration * 5}s`;
+        document.querySelector('.hill').style.animationDuration = `${duration}s`;
+        document.querySelector('.rock').style.animationDuration = `${duration}s`;
+        document.querySelector('.truck').style.animationDuration = `${duration}s`;
+        document.querySelector('.wheels').style.animationDuration = `${duration}s`;
+    }
+
+    // Function to handle redirection based on speed
+    async function redirectBasedOnSpeed() {
+        const speed = await measureInternetSpeed();
+
+        // Set animation duration
+        setAnimationDuration(speed);
+
+        // Adjust redirection timing (scale based on speed)
+        const redirectDelay = Math.min(Math.max(speed * 2, 2000), 8000); // Clamp between 2s and 8s
+
+        setTimeout(() => {
+            // Add fade-out effect before redirect
+            document.body.style.transition = "opacity 2s";
+            document.body.style.opacity = 0;
+
+            // Redirect to welcome.php
+            setTimeout(() => {
+                window.location.href = "welcome.php";
+            }, 1500); // Ensure fade-out completes
+        }, redirectDelay);
+    }
+
+    // Start the process
+    redirectBasedOnSpeed();
 </script>
+
 
 </body>
 

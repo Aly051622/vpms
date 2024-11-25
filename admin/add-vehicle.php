@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 
 date_default_timezone_set('Asia/Manila');
 
-include('includes/dbconnection.php');
+include('../DBconnection/dbconnection.php');
 
 if (strlen($_SESSION['vpmsaid'] == 0)) {
     header('location:logout.php');
@@ -65,13 +65,55 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
                 $lastName = $userData['LastName'];
                 $contactno = $userData['MobileNumber'];
 
-                $qrCodeData = "Vehicle Type: $catename\nPlate Number: $vehreno\nName: $firstName $lastName\nContact Number: $contactno \nModel: $model";
-                $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" . urlencode($qrCodeData) . "&size=150x150";
+                 // Encrypt QR Code Data
+$encryptionKey = getenv('ENCRYPTION_KEY');  // Fetch encryption key securely from environment variable
+if (!$encryptionKey) {
+    die("Encryption key not set in environment variables.");
+}
+$encryptionKey = base64_decode($encryptionKey);  // Decode the base64-encoded key
 
-                $qrImageName = "qr" . $vehreno . "_" . time() . ".png";
-                $qrImagePath = "qrcodes/" . $qrImageName;
-                $qrCodeContent = file_get_contents($qrCodeUrl);
-                file_put_contents($qrImagePath, $qrCodeContent);
+$cipher = "AES-256-CBC";  // Encryption method
+$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher));  // Generate an initialization vector
+
+// Generate random values for the QR code
+$randomValues = [
+    'VehicleType' => bin2hex(random_bytes(3)),  // Random string for vehicle type
+    'PlateNumber' => bin2hex(random_bytes(5)),  // Random string for plate number
+    'Name' => bin2hex(random_bytes(6)),        // Random string for name
+    'ContactNumber' => bin2hex(random_bytes(4)), // Random string for contact number
+    'Model' => bin2hex(random_bytes(4)),       // Random string for model
+];
+
+// Prepare data for encryption
+$qrCodeData = json_encode($randomValues);
+
+// Encrypt the data
+$encryptedData = openssl_encrypt($qrCodeData, $cipher, $encryptionKey, 0, $iv);
+if ($encryptedData === false) {
+    die("Encryption failed.");
+}
+
+// Combine encrypted data and IV, then encode as base64
+$encryptedQrCodeData = base64_encode($encryptedData . "::" . base64_encode($iv));
+
+// Generate the QR code with the encrypted data
+$qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" . urlencode($encryptedQrCodeData) . "&size=150x150";
+
+// Save the generated QR code as an image
+$qrImageName = "qr_" . uniqid() . ".png";  // Generate a unique name for the QR code image
+$qrImagePath = "qrcodes/" . $qrImageName;
+$qrCodeContent = file_get_contents($qrCodeUrl);
+if ($qrCodeContent === false) {
+    die("Failed to fetch QR code from the server.");
+}
+
+if (file_put_contents($qrImagePath, $qrCodeContent) === false) {
+    die("Failed to save the QR code image.");
+}
+
+// Output the result
+echo "QR code generated and saved as: " . $qrImagePath;
+
 
                 $inTime = date('Y-m-d H:i:s');
 
@@ -91,7 +133,6 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
         }
     }
 ?>
-
 
 
 

@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['guardid'])) {
+    // If the user is not logged in, redirect to the login page
+    header('Location: index.php');
+    exit();
+}
+
 // Database connection
 $server = "localhost";
 $username = "u132092183_parkingz";
@@ -11,6 +19,7 @@ $conn = new mysqli($server, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
 
 // Function to check if the slot number already exists
 function isSlotNumberExists($conn, $slotNumber) {
@@ -145,7 +154,8 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" href="images/ctul.png">
     <link rel="shortcut icon" href="images/ctul.png">
     <title>Parking Slot Manager</title>
@@ -175,24 +185,40 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
             border: solid orange;
         }
     @media (max-width: 480px){
-    .container{
-        padding-top:10px;
-        margin-top:-8px;
+   
+    .navbar{
+        margin-top:-10px;
+        position: absolute;
+        height: 100px;
     }
     .navbar-brand{
         margin-left: 10px;
+        padding-bottom:2px;
     }
     .navbar-toggler{
-        margin-top: -33px;
-        margin-left: 11em;
+        margin-right: 20px;
+        margin-top:-6em;
     }
+    .navbar-item{
+        position: relative;
+    }
+    h4{
+        margin-top: 30px;
+
+    }
+    .dropbtns{
+        margin-right: 1em;
+    }
+}
+h4{
+    margin-left: 20px;
 }
 </style>
 
-<nav class="navbar" style="padding: 10px;">
-<div class="navbar-brand"><a href="monitor.php" style="margin-left: 10px;">Parking Slot Manager</a></div>
+<nav class="navbar">
+<div class="navbar-brand"><a href="monitor.php"><h4>Parking Slot Manager</h4></a></div>
 <div class="container">
-    <div class="navbar-toggler" onclick="toggleMenu()">&#9776;</div>
+    <div class="navbar-toggler" onclick="toggleMenu()"  >&#9776;</div>
     <div class="navbar-menu" id="navbarMenu" style="margin-right: 30px;">
         <!-- QR Login Button -->
         <a href="qrlogin.php" class="navbar-item dropbtns"><i class="bi bi-car-front-fill"></i> QR Log-in</a>
@@ -201,7 +227,7 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
         <!-- Manual Input Button -->
         <a href="malogin.php" class="navbar-item dropbtns"><i class="bi bi-display-fill"></i> Manual Log-in</a>
 
-        <a href="logout.php" class="navbar-item dropbtns"><i class="bi bi-house-fill"></i> Home</a>
+        <a href="logout.php" class="navbar-item dropbtns"><i class="bi bi-car-front"></i> Logout</a>
        
     </div>
 </div>
@@ -229,8 +255,11 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
 
         /*navbar add css*/
         .navbar{
-            background-color: rgb(53, 97, 255);
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+            padding: 1px;
+            background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, 
+            rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
+            rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
             }
         #title{
             margin-left: 50px;
@@ -250,18 +279,7 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
                 text-align: center; /* Center text in buttons */
             }
         }
-        .toggle-menu{
-            margin-top: 4px;
-            margin-left: 15px;
-            padding: 5px;
-            border: none;
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-        }
-                
-        .toggle-menu:hover{
-            color: orange;
-            box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
-        }
+      
          /* Responsive adjustments */
         @media (max-width: 768px) {
             .toggle-menu {
@@ -274,6 +292,9 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
                 margin-top: -5px; /* Further reduced margin for very small screens */
                 margin-left: 35px;
             }
+            body{
+                margin-top: -15em;
+            }
         }
 
         /* Responsive adjustments */
@@ -283,11 +304,7 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
             }
         }
 
-        @media (max-width: 480px) {
-            .container {
-                margin-top: 12em; /* Further reduced margin for very small screens */
-            }
-        }
+       
 
         
 
@@ -486,18 +503,16 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
         color: darkblue;
         box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
     }
+    .search-slot{
+        margin-top: 7em;
+    }
     </style>
 </head>
 <body>
-    <div class="container2">
-        <!-- Search Slot -->
-        <a href="qrlogin.php"><i class="bi bi-car-front-fill"> </i> Log-in</a>
-                    <a href="qrlogout.php"><i class="bi bi-car-front"></i> Log-out</a>
-                    <a href="test.php"><i class="bi bi-bug-fill"></i> Test</a>
-           
+
 <div class="container">
         <!-- Search Slot -->
-<div class="search-slot" style="margin-top: 5em;">
+<div class="search-slot">
     <input type="text" id="searchInput" placeholder="Enter Slot Number or Prefix" maxlength="10">
     <button onclick="filterSlots()" class="search" >Search</button> <!-- Added Search Button -->
 </div>
@@ -560,6 +575,36 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
 </div>
     <script src="guard.js"></script>
 <script>
+
+   // Polling interval
+   setInterval(checkSlotStatusUpdates, 1000);
+
+// Check slot status updates
+function checkSlotStatusUpdates() {
+    const slots = document.querySelectorAll('.slot');
+    slots.forEach(slot => {
+        const slotNumber = slot.getAttribute('data-slot-number');
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "monitor2.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.slotNumber && response.status) {
+                    const updatedSlot = document.querySelector(`[data-slot-number='${response.slotNumber}']`);
+                    if (updatedSlot && updatedSlot.getAttribute('data-status') !== response.status) {
+                        updatedSlot.setAttribute('data-status', response.status);
+                        updatedSlot.classList.remove('vacant', 'occupied');
+                        updatedSlot.classList.add(response.status.toLowerCase());
+                        updatedSlot.querySelector('span.status').textContent = response.status;
+                    }
+                }
+            }
+        };
+        xhr.send("action=checkStatusUpdate&slotNumber=" + encodeURIComponent(slotNumber));
+    });
+}
+
 
     
     // Function to toggle the menu visibility
