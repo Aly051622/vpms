@@ -6,8 +6,8 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>CTU Parking System</title>
-        <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/9/9a/CTU_new_logo.png">
-      <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/9/9a/CTU_new_logo.png">
+        <link rel="apple-touch-icon" href="images/ctul.png">
+        <link rel="shortcut icon" href="images/ctul.png">
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
@@ -30,6 +30,9 @@
         <style>
          
             @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+            body{
+              background: whitesmoke;;
+            }
             h1{
             font-size: 2em;
             color: white;
@@ -41,7 +44,7 @@
                 orange 20%,
                 #e9e4f0 30%,
                 #d3cce3 70%,
-                cyan 80%
+                rgb(8, 90, 205) 80%
             );
             -webkit-background-clip: text;
             background-clip: text;
@@ -840,14 +843,17 @@
         width: 100%;
       }
     }
-
+    
     #team .card {
-        border-radius: 10px;
-        border: none;
-        background: linear-gradient(to bottom, #D5DEE7 0%, #E8EBF2 50%, #E2E7ED 100%), linear-gradient(to bottom, rgba(0,0,0,0.02) 50%, rgba(255,255,255,0.02) 61%, rgba(0,0,0,0.02) 73%), linear-gradient(33deg, rgba(255,255,255,0.20) 0%, rgba(0,0,0,0.20) 100%);
+        border-radius: 9px;
+        border-left: solid #ff9933 5px;
+        border-right: solid #ff9933 5px;
+        border-top: solid #ff9933 20px;
+        border-bottom: solid #2a5298 8px;;
+        background: white;
         background-blend-mode: normal,color-burn;
-        box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-    }
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+                }
 
     .image-flip:hover .backside,
     .image-flip.hover .backside {
@@ -857,7 +863,6 @@
         -ms-transform: rotateY(0deg);
         transform: rotateY(0deg);
         border-radius: .25rem;
-        box-shadow: 5px 7px 9px -4px rgba(158, 158, 158);
         transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     }
 
@@ -898,16 +903,12 @@
         position: fixed;
         top: 0;
         left: 0;
-        background-color: #b8c6db;
-        background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7fa 74%);
+        background-color: white;
         -webkit-transform: rotateY(-180deg);
         -moz-transform: rotateY(-180deg);
         -o-transform: rotateY(-180deg);
         -ms-transform: rotateY(-180deg);
         transform: rotateY(-180deg);
-        -webkit-box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
-        -moz-box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
-        box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
     }
 
     .frontside,
@@ -933,9 +934,6 @@
         min-height: 400px !important;
         height: 400px;
         width: 350px;
-        -webkit-box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
-        -moz-box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
-        box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
         position: relative;
     }
 
@@ -953,24 +951,12 @@
 
     .backside .card a {
         font-size: 16px;
-        color: orange !important;
+        color: #2a5298 !important;
     }
 
     .frontside .card .card-title,
     .backside .card .card-title {
-        color: #415f87 !important;
-    }
-
-    @keyframes imageAnimation {
-        0% {
-            transform: scale(1) rotate(0deg);
-        }
-        50% {
-            transform: scale(1.2) rotate(15deg);
-        }
-        100% {
-            transform: scale(1) rotate(0deg);
-        }
+        color: #2a5298 !important;
     }
 
     .frontside .card .card-body img {
@@ -980,29 +966,33 @@
         animation: imageAnimation 10s;
     }
 
+    .btn-sm{
+      background-color: #2a5298;
+      border: white;
+    }
+    .list-inline{
+      color: #2a5298;
+    }
     /*demographics*/
     .demographics {
-        background-color: #f0f0f0;
+      cursor: pointer;
+        background-color: whitesmoke;
         padding: 10px;
-        border: 1px solid #ccc;
         border-radius: 10px;
         transition: background-color 0.3s ease;
         text-align: justify;
-        box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
-      }
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+            }
 
       .demographics:hover {
-        border: groove gray 2px;
-        background-color: #fec84e;
-        background-image: linear-gradient(315deg, #fec84e 0%, #ffdea8 74%);
-      }
+        background-color: white;
+        box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+            }
 
       .img-fluid {
+        margin-left: 50px;
         margin-top: 30px;
-        box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, 
-            rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset,
-            rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, 
-            rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     }
 
         .navbar a {
@@ -1037,14 +1027,16 @@
             box-shadow: rgba(0, 0, 0, 0.06) 0px 4px 8px 0px inset;        
     }
         .navbar-brand {
+          border-radius: 5px;
+          padding: 5px;
             font-size: 24px;
-            opacity: 0.8;
-        }
-        .navbar-brand:hover {
-            box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;            
-            transform: scale(1.1);
-            padding: 5px; 
-            border-radius: 5px;
+            color: white;
+            text-shadow: 0px 6px 10px rgb(62, 57, 57);
+                  }
+        .navbar-brand:hover { 
+            /*background: #2a5298;*/
+            text-shadow: 0px 4px 2px #2a5298, 0px 2px 1px #1e3c72;
+
         }
 
         .copyright {
@@ -1070,21 +1062,19 @@
         }
       
       footer{
+        height: 100px;
         height: 100%;
-        padding: 1px;
+        padding: -5px;
                 background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
                 box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
       }  
 
         .masthead, .portfolio{
-          background: linear-gradient(to left, #D5DEE7 0%, #E8EBF2 50%, #E2E7ED 100%), 
-                linear-gradient(to left, 
-                rgba(0,0,0,0.02) 50%, 
-                rgba(255,255,255,0.02) 61%, rgba(0,0,0,0.02) 73%), 
-                linear-gradient(33deg, rgba(255,255,255,0.20) 0%, rgba(0,0,0,0.20) 100%);    
+          background: whitesmoke;
                 }
+        
     section{
-      margin-top: -9%;
+      margin-top: -8%;
       z-index: 1;
     }
 
@@ -1107,10 +1097,9 @@
     }
 
     #surbtn:hover{
-        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
         border-radius: 100px;
-        background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
-        text-shadow: none;
+        text-shadow: 0px 5px 2px #2a5298, 0px 2px 1px #1e3c72;
+
     }
        
  /* Custom CSS for Modals using iFrame */
@@ -1143,7 +1132,7 @@
 }
  .modal-dialog {
             width: 500px; /* Adjust modal width */
-            margin-left: 35em;
+            margin-left: 27em;
             margin-top: 5em;
             border-radius: 15px;
             background: whitesmoke;
@@ -1214,6 +1203,9 @@
                 padding: 3px; /* Smaller padding */
                 box-shadow: none; /* Minimal shadow for simplicity */
                 display: space-around;
+            }
+            .navbar-item .cs{
+              margin-top: -10px;
             }
             .responsive-container-block{
             margin-top: 160px;
@@ -1309,9 +1301,6 @@
         height: 320px;
       }
 }
-.navbar-item .cs{
-  margin-left: 2px;
-}
 </style>
 
     </head>
@@ -1321,16 +1310,16 @@
     <nav class="navbar fixed-top" id="mainNav" >
         <div class="container">
           
-        <a class="navbar-item cs" href="users/service.php" id="surbtn"><i class="bi bi-headset"></i></a>
-          <a class="navbar-brand" id="title" style="color:white; position: absolute; margin-left: 2em;" href="welcome.php" >CTU Danao Parking System</a>
+          <a class="navbar-brand" id="title" style=" position: absolute; margin-left: -2em; 
+            margin-top: -0.2em;" href="welcome.php" ><i class="bi bi-house-fill"></i> CTU Danao Parking System</a><br>
             <div class="navbar-menu">   
                 <a class="navbar-item" href="admin/index.php">Admin</a>
-                <a class="navbar-item" href="users/login.php">Client</a>
+                <a class="navbar-item" href="guard/index.php">Security</a>
                 <a class="navbar-item" href="index.html">About</a>
                 <a class="navbar-item btn btn-primary" href="#" id="surbtn" data-toggle="modal" data-target="#commentModal">
                   <i class="bi bi-chat-fill"></i></a>                
               <a class="navbar-item btn btn-primary" href="#" id="surbtn" data-toggle="modal" data-target="#feedbackModal">
-                  <i class="bi bi-envelope-paper-heart"></i></a>
+                  <i class="bi bi-envelope-paper-heart-fill"></i></a>
             </div>
         </div>
     </nav>
@@ -1424,9 +1413,9 @@
                         <div class="frontside">
                             <div class="card">
                                 <div class="card-body text-center">
-                                    <p><img class=" img-fluid" src="images/aly.png" alt="card image"></p>
+                                    <p><img class=" img-fluid" src="images/alysson.jfif" alt="card image"></p>
                                     <h4 class="card-title">Alysson Gecozo </h4>
-                                    <p class="card-text">Back End Developer</p>
+                                    <p class="card-text">Full Stack Developer</p>
                                     <a href="https://www" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
                                 </div>
                             </div>
@@ -1438,8 +1427,8 @@
                                     <p class="card-text">"Push yourself out of your comfort zone." </p>
                                         <div class="demographics">
                                             <p><strong>Age:</strong> 21</p>
-                                            <p><strong>Address:</strong> Sir Glenard's neigborhood</p>
-                                            <p><strong>Status:</strong> Naa nay uyab</p>
+                                            <p><strong>Address:</strong> Catmon, Cebu</p>
+                                            <p><strong>Status:</strong> Single</p>
                                             <p><strong>Nationality:</strong> Filipino</p>
                                         </div>
                                     <ul class="list-inline">
@@ -1478,7 +1467,7 @@
                         <div class="frontside">
                             <div class="card">
                                 <div class="card-body text-center">
-                                    <p><img class=" img-fluid" src="images/rinya.png" alt="card image"></p>
+                                    <p><img class=" img-fluid" src="images/rhynia.jfif" alt="card image"></p>
                                     <h4 class="card-title">Rhynia Impas </h4>
                                     <p class="card-text">Full Stack Developer</p>
                                     <a href="https://www" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
@@ -1491,9 +1480,9 @@
                                     <h4 class="card-title">Rhynia Impas</h4>
                                     <p class="card-text">"Don't wait for opportunities, create them."</p>
                                         <div class="demographics">
-                                            <p><strong>Age:</strong> 21</p>
-                                            <p><strong>Address:</strong> CotCot na soon</p>
-                                            <p><strong>Status:</strong> bhebhe ni Judel</p>
+                                            <p><strong>Age:</strong> 22</p>
+                                            <p><strong>Address:</strong> Compostela, Cebu</p>
+                                            <p><strong>Status:</strong> Single</p>
                                             <p><strong>Nationality:</strong> Filipino</p>
                                         </div>
                                     <ul class="list-inline">
@@ -1532,9 +1521,9 @@
                         <div class="frontside">
                             <div class="card">
                                 <div class="card-body text-center">
-                                    <p><img class=" img-fluid" src="images/pithok.png" alt="card image"></p>
+                                    <p><img class=" img-fluid" src="images/faithope.jfif" alt="card image"></p>
                                     <h4 class="card-title">Faithope Laag</h4>
-                                    <p class="card-text">Front-End Developer</p>
+                                    <p class="card-text">Full Stack Developer</p>
                                     <a href="https://www" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
                                 </div>
                             </div>
@@ -1546,8 +1535,8 @@
                                     <p class="card-text">"Life is a canvas, I am the masterpiece."</p>
                                         <div class="demographics">
                                             <p><strong>Age:</strong> 21</p>
-                                            <p><strong>Address:</strong> Aklan aw Liloan sori</p>
-                                            <p><strong>Status:</strong> LDR</p>
+                                            <p><strong>Address:</strong> Liloan, Cebu</p>
+                                            <p><strong>Status:</strong> Single</p>
                                             <p><strong>Nationality:</strong> Filipino</p>
                                         </div>
                                     <ul class="list-inline">
@@ -1586,9 +1575,9 @@
                         <div class="frontside">
                             <div class="card">
                                 <div class="card-body text-center">
-                                    <p><img class=" img-fluid" src="images/judel.png" alt="card image"></p>
+                                    <p><img class=" img-fluid" src="images/judel.jfif" alt="card image"></p>
                                     <h4 class="card-title">Judel Pachoco</h4>
-                                    <p class="card-text">Documentarian</p>
+                                    <p class="card-text">Project Manager</p>
                                     <a href="https://www" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
                                 </div>
                             </div>
@@ -1599,9 +1588,9 @@
                                     <h4 class="card-title">Judel Pachoco</h4>
                                     <p class="card-text">"Don't stop when you're tired, stop when you're done." </p>
                                         <div class="demographics">
-                                            <p><strong>Age:</strong> 21</p>
-                                            <p><strong>Address:</strong> Ilang tatan</p>
-                                            <p><strong>Status:</strong> hubby ni riri</p>
+                                            <p><strong>Age:</strong> 22</p>
+                                            <p><strong>Address:</strong> Liloan,Cebu</p>
+                                            <p><strong>Status:</strong> Single</p>
                                             <p><strong>Nationality:</strong> Filipino</p>
                                         </div>
                                     <ul class="list-inline">
@@ -1640,9 +1629,9 @@
                         <div class="frontside">
                             <div class="card">
                                 <div class="card-body text-center">
-                                    <p><img class=" img-fluid" src="images/maine.png" alt="card image"></p>
+                                    <p><img class=" img-fluid" src="images/charmaine.jfif" alt="card image"></p>
                                     <h4 class="card-title">Charmaine Serato</h4>
-                                    <p class="card-text">UI/UX Designer</p>
+                                    <p class="card-text">Full Stack Developer</p>
                                     <a href="https://www." class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
                                 </div>
                             </div>
@@ -1653,9 +1642,9 @@
                                     <h4 class="card-title">Charmaine Serato</h4>
                                     <p class="card-text">"Turning ideas into digital reality."</p>
                                         <div class="demographics">
-                                            <p><strong>Age:</strong> 21</p>
-                                            <p><strong>Address:</strong> Camotes</p>
-                                            <p><strong>Status:</strong> No label sila ni Kuya</p>
+                                            <p><strong>Age:</strong> 22</p>
+                                            <p><strong>Address:</strong> Camotes, Cebu</p>
+                                            <p><strong>Status:</strong> Single</p>
                                             <p><strong>Nationality:</strong> Filipino</p>
                                         </div>
                                     <ul class="list-inline">
@@ -1691,44 +1680,45 @@
         </section>
         </section>
 
+    <!-- Footer-->
+    <footer class="footer text-center py-5" style="background-color: #1e3c72; color: white; margin-top: 20px;">
+      <div class="container">
+          <div class="row">
+              <!-- Footer Location-->
+              <div class="col-lg-4 mb-5">
+                  <h5 class="text-uppercase mb-4" style="color: #ff9933;">Location</h5>
+                  <p class="lead mb-0">
+                      Cebu Technological University - Danao Campus<br />
+                      Sabang, Danao
+                  </p>
+              </div>
+              <!-- Footer Social Icons-->
+              <div class="col-lg-4 mb-5">
+                  <h5 class="text-uppercase mb-4" style="color: #ff9933;">Around the Web</h5>
+                  <a class="btn btn-outline-light btn-social mx-1" href="#"><i class="fab fa-facebook-f"></i></a>
+                  <a class="btn btn-outline-light btn-social mx-1" href="#"><i class="fab fa-twitter"></i></a>
+                  <a class="btn btn-outline-light btn-social mx-1" href="#"><i class="fab fa-linkedin-in"></i></a>
+                  <a class="btn btn-outline-light btn-social mx-1" href="#"><i class="fab fa-instagram"></i></a>
+              </div>
+              <!-- Footer About Text-->
+              <div class="col-lg-4">
+                  <h5 class="text-uppercase mb-4" style="color: #ff9933;">Explore Now!</h5>
+                  <p class="lead mb-0">
+                      Ready to use the system? Click the link below to explore:<br />
+                      <a href="index.php" class="text-decoration-none" style="color: orange;"><i class="bi bi-house-door-fill"></i> CTU Parking System</a>
+                  </p>
+              </div>
+          </div>
+      </div>
+    </footer>
 
-        <!-- Footer-->
-        <footer class="footer text-center">
-            <div class="container">
-                <div class="row">
-                    <!-- Footer Location-->
-                    <div class="col-lg-4 mb-5 mb-lg-0">
-                        <h4 class="text-uppercase mb-4">Location</h4>
-                        <p class="lead mb-0" style="color: white;">
-                            Cebu Technological University - Danao Campus
-                            <br />
-                            Sabang, Danao
-                        </p>
-                    </div>
-                    <!-- Footer Social Icons-->
-                    <div class="col-lg-4 mb-5 mb-lg-0">
-                        <h4 class="text-uppercase mb-4">Around the Web</h4>
-                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-facebook-f"></i></a>
-                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-twitter"></i></a>
-                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-linkedin-in"></i></a>
-                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-instagram"></i></a>
-                    </div>
-                    <!-- Footer About Text-->
-                    <div class="col-lg-4">
-                        <h4 class="text-uppercase mb-4">Explore Now!</h4>
-                        <p class="lead mb-0"style="color: white;">
-                            If you want to use the system, start clicking this link to explore the website.<br>
-                            <a href="index.php" style=" text-decoration: none;"><i class="bi bi-house-door-fill" style="color: orange;"></i> CTU Parking System</a>
-                            .
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- Copyright Section-->
-        <div class="copyright py-4 text-center text-white">
-            <div class="container"><small><marquee direction="left">🚈Copyright &copy; CTU Parking System 2023</marquee></small></div>
-        </div>
+    <!-- Copyright Section-->
+    <div class="copyright py-3 text-center" style="background-color: #2a5298; color: white;">
+      <div class="container">
+          <marquee direction="left"> <small>🚈 Copyright &copy; CTU Parking System 2023</small></marquee>
+      </div>
+    </div>
+
 
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
