@@ -21,9 +21,9 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         
-    <!-- jQuery, Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+            <!-- jQuery, Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
     
 
 
@@ -63,9 +63,9 @@
             }
 }
 
-            h5{
-              color: orange;
-            }
+     h5{
+         color: orange;
+        }
     .headingText {
       color: #e74c3c;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -1301,47 +1301,90 @@
         height: 320px;
       }
 }
-.navbar {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+/* General Styles */
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  /* Navbar Styling */
+  .navbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+    background-color: #ff9933;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .navbar-brand {
+    font-size: 1.5em;
+    color: white;
+    text-align: center;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 0.5em;
+  }
+
+  .navbar-menu {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    flex-wrap: wrap; /* Wrap items if necessary */
+  }
+
+  .navbar-menu a {
+    text-decoration: none;
+    font-size: 1em;
+    padding: 0.5em 1em;
+    background-color: white;
+    color: #2a5298;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .navbar-menu a:hover {
+    background-color: #2a5298;
+    color: white;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .navbar {
       padding: 1em;
     }
 
     .navbar-brand {
-      display: block;
-      text-align: center;
-      margin-bottom: 0.5em;
-      font-size: 1.2em;
+      font-size: 1.3em;
+      margin-bottom: 1em;
     }
 
     .navbar-menu {
-      display: flex;
-      justify-content: center;
-      gap: 1em;
-      flex-wrap: wrap; /* Ensure items wrap when needed */
+      flex-direction: column; /* Stack items vertically */
     }
 
     .navbar-menu a {
-      text-decoration: none;
-      font-size: 1em;
+      width: 100%; /* Full width for menu items */
+      text-align: center;
+      padding: 0.8em;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .navbar {
       padding: 0.5em;
     }
 
-    /* Responsive Adjustments */
-    @media (min-width: 768px) {
-      .navbar-menu {
-        gap: 2em;
-        font-size: 1.1em;
-      }
+    .navbar-brand {
+      font-size: 1.2em;
     }
 
-    @media (min-width: 1024px) {
-      .navbar-menu {
-        flex-direction: row; /* Items aligned in a single row */
-        justify-content: center;
-      }
+    .navbar-menu a {
+      font-size: 0.9em;
+      padding: 0.5em;
     }
+  }
 </style>
 
     </head>
@@ -1685,7 +1728,7 @@
               <!-- Footer Location-->
               <div class="col-lg-4 mb-5">
                   <h5 class="text-uppercase mb-4" style="color: #ff9933;">Location</h5>
-                  <p class="lead mb-0">
+                  <p class="lead mb-0" style="color: white;">
                       Cebu Technological University - Danao Campus<br />
                       Sabang, Danao
                   </p>
@@ -1701,7 +1744,7 @@
               <!-- Footer About Text-->
               <div class="col-lg-4">
                   <h5 class="text-uppercase mb-4" style="color: #ff9933;">Explore Now!</h5>
-                  <p class="lead mb-0">
+                  <p class="lead mb-0" style="color: white;">
                       Ready to use the system? Click the link below to explore:<br />
                       <a href="index.php" class="text-decoration-none" style="color: orange;"><i class="bi bi-house-door-fill"></i> CTU Parking System</a>
                   </p>
@@ -1713,7 +1756,7 @@
     <!-- Copyright Section-->
     <div class="copyright py-3 text-center" style="background-color: #2a5298; color: white;">
       <div class="container">
-          <marquee direction="left"> <small>🚈 Copyright &copy; CTU Parking System 2023</small></marquee>
+          <marquee direction="left"> <small>Copyright &copy; CTU Parking System 2023</small></marquee>
       </div>
     </div>
 
@@ -1722,10 +1765,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <!-- * *                               SB Forms JS                               * *-->
-        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
         <script>
             // Function to show the logout alert

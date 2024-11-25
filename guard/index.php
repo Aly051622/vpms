@@ -1,84 +1,36 @@
 <?php
-
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
 include('../DBconnection/dbconnection.php');
 
-// Check if login form is submitted
 if (isset($_POST['login'])) {
-    // Get user input
-    $guarduser = trim($_POST['username']); // Trim to avoid extra spaces
-    $password = trim($_POST['password']);  // Trim to avoid extra spaces
+    $guarduser = $_POST['username'];
+    $hashed_password = hash('sha512', $_POST['password']);
+    
+    // Query to check the username and hashed password using mysqli
+    $query = mysqli_query($con, "SELECT ID, UserName FROM tblguard WHERE UserName='$guarduser' AND Password='$hashed_password'");
+    $ret = mysqli_fetch_array($query);
+    
+    if ($ret) {
+        // Set session for guard ID
+        $_SESSION['guardid'] = $ret['ID'];
 
-    // Debugging: log the entered username and password
-    error_log("Entered username: " . $guarduser);
-    error_log("Entered password: " . $password);
-
-    // First, check tblguard
-    $stmt = $con->prepare("SELECT ID, UserName, Password FROM tblguard WHERE UserName = ?");
-    $stmt->bind_param("s", $guarduser);  // Bind the username to prevent SQL injection
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    // If not found in tblguard, check tbladmin
-    if ($result->num_rows === 0) {
-        $stmt = $con->prepare("SELECT ID, UserName, Password FROM tbladmin WHERE UserName = ?");
-        $stmt->bind_param("s", $guarduser);  // Bind the username to prevent SQL injection
-        $stmt->execute();
-        $result = $stmt->get_result();
-    }
-
-    // Check if the username exists in either table
-    if ($result->num_rows > 0) {
-        // Fetch the user data
-        $ret = $result->fetch_assoc();
-
-        // Debugging: log the stored password hash
-        error_log("Stored password hash in DB: " . $ret['Password']);
-
-        // Verify the password using password_verify (recommended for security)
-        if (password_verify($password, $ret['Password'])) {
-            // Set session for user ID
-            $_SESSION['userid'] = $ret['ID'];
-
-            // Define redirect based on username
-            $redirects = [
-                'inguard' => 'monitor.php',
-                'outguard' => 'monitor2.php',
-                'SuperAdmin' => 'superadmin_dashboard.php',
-                'admin1' => 'admin_dashboard.php',
-                'admin2' => 'admin2_dashboard.php'
-            ];
-
-            // Redirect based on username
-            if (array_key_exists($guarduser, $redirects)) {
-                header('Location: ' . $redirects[$guarduser]);
-                exit();
-            } else {
-                echo "<script>alert('Invalid Guard Username.');</script>";
-            }
+        // Redirect based on the username
+        if ($guarduser == 'inguard') {
+            header('Location: monitor.php');
+            exit();  // Make sure to call exit() after header redirection
+        } elseif ($guarduser == 'outguard') {
+            header('Location: monitor2.php');
+            exit();  // Same here for second condition
         } else {
-            // If password doesn't match, log the error and show message
-            error_log("Password does not match.");
-            echo "<script>alert('Invalid password.');</script>";
+            echo "<script>alert('Invalid Guard Username.');</script>";
         }
     } else {
-        // If username doesn't exist in both tables, show message
-        echo "<script>alert('Invalid username.');</script>";
+        echo "<script>alert('Invalid Details.');</script>";
     }
-
-    // Close the prepared statement
-    $stmt->close();
 }
 ?>
-
-
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -88,7 +40,6 @@ if (isset($_POST['login'])) {
       <title>Security Login | CTU DANAO Parking System</title>
       <link rel="apple-touch-icon" href="../images/ctu.png">
     <link rel="shortcut icon" href="../images/ctu.png">
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
@@ -106,14 +57,12 @@ if (isset($_POST['login'])) {
       padding: 0;
       box-sizing: border-box;
       user-select: none;
-    }
-    .bg-img{
+    }  .bg-img{
       background: url('images/ctuguard.png');
       height: 100vh;
       background-size: cover;
       background-position: center;
-    }
-    .bg-img:after{
+    }.bg-img:after{
       position: absolute;
       content: '';
       top: 0;
@@ -121,8 +70,7 @@ if (isset($_POST['login'])) {
       height: 100vh;
       width: 100%;
       background: rgba(0,0,0,0.7);
-    }
-    .content {
+    }  .content {
     border-radius: 20px;
     position: absolute;
     top: 50%;
@@ -137,15 +85,12 @@ if (isset($_POST['login'])) {
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, 
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, 
     rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-  }
-
-  .content:hover {
+  }.content:hover {
       opacity: 1;
       box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
           rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
           rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   }
-
   .content header {
       color: white;
       font-size: 33px;
@@ -160,13 +105,11 @@ if (isset($_POST['login'])) {
       display: flex;
       background: rgba(255,255,255,0.94);
       border-radius: 10px;
-    }
-    .field span{
+    }  .field span{
       color: black;
       width: 40px;
       line-height: 45px;
-    }
-    .field input{
+    }    .field input{
       height: 100%;
       width: 100%;
       background: transparent;
@@ -175,11 +118,9 @@ if (isset($_POST['login'])) {
       color: #222;
       font-size: 16px;
       font-family: 'Poppins',sans-serif;
-    }
-    .space{
+    } .space{
       margin-top: 16px;
-    }
-    .show{
+    }.show{
       position: absolute;
       right: 13px;
       font-size: 13px;
@@ -187,20 +128,16 @@ if (isset($_POST['login'])) {
       color: #222;
       display: none;
       font-family: 'Montserrat',sans-serif;
-    }
-    .pass-key:valid ~ .show{
+    }  .pass-key:valid ~ .show{
       display: block;
-    }
-    .pass{
+    } .pass{
       text-align: left;
       margin: 10px 0;
-    }
-    .pass a{
+    }.pass a{
       color: white;
       text-decoration: none;
       font-family: 'Poppins',sans-serif;
-    }
-    .pass:hover a{
+    }  .pass:hover a{
       text-decoration: underline;
     }
     .field input[type="submit"]{
@@ -214,9 +151,7 @@ if (isset($_POST['login'])) {
     }
     .field input[type="submit"]:hover{
       background-color: darkblue;
-      border: solid blue;
-
-    }
+      border: solid blue; }
     .login{
       color: white;
       margin: 20px 0;
@@ -233,13 +168,10 @@ if (isset($_POST['login'])) {
     }
     .signup a:hover{
       text-decoration: underline;
-    }
-
-    input[type="text"]:hover, input[type="password"]:hover {
+    }  input[type="text"]:hover, input[type="password"]:hover {
                 background-color: #f7e791; 
                 border: 2px solid #ffbe58; 
             }
-
       #home{
       margin: 2vw 0 0 15vw; /* Adjusted margin for responsiveness */
         background-color: rgb(53, 97, 255);
@@ -259,81 +191,56 @@ if (isset($_POST['login'])) {
                 background-color: whitesmoke;
                 border: 2px solid lightblue;
             }
-
     /*bag o ni nga loading*/
     #loading-spinner {
         display: none;
         color: white;
       }
-
       @media ( max-width: 480px){
         #home{
       margin-top: 12px;
       margin-left: 15em;
     }
       }
-
       /* Adjust styles for devices with a maximum width of 600px */
 @media only screen and (max-width: 300px) {
   .content {
         width: 90%; /* Adjusted width for smaller screens */
         padding: 40px 20px; /* Adjusted padding for smaller screens */
         margin: 1vw 0 0 10vw; /* Adjusted margin for responsiveness */
-    }
-
-    .content header {
+    }  .content header {
         font-size: 24px; /* Adjusted font size for smaller screens */
         margin-bottom: 20px; /* Adjusted margin for smaller screens */
-    }
-
-    .field span {
+    } .field span {
         width: 8vw;
         line-height: 8vw;
-    }
-
-    .field input {
+    } .field input {
         font-size: 6vw;
-    }
-
-    .space {
+    }   .space {
         margin-top: 4vw;
-    }
-
-    .show {
+    }.show {
         right: 2vw;
         font-size: 6vw;
     }
-
     .pass {
         margin: 2vw 0;
-    }
-
-    .login {
+    }  .login {
         margin: 4vw 0;
         color: black;
-    }
-
-    .signup {
+    }.signup {
         font-size: 5vw;
     }
-
     #home {
         margin: 4vw 0 0 8vw;
-    }
-
-    input[type="text"]:hover,
+    }   input[type="text"]:hover,
     input[type="password"]:hover {
         background-color: #f7e791;
         border: 2px solid #ffbe58;
     }
-   
-}
-    </style>
-   <script>
+    </style><script>
   document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.querySelector('form');
     const loadingSpinner = document.getElementById('loading-spinner');
-
     loginForm.addEventListener('submit', function() {
       // Show the loading spinner when the form is submitted
       loadingSpinner.style.display = 'inline-block';
@@ -373,7 +280,6 @@ if (isset($_POST['login'])) {
 <div class="success-message" id="success-message" style="display: none;">Login successful!</div>
          </div>
       </div>
-
       <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
@@ -381,9 +287,8 @@ if (isset($_POST['login'])) {
     <script src="assets/js/main.js"></script>
 
     <script>
-      const passField = document.querySelector('#password');
+    const passField = document.querySelector('#password');
 const showBtn = document.querySelector('#show-password');
-
 showBtn.addEventListener('click', function() {
   if (passField.type === "password") {
     passField.type = "text";
@@ -395,31 +300,19 @@ showBtn.addEventListener('click', function() {
     showBtn.style.color = "black"; 
   }
 });
-
 const loginForm = document.querySelector('#login-form');
   const loadingSpinner = document.querySelector('#loading-spinner');
   const successMessage = document.querySelector('#success-message');
-
   loginForm.addEventListener('submit', function (e) {
     e.preventDefault();
-
     // Display the loading spinner for 5 seconds
     loadingSpinner.style.display = 'block';
     setTimeout(function () {
-      loadingSpinner.style.display = 'none';
-
-      // Hide the form and show the success message
+      loadingSpinner.style.display = 'none'; // Hide the form and show the success message
       loginForm.style.display = 'none';
       successMessage.style.display = 'block';
-    }, 2000);
-
-    // Simulate a successful login - you can replace this with your actual login code
-    setTimeout(function () {
-  successMessage.innerHTML = 'Login successful! Redirecting...';
-  successMessage.style.color = 'white'; // Add this line to set text color to white
-
-
-      // Redirect to the dashboard after 5 seconds
+    }, 2000);// Simulate a successful login - you can replace this with your actual login code  successMessage.innerHTML = 'Login successful! Redirecting...';
+    successMessage.style.color = 'white'; // Add this line to set text color to white   // Redirect to the dashboard after 5 seconds
       setTimeout(function () {
         window.location.href = 'dashboard.php';
       }, 2000);
