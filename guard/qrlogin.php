@@ -107,24 +107,35 @@ $conn->close();
             border-radius: 9px;
         }
         
-        /*navbar add css*/
-        .navbar{
-            background-color: rgb(53, 97, 255);
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-            }
         @media (max-width: 480px){
-        .container{
-            padding-top:10px;
-            margin-top:-8px;
-        }
-        .navbar-brand{
-            margin-left: 10px;
-        }
-        .navbar-toggler{
-            margin-top: -33px;
-            margin-left: 11em;
-        }
-    }
+   
+   .navbar{
+       margin-top:-10px;
+       position: absolute;
+       height: 100px;
+   }
+   .navbar-brand{
+       margin-left: 10px;
+       padding-bottom:2px;
+   }
+   .navbar-toggler{
+       margin-right: 20px;
+       margin-top:-6em;
+   }
+   .navbar-item{
+       position: relative;
+   }
+   h4{
+       margin-top: 30px;
+
+   }
+   .dropbtns{
+       margin-right: 1em;
+   }
+}
+h4{
+   margin-left: 20px;
+}
 
         #switchCameraBtn {
             margin-top: 10px;
@@ -152,7 +163,23 @@ $conn->close();
 </head>
 <body>
 <!-- Responsive Navigation Bar -->
-<?php include_once('includes/headerin.php');?>
+<nav class="navbar">
+<div class="navbar-brand"><a href="monitor.php"><h4>Parking Slot Manager</h4></a></div>
+<div class="container">
+    <div class="navbar-toggler" onclick="toggleMenu()"  >&#9776;</div>
+    <div class="navbar-menu" id="navbarMenu" style="margin-right: 30px;">
+        <!-- QR Login Button -->
+        <a href="qrlogin.php" class="navbar-item dropbtns"><i class="bi bi-car-front-fill"></i> QR Log-in</a>
+      
+
+        <!-- Manual Input Button -->
+        <a href="malogin.php" class="navbar-item dropbtns"><i class="bi bi-display-fill"></i> Manual Log-in</a>
+
+        <a href="logout.php" class="navbar-item dropbtns"><i class="bi bi-car-front"></i> Logout</a>
+       
+    </div>
+</div>
+</nav>
 
 <div class="container" style="background: transparent;">
     <div class="row">
