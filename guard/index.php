@@ -1,56 +1,82 @@
-@ -8,377 +8,388 @@
+<?php
+
+session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+include('../DBconnection/dbconnection.php');
+
+// Check if login form is submitted
 if (isset($_POST['login'])) {
-    $guarduser = $_POST['username'];
-    $hashed_password = hash('sha512', $_POST['password']);
-    
-    // Query to check the username and hashed password
-    $query = mysqli_query($con, "SELECT ID, UserName FROM tblguard WHERE UserName='$guarduser' AND Password='$hashed_password'");
-    $ret = mysqli_fetch_array($query);
+    // Get user input
+    $guarduser = trim($_POST['username']); // Trim to avoid extra spaces
+    $password = trim($_POST['password']);  // Trim to avoid extra spaces
 
-    if ($ret) {
-        // Set session for guard ID
-        $_SESSION['guardid'] = $ret['ID'];
+    // Debugging: log the entered username and password
+    error_log("Entered username: " . $guarduser);
+    error_log("Entered password: " . $password);
 
-        // Redirect based on the username
-        if ($guarduser == 'inguard') {
-            header('Location: monitor.php');
-        } elseif ($guarduser == 'outguard') {
-            header('Location: monitor2.php');
+    // First, check tblguard
+    $stmt = $con->prepare("SELECT ID, UserName, Password FROM tblguard WHERE UserName = ?");
+    $stmt->bind_param("s", $guarduser);  // Bind the username to prevent SQL injection
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    try {
-        // Use PDO to prepare and execute the query
-        $stmt = $con->prepare("SELECT ID, UserName FROM tblguard WHERE UserName = :username AND Password = :password");
-        $stmt->bindParam(':username', $guarduser);
-        $stmt->bindParam(':password', $hashed_password);
+    // If not found in tblguard, check tbladmin
+    if ($result->num_rows === 0) {
+        $stmt = $con->prepare("SELECT ID, UserName, Password FROM tbladmin WHERE UserName = ?");
+        $stmt->bind_param("s", $guarduser);  // Bind the username to prevent SQL injection
         $stmt->execute();
-        
-        // Fetch the result
-        $ret = $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $stmt->get_result();
+    }
 
-        if ($ret) {
-            // Set session for guard ID
-            $_SESSION['guardid'] = $ret['ID'];
+    // Check if the username exists in either table
+    if ($result->num_rows > 0) {
+        // Fetch the user data
+        $ret = $result->fetch_assoc();
 
-            // Redirect based on the username
-            if ($guarduser == 'inguard') {
-                header('Location: monitor.php');
-            } elseif ($guarduser == 'outguard') {
-                header('Location: monitor2.php');
+        // Debugging: log the stored password hash
+        error_log("Stored password hash in DB: " . $ret['Password']);
+
+        // Verify the password using password_verify (recommended for security)
+        if (password_verify($password, $ret['Password'])) {
+            // Set session for user ID
+            $_SESSION['userid'] = $ret['ID'];
+
+            // Define redirect based on username
+            $redirects = [
+                'inguard' => 'monitor.php',
+                'outguard' => 'monitor2.php',
+                'SuperAdmin' => 'superadmin_dashboard.php',
+                'admin1' => 'admin_dashboard.php',
+                'admin2' => 'admin2_dashboard.php'
+            ];
+
+            // Redirect based on username
+            if (array_key_exists($guarduser, $redirects)) {
+                header('Location: ' . $redirects[$guarduser]);
+                exit();
             } else {
                 echo "<script>alert('Invalid Guard Username.');</script>";
             }
         } else {
-            echo "<script>alert('Invalid Guard Username.');</script>";
-            echo "<script>alert('Invalid Details.');</script>";
+            // If password doesn't match, log the error and show message
+            error_log("Password does not match.");
+            echo "<script>alert('Invalid password.');</script>";
         }
     } else {
-        echo "<script>alert('Invalid Details.');</script>";
-    } catch (PDOException $e) {
-        // Handle any errors
-        echo "Error: " . $e->getMessage();
+        // If username doesn't exist in both tables, show message
+        echo "<script>alert('Invalid username.');</script>";
     }
+
+    // Close the prepared statement
+    $stmt->close();
 }
 ?>
+
+
+
+
 
 
 
