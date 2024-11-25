@@ -14,20 +14,29 @@ if (isset($_POST['login'])) {
     $hashed_password = hash('sha512', $password);
     
     // Use prepared statements to avoid SQL injection
+    // First, check tblguard
     $stmt = $con->prepare("SELECT ID, UserName, Password FROM tblguard WHERE UserName = ?");
     $stmt->bind_param("s", $guarduser);  // Bind the username to prevent SQL injection
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // Check if the username exists
+    // If not found in tblguard, check tbladmin
+    if ($result->num_rows === 0) {
+        $stmt = $con->prepare("SELECT ID, UserName, Password FROM tbladmin WHERE UserName = ?");
+        $stmt->bind_param("s", $guarduser);  // Bind the username to prevent SQL injection
+        $stmt->execute();
+        $result = $stmt->get_result();
+    }
+
+    // Check if the username exists in either table
     if ($result->num_rows > 0) {
         // Fetch the user data
         $ret = $result->fetch_assoc();
 
         // Compare the hashed password with the stored one
         if ($hashed_password === $ret['Password']) {
-            // Set session for guard ID
-            $_SESSION['guardid'] = $ret['ID'];
+            // Set session for user ID
+            $_SESSION['userid'] = $ret['ID'];
 
             // Redirect based on the username
             if ($guarduser == 'inguard') {
@@ -59,6 +68,7 @@ if (isset($_POST['login'])) {
     $stmt->close();
 }
 ?>
+
 
 
 
