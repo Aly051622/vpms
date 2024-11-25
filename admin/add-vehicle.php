@@ -65,8 +65,17 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
                 $lastName = $userData['LastName'];
                 $contactno = $userData['MobileNumber'];
 
-                $qrCodeData = "Vehicle Type: $catename\nPlate Number: $vehreno\nName: $firstName $lastName\nContact Number: $contactno \nModel: $model";
-                $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" . urlencode($qrCodeData) . "&size=150x150";
+                 // Encryption setup
+            $encryptionKey = base64_decode(getenv('ENCRYPTION_KEY'));
+            $cipher = "AES-256-CBC";
+            $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher));
+            $qrCodeData = "Vehicle Type: $catename\nPlate Number: $vehreno\nName: $firstName $lastName\nContact Number: $contactno\nModel: $model";
+            $encryptedQrCodeData = openssl_encrypt($qrCodeData, $cipher, $encryptionKey, 0, $iv);
+            $encryptedQrCodeData = base64_encode($encryptedQrCodeData . "::" . $iv);
+
+
+                // Generate QR code with encrypted data
+                $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" . urlencode($encryptedQrCodeData) . "&size=150x150";
 
                 $qrImageName = "qr" . $vehreno . "_" . time() . ".png";
                 $qrImagePath = "qrcodes/" . $qrImageName;
@@ -91,7 +100,6 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
         }
     }
 ?>
-
 
 
 
