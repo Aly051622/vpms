@@ -107,35 +107,54 @@ $conn->close();
             border-radius: 9px;
         }
         
-        @media (max-width: 480px){
-   
-   .navbar{
-       margin-top:-10px;
-       position: absolute;
-       height: 100px;
-   }
-   .navbar-brand{
-       margin-left: 10px;
-       padding-bottom:2px;
-   }
-   .navbar-toggler{
-       margin-right: 20px;
-       margin-top:-6em;
-   }
-   .navbar-item{
-       position: relative;
-   }
-   h4{
-       margin-top: 30px;
+        /*navbar add css*/
+        .navbar{
+            padding: 1px;
+            background-color: rgb(53, 97, 255);
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+            }
+        #title{
+            margin-left: 50px;
+        }
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            #title{
+                margin-top: 25px; /* Add space between buttons */
+                text-align: center; /* Center text in buttons */
+                margin-left: 20px;
+            }
+        }
+        @media (max-width: 480px) {
+            #title{
+                margin-left: 25px;
+                margin-top: 20px; /* Add space between buttons */
+                text-align: center; /* Center text in buttons */
+            }
+        }
+      
+         /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .toggle-menu {
+                margin-top: -10px; /* Reduced margin for smaller screens */
+            }
+        }
 
-   }
-   .dropbtns{
-       margin-right: 1em;
-   }
-}
-h4{
-   margin-left: 20px;
-}
+        @media (max-width: 480px) {
+            .toggle-menu {
+                margin-top: -5px; /* Further reduced margin for very small screens */
+                margin-left: 35px;
+            }
+            body{
+                margin-top: -15em;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                margin-top: 17em; /* Reduced margin for smaller screens */
+            }
+        }
 
         #switchCameraBtn {
             margin-top: 10px;
