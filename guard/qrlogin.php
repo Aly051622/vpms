@@ -50,7 +50,7 @@ $conn->close();
 
 <html class="no-js" lang="">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <script type="text/javascript" src="js/adapter.min.js"></script>
     <script type="text/javascript" src="js/vue.min.js"></script>
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
