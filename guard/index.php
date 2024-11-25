@@ -5,45 +5,56 @@ ini_set('display_errors', 1);
 
 include('../DBconnection/dbconnection.php');
 
+// Check if login form is submitted
 if (isset($_POST['login'])) {
     // Get user input
     $guarduser = $_POST['username'];
     $password = $_POST['password'];
 
-    // Hash the entered password using SHA-512
-    $hashed_password = hash('sha512', $password);
-    
+    // Hash the entered password (test SHA-1 or SHA-256)
+    $hashed_password = sha1($password);  // Change this to sha256 if needed
+
     // Use prepared statements to avoid SQL injection
+    // First, check tblguard
     $stmt = $con->prepare("SELECT ID, UserName, Password FROM tblguard WHERE UserName = ?");
     $stmt->bind_param("s", $guarduser);  // Bind the username to prevent SQL injection
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // Check if the username exists
+    // If not found in tblguard, check tbladmin
+    if ($result->num_rows === 0) {
+        $stmt = $con->prepare("SELECT ID, UserName, Password FROM tbladmin WHERE UserName = ?");
+        $stmt->bind_param("s", $guarduser);  // Bind the username to prevent SQL injection
+        $stmt->execute();
+        $result = $stmt->get_result();
+    }
+
+    // Check if the username exists in either table
     if ($result->num_rows > 0) {
         // Fetch the user data
         $ret = $result->fetch_assoc();
 
+        // Debug: Log both passwords to check if they match
+        error_log("Input hashed password: " . $hashed_password);
+        error_log("Stored password: " . $ret['Password']);
+
         // Compare the hashed password with the stored one
         if ($hashed_password === $ret['Password']) {
-            // Set session for guard ID
-            $_SESSION['guardid'] = $ret['ID'];
+            // Set session for user ID
+            $_SESSION['userid'] = $ret['ID'];
 
-            // Redirect based on the username
-            if ($guarduser == 'inguard') {
-                header('Location: monitor.php');
-                exit();
-            } elseif ($guarduser == 'outguard') {
-                header('Location: monitor2.php');
-                exit();
-            } elseif ($guarduser == 'SuperAdmin') {
-                header('Location: superadmin_dashboard.php');
-                exit();
-            } elseif ($guarduser == 'admin1') {
-                header('Location: admin_dashboard.php');
-                exit();
-            } elseif ($guarduser == 'admin2') {
-                header('Location: admin2_dashboard.php');
+            // Define redirect based on username
+            $redirects = [
+                'inguard' => 'monitor.php',
+                'outguard' => 'monitor2.php',
+                'SuperAdmin' => 'superadmin_dashboard.php',
+                'admin1' => 'admin_dashboard.php',
+                'admin2' => 'admin2_dashboard.php'
+            ];
+
+            // Redirect based on username
+            if (array_key_exists($guarduser, $redirects)) {
+                header('Location: ' . $redirects[$guarduser]);
                 exit();
             } else {
                 echo "<script>alert('Invalid Guard Username.');</script>";
