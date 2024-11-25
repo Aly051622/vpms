@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 
 date_default_timezone_set('Asia/Manila');
 
-include('includes/dbconnection.php');
+include('../DBconnection/dbconnection.php');
 
 if (strlen($_SESSION['vpmsaid'] == 0)) {
     header('location:logout.php');
@@ -65,22 +65,30 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
                 $lastName = $userData['LastName'];
                 $contactno = $userData['MobileNumber'];
 
-                 // Encryption setup
-            $encryptionKey = base64_decode(getenv('ENCRYPTION_KEY'));
+                 // Encrypt QR Code Data
+            $encryptionKey = getenv('ENCRYPTION_KEY');
+            if (!$encryptionKey) {
+                die("Encryption key not set in environment variables.");
+            }
+            $encryptionKey = base64_decode($encryptionKey);
             $cipher = "AES-256-CBC";
             $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher));
-            $qrCodeData = "Vehicle Type: $catename\nPlate Number: $vehreno\nName: $firstName $lastName\nContact Number: $contactno\nModel: $model";
+            $qrCodeData = json_encode([
+                'VehicleType' => $catename,
+                'PlateNumber' => $vehreno,
+                'Name' => "$firstName $lastName",
+                'ContactNumber' => $ownercontno,
+                'Model' => $model,
+            ]);
             $encryptedQrCodeData = openssl_encrypt($qrCodeData, $cipher, $encryptionKey, 0, $iv);
             $encryptedQrCodeData = base64_encode($encryptedQrCodeData . "::" . $iv);
 
-
-                // Generate QR code with encrypted data
-                $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" . urlencode($encryptedQrCodeData) . "&size=150x150";
-
-                $qrImageName = "qr" . $vehreno . "_" . time() . ".png";
-                $qrImagePath = "qrcodes/" . $qrImageName;
-                $qrCodeContent = file_get_contents($qrCodeUrl);
-                file_put_contents($qrImagePath, $qrCodeContent);
+            // Generate QR Code with Encrypted Data
+            $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" . urlencode($encryptedQrCodeData) . "&size=150x150";
+            $qrImageName = "qr" . $vehreno . "_" . time() . ".png";
+            $qrImagePath = "qrcodes/" . $qrImageName;
+            $qrCodeContent = file_get_contents($qrCodeUrl);
+            file_put_contents($qrImagePath, $qrCodeContent);
 
                 $inTime = date('Y-m-d H:i:s');
 
