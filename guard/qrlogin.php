@@ -109,52 +109,22 @@ $conn->close();
         
         /*navbar add css*/
         .navbar{
-            padding: 1px;
             background-color: rgb(53, 97, 255);
             box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
             }
-        #title{
-            margin-left: 50px;
+        @media (max-width: 480px){
+        .container{
+            padding-top:10px;
+            margin-top:-8px;
         }
-        /* Media Queries for Responsiveness */
-        @media (max-width: 768px) {
-            #title{
-                margin-top: 25px; /* Add space between buttons */
-                text-align: center; /* Center text in buttons */
-                margin-left: 20px;
-            }
+        .navbar-brand{
+            margin-left: 10px;
         }
-        @media (max-width: 480px) {
-            #title{
-                margin-left: 25px;
-                margin-top: 20px; /* Add space between buttons */
-                text-align: center; /* Center text in buttons */
-            }
+        .navbar-toggler{
+            margin-top: -33px;
+            margin-left: 11em;
         }
-      
-         /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .toggle-menu {
-                margin-top: -10px; /* Reduced margin for smaller screens */
-            }
-        }
-
-        @media (max-width: 480px) {
-            .toggle-menu {
-                margin-top: -5px; /* Further reduced margin for very small screens */
-                margin-left: 35px;
-            }
-            body{
-                margin-top: -15em;
-            }
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .container {
-                margin-top: 17em; /* Reduced margin for smaller screens */
-            }
-        }
+    }
 
         #switchCameraBtn {
             margin-top: 10px;
@@ -182,23 +152,7 @@ $conn->close();
 </head>
 <body>
 <!-- Responsive Navigation Bar -->
-<nav class="navbar">
-<div class="navbar-brand"><a href="monitor.php"><h4>Parking Slot Manager</h4></a></div>
-<div class="container">
-    <div class="navbar-toggler" onclick="toggleMenu()"  >&#9776;</div>
-    <div class="navbar-menu" id="navbarMenu" style="margin-right: 30px;">
-        <!-- QR Login Button -->
-        <a href="qrlogin.php" class="navbar-item dropbtns"><i class="bi bi-car-front-fill"></i> QR Log-in</a>
-      
-
-        <!-- Manual Input Button -->
-        <a href="malogin.php" class="navbar-item dropbtns"><i class="bi bi-display-fill"></i> Manual Log-in</a>
-
-        <a href="logout.php" class="navbar-item dropbtns"><i class="bi bi-car-front"></i> Logout</a>
-       
-    </div>
-</div>
-</nav>
+<?php include_once('includes/headerin.php');?>
 
 <div class="container" style="background: transparent;">
     <div class="row">
