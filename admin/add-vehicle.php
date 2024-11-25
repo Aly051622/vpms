@@ -65,23 +65,35 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
                 $lastName = $userData['LastName'];
                 $contactno = $userData['MobileNumber'];
 
-                 // Encrypt QR Code Data
-            $encryptionKey = getenv('ENCRYPTION_KEY');
-            if (!$encryptionKey) {
-                die("Encryption key not set in environment variables.");
-            }
-            $encryptionKey = base64_decode($encryptionKey);
-            $cipher = "AES-256-CBC";
-            $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher));
-            $qrCodeData = json_encode([
-                'VehicleType' => $catename,
-                'PlateNumber' => $vehreno,
-                'Name' => "$firstName $lastName",
-                'ContactNumber' => $ownercontno,
-                'Model' => $model,
-            ]);
-            $encryptedQrCodeData = openssl_encrypt($qrCodeData, $cipher, $encryptionKey, 0, $iv);
-            $encryptedQrCodeData = base64_encode($encryptedQrCodeData . "::" . $iv);
+                   // Encrypt QR Code Data
+                   $encryptionKey = getenv('ENCRYPTION_KEY');  // Fetch encryption key securely from environment variable
+                   if (!$encryptionKey) {
+                       die("Encryption key not set in environment variables.");
+                   }
+                   $encryptionKey = base64_decode($encryptionKey);  // Base64 decode the key
+   
+                   $cipher = "AES-256-CBC";  // Encryption method
+                   $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher));  // Generate initialization vector
+   
+                   // Prepare data for encryption
+                   $qrCodeData = json_encode([
+                       'VehicleType' => $catename,
+                       'PlateNumber' => $vehreno,
+                       'Name' => "$firstName $lastName",
+                       'ContactNumber' => $ownercontno,
+                       'Model' => $model,
+                   ]);
+   
+                   // Encrypt the data
+                   $encryptedQrCodeData = openssl_encrypt($qrCodeData, $cipher, $encryptionKey, 0, $iv);
+                   $encryptedQrCodeData = base64_encode($encryptedQrCodeData . "::" . base64_encode($iv));  // Base64 encode the encrypted data and IV
+   
+                   // Generate QR Code with Encrypted Data
+                   $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" . urlencode($encryptedQrCodeData) . "&size=150x150";
+                   $qrImageName = "qr" . $vehreno . "_" . time() . ".png";
+                   $qrImagePath = "qrcodes/" . $qrImageName;
+                   $qrCodeContent = file_get_contents($qrCodeUrl);
+                   file_put_contents($qrImagePath, $qrCodeContent);
 
             // Generate QR Code with Encrypted Data
             $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" . urlencode($encryptedQrCodeData) . "&size=150x150";
