@@ -266,60 +266,94 @@
     </div>
 
     <script>
-    // Function to measure internet speed
-    async function measureInternetSpeed() {
-        const imageSrc = "https://via.placeholder.com/1"; // Small image to test download speed
-        const startTime = performance.now();
+   // Function to measure internet speed
+async function measureInternetSpeed() {
+    const imageSrc = "https://via.placeholder.com/1"; // Small image to test download speed
+    const startTime = performance.now();
 
-        try {
-            await fetch(imageSrc, { cache: "no-cache" });
-            const endTime = performance.now();
-            const speedInMs = endTime - startTime; // Approximate latency in milliseconds
-            return speedInMs;
-        } catch {
-            return 500; // Default fallback for slow or offline scenarios
-        }
+    try {
+        await fetch(imageSrc, { cache: "no-cache" });
+        const endTime = performance.now();
+        const speedInMs = endTime - startTime; // Approximate latency in milliseconds
+        return speedInMs;
+    } catch {
+        return 500; // Default fallback for slow or offline scenarios
     }
+}
 
-    // Function to set animation duration dynamically
-    function setAnimationDuration(speed) {
-        // Scale the animation duration based on speed
-        const duration = Math.min(Math.max(speed / 100, 4), 20); // Clamp between 4s and 20s
+// Function to set animation duration dynamically
+function setAnimationDuration(speed) {
+    // Scale the animation duration based on speed
+    const duration = Math.min(Math.max(speed / 100, 4), 20); // Clamp between 4s and 20s
 
-        document.querySelectorAll('.tree, .tree:nth-child(2), .tree:nth-child(3)').forEach(el => {
-            el.style.animationDuration = `${duration}s`;
-        });
-        document.querySelector('.mountain').style.animationDuration = `${duration * 5}s`;
-        document.querySelector('.hill').style.animationDuration = `${duration}s`;
-        document.querySelector('.rock').style.animationDuration = `${duration}s`;
-        document.querySelector('.truck').style.animationDuration = `${duration}s`;
-        document.querySelector('.wheels').style.animationDuration = `${duration}s`;
-    }
+    document.querySelectorAll('.tree, .tree:nth-child(2), .tree:nth-child(3)').forEach(el => {
+        el.style.animationDuration = `${duration}s`;
+    });
+    document.querySelector('.mountain').style.animationDuration = `${duration * 5}s`;
+    document.querySelector('.hill').style.animationDuration = `${duration}s`;
+    document.querySelector('.rock').style.animationDuration = `${duration}s`;
+    document.querySelector('.truck').style.animationDuration = `${duration}s`;
+    document.querySelector('.wheels').style.animationDuration = `${duration}s`;
+}
 
-    // Function to handle redirection based on speed
-    async function redirectBasedOnSpeed() {
+// Function to start animations (e.g., for vehicles)
+function startVehicleAnimation() {
+    const vehicles = document.querySelectorAll(".truck, .wheels");
+    vehicles.forEach(vehicle => {
+        vehicle.style.animationPlayState = "running";
+    });
+}
+
+// Function to handle redirection based on speed
+async function redirectBasedOnSpeed() {
+    let successfulRedirection = false;
+
+    while (!successfulRedirection) {
         const speed = await measureInternetSpeed();
 
-        // Set animation duration
+        // Set animation duration based on current speed
         setAnimationDuration(speed);
 
-        // Adjust redirection timing (scale based on speed)
-        const redirectDelay = Math.min(Math.max(speed * 2, 2000), 8000); // Clamp between 2s and 8s
+        try {
+            // Start the animation
+            startVehicleAnimation();
 
-        setTimeout(() => {
+            // Calculate dynamic redirection delay
+            const redirectDelay = Math.min(Math.max(speed * 2, 2000), 8000); // Clamp between 2s and 8s
+
+            // Wait for the calculated delay
+            await new Promise(resolve => setTimeout(resolve, redirectDelay));
+
             // Add fade-out effect before redirect
             document.body.style.transition = "opacity 2s";
             document.body.style.opacity = 0;
 
-            // Redirect to welcome.php
-            setTimeout(() => {
-                window.location.href = "welcome.php";
-            }, 1500); // Ensure fade-out completes
-        }, redirectDelay);
-    }
+            // Attempt to redirect
+            await new Promise(resolve => setTimeout(resolve, 1500)); // Ensure fade-out completes
+            window.location.href = "welcome.php";
 
-    // Start the process
-    redirectBasedOnSpeed();
+            successfulRedirection = true; // If redirection succeeds, exit the loop
+        } catch (error) {
+            console.error("Redirection failed, retrying...", error);
+
+            // Optionally, display a message to the user
+            showMessage("Network is poor, retrying...");
+        }
+    }
+}
+
+// Function to display a message (optional)
+function showMessage(message) {
+    const messageBox = document.getElementById("messageBox");
+    if (messageBox) {
+        messageBox.textContent = message;
+        messageBox.style.display = "block";
+    }
+}
+
+// Start the process
+redirectBasedOnSpeed();
+
 </script>
 
 
