@@ -11,8 +11,12 @@ if (isset($_POST['login'])) {
     $guarduser = $_POST['username'];
     $password = $_POST['password'];
 
-    // Hash the entered password (test SHA-1 or SHA-256)
-    $hashed_password = sha1($password);  // Change this to sha256 if needed
+    // Hash the entered password using SHA-1
+    $hashed_password = sha1($password);
+
+    // Log the hashed password and the username
+    error_log("Entered username: " . $guarduser);
+    error_log("Entered password (hashed): " . $hashed_password);
 
     // Use prepared statements to avoid SQL injection
     // First, check tblguard
@@ -34,9 +38,8 @@ if (isset($_POST['login'])) {
         // Fetch the user data
         $ret = $result->fetch_assoc();
 
-        // Debug: Log both passwords to check if they match
-        error_log("Input hashed password: " . $hashed_password);
-        error_log("Stored password: " . $ret['Password']);
+        // Log the stored password
+        error_log("Stored password (hash): " . $ret['Password']);
 
         // Compare the hashed password with the stored one
         if ($hashed_password === $ret['Password']) {
@@ -69,6 +72,9 @@ if (isset($_POST['login'])) {
     // Close the prepared statement
     $stmt->close();
 }
+
+
+
 ?>
 
 
