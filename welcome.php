@@ -584,20 +584,16 @@ document.addEventListener('DOMContentLoaded', function () {
         <!-- Navigation-->
     <nav class="navbar fixed-top" id="mainNav">
         <div class="container">
-          
-
-          <a class="navbar-brand" id="title" style="color:white; position: absolute; margin-left: 3.5em;">CTU Danao Parking System</a>
+    
+        <!--  <a class="navbar-brand" id="title" style="color:white; position: absolute; margin-left: 3.5em;">CTU Danao Parking System</a> -->
             <div class="navbar-menu">   
                 <a class="navbar-item" href="admin/index.php">Admin</a>
                 <a class="navbar-item" href="guard/index.php">Security</a>
                 <a class="navbar-item" href="index.html">About</a>
-                <a class="navbar-item btn btn-primary" href="#" id="surbtn" data-toggle="modal" data-target="#commentModal">
-                  <i class="bi bi-chat-fill"></i></a>                
-              <a class="navbar-item btn btn-primary" href="#" id="surbtn" data-toggle="modal" data-target="#feedbackModal">
-                  <i class="bi bi-envelope-paper-heart"></i></a>
             </div>
         </div>
     </nav>
+
 
     <!-- Masthead-->
     <header class="masthead">
