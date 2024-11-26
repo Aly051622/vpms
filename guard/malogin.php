@@ -1,13 +1,13 @@
 <?php 
 session_start();
+date_default_timezone_set('Asia/Manila');
+
 
 if (!isset($_SESSION['guardid'])) {
     // If the user is not logged in, redirect to the login page
     header('Location: index.php');
     exit();
 }
-
-date_default_timezone_set('Asia/Manila');
 
 $server = "localhost";
 $username = "u132092183_parkingz";
@@ -472,7 +472,7 @@ $conn->close();
                         <td><?= htmlspecialchars($vehicle['RegistrationNumber']); ?></td>
                         <td id="slot_<?= htmlspecialchars($vehicle['id']); ?>"><?= htmlspecialchars($vehicle['ParkingSlot']); ?></td>
 
-                        <td><?= date("h:i:s A m-d-y", strtotime($vehicle['TimeInLocal'])); ?></td>
+                        <td><?= date_default_timezone_set('Asia/Manila'); echo date("h:i:s A m-d-y", strtotime($vehicle['TimeInLocal'])); ?></td>
 
 
                         <td>
