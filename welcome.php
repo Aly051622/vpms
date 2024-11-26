@@ -584,7 +584,8 @@ document.addEventListener('DOMContentLoaded', function () {
         <!-- Navigation-->
     <nav class="navbar fixed-top" id="mainNav">
         <div class="container">
-    
+          
+
           <a class="navbar-brand" id="title" style="color:white; position: absolute; margin-left: 3.5em;">CTU Danao Parking System</a>
             <div class="navbar-menu">   
                 <a class="navbar-item" href="admin/index.php">Admin</a>
@@ -593,7 +594,6 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
         </div>
     </nav>
-
 
     <!-- Masthead-->
     <header class="masthead">
