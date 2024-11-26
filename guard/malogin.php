@@ -472,7 +472,8 @@ $conn->close();
                         <td><?= htmlspecialchars($vehicle['RegistrationNumber']); ?></td>
                         <td id="slot_<?= htmlspecialchars($vehicle['id']); ?>"><?= htmlspecialchars($vehicle['ParkingSlot']); ?></td>
 
-                        <td><?= date("g:i:s A m-d-y", strtotime($vehicle['TimeInLocal'])); ?></td>
+                        <td><?= date("g:i:s A m-d-y", strtotime($vehicle['TimeInLocal'] . ' +08:00')); ?></td>
+
 
                         <td>
                             <button class="btn btn-warning btn-sm" onclick="editSlot(<?= $vehicle['id'] ?>)" id="editbtn">Edit</button>
