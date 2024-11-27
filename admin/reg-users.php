@@ -113,7 +113,7 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
                                         <th>Profile Picture</th> <!-- Added Profile Picture Column -->
                                         <th>Owner Name</th>
                                         <th>Contact Number</th>
-                                      <!--  <th>Vehicle Reg. Number</th>-->
+                                     
                                         <th>Action</th>
                                     </tr>
                                 </thead>
