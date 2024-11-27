@@ -65,28 +65,35 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
                 $lastName = $userData['LastName'];
                 $contactno = $userData['MobileNumber'];
 
-// Generate the QR code with the encrypted data
-$qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" . urlencode($encryptedQrCodeData) . "&size=150x150";
+                // Generate the QR code with vehicle details
+                $qrData = json_encode([
+                    'Category' => $catename,
+                    'Company' => $vehcomp,
+                    'Model' => $model,
+                    'Color' => $color,
+                    'PlateNumber' => $vehreno,
+                    'OwnerName' => $ownername,
+                    'ContactNumber' => $ownercontno
+                ]);
 
-// Save the generated QR code as an image
-$qrImageName = "qr_" . uniqid() . ".png";  // Generate a unique name for the QR code image
-$qrImagePath = "qrcodes/" . $qrImageName;
-$qrCodeContent = file_get_contents($qrCodeUrl);
-if ($qrCodeContent === false) {
-    die("Failed to fetch QR code from the server.");
-}
+                $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" . urlencode($qrData) . "&size=150x150";
 
-if (file_put_contents($qrImagePath, $qrCodeContent) === false) {
-    die("Failed to save the QR code image.");
-}
+                // Save the generated QR code as an image
+                $qrImageName = "qr_" . uniqid() . ".png";  // Generate a unique name for the QR code image
+                $qrImagePath = "qrcodes/" . $qrImageName;
+                $qrCodeContent = file_get_contents($qrCodeUrl);
 
-// Output the result
-echo "QR code generated and saved as: " . $qrImagePath;
+                if ($qrCodeContent === false) {
+                    die("Failed to fetch QR code from the server.");
+                }
 
+                if (file_put_contents($qrImagePath, $qrCodeContent) === false) {
+                    die("Failed to save the QR code image.");
+                }
 
                 $inTime = date('Y-m-d H:i:s');
 
-                // Update INSERT query to include the ImagePath column
+                // Insert the data into the database
                 $query = "INSERT INTO tblvehicle (VehicleCategory, VehicleCompanyname, Model, Color, RegistrationNumber, OwnerName, OwnerContactNumber, QRCodePath, ImagePath, InTime) 
                           VALUES ('$catename', '$vehcomp', '$model', '$color', '$vehreno', '$ownername', '$ownercontno', '$qrImagePath', '$imagePath', '$inTime')";
 
@@ -101,6 +108,7 @@ echo "QR code generated and saved as: " . $qrImagePath;
             }
         }
     }
+
 ?>
 
 
