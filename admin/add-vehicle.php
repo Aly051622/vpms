@@ -680,7 +680,7 @@ $query = "INSERT INTO tblvehicle (VehicleCategory, VehicleCompanyname, Model, Co
 
 if (mysqli_query($con, $query)) {
     echo "<script>alert('Vehicle Entry Detail has been added');</script>";
-    echo "<script>window.location.href ='view-vehicle.php'</script>";
+    echo "<script>window.location.href ='../users/view-vehicle.php'</script>";
 } else {
     echo "<script>alert('Error: " . mysqli_error($con) . "');</script>";
 }
