@@ -6,7 +6,7 @@ date_default_timezone_set('Asia/Manila');
 
 include('../DBconnection/dbconnection.php');
 
-if (strlen($_SESSION['vpmsaid']==0)) {
+if (strlen($_SESSION['vpmsuid']==0)) {
     header('location:logout.php');
 } else {
     if (isset($_POST['submit'])) {
