@@ -208,13 +208,13 @@ return true;
                        <div class="form-group field space">
                        <span  class="fa bi bi-lock-fill"></span>
                        <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="New Password" required="true">
-                        <i class="fa fa-eye-slash" id="togglePassword" style="position: absolute; right: 10px; top: 8px; cursor: pointer; color: black;"></i>
+                        <i class="fa fa-eye-slash" id="togglePassword" style="position: absolute; right: 10px; top: 10px; cursor: pointer; color: black;"></i>
 
                           </div>
                         <div class="form-group field space">
                         <span class="fa bi bi-shield-lock-fill"></span>
                         <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirm Password" required="true">
-                        <i class="fa fa-eye-slash" id="toggleRepeatPassword" style="position: absolute; right: 10px; top: 8px; cursor: pointer; color: black;"></i> 
+                        <i class="fa fa-eye-slash" id="toggleRepeatPassword" style="position: absolute; right: 10px; top: 10px; cursor: pointer; color: black;"></i> 
                           </div>
                         <div class="checkbox">
                             
