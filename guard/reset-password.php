@@ -63,7 +63,7 @@ return true;
       background-position: center;
       opacity: 0.9;
     }
-    .bg-dark:after{
+    .bg-img:after{
       position: absolute;
       content: '';
       top: 0;
@@ -71,7 +71,6 @@ return true;
       height: 100%;
       width: 100%;
       background: rgba(0,0,0,0.7);
-      z-index: -5;
     }
     
     .content {
