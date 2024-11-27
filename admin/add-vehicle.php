@@ -65,28 +65,6 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
                 $lastName = $userData['LastName'];
                 $contactno = $userData['MobileNumber'];
 
-                 // Encrypt QR Code Data
-$encryptionKey = getenv('ENCRYPTION_KEY');  // Fetch encryption key securely from environment variable
-if (!$encryptionKey) {
-    die("Encryption key not set in environment variables.");
-}
-$encryptionKey = base64_decode($encryptionKey);  // Decode the base64-encoded key
-
-$cipher = "AES-256-CBC";  // Encryption method
-$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher));  // Generate an initialization vector
-
-// Generate random values for the QR code
-$randomValues = [
-    'VehicleType' => bin2hex(random_bytes(3)),  // Random string for vehicle type
-    'PlateNumber' => bin2hex(random_bytes(5)),  // Random string for plate number
-    'Name' => bin2hex(random_bytes(6)),        // Random string for name
-    'ContactNumber' => bin2hex(random_bytes(4)), // Random string for contact number
-    'Model' => bin2hex(random_bytes(4)),       // Random string for model
-];
-
-
-
-
 // Generate the QR code with the encrypted data
 $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" . urlencode($encryptedQrCodeData) . "&size=150x150";
 
