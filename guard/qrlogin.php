@@ -1,8 +1,7 @@
-
-<?php session_start(); 
-
+<?php
 session_start();
 
+// Ensure the user is logged in
 if (!isset($_SESSION['guardid'])) {
     // If the user is not logged in, redirect to the login page
     header('Location: index.php');
@@ -12,40 +11,54 @@ if (!isset($_SESSION['guardid'])) {
 date_default_timezone_set('Asia/Manila');
 ini_set('log_errors', 1);
 ini_set('error_log', 'error_log.txt'); // Set log file path
-ini_set('display_errors', 1); // Disable on-screen error display
+ini_set('display_errors', 1); // Show errors for debugging, disable in production
 
-
+// Database connection
 $server = "localhost";
 $username = "u132092183_parkingz";
 $password = "@Parkingz!2024";
 $dbname = "u132092183_parkingz";
 
+// Create connection
 $conn = new mysqli($server, $username, $password, $dbname);
 
+// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-
-
+// Check if 'id' is set in the POST request
 if (isset($_POST['id'])) {
-    $id = intval($_POST['id']);
-    $sql = "DELETE FROM tblqr_login WHERE ID = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
+    $id = intval($_POST['id']); // Sanitize the id to prevent SQL injection
 
-    if ($stmt->affected_rows > 0) {
-        echo "success";
+    // Prepare the DELETE query
+    $sql = "DELETE FROM tblqr_login WHERE ID = ?";
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param("i", $id); // Bind the ID parameter
+        $stmt->execute();
+
+        // Check if the delete was successful
+        if ($stmt->affected_rows > 0) {
+            echo "success";
+        } else {
+            echo "error"; // Return error if no rows were deleted
+        }
+
+        // Close the statement
+        $stmt->close();
     } else {
-        echo "error";
+        echo "Error preparing the statement.";
     }
-    $stmt->close();
-    exit; // Stop further processing after deletion response
+
+    // Exit after sending the response
+    exit;
+} else {
+    echo "ID not provided."; // Return error if 'id' is not set
 }
 
 $conn->close();
 ?>
+
 
 
 <html class="no-js" lang="">
