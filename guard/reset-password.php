@@ -63,7 +63,7 @@ return true;
       background-position: center;
       opacity: 0.9;
     }
-    .bg-img:after{
+    .bg-dark:after{
       position: absolute;
       content: '';
       top: 0;
@@ -71,6 +71,7 @@ return true;
       height: 100%;
       width: 100%;
       background: rgba(0,0,0,0.7);
+      z-index: -5;
     }
     
     .content {
@@ -84,6 +85,13 @@ return true;
       padding: 60px 32px;
       width: 370px;
       transform: translate(-50%, -50%);
+    }
+    .content header{
+      color: white;
+      font-size: 33px;
+      font-weight: 600;
+      margin: 0 0 35px 0;
+      font-family: 'Montserrat',sans-serif;
     }
 
     .content:hover {
