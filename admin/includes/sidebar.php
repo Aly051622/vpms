@@ -6,7 +6,6 @@
         font-size: 12px;
     }
 </style>
-
 <div class="left-panelbg">
     <aside id="left-panel" class="left-panel">
         <nav class="navbar navbar-expand-sm navbar-default">
@@ -22,7 +21,7 @@
                         </a>
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="menu-icon fa fa-road"></i><a href="add-category.php">Add Vehicle Category</a></li>
-                            <li><i class="menu-icon fa bi-p-square-fill"></i><a href="manage-category.php">Manage Vehicle Category</a></li>
+                            <li><i class="menu-icon fa bi bi-p-square-fill"></i><a href="manage-category.php">Manage Vehicle Category</a></li>
                         </ul>
                     </li>
 
@@ -78,12 +77,13 @@
 
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="menu-icon fa fa-address-book"></i>Client Management</a>
+                            <i class="menu-icon fa fa-address-book"></i>Client Management
+                        </a>
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="menu-icon fa fa-user-circle-o"></i><a href="register.php">Register Client</a></li>
                             <li>
                                 <i class="menu-icon fa fa-address-book"></i>
-                                <a href="#" onclick="showPasswordModal()">User Information</a>
+                                <a href="#" onclick="showPasswordModal('information', 'reg-users.php')">User Information</a>
                             </li>
                             <li><i class="menu-icon fa bi-chat-dots-fill"></i><a href="admin_comments.php">Comment</a></li>
                             <li><i class="menu-icon fa bi-envelope-paper-heart"></i><a href="admin_feedbacks.php">Feedback</a></li>
@@ -92,8 +92,8 @@
                     </li>
 
                     <li>
-                        <a href="#" onclick="showPasswordModal()">
-                            <i class="menu-icon fa bi-geo-fill"></i> Credentials
+                        <a href="#" onclick="showPasswordModal('credentials', 'credentials.php')">
+                            <i class="menu-icon fa bi bi-geo-fill"></i>Credentials
                         </a>
                     </li>
                 </ul>
@@ -106,7 +106,7 @@
 <div id="passwordModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); padding:20px; background:white; border:1px solid #ccc; box-shadow:0 4px 8px rgba(0,0,0,0.2); z-index:1000;">
     <h3>Enter Password</h3>
     <input type="password" id="passwordInput" placeholder="Enter password" style="padding:10px; width:100%; margin-bottom:10px;" />
-    <button onclick="validatePassword()" style="padding:10px 20px; background:#007bff; color:white; border:none; cursor:pointer;">Submit</button>
+    <button id="passwordSubmitButton" style="padding:10px 20px; background:#007bff; color:white; border:none; cursor:pointer;">Submit</button>
     <button onclick="closePasswordModal()" style="padding:10px 20px; background:#ccc; color:black; border:none; cursor:pointer;">Cancel</button>
 </div>
 
@@ -114,9 +114,13 @@
 <div id="modalBackground" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999;" onclick="closePasswordModal()"></div>
 
 <script>
-function showPasswordModal() {
+let redirectUrl = ""; // Initialize redirect URL
+
+function showPasswordModal(type, url) {
+    redirectUrl = url; // Set the redirect URL dynamically
     document.getElementById('passwordModal').style.display = 'block';
     document.getElementById('modalBackground').style.display = 'block';
+    document.getElementById('passwordInput').value = ""; // Clear the password field
 }
 
 function closePasswordModal() {
@@ -124,21 +128,20 @@ function closePasswordModal() {
     document.getElementById('modalBackground').style.display = 'none';
 }
 
-function validatePassword() {
-    const password = document.getElementById('passwordInput').value.trim(); // Trim spaces
-
-    // Correct password check (adjust as necessary)
-    const correctPassword = "information"; // Replace with your secure password
+document.getElementById('passwordSubmitButton').addEventListener('click', function () {
+    const password = document.getElementById('passwordInput').value.trim();
+    const validPasswords = {
+        "information": "reg-users.php",
+        "credentials": "credentials.php"
+    };
 
     if (!password) {
         alert("Please enter a password.");
-        return;
-    }
-
-    if (password.toLowerCase() === correctPassword.toLowerCase()) {
-        window.location.href = "reg-users.php"; // Redirect to the appropriate page
+    } else if (validPasswords[password.toLowerCase()] === redirectUrl) {
+        window.location.href = redirectUrl; // Redirect to the specified page
     } else {
         alert("Invalid password. Access denied.");
     }
-}
+});
 </script>
+
