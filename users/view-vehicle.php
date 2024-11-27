@@ -2,7 +2,7 @@
 session_start();
 error_reporting(0);
 include('../DBconnection/dbconnection.php');
-if (strlen($_SESSION['vpmsuid']==0)) {
+if (strlen($_SESSION['vpmsaid']==0)) {
   header('location:logout.php');
   } else{
 
