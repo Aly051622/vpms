@@ -101,7 +101,6 @@
         </nav>
     </aside>
 </div>
-
 <!-- Password Modal -->
 <div id="passwordModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); padding:20px; background:white; border:1px solid #ccc; box-shadow:0 4px 8px rgba(0,0,0,0.2); z-index:1000;">
     <h3>Enter Password</h3>
@@ -114,34 +113,45 @@
 <div id="modalBackground" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999;" onclick="closePasswordModal()"></div>
 
 <script>
-let redirectUrl = ""; // Initialize redirect URL
-
-function showPasswordModal(type, url) {
-    redirectUrl = url; // Set the redirect URL dynamically
-    document.getElementById('passwordModal').style.display = 'block';
-    document.getElementById('modalBackground').style.display = 'block';
-    document.getElementById('passwordInput').value = ""; // Clear the password field
-}
-
-function closePasswordModal() {
-    document.getElementById('passwordModal').style.display = 'none';
-    document.getElementById('modalBackground').style.display = 'none';
-}
-
-document.getElementById('passwordSubmitButton').addEventListener('click', function () {
-    const password = document.getElementById('passwordInput').value.trim();
+    let redirectUrl = ""; // Initialize redirect URL
     const validPasswords = {
         "information": "reg-users.php",
         "credentials": "credentials.php"
     };
 
-    if (!password) {
-        alert("Please enter a password.");
-    } else if (validPasswords[password.toLowerCase()] === redirectUrl) {
-        window.location.href = redirectUrl; // Redirect to the specified page
-    } else {
-        alert("Invalid password. Access denied.");
+    // Show the modal and set the target URL
+    function showPasswordModal(type, url) {
+        redirectUrl = url; // Set redirect URL dynamically
+        document.getElementById('passwordModal').style.display = 'block';
+        document.getElementById('modalBackground').style.display = 'block';
+        document.getElementById('passwordInput').value = ""; // Clear previous input
     }
-});
+
+    // Close the modal
+    function closePasswordModal() {
+        document.getElementById('passwordModal').style.display = 'none';
+        document.getElementById('modalBackground').style.display = 'none';
+    }
+
+    // Validate the password and redirect
+    document.getElementById('passwordSubmitButton').addEventListener('click', function () {
+        const password = document.getElementById('passwordInput').value.trim();
+
+        // Validate the password and redirect if correct
+        if (!password) {
+            alert("Please enter a password.");
+        } else if (validPasswords[password.toLowerCase()] === redirectUrl) {
+            window.location.href = redirectUrl;
+        } else {
+            alert("Invalid password. Access denied.");
+        }
+    });
 </script>
 
+<!-- Example Buttons -->
+<a href="#" onclick="showPasswordModal('information', 'reg-users.php')">
+    <i class="menu-icon fa fa-address-book"></i> User Information
+</a>
+<a href="#" onclick="showPasswordModal('credentials', 'credentials.php')">
+    <i class="menu-icon fa bi-geo-fill"></i> Credentials
+</a>
