@@ -83,44 +83,53 @@ if (strlen($_SESSION['vpmsaid']==0)) {
   
       <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
       <style>
-  .btn {
-      padding: 5px;
-      margin: 3px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      width: auto;
-      cursor: url('https://img.icons8.com/ios-glyphs/28/drag-left.png') 14 14, auto;
-  }
-  
-  #printbtn:hover,
-  #viewbtn:hover {
-      background: orange;
-      color: black;
-      transform: scale(1.1);
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
-  }
-  
-  #deletebtn:hover {
-      background: wheat;
-      color: red;
-      transform: scale(1.1);
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
-  }
-  
-  #printbtn {
-      background: yellowgreen;
-      color: white;
-  }
-  
-  
-      body{ 
-          background-color: #f9fcff;
-          background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
-           }
-           .card, .card-header{
-              box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, 
-              rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, 
-              rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-           }
+ .btn {
+            padding: 5px;
+            margin: 3px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+      
+        #deletebtn{
+                border: solid darkred;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: red;
+                color: white;
+                cursor: pointer;
+                font-family: 'Montserrat',sans-serif;
+                font-weight: bolder;
+        }
+        #deletebtn:hover{
+            background-color: darkblue;
+            border: solid blue;
+        }
+            #viewbtn, #printbtn{
+                border: solid lightgray;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: rgb(53, 97, 255);
+                color: white;
+                cursor: pointer;
+                font-family: 'Montserrat',sans-serif;
+                font-weight: bolder;
+        }
+
+           #viewbtn:hover, #printbtn:hover{
+                background-color: darkblue;
+                border: solid blue;
+            }
+
+
+        body {
+            background-color: whitesmoke;
+            height: 100vh;
+        }
+        
+        .card, .card-header {
+            box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;      
+        }
            
       </style>
   </head>

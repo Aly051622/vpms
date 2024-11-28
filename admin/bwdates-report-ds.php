@@ -31,18 +31,31 @@ if (strlen($_SESSION['vpmsaid']==0)) {
 
 </head>
 <style>
-     body{ 
-        background-color: #f9fcff;
-        background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
+      body{ 
+        background-color: whitesmoke;
+        overflow: hidden;
+        height: 100vh;
          }
-    .btn-sm:hover{
-        background: orange;
-    }
+         .btn-sm{
+                border: solid lightgray;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: rgb(53, 97, 255);
+                color: white;
+                cursor: pointer;
+                font-family: 'Monsterrat', sans-serif;
+                font-weight: bolder;
+        }
+
+           .btn-sm:hover{
+                background-color: darkblue;
+                border: solid blue;
+            }
     .card, .card-header{
-            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-         }
+        box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;        
+     }
          .btn{
-            cursor: url('https://img.icons8.com/ios-glyphs/28/drag-left.png') 14 14, auto;
+            cursor: pointer;
          }
     </style>
 <body>

@@ -40,7 +40,7 @@
             padding: 15px;
         }
         .breadcrumbs h1 {
-            color: #355dff;
+            color: black;
         }
         .page-title ol {
             margin-bottom: 0;
@@ -49,17 +49,17 @@
         /* Container styling */
         .container {
             background-color: white;
-            padding: 20px;
+            padding: 40px;
             border-radius: 10px;
-            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-            width: 400px;
-            margin: 35px auto; 
+            box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;            
+            width: 500px;
+            margin: 20px auto; 
         }
-        .container h2 {
-            text-align: center;
-            margin-bottom: 20px;
+        h2 {
             font-family: 'Poppins', sans-serif;
-            color: #355dff;
+            color: black;
+            font-size: 30px;
+            margin-left: 12em;
         }
         label {
             font-size: 14px;
@@ -89,7 +89,7 @@
             background-color: rgb(53, 97, 255);
             color: white;
             font-weight: bold;
-            border: none;
+            border: 2px solid white;
             cursor: pointer;
             font-family: 'Poppins', sans-serif;
             box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, 
@@ -98,6 +98,7 @@
         }
         #submit:hover {
             background-color: darkblue;
+            border: 2px solid darkblue;
         }
 
         /* Error message styling */
@@ -125,7 +126,7 @@
                 <div class="col-sm-4">
                     <div class="page-header float-left">
                         <div class="page-title">
-                            <h1>Dashboard</h1>
+                            <h1>Driver's License Validation</h1>
                         </div>
                     </div>
                 </div>
@@ -144,19 +145,20 @@
     </div><br>
 
     <!-- Form Container Section -->
-    <div class="container ">
-
         <h2>Update Driver's License</h2>
+        <div class="container">
         <form action="upload.php" method="POST" enctype="multipart/form-data">
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br><br>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required><br>
 
             <label for="license_image">Select Driver's License Image:</label>
-            <input type="file" id="license_image" name="license_image" accept="image/*" required><br><br>
+            <input type="file" id="license_image" name="license_image" accept="image/*" required><br>
 
             <button type="submit" id="submit">Submit</button>
         </form>
     </div>
 
+ <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

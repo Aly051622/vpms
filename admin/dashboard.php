@@ -35,8 +35,8 @@ if (strlen($_SESSION['vpmsaid']==0)) {
 
     <style>
         body{
-        background-color: #f9fcff;
-        background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
+            height: 100vh;
+        background-color:whitesmoke;
         }
     #weatherWidget .currentDesc {
         color: #ffffff!important;
@@ -92,7 +92,6 @@ if (strlen($_SESSION['vpmsaid']==0)) {
         height: 130px;
         width: 240px;
         margin-bottom: 50px;
-        cursor: url('https://img.icons8.com/ios-glyphs/28/drag-left.png') 14 14, auto;
     }
     
     .card:hover{
@@ -137,7 +136,12 @@ if (strlen($_SESSION['vpmsaid']==0)) {
                 <div class="row">
                     <?php
 //todays Vehicle Entries
- $query=mysqli_query($con,"select ID from tblvehicle where date(InTime)=CURDATE();");
+$query = mysqli_query($con, "
+    SELECT ID FROM tblqr_login WHERE DATE(TIMEIN) = CURDATE()
+    UNION
+    SELECT id FROM tblmanual_login WHERE DATE(TimeIn) = CURDATE();
+");
+
 $count_today_vehentries=mysqli_num_rows($query);
  ?>
                     <div class="col-lg-3 col-md-6">
@@ -160,9 +164,14 @@ $count_today_vehentries=mysqli_num_rows($query);
 
                     <div class="col-lg-3 col-md-6">
                         <?php
-//Yesterdays Vehicle Entrie
- $query1=mysqli_query($con,"select ID from tblvehicle where date(InTime)=CURDATE()-1;");
-$count_yesterday_vehentries=mysqli_num_rows($query1);
+//Yesterdays Vehicle Exits
+$query1 = mysqli_query($con, "
+    SELECT ID FROM tblqr_logout WHERE DATE(TIMEOUT) = CURDATE()
+    UNION
+    SELECT ID FROM tblmanual_logout WHERE DATE(TimeOut) = CURDATE();
+");
+
+$count_today_vehexits=mysqli_num_rows($query1);
  ?>
                         <div class="card">
                             <div class="card-body">
@@ -172,8 +181,8 @@ $count_yesterday_vehentries=mysqli_num_rows($query1);
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count"><?php echo $count_yesterday_vehentries?></span></div>
-                                            <div class="stat-heading">Yesterdays Vehicle Entries</div>
+                                            <div class="stat-text"><span class="count"><?php echo $count_today_vehexits?></span></div>
+                                            <div class="stat-heading">Todays Vehicle Exits</div>
                                         </div>
                                     </div>
                                 </div>
@@ -183,9 +192,42 @@ $count_yesterday_vehentries=mysqli_num_rows($query1);
 
                     <div class="col-lg-3 col-md-6">
                         <?php
-//Last Sevendays Vehicle Entries
- $query2=mysqli_query($con,"select ID from tblvehicle where date(InTime)>=(DATE(NOW()) - INTERVAL 7 DAY);");
-$count_lastsevendays_vehentries=mysqli_num_rows($query2);
+//Total Vehicle Entries
+$query3 = mysqli_query($con, "
+    SELECT ID FROM tblqr_login
+    UNION
+    SELECT id FROM tblmanual_login;
+");
+
+$count_total_vehentries=mysqli_num_rows($query3);
+ ?>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="stat-widget-five">
+                                    <div class="stat-icon dib flat-color-4">
+                                        <i class="pe-7s-car"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="text-left dib">
+                                            <div class="stat-text"><span class="count"><?php echo $count_total_vehentries?></span></div>
+                                            <div class="stat-heading">Total Vehicle Entries</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <?php
+//Total Vehicle Exits
+$query2 = mysqli_query($con, "
+    SELECT ID FROM tblqr_logout
+    UNION
+    SELECT id FROM tblmanual_logout;
+");
+
+$count_total_vehexits=mysqli_num_rows($query2);
  ?>
                         <div class="card">
                             <div class="card-body">
@@ -195,38 +237,14 @@ $count_lastsevendays_vehentries=mysqli_num_rows($query2);
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count"><?php echo $count_lastsevendays_vehentries?></span></div>
-                                            <div class="stat-heading">Last 7 days Vehicle Entries</div>
+                                            <div class="stat-text"><span class="count"><?php echo $count_total_vehexits?></span></div>
+                                            <div class="stat-heading">Total Vehicle Exits</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
-                    <div class="col-lg-3 col-md-6">
-    <?php
-    // Total Vehicle Entries
-    $query3 = mysqli_query($con, "SELECT ID FROM tblvehicle");
-    $count_total_vehentries = mysqli_num_rows($query3);
-    ?>
-    <div class="card">
-        <div class="card-body">
-            <div class="stat-widget-five">
-                <div class="stat-icon dib flat-color-4">
-                    <i class="pe-7s-car"></i>
-                </div>
-                <div class="stat-content">
-                    <div class="text-left dib">
-                        <div class="stat-text"><span class="count"><?php echo $count_total_vehentries ?></span></div>
-                        <div class="stat-heading">Total Vehicle Entries</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="col-lg-3 col-md-6">
     <?php
@@ -356,17 +374,9 @@ $count_lastsevendays_vehentries=mysqli_num_rows($query2);
     </div>
 </div>
 
-
-
-
-
-
-
         
         <!-- /.content -->
         <div class="clearfix"></div>
-        <!-- Footer -->
-       <?php include_once('includes/footer.php');?>
 
     <!-- /#right-panel -->
 
