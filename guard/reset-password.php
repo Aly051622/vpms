@@ -86,6 +86,13 @@ return true;
       width: 370px;
       transform: translate(-50%, -50%);
     }
+    .content header{
+      color: white;
+      font-size: 33px;
+      font-weight: 600;
+      margin: 0 0 35px 0;
+      font-family: 'Montserrat',sans-serif;
+    }
 
     .content:hover {
       opacity: 1;      
@@ -202,17 +209,20 @@ return true;
                     </a>
                 <div>
                     <form action="" method="post" name="changepassword" onsubmit="return checkpass();">
-                         <p style="font-size:16px; color:red" align="center"> <?php if($msg){
+                         <p style="font-size:16px; color:red; align =center;"> <?php if($msg){
     echo $msg;
   }  ?> </p>
                        <div class="form-group field space">
                        <span  class="fa bi bi-lock-fill"></span>
-                           <input type="password" class="form-control" name="newpassword" placeholder="New Password" required="true">
-                        </div>
+                       <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="New Password" required="true">
+                        <i class="fa fa-eye-slash" id="togglePassword" style="position: absolute; right: 10px; top: 11px; cursor: pointer; color: black;"></i>
+
+                          </div>
                         <div class="form-group field space">
                         <span class="fa bi bi-shield-lock-fill"></span>
-                            <input type="password" class="form-control" name="confirmpassword" placeholder="Confirm Password" required="true">
-                        </div>
+                        <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirm Password" required="true">
+                        <i class="fa fa-eye-slash" id="toggleRepeatPassword" style="position: absolute; right: 10px; top: 11px; cursor: pointer; color: black;"></i> 
+                          </div>
                         <div class="checkbox">
                             
                             <label class="pull-right">
@@ -229,6 +239,36 @@ return true;
             </div>
         </div>
     </div>
+
+    <script>
+        // Password toggle function
+    function togglePasswordVisibility(toggleIconId, passwordFieldId) {
+        const toggleIcon = document.getElementById(toggleIconId);
+        const passwordField = document.getElementById(passwordFieldId);
+
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text'; // Show password
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+            toggleIcon.style.color = 'red'; // Change color to red
+        } else {
+            passwordField.type = 'password'; // Hide password
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+            toggleIcon.style.color = 'black'; // Change color back to black
+        }
+    }
+
+    // Event listeners for both password fields
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        togglePasswordVisibility('togglePassword', 'newpassword');
+    });
+
+    document.getElementById('toggleRepeatPassword').addEventListener('click', function () {
+        togglePasswordVisibility('toggleRepeatPassword', 'confirmpassword');
+    });
+
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
