@@ -104,25 +104,8 @@ if (isset($_POST['submit'])) {
       box-sizing: border-box;
       user-select: none;
     }
-    .bg-img{
-      background: url('images/ctuser.png');
-      height: 100vh;
-      background-size: cover;
-      background-position: center;
-      margin-top: -40px;
-      overflow: hidden;
-    }
     body{
       overflow: hidden;
-    }
-    .bg-img:after{
-      position: absolute;
-      content: '';
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: 100%;
-      background: rgba(0,0,0,0.7);
     }
     .content {
     border-radius: 20px;
@@ -134,18 +117,9 @@ if (isset($_POST['submit'])) {
     padding: 60px 32px;
     width: 370px;
     transform: translate(-50%, -50%);
-    background-color:#ff9933;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, 
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, 
-    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    background-color:white;
   }
 
-  .content:hover {
-      opacity: 1;
-      box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
-          rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
-          rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-  }
 
   .content header {
       color: white;
@@ -345,11 +319,29 @@ input[type="text"]:hover, input[type="password"]:hover {
     <!-- Right Panel -->
 
    <?php include_once('includes/header.php');?>
+   
+   <div class="breadcrumbs mb-3">
+        <div class="breadcrumbs-inner">
+            <div class="row m-0">
+                <div class="col-sm-4">
+                    <div class="page-header float-left">
+                        <h1>Register Client</h1>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="page-header float-right">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="dashboard.php">Dashboard</a></li>
+                            <li><a href="register.php">Register</a></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
    <div style="text-align:center;margin-top:40px;">
       <div class="bg-img">
          <div class="content">
-         <a href="admin/dashboard.php" id="x">
-         <i class="fa-solid fa fa-xmark"></i></a>
          <a style="text-decoration:none;">
             <header>CREATE ACCOUNT</header> </a>
 
