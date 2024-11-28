@@ -97,39 +97,62 @@ if (isset($_POST['submit'])) {
       <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
    <style>
 
-html, body{
-        overflow: hidden;
-        padding: 30px;
-        background: whitesmoke;
-        height: 100vh;
-        width: 100vw;
-        font-family: 'Poppins', sans-serif;
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Poppins:400,500&display=swap');
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
     }
     .bg-img{
-      background: transparent;
+      background: url('images/ctuser.png');
+      height: 100vh;
+      background-size: cover;
       background-position: center;
-      margin-top: -70px;
+      margin-top: -40px;
       overflow: hidden;
     }
+    body{
+      overflow: hidden;
+    }
+    .bg-img:after{
+      position: absolute;
+      content: '';
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100%;
+      background: rgba(0,0,0,0.7);
+    }
     .content {
-    margin-top: 2em;
-    margin-left: 7em;
+    border-radius: 20px;
     position: absolute;
     top: 50%;
     left: 50%;
     z-index: 999;
     text-align: center;
-    padding: 10px 32px;
-    width: 600px;
+    padding: 60px 32px;
+    width: 370px;
     transform: translate(-50%, -50%);
-    height: 380px;
-    border: none;
-    background-color:transparent;
+    background-color:#ff9933;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, 
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, 
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   }
 
-  .card, .card-body, .login-form{
-    background: whitesmoke;
-    box-shadow: none;
+  .content:hover {
+      opacity: 1;
+      box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+          rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+          rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  }
+
+  .content header {
+      color: white;
+      font-size: 33px;
+      font-weight: 600;
+      margin: 0 0 35px 0;
+      font-family: 'Montserrat', sans-serif;
   }
     .field{
       position: relative;
@@ -183,7 +206,6 @@ html, body{
   text-decoration: underline;
 }
 .submitbtn{
-    width: 100px;
     border-radius: 9px;
     background-color: rgb(53, 97, 255);        
     color: white;
@@ -191,8 +213,6 @@ html, body{
     cursor:pointer;
     font-weight:bold;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-    margin-left: 23.5em;
-    margin-top: -1em;
 }
 
 #submitbtn:hover {
@@ -224,10 +244,6 @@ html, body{
   text-decoration: underline;
   color: blue;
 }
-input[type="text"], input[type="password"], input[type="email"]{
-  background: whitesmoke;
-  border: solid black 2px;
-}
 
 input[type="text"]:hover, input[type="password"]:hover {
                 background-color: aliceblue; 
@@ -235,7 +251,7 @@ input[type="text"]:hover, input[type="password"]:hover {
             }
 
 #client:hover{
-  background-color: #f7e791; 
+  background-color: #f7e791; /* Change the background color on hover */
             border: 2px solid #ffbe58; 
 }
 
@@ -276,54 +292,47 @@ input[type="text"]:hover, input[type="password"]:hover {
         .form-group label{
             font-family: 'Montserrat',sans-serif;
         }
-      
+        #x{
+      margin-top:-2em;
+      margin-left: 10em;
+      color: white;
+      font-weight: bold;
+      text-shadow: 0px 6px 10px rgb(62, 57, 57);
+      position: absolute;
+    }
+    #x:hover{
+      color: red;
+      text-decoration: none;
+    }
     .fa{
       margin-top: 14px;
     }
 
-    /*responsive ni nga part*/
-    @media (max-width: 1024px) {
-    .content {
-        width: 500px;
-        height: 350px;
-        padding: 20px;
-    }
-}
-
+/* Responsive adjustments */
 @media (max-width: 768px) {
     .content {
-        width: 400px;
-        height: auto;
+        width: 80%; /* Adjust width for smaller screens */
+        padding: 40px 24px; /* Reduce padding */
+        border-radius: 15px; /* Adjust border-radius */
     }
 }
 
 @media (max-width: 500px) {
     .content {
-        width: 300px;
-        margin-left: 0;
+        width: 90%; /* Further reduce width for very small screens */
+        padding: 30px 20px; /* Further reduce padding */
+        border-radius: 10px; /* Adjust border-radius for a smaller look */
+        height: 550px;
+        position: absolute;
     }
-}
-
-@media (max-width: 480px) {
-    body {
-        padding: 15px;
+    #x{
+      margin-left: 9.5em;
+      margin-top: -1em;
+      font-weight: bold;
+      position: absolute;
     }
-
-    .content {
-        width: 100%;
-        padding: 15px;
-        margin-top: 1em;
-    }
-    .submitbtn {
-        margin-left: auto;
-        margin-right: auto;
-        display: block;
-    }
-}
-
-@media (max-width: 300px) {
-    .field input {
-        font-size: 14px;
+    .space{
+      margin-top: 35px;
     }
 }
     </style>
@@ -331,27 +340,12 @@ input[type="text"]:hover, input[type="password"]:hover {
    
     </head>
     <body>
-    <div class="breadcrumbs mb-3">
-        <div class="breadcrumbs-inner">
-            <div class="row m-0">
-                <div class="col-sm-4">
-                    <div class="page-header float-left">
-                        <h1>Register Client</h1>
-                    </div>
-                </div>
-                <div class="col-sm-8">
-                    <div class="page-header float-right">
-                        <ol class="breadcrumb text-right">
-                            <li><a href="dashboard.php">Dashboard</a></li>
-                            <li><a href="register.php">Register</a></li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+      
+   <?php include_once('includes/sidebar.php');?>
+    <!-- Right Panel -->
 
-    <div style="text-align:center; margin-top:40px;">
+   <?php include_once('includes/header.php');?>
+   <div style="text-align:center;margin-top:40px;">
       <div class="bg-img">
          <div class="content">
          <a href="admin/dashboard.php" id="x">
@@ -412,11 +406,6 @@ input[type="text"]:hover, input[type="password"]:hover {
     </form>
 </div>
 
-<script>src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
-    <script src="assets/js/main.js"></script>
 <script>
     let currentPage = 1;
 
