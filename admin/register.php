@@ -117,7 +117,7 @@ if (isset($_POST['submit'])) {
     padding: 60px 32px;
     width: 370px;
     transform: translate(-50%, -50%);
-    background-color:white;
+    background-color:transparent;
   }
 
 
