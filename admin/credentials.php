@@ -38,10 +38,10 @@ if ($resultAllUsers && mysqli_num_rows($resultAllUsers) > 0) {
                 <td>{$row['LastName']}</td>
                 <td>{$row['Email']}</td>
                 <td>{$row['MobileNumber']}</td>
-                <td><img src='../uploads/{$row['or_image']}' alt='OR Image' width='100'></td>
-                <td><img src='../uploads/{$row['cr_image']}' alt='CR Image' width='100'></td>
-                <td><img src='../uploads/{$row['nv_image']}' alt='NV Image' width='100'></td>
-                <td><img src='../uploads/{$row['profile_pictures']}' alt='Profile Picture' width='100'></td>
+                <td><img src='uploads/{$row['or_image']}' alt='OR Image' width='100'></td>
+                <td><img src='uploads/{$row['cr_image']}' alt='CR Image' width='100'></td>
+                <td><img src='uploads/{$row['nv_image']}' alt='NV Image' width='100'></td>
+                <td><img src='uploads/{$row['profile_pictures']}' alt='Profile Picture' width='100'></td>
               </tr>";
     }
 
