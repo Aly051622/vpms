@@ -27,14 +27,11 @@ if ($resultAllUsers && mysqli_num_rows($resultAllUsers) > 0) {
 
 // Close the database connection
 mysqli_close($con);
-
-// Include the view
-include 'users_view.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="apple-touch-icon" href="images/ctu.png">
     <link rel="shortcut icon" href="images/ctu.png">
@@ -47,12 +44,11 @@ include 'users_view.php';
     <link href="https://cdn.jsdelivr.net/npm/jqvmap@1.5.1/dist/jqvmap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/weathericons@2.1.0/css/weather-icons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <title>All Users</title>
     <style>
-         body {
+        body {
             background: whitesmoke;
             font-family: Arial, sans-serif;
             overflow: auto;
@@ -76,7 +72,6 @@ include 'users_view.php';
     </style>
 </head>
 <body>
-    
 <?php include_once('includes/sidebar.php'); ?>
 <?php include_once('includes/header.php'); ?>
 
@@ -102,69 +97,73 @@ include 'users_view.php';
             </div>
         </div>
     </div>
-</div><br>
+</div>
 
 <div class="container">
     <h3 class="text-center mb-5">All Users</h3>
     <?php if (!empty($users)): ?>
-        <table class="table-responsive table-striped">
-            <tr class="bg-primary">
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Mobile Number</th>
-                <th>OR Image</th>
-                <th>CR Image</th>
-                <th>NV Image</th>
-                <th>Profile Picture</th>
-            </tr>
-            <?php foreach ($users as $user): ?>
-                <tr>
-                    <td><?= htmlspecialchars($user['FirstName']) ?></td>
-                    <td><?= htmlspecialchars($user['LastName']) ?></td>
-                    <td><?= htmlspecialchars($user['Email']) ?></td>
-                    <td><?= htmlspecialchars($user['MobileNumber']) ?></td>
-                    <td>
-                        <?php if (!empty($user['or_image'])): ?>
-                            <img src="../uploads/<?= htmlspecialchars($user['or_image']) ?>" alt="OR Image">
-                        <?php else: ?>
-                            N/A
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if (!empty($user['cr_image'])): ?>
-                            <img src="../uploads/<?= htmlspecialchars($user['cr_image']) ?>" alt="CR Image">
-                        <?php else: ?>
-                            N/A
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if (!empty($user['nv_image'])): ?>
-                            <img src="../uploads/<?= htmlspecialchars($user['nv_image']) ?>" alt="NV Image">
-                        <?php else: ?>
-                            N/A
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if (!empty($user['profile_pictures'])): ?>
-                            <img src="../uploads/<?= htmlspecialchars($user['profile_pictures']) ?>" alt="Profile Picture">
-                        <?php else: ?>
-                            N/A
-                        <?php endif; ?>
-                    </td>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="bg-primary text-white">
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Mobile Number</th>
+                    <th>OR Image</th>
+                    <th>CR Image</th>
+                    <th>NV Image</th>
+                    <th>Profile Picture</th>
                 </tr>
-            <?php endforeach; ?>
+            </thead>
+            <tbody>
+                <?php foreach ($users as $user): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($user['FirstName']) ?></td>
+                        <td><?= htmlspecialchars($user['LastName']) ?></td>
+                        <td><?= htmlspecialchars($user['Email']) ?></td>
+                        <td><?= htmlspecialchars($user['MobileNumber']) ?></td>
+                        <td>
+                            <?php if (!empty($user['or_image'])): ?>
+                                <img src="uploads/or_image/<?= htmlspecialchars($user['or_image']) ?>" alt="OR Image">
+                            <?php else: ?>
+                                <span>N/A</span>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if (!empty($user['cr_image'])): ?>
+                                <img src="uploads/cr_image/<?= htmlspecialchars($user['cr_image']) ?>" alt="CR Image">
+                            <?php else: ?>
+                                <span>N/A</span>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if (!empty($user['nv_image'])): ?>
+                                <img src="uploads/nv_image/<?= htmlspecialchars($user['nv_image']) ?>" alt="NV Image">
+                            <?php else: ?>
+                                <span>N/A</span>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if (!empty($user['profile_pictures'])): ?>
+                                <img src="uploads/profile_pictures/<?= htmlspecialchars($user['profile_pictures']) ?>" alt="Profile Picture">
+                            <?php else: ?>
+                                <span>N/A</span>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
         </table>
-                        </div>
     <?php else: ?>
-        <p>No users found.</p>
+        <p class="text-center">No users found.</p>
     <?php endif; ?>
+</div>
+
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>
