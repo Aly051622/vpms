@@ -125,7 +125,7 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
                                         <th>Profile Picture</th> <!-- Added Profile Picture Column -->
                                         <th>Owner Name</th>
                                         <th>Contact Number</th>
-                                      <!--  <th>Vehicle Reg. Number</th>-->
+                                        <th>Vehicle Reg. Number</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -146,6 +146,7 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
                                         </td> <!-- Display Profile Picture -->
                                         <td><?php echo htmlspecialchars($row['FirstName'] . ' ' . $row['LastName']); ?></td>
                                         <td><?php echo htmlspecialchars($row['MobileNumber']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['LicenseNumber']); ?></td>
                                         <td>
                                             <a href="reg-users.php?del=<?php echo $row['ID']; ?>" class="btn btn-danger" onClick="return confirm('Are you sure you want to delete?')" id="deletebtn">🗑 Delete</a>
                                         </td>
@@ -164,7 +165,6 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
 
     <div class="clearfix"></div>
 
-    <?php include_once('includes/footer.php'); ?>
 </div><!-- /#right-panel -->
 
 <!-- Right Panel -->

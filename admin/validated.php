@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('../DBconnection/dbconnection.php');
+include('includes/dbconnection.php'); 
 
 // Fetch validated clients with expiration date
 $queryValidated = "

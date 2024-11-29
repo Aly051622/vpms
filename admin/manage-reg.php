@@ -50,28 +50,38 @@ if(isset($_GET['del'])) {
     margin: 3px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     width: auto;
-    cursor: url('https://img.icons8.com/ios-glyphs/28/drag-left.png') 14 14, auto;
+    cursor: pointer;
 }
 
-#printbtn:hover,
-#viewbtn:hover {
-    background: orange;
-    color: black;
-    transform: scale(1.1);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
-}
+        #deletebtn{
+                border: solid darkred;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: red;
+                color: white;
+                cursor: pointer;
+                font-family: 'Montserrat',sans-serif;
+                font-weight: bolder;
+        }
+        #deletebtn:hover{
+            background-color: darkblue;
+            border: solid blue;
+        }
+            #viewbtn, #printbtn{
+                border: solid lightgray;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: rgb(53, 97, 255);
+                color: white;
+                cursor: pointer;
+                font-family: 'Montserrat',sans-serif;
+                font-weight: bolder;
+        }
 
-#deletebtn:hover {
-    background: wheat;
-    color: red;
-    transform: scale(1.1);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
-}
-
-#printbtn {
-    background: yellowgreen;
-    color: white;
-}
+           #viewbtn:hover, #printbtn:hover{
+                background-color: darkblue;
+                border: solid blue;
+            }
 
 
     body{ 
