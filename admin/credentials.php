@@ -18,7 +18,6 @@ $queryAllUsers = "
 
 $resultAllUsers = mysqli_query($con, $queryAllUsers);
 
-$users = [];
 if ($resultAllUsers && mysqli_num_rows($resultAllUsers) > 0) {
     echo "<h1>All Users</h1>";
     echo "<table border='1'>";
@@ -34,24 +33,32 @@ if ($resultAllUsers && mysqli_num_rows($resultAllUsers) > 0) {
           </tr>";
 
     while ($row = mysqli_fetch_assoc($resultAllUsers)) {
+        // Correct the path to images (relative to this file)
+        $orImagePath = "../../uploads/or_image/" . $row['or_image'];
+        $crImagePath = "../../uploads/cr_image/" . $row['cr_image'];
+        $nvImagePath = "../../uploads/nv_image/" . $row['nv_image'];
+        $profilePicturePath = "../../uploads/profile_uploads/" . $row['profile_pictures'];
+
+        // Display user data with images
         echo "<tr>
                 <td>{$row['FirstName']}</td>
                 <td>{$row['LastName']}</td>
                 <td>{$row['Email']}</td>
                 <td>{$row['MobileNumber']}</td>
-                <td><img src='../uploads/profile_uploads/{$row['or_image']}' alt='OR Image' width='100'></td>
-                <td><img src='../uploads/profile_uploads/{$row['cr_image']}' alt='CR Image' width='100'></td>
-                <td><img src='../uploads/profile_uploads/{$row['nv_image']}' alt='NV Image' width='100'></td>
-                <td><img src='../uploads/profile_uploads/{$row['profile_pictures']}' alt='Profile Picture' width='100'></td>
+                <td><img src='$orImagePath' alt='OR Image' width='100'></td>
+                <td><img src='$crImagePath' alt='CR Image' width='100'></td>
+                <td><img src='$nvImagePath' alt='NV Image' width='100'></td>
+                <td><img src='$profilePicturePath' alt='Profile Picture' width='100'></td>
               </tr>";
     }
 
     echo "</table>";
 } else {
-    echo "No users found.";
+    echo "<p>No users found.</p>";
 }
 
 mysqli_close($con);
 ?>
 
+<!-- Back button -->
 <button onclick="window.history.back()">Back</button>
