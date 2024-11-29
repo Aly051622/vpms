@@ -33,11 +33,11 @@ if ($resultAllUsers && mysqli_num_rows($resultAllUsers) > 0) {
           </tr>";
 
     while ($row = mysqli_fetch_assoc($resultAllUsers)) {
-        // Correct the path to images (relative to this file)
-        $orImagePath = "../../uploads/or_image/" . $row['or_image'];
-        $crImagePath = "../../uploads/cr_image/" . $row['cr_image'];
-        $nvImagePath = "../../uploads/nv_image/" . $row['nv_image'];
-        $profilePicturePath = "../../uploads/profile_uploads/" . $row['profile_pictures'];
+        // Correct the path to images (relative to the `admin/` folder)
+        $orImagePath = "../uploads/or_image/" . $row['or_image'];
+        $crImagePath = "../uploads/cr_image/" . $row['cr_image'];
+        $nvImagePath = "../uploads/nv_image/" . $row['nv_image'];
+        $profilePicturePath = "../uploads/profile_uploads/" . $row['profile_pictures'];
 
         // Display user data with images
         echo "<tr>
