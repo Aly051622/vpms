@@ -47,31 +47,31 @@ if ($resultAllUsers && mysqli_num_rows($resultAllUsers) > 0) {
                 <td>{$row['MobileNumber']}</td>";
 
         // Display OR Image
-        if (!empty($row['or_image'])) {
+        if (!empty($row['or_image']) && file_exists($orImagePath)) {
             echo "<td><img src='$orImagePath' alt='OR Image' width='100'></td>";
         } else {
-            echo "<td>No image</td>";
+            echo "<td>No image or file not found</td>";
         }
 
         // Display CR Image
-        if (!empty($row['cr_image'])) {
+        if (!empty($row['cr_image']) && file_exists($crImagePath)) {
             echo "<td><img src='$crImagePath' alt='CR Image' width='100'></td>";
         } else {
-            echo "<td>No image</td>";
+            echo "<td>No image or file not found</td>";
         }
 
         // Display NV Image
-        if (!empty($row['nv_image'])) {
+        if (!empty($row['nv_image']) && file_exists($nvImagePath)) {
             echo "<td><img src='$nvImagePath' alt='NV Image' width='100'></td>";
         } else {
-            echo "<td>No image</td>";
+            echo "<td>No image or file not found</td>";
         }
 
         // Display Profile Picture
-        if (!empty($row['profile_pictures'])) {
+        if (!empty($row['profile_pictures']) && file_exists($profilePicturePath)) {
             echo "<td><img src='$profilePicturePath' alt='Profile Picture' width='100'></td>";
         } else {
-            echo "<td>No image</td>";
+            echo "<td>No image or file not found</td>";
         }
 
         echo "</tr>";
