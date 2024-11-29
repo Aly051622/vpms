@@ -2,17 +2,23 @@
 session_start();
 include 'includes/dbconnection.php';
 
+// Check if admin is logged in
+if (empty($_SESSION['vpmsaid'])) {
+    header('location:logout.php');
+    exit;
+}
+
 // Fetch all users' details
 $queryAllUsers = "
     SELECT 
-           FirstName, 
-           LastName, 
-           Email, 
-           MobileNumber, 
-           or_image, 
-           cr_image, 
-           nv_image, 
-           profile_pictures
+        FirstName, 
+        LastName, 
+        Email, 
+        MobileNumber, 
+        or_image, 
+        cr_image, 
+        nv_image, 
+        profile_pictures
     FROM tblregusers
 ";
 
@@ -27,14 +33,11 @@ if ($resultAllUsers && mysqli_num_rows($resultAllUsers) > 0) {
 
 // Close the database connection
 mysqli_close($con);
-
-// Include the view
-include 'users_view.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="apple-touch-icon" href="images/ctu.png">
     <link rel="shortcut icon" href="images/ctu.png">
@@ -45,14 +48,13 @@ include 'users_view.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
     <link href="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/jqvmap@1.5.1/dist/jqvmap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/weathericons@2.1.0/css/weather-icons.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/weathericons@2.1.0/css/weather-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <title>All Users</title>
     <style>
-         body {
+        body {
             background: whitesmoke;
             font-family: Arial, sans-serif;
             overflow: auto;
@@ -107,8 +109,8 @@ include 'users_view.php';
 <div class="container">
     <h3 class="text-center mb-5">All Users</h3>
     <?php if (!empty($users)): ?>
-        <table class="table-responsive table-striped">
-            <tr class="bg-primary">
+        <table class="table table-responsive table-striped">
+            <tr class="bg-primary text-white">
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Email</th>
@@ -155,16 +157,16 @@ include 'users_view.php';
                 </tr>
             <?php endforeach; ?>
         </table>
-                        </div>
     <?php else: ?>
         <p>No users found.</p>
     <?php endif; ?>
+</div>
+
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>
