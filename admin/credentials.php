@@ -67,9 +67,11 @@ include 'users_view.php';
     </style>
 </head>
 <body>
+    
 <?php include_once('includes/sidebar.php'); ?>
 <?php include_once('includes/header.php'); ?>
 
+<div class="right-panel"
 <div class="breadcrumbs mb-5">
     <div class="breadcrumbs-inner">
         <div class="row m-0">
@@ -93,7 +95,6 @@ include 'users_view.php';
         </div>
     </div>
 </div>
-<div class="right-panel"
     <h3>All Users</h3>
     <?php if (!empty($users)): ?>
         <table class="table-responsive table-striped">
