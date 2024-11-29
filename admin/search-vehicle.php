@@ -48,7 +48,7 @@ if (strlen($_SESSION['vpmsaid']==0)) {
                 background-color: rgb(53, 97, 255);
                 color: white;
                 cursor: pointer;
-                font-family: 'Monsterrat', sans-serif;
+                font-family: 'Open Sans', sans-serif; 
                 font-weight: bolder;
         }
 
@@ -187,7 +187,6 @@ $cnt=$cnt+1;
 
 <div class="clearfix"></div>
 
-<?php include_once('includes/footer.php');?>
 
 </div><!-- /#right-panel -->
 
