@@ -186,7 +186,6 @@ $cnt=$cnt+1;
 
 <div class="clearfix"></div>
 
-<?php include_once('includes/footer.php');?>
 
 </div><!-- /#right-panel -->
 

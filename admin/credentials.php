@@ -100,13 +100,15 @@ include 'users_view.php';
                             <li><a href="dashboard.php">Dashboard</a></li>
                             <li><a href="validation.php">Validated</a></li>
                         </ol>
-                    </""div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-    <h3>All Users</h3>
+</div><br>
+
+<div class="container">
+    <h3 class="text-center mb-5">All Users</h3>
     <?php if (!empty($users)): ?>
         <table class="table-responsive table-striped">
             <tr class="bg-primary">
@@ -157,6 +159,7 @@ include 'users_view.php';
             <?php endforeach; ?>
         </table>
                         </div>
+                        </div>
     <?php else: ?>
         <p>No users found.</p>
     <?php endif; ?>
@@ -165,6 +168,7 @@ include 'users_view.php';
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>

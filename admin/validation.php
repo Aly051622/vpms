@@ -118,7 +118,7 @@
     <!-- Right Panel -->
 
     <?php include_once('includes/header.php'); ?>
-
+<div class="right-panel">
     <!-- Breadcrumbs Section -->
     <div class="breadcrumbs mb-5">
         <div class="breadcrumbs-inner">
@@ -156,6 +156,7 @@
 
             <button type="submit" id="submit">Submit</button>
         </form>
+    </div>
     </div>
 
  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

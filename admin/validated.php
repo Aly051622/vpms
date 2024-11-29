@@ -133,7 +133,7 @@ mysqli_close($con);
 <body>
 <?php include_once('includes/sidebar.php'); ?>
 <?php include_once('includes/header.php'); ?>
-
+<div class="right-panel">
 <div class="breadcrumbs mb-5">
     <div class="breadcrumbs-inner">
         <div class="row m-0">
@@ -148,8 +148,8 @@ mysqli_close($con);
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li><a href="dashboard.php">Dashboard</a></li>
-                            <li><a href="validation.php">Validated</a></li>
+                            <li><a href="dashboard.php">User Credentials</a></li>
+                            <li><a href="validation.php">Credentials</a></li>
                         </ol>
                     </div>
                 </div>
@@ -191,7 +191,7 @@ mysqli_close($con);
         </table>
     </div>
 </div>
-
+                </div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 </body>
