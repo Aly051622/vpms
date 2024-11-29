@@ -42,9 +42,7 @@ include 'users_view.php';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/jqvmap@1.5.1/dist/jqvmap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/weathericons@2.1.0/css/weather-icons.css" rel="stylesheet" />
@@ -82,7 +80,6 @@ include 'users_view.php';
 <?php include_once('includes/sidebar.php'); ?>
 <?php include_once('includes/header.php'); ?>
 
-<div class="right-panel">
 <div class="breadcrumbs mb-5">
     <div class="breadcrumbs-inner">
         <div class="row m-0">
@@ -158,7 +155,6 @@ include 'users_view.php';
                 </tr>
             <?php endforeach; ?>
         </table>
-                        </div>
                         </div>
     <?php else: ?>
         <p>No users found.</p>
