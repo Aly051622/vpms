@@ -39,7 +39,7 @@
                             <li><i class="menu-icon bi bi-car-front"></i><a href="manage-outgoingvehicle.php">Manage Out Vehicle</a></li>
                         </ul>
                     </li>
-
+<!--
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="menu-icon fa fa-solid fa-qrcode"></i>QR Code Scanner
@@ -49,7 +49,7 @@
                             <li><i class="menu-icon fa bi bi-qr-code"></i><a href="qrlogout.php">Logout Scanner</a></li>
                         </ul>
                     </li>
-
+-->
                     <li>
                         <a href="search-vehicle.php"><i class="menu-icon fa fa-search"></i>Search Vehicle</a>
                     </li>
