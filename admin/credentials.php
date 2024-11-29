@@ -33,53 +33,21 @@ if ($resultAllUsers && mysqli_num_rows($resultAllUsers) > 0) {
           </tr>";
 
     while ($row = mysqli_fetch_assoc($resultAllUsers)) {
-        // Construct image paths from the values in the database (assumed to be file names)
-        $orImagePath = "../uploads/or_image/" . $row['or_image'];
-        $crImagePath = "../uploads/cr_image/" . $row['cr_image'];
-        $nvImagePath = "../uploads/nv_image/" . $row['nv_image'];
-        $profilePicturePath = "../uploads/profile_uploads/" . $row['profile_pictures'];
-
-        // Display user data with images
         echo "<tr>
                 <td>{$row['FirstName']}</td>
                 <td>{$row['LastName']}</td>
                 <td>{$row['Email']}</td>
-                <td>{$row['MobileNumber']}</td>";
-
-        // Display OR Image
-        if (!empty($row['or_image'])) {
-            echo "<td><img src='$orImagePath' alt='OR Image' width='100'></td>";
-        } else {
-            echo "<td>No image</td>";
-        }
-
-        // Display CR Image
-        if (!empty($row['cr_image'])) {
-            echo "<td><img src='$crImagePath' alt='CR Image' width='100'></td>";
-        } else {
-            echo "<td>No image</td>";
-        }
-
-        // Display NV Image
-        if (!empty($row['nv_image'])) {
-            echo "<td><img src='$nvImagePath' alt='NV Image' width='100'></td>";
-        } else {
-            echo "<td>No image</td>";
-        }
-
-        // Display Profile Picture
-        if (!empty($row['profile_pictures'])) {
-            echo "<td><img src='$profilePicturePath' alt='Profile Picture' width='100'></td>";
-        } else {
-            echo "<td>No image</td>";
-        }
-
-        echo "</tr>";
+                <td>{$row['MobileNumber']}</td>
+                <td><img src='../uploads/{$row['or_image']}' alt='OR Image' width='100'></td>
+                <td><img src='../uploads/{$row['cr_image']}' alt='CR Image' width='100'></td>
+                <td><img src='../uploads/{$row['nv_image']}' alt='NV Image' width='100'></td>
+                <td><img src='../uploads/{$row['profile_pictures']}' alt='Profile Picture' width='100'></td>
+              </tr>";
     }
 
     echo "</table>";
 } else {
-    echo "<p>No users found.</p>";
+    echo "No users found.";
 }
 
 mysqli_close($con);
