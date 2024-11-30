@@ -2,23 +2,22 @@
 session_start();
 include('includes/dbconnection.php'); 
 
-// Fetch all users from tblregusers and corresponding files
-$queryAllUsers = "
+// Fetch all users and their corresponding images from tblregusers
+$query = "
     SELECT r.email, 
            r.cr_image, 
            r.nv_image, 
            r.or_image, 
-           r.profile_pictures 
+           r.profile_pictures
     FROM tblregusers r
 ";
 
-// Execute the query to get the users
-$resultAllUsers = mysqli_query($con, $queryAllUsers);
-$allUsers = [];
+$result = mysqli_query($con, $query);
+$users = [];
 
-if ($resultAllUsers && mysqli_num_rows($resultAllUsers) > 0) {
-    while ($row = mysqli_fetch_assoc($resultAllUsers)) {
-        $allUsers[] = $row;
+if ($result && mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $users[] = $row;
     }
 }
 
@@ -28,7 +27,7 @@ mysqli_close($con);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="apple-touch-icon" href="images/ctu.png">
     <link rel="shortcut icon" href="images/ctu.png">
@@ -114,7 +113,7 @@ mysqli_close($con);
     </div>
 
     <div class="container">
-        <?php if (empty($allUsers)): ?>
+        <?php if (empty($users)): ?>
             <div class="alert alert-info text-center">
                 No users found in the system.
             </div>
@@ -133,14 +132,14 @@ mysqli_close($con);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (!empty($allUsers)): ?>
-                        <?php foreach ($allUsers as $user): ?>
+                    <?php if (!empty($users)): ?>
+                        <?php foreach ($users as $user): ?>
                             <tr>
                                 <td><?= htmlspecialchars($user['email']) ?></td>
-                                <td><img src="uploads/validated/<?= htmlspecialchars($user['cr_image']) ?>" width="100" class="img-fluid"></td>
-                                <td><img src="uploads/validated/<?= htmlspecialchars($user['nv_image']) ?>" width="100" class="img-fluid"></td>
-                                <td><img src="uploads/validated/<?= htmlspecialchars($user['or_image']) ?>" width="100" class="img-fluid"></td>
-                                <td><img src="../uploads/profile_uploads/<?= htmlspecialchars($user['profile_pictures']) ?>" width="100" class="img-fluid"></td>
+                                <td><img src="uploads/validated/<?= htmlspecialchars($user['cr_image']) ?>" width="100" class="img-fluid" onerror="this.onerror=null; this.src='images/placeholder.png';"></td>
+                                <td><img src="uploads/validated/<?= htmlspecialchars($user['nv_image']) ?>" width="100" class="img-fluid" onerror="this.onerror=null; this.src='images/placeholder.png';"></td>
+                                <td><img src="uploads/validated/<?= htmlspecialchars($user['or_image']) ?>" width="100" class="img-fluid" onerror="this.onerror=null; this.src='images/placeholder.png';"></td>
+                                <td><img src="../uploads/profile_uploads/<?= htmlspecialchars($user['profile_pictures']) ?>" width="100" class="img-fluid" onerror="this.onerror=null; this.src='images/placeholder.png';"></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
@@ -152,11 +151,12 @@ mysqli_close($con);
             </table>
         </div>
     </div>
+
     <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
-<script src="assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
 </html>
