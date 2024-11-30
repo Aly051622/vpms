@@ -584,13 +584,8 @@ input[type="text"]:hover, input[type="password"]:hover {
    
     </head>
     <body>
-      
-   <?php include_once('includes/sidebar.php');?>
-    <!-- Right Panel -->
-
-   <?php include_once('includes/header.php');?>
    
-   <div class="breadcrumbs mb-3">
+   <div class="breadcrumbs mb-5">
         <div class="breadcrumbs-inner">
             <div class="row m-0">
                 <div class="col-sm-4">
