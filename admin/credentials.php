@@ -36,9 +36,12 @@ $nvImage = !empty($row['nv_image']) ? 'uploads/' . htmlspecialchars($row['nv_ima
             <th>CR Image</th>
             <th>NV Image</th>
             <th>Profile Picture</th>
+            <th>License Number</th>
+            <th>Registration Status</th>
+            <th>Validity Status</th>
         </tr>
         <tr>
-            <td><?php echo htmlspecialchars($row['email']); ?></td>
+            <td><?php echo htmlspecialchars($row['Email']); ?></td>
 
             <!-- Display OR Image -->
             <td>
@@ -75,6 +78,15 @@ $nvImage = !empty($row['nv_image']) ? 'uploads/' . htmlspecialchars($row['nv_ima
                     No Profile Picture uploaded.
                 <?php endif; ?>
             </td>
+
+            <!-- Display License Number -->
+            <td><?php echo htmlspecialchars($row['LicenseNumber']); ?></td>
+
+            <!-- Display Registration Status -->
+            <td><?php echo htmlspecialchars($row['registration_status']); ?></td>
+
+            <!-- Display Validity Status -->
+            <td><?php echo htmlspecialchars($row['validity']); ?></td>
         </tr>
     </table>
 </body>
