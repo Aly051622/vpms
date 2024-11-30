@@ -122,7 +122,7 @@
     <?php include_once('includes/header.php'); ?>
 
     <!-- Breadcrumbs Section -->
-    <div class="breadcrumbs mb-5">
+    <div class="breadcrumbs">
         <div class="breadcrumbs-inner">
             <div class="row m-0">
                 <div class="col-sm-4">

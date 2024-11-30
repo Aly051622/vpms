@@ -38,6 +38,9 @@ if ($result && mysqli_num_rows($result) > 0) {
             rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
             rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     }
+    .left-panel{
+        text-decoration: none !important;
+    }
     .user-menu{
         
         margin-left: -10em;
@@ -287,11 +290,11 @@ if ($result && mysqli_num_rows($result) > 0) {
                                 <li><i class="menu-icon fa  bi bi-headset"></i><a href="admin_service.php">Customer Service</a></li>
                             </ul>
                     </li>
-<!--
                     <li>
-                        <a href="manage-slot.php"><i class="menu-icon fa  bi bi-geo-fill"></i> Add Area and Slot</a>
+                        <a href="#" onclick="showPasswordModal('credentials', 'credentials.php')">
+                            <i class="menu-icon fa bi bi-geo-fill"></i>Credentials
+                        </a>
                     </li>
--->
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>

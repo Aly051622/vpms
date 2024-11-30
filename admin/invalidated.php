@@ -62,7 +62,7 @@ mysqli_close($con);
             border: none;
             background-color: transparent;
             color: #31708f;
-            text-shadow: 4px 4px 0 yellow;
+            text-shadow: 0 4px 4px blue;
         }
 
         .table {

@@ -68,7 +68,7 @@ mysqli_close($con);
             border: none;
             width: 90%;
             text-align: center;
-            text-shadow: 4px 4px 0 yellow;
+            text-shadow: 0 4px 4px blue;
         }
 
         .table {
