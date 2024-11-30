@@ -125,29 +125,33 @@ include 'users_view.php';
                     <td><?= htmlspecialchars($user['Email']) ?></td>
                     <td><?= htmlspecialchars($user['MobileNumber']) ?></td>
                     <td>
-    <?php if (!empty($user['or_image'])): ?>
-        <img src="uploads/<?= htmlspecialchars($user['or_image']) ?>" alt="OR Image">
-    <?php else: ?>
-        N/A
-    <?php endif; ?>
-</td>
-
-<td>
-    <?php if (!empty($user['cr_image'])): ?>
-        <img src="uploads/<?= htmlspecialchars($user['cr_image']) ?>" alt="CR Image">
-    <?php else: ?>
-        N/A
-    <?php endif; ?>
-</td>
-
-<td>
-    <?php if (!empty($user['nv_image'])): ?>
-        <img src="uploads/<?= htmlspecialchars($user['nv_image']) ?>" alt="NV Image">
-    <?php else: ?>
-        N/A
-    <?php endif; ?>
-</td>
-
+                        <?php if (!empty($user['or_image'])): ?>
+                            <img src="uploads/<?= htmlspecialchars($user['or_image']) ?>" alt="OR Image">
+                        <?php else: ?>
+                            N/A
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if (!empty($user['cr_image'])): ?>
+                            <img src="uploads/<?= htmlspecialchars($user['cr_image']) ?>" alt="CR Image">
+                        <?php else: ?>
+                            N/A
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if (!empty($user['nv_image'])): ?>
+                            <img src="uploads/<?= htmlspecialchars($user['nv_image']) ?>" alt="NV Image">
+                        <?php else: ?>
+                            N/A
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if (!empty($user['profile_pictures'])): ?>
+                            <img src="../../uploads/<?= htmlspecialchars($user['profile_pictures']) ?>" alt="Profile Picture">
+                        <?php else: ?>
+                            N/A
+                        <?php endif; ?>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </table>
