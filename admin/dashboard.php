@@ -360,7 +360,7 @@ $count_total_vehexits=mysqli_num_rows($query2);
     <div class="card">
         <div class="card-body">
             <div class="stat-widget-five">
-                <div class="stat-icon dib flat-color-4">
+                <div class="stat-icon dib flat-color-1">
                     <i class="pe-7s-hourglass"></i>
                 </div>
                 <div class="stat-content">
