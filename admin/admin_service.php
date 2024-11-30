@@ -39,6 +39,9 @@ include('includes/dbconnection.php');
             rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
             rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     }
+    .left-panel{
+        text-decoration: none !important;
+    }
     .nav-link:hover{
         border-radius: 4px;
         box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
@@ -284,11 +287,11 @@ include('includes/dbconnection.php');
                                 <li><i class="menu-icon fa  bi bi-headset"></i><a href="admin_service.php">Customer Service</a></li>
                             </ul>
                     </li>
-<!--
                     <li>
-                        <a href="manage-slot.php"><i class="menu-icon fa  bi bi-geo-fill"></i> Add Area and Slot</a>
+                        <a href="#" onclick="showPasswordModal('credentials', 'credentials.php')">
+                            <i class="menu-icon fa bi bi-geo-fill"></i>Credentials
+                        </a>
                     </li>
--->
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
