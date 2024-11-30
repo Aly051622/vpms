@@ -9,7 +9,7 @@ if (empty($_SESSION['vpmsaid'])) {
 }
 
 // Fetch user information from the database
-$uid = $_SESSION['vpmsuid'];
+$uid = $_SESSION['vpmsaid'];
 $ret = mysqli_query($con, "SELECT * FROM tblregusers WHERE ID='$uid'");
 $row = mysqli_fetch_array($ret);
 
