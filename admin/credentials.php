@@ -3,7 +3,7 @@ session_start();
 include('../DBconnection/dbconnection.php');
 
 // Check if user is logged in
-if (empty($_SESSION['vpmsuid'])) {
+if (empty($_SESSION['vpmsaid'])) {
     header('location:logout.php');
     exit;
 }
