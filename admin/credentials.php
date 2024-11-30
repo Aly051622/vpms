@@ -131,6 +131,7 @@ include 'users_view.php';
         N/A
     <?php endif; ?>
 </td>
+
 <td>
     <?php if (!empty($user['cr_image'])): ?>
         <img src="uploads/<?= htmlspecialchars($user['cr_image']) ?>" alt="CR Image">
@@ -138,16 +139,10 @@ include 'users_view.php';
         N/A
     <?php endif; ?>
 </td>
+
 <td>
     <?php if (!empty($user['nv_image'])): ?>
         <img src="uploads/<?= htmlspecialchars($user['nv_image']) ?>" alt="NV Image">
-    <?php else: ?>
-        N/A
-    <?php endif; ?>
-</td>
-<td>
-    <?php if (!empty($user['profile_pictures'])): ?>
-        <img src="uploads/<?= htmlspecialchars($user['profile_pictures']) ?>" alt="Profile Picture">
     <?php else: ?>
         N/A
     <?php endif; ?>
