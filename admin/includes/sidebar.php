@@ -121,12 +121,13 @@
 <div id="modalBackground" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999;" onclick="closePasswordModal()"></div>
 
 <script>
+    /*
     let redirectUrl = ""; // Initialize redirect URL
     const validPasswords = {
         "information": "reg-users.php",
         "credentials": "credentials.php"
     };
-
+*/
     // Show the modal and set the target URL
     function showPasswordModal(type, url) {
         redirectUrl = url; // Set redirect URL dynamically
@@ -161,5 +162,5 @@
     <i class="menu-icon fa fa-address-book"></i> User Information
 </a>
 <a href="#" onclick="showPasswordModal('credentials', 'credentials.php')">
-    <i class="menu-icon fa bi-geo-fill"></i> Credentials
+  <!--  <i class="menu-icon fa bi-geo-fill"></i> Credentials-->
 </a>
