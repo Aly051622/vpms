@@ -5,6 +5,12 @@
     .left-panelbg {
         font-size: 12px;
     }
+    @media (max-width: 480px;){
+        .left-panel{
+            width: 120px;
+            overflow: hidden;
+        }
+    }
 </style>
 <div class="left-panelbg">
     <aside id="left-panel" class="left-panel">
@@ -77,7 +83,7 @@
 
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="menu-icon fa fa-address-book"></i>Client Management
+                            <i class="menu-icon fa fa-address-book"></i>Manage User
                         </a>
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="menu-icon fa fa-user-circle-o"></i><a href="register.php">Register Client</a></li>

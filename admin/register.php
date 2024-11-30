@@ -342,10 +342,8 @@ input[type="text"]:hover, input[type="password"]:hover {
    <div style="text-align:center;margin-top:40px;">
       <div class="bg-img">
          <div class="content">
-         <a style="text-decoration:none;">
-            <header>CREATE ACCOUNT</header> </a>
 
-            <div class="login-form">
+            <div class="login-form mb-5">
     <form method="post" action="" id="registrationForm" onsubmit="return checkpass();">
         <!-- Page 1 -->
         <div id="page1">
