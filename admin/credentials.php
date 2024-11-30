@@ -126,28 +126,28 @@ include 'users_view.php';
                     <td><?= htmlspecialchars($user['MobileNumber']) ?></td>
                     <td>
                         <?php if (!empty($user['or_image'])): ?>
-                            <img src="../uploads/<?= htmlspecialchars($user['or_image']) ?>" alt="OR Image">
+                            <img src="data:image/jpeg;base64,<?= base64_encode($user['or_image']) ?>" alt="OR Image">
                         <?php else: ?>
                             N/A
                         <?php endif; ?>
                     </td>
                     <td>
                         <?php if (!empty($user['cr_image'])): ?>
-                            <img src="../uploads/<?= htmlspecialchars($user['cr_image']) ?>" alt="CR Image">
+                            <img src="data:image/jpeg;base64,<?= base64_encode($user['cr_image']) ?>" alt="CR Image">
                         <?php else: ?>
                             N/A
                         <?php endif; ?>
                     </td>
                     <td>
                         <?php if (!empty($user['nv_image'])): ?>
-                            <img src="../uploads/<?= htmlspecialchars($user['nv_image']) ?>" alt="NV Image">
+                            <img src="data:image/jpeg;base64,<?= base64_encode($user['nv_image']) ?>" alt="NV Image">
                         <?php else: ?>
                             N/A
                         <?php endif; ?>
                     </td>
                     <td>
                         <?php if (!empty($user['profile_pictures'])): ?>
-                            <img src="../uploads/<?= htmlspecialchars($user['profile_pictures']) ?>" alt="Profile Picture">
+                            <img src="data:image/jpeg;base64,<?= base64_encode($user['profile_pictures']) ?>" alt="Profile Picture">
                         <?php else: ?>
                             N/A
                         <?php endif; ?>
@@ -155,10 +155,11 @@ include 'users_view.php';
                 </tr>
             <?php endforeach; ?>
         </table>
-                        </div>
     <?php else: ?>
         <p>No users found.</p>
     <?php endif; ?>
+</div>
+
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
