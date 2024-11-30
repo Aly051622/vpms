@@ -25,9 +25,24 @@ if ($result && mysqli_num_rows($result) > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="apple-touch-icon" href="images/ctu.png">
     <link rel="shortcut icon" href="images/ctu.png">
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
+    <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+      <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
+      <link href="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/jqvmap@1.5.1/dist/jqvmap.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/weathericons@2.1.0/css/weather-icons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" rel="stylesheet" />
 
 <!--header-->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -40,10 +55,6 @@ if ($result && mysqli_num_rows($result) > 0) {
     }
     .left-panel{
         text-decoration: none !important;
-    }
-    .user-menu{
-        
-        margin-left: -10em;
     }
     .nav-link:hover{
         border-radius: 4px;
@@ -143,7 +154,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                         <img class="user-avatar rounded-circle" src="images/images.png" alt="User Avatar">
                     </a>
 
-                    <div class="user-menu dropdown-menu" id="hh" style="margin-left: -6em;">
+                    <div class="user-menu dropdown-menu" id="hh">
                         <a class="nav-link" href="admin-profile.php"><i class="fa fa-user"></i>My Profile</a>
                         <a class="nav-link" href="change-password.php"><i class="fa fa-cog"></i>Change Password</a>
                         <a class="nav-link" onclick="return handleLogout();"><i class="fa fa-power-off"></i> Logout</a>
@@ -300,6 +311,62 @@ if ($result && mysqli_num_rows($result) > 0) {
         </nav>
     </aside>
 </div>
+
+<!-- Password Modal -->
+<div id="passwordModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); padding:20px; background:white; border:1px solid #ccc; box-shadow:0 4px 8px rgba(0,0,0,0.2); z-index:1000;">
+    <h3>Enter Password</h3>
+    <input type="password" id="passwordInput" placeholder="Enter password" style="padding:10px; width:100%; margin-bottom:10px;" />
+    <button id="passwordSubmitButton" style="padding:10px 20px; background:#007bff; color:white; border:none; cursor:pointer;">Submit</button>
+    <button onclick="closePasswordModal()" style="padding:10px 20px; background:#ccc; color:black; border:none; cursor:pointer;">Cancel</button>
+</div>
+
+<!-- Modal Background -->
+<div id="modalBackground" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999;" onclick="closePasswordModal()"></div>
+
+<script>
+    let redirectUrl = ""; // Initialize redirect URL
+    const validPasswords = {
+        "information": "reg-users.php",
+        "credentials": "credentials.php"
+    };
+
+    // Show the modal and set the target URL
+    function showPasswordModal(type, url) {
+        redirectUrl = url; // Set redirect URL dynamically
+        document.getElementById('passwordModal').style.display = 'block';
+        document.getElementById('modalBackground').style.display = 'block';
+        document.getElementById('passwordInput').value = ""; // Clear previous input
+    }
+
+    // Close the modal
+    function closePasswordModal() {
+        document.getElementById('passwordModal').style.display = 'none';
+        document.getElementById('modalBackground').style.display = 'none';
+    }
+
+    // Validate the password and redirect
+    document.getElementById('passwordSubmitButton').addEventListener('click', function () {
+        const password = document.getElementById('passwordInput').value.trim();
+
+        // Validate the password and redirect if correct
+        if (!password) {
+            alert("Please enter a password.");
+        } else if (validPasswords[password.toLowerCase()] === redirectUrl) {
+            window.location.href = redirectUrl;
+        } else {
+            alert("Invalid password. Access denied.");
+        }
+    });
+</script>
+
+<!-- Example Buttons -->
+<a href="#" onclick="showPasswordModal('information', 'reg-users.php')">
+    <i class="menu-icon fa fa-address-book"></i> User Information
+</a>
+<a href="#" onclick="showPasswordModal('credentials', 'credentials.php')">
+    <i class="menu-icon fa bi-geo-fill"></i> Credentials
+</a>
+
 
 <!--content sugod-->
 
