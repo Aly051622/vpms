@@ -4,6 +4,7 @@
 <style>
     .left-panelbg {
         font-size: 12px;
+        overflow: hidden;
     }
     @media (max-width: 480px;){
         .left-panel{
