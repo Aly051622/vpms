@@ -131,10 +131,17 @@ include 'users_view.php';
         N/A
     <?php endif; ?>
 </td>
+<td>
+    <?php if (!empty($user['or_image']) && file_exists('uploads/' . $user['or_image'])): ?>
+        <img src="uploads/<?= htmlspecialchars($user['or_image']) ?>" alt="OR Image" style="max-width: 100px; max-height: 100px;">
+    <?php else: ?>
+        N/A
+    <?php endif; ?>
+</td>
 
 <td>
     <?php if (!empty($user['cr_image']) && file_exists('uploads/' . $user['cr_image'])): ?>
-        <img src="uploads/<?= htmlspecialchars(['cr_image']) ?>" alt="CR Image" style="max-width: 100px; max-height: 100px;">
+        <img src="uploads/<?= htmlspecialchars($user['cr_image']) ?>" alt="CR Image" style="max-width: 100px; max-height: 100px;">
     <?php else: ?>
         N/A
     <?php endif; ?>
@@ -142,20 +149,20 @@ include 'users_view.php';
 
 <td>
     <?php if (!empty($user['nv_image']) && file_exists('uploads/' . $user['nv_image'])): ?>
-        <img src="uploads/<?= htmlspecialchars(['nv_image']) ?>" alt="NV Image" style="max-width: 100px; max-height: 100px;">
+        <img src="uploads/<?= htmlspecialchars($user['nv_image']) ?>" alt="NV Image" style="max-width: 100px; max-height: 100px;">
     <?php else: ?>
         N/A
     <?php endif; ?>
 </td>
 
-                    <td>
-                        <?php if (!empty($user['profile_pictures'])): ?>
-                            <img src="../../uploads/<?= htmlspecialchars($user['profile_pictures']) ?>" alt="Profile Picture">
-                        <?php else: ?>
-                            N/A
-                        <?php endif; ?>
-                    </td>
-                </tr>
+<td>
+    <?php if (!empty($user['profile_pictures']) && file_exists('../../uploads/' . $user['profile_pictures'])): ?>
+        <img src="../../uploads/<?= htmlspecialchars($user['profile_pictures']) ?>" alt="Profile Picture" style="max-width: 100px; max-height: 100px;">
+    <?php else: ?>
+        N/A
+    <?php endif; ?>
+</td>
+
             <?php endforeach; ?>
         </table>
                         </div>
