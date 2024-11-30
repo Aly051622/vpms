@@ -1,36 +1,30 @@
 <?php
 session_start();
-include '../DBconnection/dbconnection.php';
+include('includes/dbconnection.php'); 
 
-// Fetch all users' details
+// Fetch all users from tblregusers and corresponding files
 $queryAllUsers = "
-    SELECT 
-           FirstName, 
-           LastName, 
-           Email, 
-           MobileNumber, 
-           or_image, 
-           cr_image, 
-           nv_image, 
-           profile_pictures
-    FROM tblregusers
+    SELECT r.email, 
+           r.cr_image, 
+           r.nv_image, 
+           r.or_image, 
+           r.profile_pictures 
+    FROM tblregusers r
 ";
 
+// Execute the query to get the users
 $resultAllUsers = mysqli_query($con, $queryAllUsers);
+$allUsers = [];
 
-$users = [];
 if ($resultAllUsers && mysqli_num_rows($resultAllUsers) > 0) {
     while ($row = mysqli_fetch_assoc($resultAllUsers)) {
-        $users[] = $row; // Store user data in an array
+        $allUsers[] = $row;
     }
 }
 
-// Close the database connection
 mysqli_close($con);
-
-// Include the view
-include 'users_view.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,134 +32,131 @@ include 'users_view.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="apple-touch-icon" href="images/ctu.png">
     <link rel="shortcut icon" href="images/ctu.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
     <link href="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/jqvmap@1.5.1/dist/jqvmap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/weathericons@2.1.0/css/weather-icons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <title>All Users</title>
+
     <style>
-         body {
-            background: whitesmoke;
+        body {
+            background-color: whitesmoke;
             font-family: Arial, sans-serif;
-            overflow: auto;
         }
-        table {
-            border-collapse: collapse;
-            width: 100%;
+
+        .alert-info {
+            margin-bottom: 20px;
+            padding: 1px;
+            font-size: 1.1rem;
+            border: none;
+            background-color: transparent;
+            color: #31708f;
+            text-shadow: 0 4px 4px blue;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
+
+        .table {
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        th {
-            background-color: #f2f2f2;
+
+        .img-fluid {
+            border-radius: 5px;
         }
-        img {
-            display: block;
-            max-width: 100px;
-            height: auto;
+
+        .breadcrumbs {
+            background: whitesmoke;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+        .bg-primary{
+            color: white;
         }
     </style>
+    <title>All Users | CTU Danao Parking System</title>
 </head>
 <body>
-    
-<?php include_once('includes/sidebar.php'); ?>
-<?php include_once('includes/header.php'); ?>
+    <?php include_once('includes/sidebar.php'); ?>
+    <?php include_once('includes/header.php'); ?>
 
-<div class="breadcrumbs mb-5">
-    <div class="breadcrumbs-inner">
-        <div class="row m-0">
-            <div class="col-sm-4">
-                <div class="page-header float-left">
-                    <div class="page-title">
-                        <h1>Driver's License Validation</h1>
+    <div class="breadcrumbs">
+        <div class="breadcrumbs-inner">
+            <div class="row m-0">
+                <div class="col-sm-4">
+                    <div class="page-header float-left">
+                        <div class="page-title">
+                            <h1>Driver's License Validation</h1>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-8">
-                <div class="page-header float-right">
-                    <div class="page-title">
-                        <ol class="breadcrumb text-right">
-                            <li><a href="dashboard.php">Dashboard</a></li>
-                            <li><a href="validation.php">Validated</a></li>
-                        </ol>
+                <div class="col-sm-8">
+                    <div class="page-header float-right">
+                        <div class="page-title">
+                            <ol class="breadcrumb text-right">
+                                <li><a href="dashboard.php">Dashboard</a></li>
+                                <li><a href="validation.php">All Users</a></li>
+                            </ol>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div><br>
 
-<div class="container">
-    <h3 class="text-center mb-5">All Users</h3>
-    <?php if (!empty($users)): ?>
-        <table class="table-responsive table-striped">
-            <tr class="bg-primary">
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Mobile Number</th>
-                <th>OR Image</th>
-                <th>CR Image</th>
-                <th>NV Image</th>
-                <th>Profile Picture</th>
-            </tr>
-            <?php foreach ($users as $user): ?>
-                <tr>
-                    <td><?= htmlspecialchars($user['FirstName']) ?></td>
-                    <td><?= htmlspecialchars($user['LastName']) ?></td>
-                    <td><?= htmlspecialchars($user['Email']) ?></td>
-                    <td><?= htmlspecialchars($user['MobileNumber']) ?></td>
-                    <td>
-                        <?php if (!empty($user['or_image'])): ?>
-                            <img src="data:image/jpeg;base64,<?= base64_encode($user['or_image']) ?>" alt="OR Image">
-                        <?php else: ?>
-                            N/A
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if (!empty($user['cr_image'])): ?>
-                            <img src="data:image/jpeg;base64,<?= base64_encode($user['cr_image']) ?>" alt="CR Image">
-                        <?php else: ?>
-                            N/A
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if (!empty($user['nv_image'])): ?>
-                            <img src="data:image/jpeg;base64,<?= base64_encode($user['nv_image']) ?>" alt="NV Image">
-                        <?php else: ?>
-                            N/A
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if (!empty($user['profile_pictures'])): ?>
-                            <img src="data:image/jpeg;base64,<?= base64_encode($user['profile_pictures']) ?>" alt="Profile Picture">
-                        <?php else: ?>
-                            N/A
-                        <?php endif; ?>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
-    <?php else: ?>
-        <p>No users found.</p>
-    <?php endif; ?>
-</div>
+    <div class="container">
+        <?php if (empty($allUsers)): ?>
+            <div class="alert alert-info text-center">
+                No users found in the system.
+            </div>
+        <?php endif; ?>
 
-<!-- Scripts -->
+        <h4 class="text-center">All Users</h4>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="bg-primary">
+                    <tr>
+                        <th>Email</th>
+                        <th>CR Image</th>
+                        <th>NV Image</th>
+                        <th>OR Image</th>
+                        <th>Profile Picture</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($allUsers)): ?>
+                        <?php foreach ($allUsers as $user): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($user['email']) ?></td>
+                                <td><img src="uploads/validated/<?= htmlspecialchars($user['cr_image']) ?>" width="100" class="img-fluid"></td>
+                                <td><img src="uploads/validated/<?= htmlspecialchars($user['nv_image']) ?>" width="100" class="img-fluid"></td>
+                                <td><img src="uploads/validated/<?= htmlspecialchars($user['or_image']) ?>" width="100" class="img-fluid"></td>
+                                <td><img src="../uploads/profile_uploads/<?= htmlspecialchars($user['profile_pictures']) ?>" width="100" class="img-fluid"></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5" class="text-center">No data to display.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>
