@@ -125,29 +125,32 @@ include 'users_view.php';
                     <td><?= htmlspecialchars($user['Email']) ?></td>
                     <td><?= htmlspecialchars($user['MobileNumber']) ?></td>
                     <td>
-                        <?php if (!empty($user['or_image'])): ?>
-                            <img src="../uploads/" alt="OR Image">
-                        <?php else: ?>
-                            N/A
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if (!empty($user['cr_image'])): ?>
-                            <img src="../uploads/" alt="CR Image">
-                        <?php else: ?>
-                            N/A
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if (!empty($user['nv_image'])): ?>
-                            <img src="../uploads/" alt="NV Image">
-                        <?php else: ?>
-                            N/A
-                        <?php endif; ?>
-                    </td>
+    <?php if (!empty($user['or_image']) && file_exists('uploads/' . $user['or_image'])): ?>
+        <img src="uploads/<?= htmlspecialchars(['or_image']) ?>" alt="OR Image" style="max-width: 100px; max-height: 100px;">
+    <?php else: ?>
+        N/A
+    <?php endif; ?>
+</td>
+
+<td>
+    <?php if (!empty($user['cr_image']) && file_exists('uploads/' . $user['cr_image'])): ?>
+        <img src="uploads/<?= htmlspecialchars(['cr_image']) ?>" alt="CR Image" style="max-width: 100px; max-height: 100px;">
+    <?php else: ?>
+        N/A
+    <?php endif; ?>
+</td>
+
+<td>
+    <?php if (!empty($user['nv_image']) && file_exists('uploads/' . $user['nv_image'])): ?>
+        <img src="uploads/<?= htmlspecialchars(['nv_image']) ?>" alt="NV Image" style="max-width: 100px; max-height: 100px;">
+    <?php else: ?>
+        N/A
+    <?php endif; ?>
+</td>
+
                     <td>
                         <?php if (!empty($user['profile_pictures'])): ?>
-                            <img src="../uploads/<?= htmlspecialchars($user['profile_pictures']) ?>" alt="Profile Picture">
+                            <img src="../../uploads/<?= htmlspecialchars($user['profile_pictures']) ?>" alt="Profile Picture">
                         <?php else: ?>
                             N/A
                         <?php endif; ?>
