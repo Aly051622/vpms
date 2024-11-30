@@ -9,6 +9,9 @@ $queryAllUsers = "
            LastName, 
            Email, 
            MobileNumber, 
+           or_image, 
+           cr_image, 
+           nv_image, 
            profile_pictures
     FROM tblregusers
 ";
@@ -110,6 +113,9 @@ include 'users_view.php';
                 <th>Last Name</th>
                 <th>Email</th>
                 <th>Mobile Number</th>
+                <th>OR Image</th>
+                <th>CR Image</th>
+                <th>NV Image</th>
                 <th>Profile Picture</th>
             </tr>
             <?php foreach ($users as $user): ?>
@@ -118,6 +124,27 @@ include 'users_view.php';
                     <td><?= htmlspecialchars($user['LastName']) ?></td>
                     <td><?= htmlspecialchars($user['Email']) ?></td>
                     <td><?= htmlspecialchars($user['MobileNumber']) ?></td>
+                    <td>
+                        <?php if (!empty($user['or_image'])): ?>
+                            <img src="../uploads/" alt="OR Image">
+                        <?php else: ?>
+                            N/A
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if (!empty($user['cr_image'])): ?>
+                            <img src="../uploads/" alt="CR Image">
+                        <?php else: ?>
+                            N/A
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if (!empty($user['nv_image'])): ?>
+                            <img src="../uploads/" alt="NV Image">
+                        <?php else: ?>
+                            N/A
+                        <?php endif; ?>
+                    </td>
                     <td>
                         <?php if (!empty($user['profile_pictures'])): ?>
                             <img src="../uploads/<?= htmlspecialchars($user['profile_pictures']) ?>" alt="Profile Picture">
@@ -128,7 +155,7 @@ include 'users_view.php';
                 </tr>
             <?php endforeach; ?>
         </table>
-    </div>
+                        </div>
     <?php else: ?>
         <p>No users found.</p>
     <?php endif; ?>
