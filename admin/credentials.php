@@ -2,27 +2,23 @@
 session_start();
 include('includes/dbconnection.php'); 
 
-// Fetch invalidated clients (validity = 0) without duplicates based on email
-$queryInvalidated = "
-    SELECT u.email, 
-           MAX(u.expiration_date) AS expiration_date, 
-           MAX(u.validity) AS validity, 
-           MAX(r.cr_image) AS cr_image, 
-           MAX(r.nv_image) AS nv_image, 
-           MAX(r.or_image) AS or_image, 
-           MAX(r.profile_pictures) AS profile_pictures 
-    FROM uploads u
-    JOIN tblregusers r ON u.email = r.Email
-    WHERE u.validity = 0
-    GROUP BY u.email
+// Fetch all users from tblregusers and corresponding files
+$queryAllUsers = "
+    SELECT r.email, 
+           r.cr_image, 
+           r.nv_image, 
+           r.or_image, 
+           r.profile_pictures 
+    FROM tblregusers r
 ";
 
-$resultInvalidated = mysqli_query($con, $queryInvalidated);
-$invalidatedClients = [];
+// Execute the query to get the users
+$resultAllUsers = mysqli_query($con, $queryAllUsers);
+$allUsers = [];
 
-if ($resultInvalidated && mysqli_num_rows($resultInvalidated) > 0) {
-    while ($row = mysqli_fetch_assoc($resultInvalidated)) {
-        $invalidatedClients[] = $row;
+if ($resultAllUsers && mysqli_num_rows($resultAllUsers) > 0) {
+    while ($row = mysqli_fetch_assoc($resultAllUsers)) {
+        $allUsers[] = $row;
     }
 }
 
@@ -87,7 +83,7 @@ mysqli_close($con);
             color: white;
         }
     </style>
-    <title>Invalidated | CTU Danao Parking System</title>
+    <title>All Users | CTU Danao Parking System</title>
 </head>
 <body>
     <?php include_once('includes/sidebar.php'); ?>
@@ -108,7 +104,7 @@ mysqli_close($con);
                         <div class="page-title">
                             <ol class="breadcrumb text-right">
                                 <li><a href="dashboard.php">Dashboard</a></li>
-                                <li><a href="validation.php">Invalidated</a></li>
+                                <li><a href="validation.php">All Users</a></li>
                             </ol>
                         </div>
                     </div>
@@ -118,20 +114,18 @@ mysqli_close($con);
     </div>
 
     <div class="container">
-        <?php if (empty($invalidatedClients)): ?>
+        <?php if (empty($allUsers)): ?>
             <div class="alert alert-info text-center">
-                No invalidated clients found in the system.
+                No users found in the system.
             </div>
         <?php endif; ?>
 
-        <h4 class="text-center">Invalidated Clients</h4>
+        <h4 class="text-center">All Users</h4>
         <div class="table-responsive">
             <table class="table table-striped table-bordered">
                 <thead class="bg-primary">
                     <tr>
                         <th>Email</th>
-                        <th>Expiration Date</th>
-                        <th>Validity</th>
                         <th>CR Image</th>
                         <th>NV Image</th>
                         <th>OR Image</th>
@@ -139,21 +133,19 @@ mysqli_close($con);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (!empty($invalidatedClients)): ?>
-                        <?php foreach ($invalidatedClients as $client): ?>
+                    <?php if (!empty($allUsers)): ?>
+                        <?php foreach ($allUsers as $user): ?>
                             <tr>
-                                <td><?= htmlspecialchars($client['email']) ?></td>
-                                <td><?= htmlspecialchars($client['expiration_date']) ?></td>
-                                <td><?= htmlspecialchars($client['validity']) ?></td>
-                                <td><img src="uploads/validated/<?= htmlspecialchars($client['cr_image']) ?>" width="100" class="img-fluid"></td>
-                                <td><img src="uploads/validated/<?= htmlspecialchars($client['nv_image']) ?>" width="100" class="img-fluid"></td>
-                                <td><img src="uploads/validated/<?= htmlspecialchars($client['or_image']) ?>" width="100" class="img-fluid"></td>
-                                <td><img src="../uploads/profile_uploads/<?= htmlspecialchars($client['profile_pictures']) ?>" width="100" class="img-fluid"></td>
+                                <td><?= htmlspecialchars($user['email']) ?></td>
+                                <td><img src="uploads/validated/<?= htmlspecialchars($user['cr_image']) ?>" width="100" class="img-fluid"></td>
+                                <td><img src="uploads/validated/<?= htmlspecialchars($user['nv_image']) ?>" width="100" class="img-fluid"></td>
+                                <td><img src="uploads/validated/<?= htmlspecialchars($user['or_image']) ?>" width="100" class="img-fluid"></td>
+                                <td><img src="../uploads/profile_uploads/<?= htmlspecialchars($user['profile_pictures']) ?>" width="100" class="img-fluid"></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="7" class="text-center">No data to display.</td>
+                            <td colspan="5" class="text-center">No data to display.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
