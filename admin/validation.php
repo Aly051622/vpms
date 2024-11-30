@@ -144,10 +144,10 @@
                 </div>
             </div>
         </div>
-    </div><br>
+    </div>
 
     <!-- Form Container Section -->
-        <h2>Update Driver's License</h2>
+        <h2 class="mb-5">Update Driver's License</h2>
         <div class="container">
         <form action="upload.php" method="POST" enctype="multipart/form-data">
             <label for="email">Email:</label>
