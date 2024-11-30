@@ -1,27 +1,22 @@
 <?php
 session_start();
-include('includes/dbconnection.php'); 
+include('../DBconnection/dbconnection.php');
 
-// Fetch all users and their corresponding images from tblregusers
-$query = "
-    SELECT r.email, 
-           r.cr_image, 
-           r.nv_image, 
-           r.or_image, 
-           r.profile_pictures
-    FROM tblregusers r
-";
-
-$result = mysqli_query($con, $query);
-$users = [];
-
-if ($result && mysqli_num_rows($result) > 0) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $users[] = $row;
-    }
+// Check if user is logged in
+if (empty($_SESSION['vpmsuid'])) {
+    header('location:logout.php');
+    exit;
 }
 
-mysqli_close($con);
+// Fetch user information from the database
+$uid = $_SESSION['vpmsuid'];
+$ret = mysqli_query($con, "SELECT * FROM tblregusers WHERE ID='$uid'");
+$row = mysqli_fetch_array($ret);
+
+// Fetch image paths
+$orImage = !empty($row['or_image']) ? 'uploads/' . htmlspecialchars($row['or_image']) : '';
+$crImage = !empty($row['cr_image']) ? 'uploads/' . htmlspecialchars($row['cr_image']) : '';
+$nvImage = !empty($row['nv_image']) ? 'uploads/' . htmlspecialchars($row['nv_image']) : '';
 ?>
 
 <!DOCTYPE html>
@@ -29,134 +24,58 @@ mysqli_close($con);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="apple-touch-icon" href="images/ctu.png">
-    <link rel="shortcut icon" href="images/ctu.png">
-    <link href="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/jqvmap@1.5.1/dist/jqvmap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/weathericons@2.1.0/css/weather-icons.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-
-    <style>
-        body {
-            background-color: whitesmoke;
-            font-family: Arial, sans-serif;
-        }
-
-        .alert-info {
-            margin-bottom: 20px;
-            padding: 1px;
-            font-size: 1.1rem;
-            border: none;
-            background-color: transparent;
-            color: #31708f;
-            text-shadow: 0 4px 4px blue;
-        }
-
-        .table {
-            margin-top: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .img-fluid {
-            border-radius: 5px;
-        }
-
-        .breadcrumbs {
-            background: whitesmoke;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-        }
-        .bg-primary{
-            color: white;
-        }
-    </style>
-    <title>All Users | CTU Danao Parking System</title>
+    <title>Credentials</title>
 </head>
 <body>
-    <?php include_once('includes/sidebar.php'); ?>
-    <?php include_once('includes/header.php'); ?>
+    <h1>Credentials</h1>
 
-    <div class="breadcrumbs">
-        <div class="breadcrumbs-inner">
-            <div class="row m-0">
-                <div class="col-sm-4">
-                    <div class="page-header float-left">
-                        <div class="page-title">
-                            <h1>Driver's License Validation</h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-8">
-                    <div class="page-header float-right">
-                        <div class="page-title">
-                            <ol class="breadcrumb text-right">
-                                <li><a href="dashboard.php">Dashboard</a></li>
-                                <li><a href="validation.php">All Users</a></li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <table border="1">
+        <tr>
+            <th>Email</th>
+            <th>OR Image</th>
+            <th>CR Image</th>
+            <th>NV Image</th>
+            <th>Profile Picture</th>
+        </tr>
+        <tr>
+            <td><?php echo htmlspecialchars($row['email']); ?></td>
 
-    <div class="container">
-        <?php if (empty($users)): ?>
-            <div class="alert alert-info text-center">
-                No users found in the system.
-            </div>
-        <?php endif; ?>
+            <!-- Display OR Image -->
+            <td>
+                <?php if ($orImage): ?>
+                    <img src="<?php echo $orImage; ?>" alt="OR Image" width="100" onerror="this.onerror=null; this.src='images/placeholder.png';">
+                <?php else: ?>
+                    No OR image uploaded.
+                <?php endif; ?>
+            </td>
 
-        <h4 class="text-center">All Users</h4>
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered">
-                <thead class="bg-primary">
-                    <tr>
-                        <th>Email</th>
-                        <th>CR Image</th>
-                        <th>NV Image</th>
-                        <th>OR Image</th>
-                        <th>Profile Picture</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($users)): ?>
-                        <?php foreach ($users as $user): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($user['email']) ?></td>
-                                <td><img src="uploads/validated/<?= htmlspecialchars($user['cr_image']) ?>" width="100" class="img-fluid" onerror="this.onerror=null; this.src='images/placeholder.png';"></td>
-                                <td><img src="uploads/validated/<?= htmlspecialchars($user['nv_image']) ?>" width="100" class="img-fluid" onerror="this.onerror=null; this.src='images/placeholder.png';"></td>
-                                <td><img src="uploads/validated/<?= htmlspecialchars($user['or_image']) ?>" width="100" class="img-fluid" onerror="this.onerror=null; this.src='images/placeholder.png';"></td>
-                                <td><img src="../uploads/profile_uploads/<?= htmlspecialchars($user['profile_pictures']) ?>" width="100" class="img-fluid" onerror="this.onerror=null; this.src='images/placeholder.png';"></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="5" class="text-center">No data to display.</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
+            <!-- Display CR Image -->
+            <td>
+                <?php if ($crImage): ?>
+                    <img src="<?php echo $crImage; ?>" alt="CR Image" width="100" onerror="this.onerror=null; this.src='images/placeholder.png';">
+                <?php else: ?>
+                    No CR image uploaded.
+                <?php endif; ?>
+            </td>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
-    <script src="assets/js/main.js"></script>
+            <!-- Display NV Image -->
+            <td>
+                <?php if ($nvImage): ?>
+                    <img src="<?php echo $nvImage; ?>" alt="NV Image" width="100" onerror="this.onerror=null; this.src='images/placeholder.png';">
+                <?php else: ?>
+                    No NV image uploaded.
+                <?php endif; ?>
+            </td>
+
+            <!-- Display Profile Picture -->
+            <td>
+                <?php if (!empty($row['profile_pictures'])): ?>
+                    <img src="uploads/<?php echo htmlspecialchars($row['profile_pictures']); ?>" alt="Profile Picture" width="100" onerror="this.onerror=null; this.src='images/placeholder.png';">
+                <?php else: ?>
+                    No Profile Picture uploaded.
+                <?php endif; ?>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>
