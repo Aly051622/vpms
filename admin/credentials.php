@@ -126,21 +126,21 @@ include 'users_view.php';
                     <td><?= htmlspecialchars($user['MobileNumber']) ?></td>
                     <td>
                         <?php if (!empty($user['or_image'])): ?>
-                            <img src="../uploads/<?= htmlspecialchars($user['or_image']) ?>" alt="OR Image">
+                            <img src="../uploads/" alt="OR Image">
                         <?php else: ?>
                             N/A
                         <?php endif; ?>
                     </td>
                     <td>
                         <?php if (!empty($user['cr_image'])): ?>
-                            <img src="../uploads/<?= htmlspecialchars($user['cr_image']) ?>" alt="CR Image">
+                            <img src="../uploads/" alt="CR Image">
                         <?php else: ?>
                             N/A
                         <?php endif; ?>
                     </td>
                     <td>
                         <?php if (!empty($user['nv_image'])): ?>
-                            <img src="../uploads/<?= htmlspecialchars($user['nv_image']) ?>" alt="NV Image">
+                            <img src="../uploads/" alt="NV Image">
                         <?php else: ?>
                             N/A
                         <?php endif; ?>
