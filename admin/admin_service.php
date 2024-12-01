@@ -1,34 +1,27 @@
-
 <?php
-include('includes/dbconnection.php');
-?>
+session_set_cookie_params([
+    'domain' => '.ctudanaoparksys.icu',
+    'secure' => true,
+    'httponly' => true,
+    'samesite' => 'None'
+]);
+session_start();
+include('includes/auth_check.php'); // Ensure admin is logged in
 
+if (!isset($_SESSION['adminid'])) {
+    header('location:logout.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="apple-touch-icon" href="images/ctu.png">
-    <link rel="shortcut icon" href="images/ctu.png">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
-    <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
-    <link href="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/jqvmap@1.5.1/dist/jqvmap.min.css" rel="stylesheet">
-
-    <link href="https://cdn.jsdelivr.net/npm/weathericons@2.1.0/css/weather-icons.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" rel="stylesheet" />
-
     <title>Admin Customer Service | CTU DANAO Parking System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
     <style>
-        body {
+       
+body {
             font-family: Arial, sans-serif;
             padding: -10px;
             background-color: whitesmoke;
@@ -132,121 +125,58 @@ include('includes/dbconnection.php');
     </style>
 </head>
 <body>
-    <?php include_once('includes/sidebar.php'); ?>
-    <?php include_once('includes/header.php'); ?>
-
-    <!-- Breadcrumbs -->
-    <div class="breadcrumbs mb-3 ">
-        <div class="breadcrumbs-inner">
-            <div class="row m-0">
-                <div class="col-sm-4">
-                    <div class="page-header float-left">
-                        <div class="page-title">
-                            <h1>Customer Service</h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-8">
-                    <div class="page-header float-right">
-                        <div class="page-title">
-                            <ol class="breadcrumb text-right">
-                                <li><a href="dashboard.php">Dashboard</a></li>
-                                <li><a href="admin_service.php">Admin Customer Service</a></li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="container">
+    <h3>Admin Chat</h3>
+    <div id="chat-box"></div>
+    <div class="input-group">
+        <input type="text" id="message-input" class="form-control" placeholder="Type your response...">
+        <div class="input-group-append">
+            <button id="send-button" class="btn btn-primary">Send</button>
         </div>
     </div>
+</div>
 
-    <!-- Chat Box Section -->
-    <div class="card-body">
-        <h5></h5>
-        <div id="chat-box"></div>
-        <input type="text" id="message-input" placeholder="Type your response..." />
-        <button id="send-button"><i class="bi bi-send-fill"></i> Send</button>
-    </div>
-
-    <script>
+<script>
     const chatBox = document.getElementById('chat-box');
     const messageInput = document.getElementById('message-input');
     const sendButton = document.getElementById('send-button');
 
-    // Function to add a message to the chat box
-    function addMessageToChat(username, message, isSupport = false) {
+    function addMessage(username, message, isSupport = false) {
         const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message');
-        messageDiv.classList.add(isSupport ? 'message-support' : 'message-user');
-
-        // Create the icon element
-        const icon = document.createElement('i');
-        icon.className = isSupport ? 'bi bi-person-workspace' : 'bi bi-person-circle';
-
-        // Create a text node for the message
-        const textNode = document.createTextNode(` ${message}`);
-
-        // Append the icon and text to the messageDiv
-        messageDiv.appendChild(icon);
-        messageDiv.appendChild(textNode);
-
+        messageDiv.textContent = `${username}: ${message}`;
         chatBox.appendChild(messageDiv);
-        chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
+        chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // Function to send a message
-    sendButton.addEventListener('click', function () {
-        const adminMessage = messageInput.value.trim();
-        if (adminMessage === '') {
-            alert('Please enter a message before sending.');
-            return;
-        }
+    sendButton.addEventListener('click', () => {
+        const message = messageInput.value.trim();
+        if (message === '') return;
 
-        // Add admin message to chat
-        addMessageToChat('Admin', adminMessage, true);
-        messageInput.value = ''; // Clear input
-
-        // Send message to server
         fetch('send_admin_message.php', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ message: adminMessage })
-        })
-        .then(response => response.json())
-        .then(data => {
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message })
+        }).then(res => res.json()).then(data => {
             if (data.success) {
-                console.log('Message sent successfully');
+                addMessage('Admin', message, true);
+                messageInput.value = '';
             } else {
-                alert('Failed to send message: ' + data.message);
+                alert('Error sending message');
             }
-        })
-        .catch(error => {
-            console.error('Error sending message:', error);
         });
     });
 
-    // Function to fetch and display messages periodically
-    function fetchMessages() {
-        fetch('../users/get_messages.php') // Same endpoint as user side to get all messages
-            .then(response => response.json())
+    setInterval(() => {
+        fetch('get_messages.php')
+            .then(res => res.json())
             .then(data => {
-                if (data.success && Array.isArray(data.messages)) {
-                    chatBox.innerHTML = ''; // Clear chat box
-                    data.messages.forEach(msg => {
-                        addMessageToChat(msg.username, msg.message, msg.isSupport);
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error loading messages:', error);
+                chatBox.innerHTML = '';
+                data.messages.forEach(msg => {
+                    addMessage(msg.username, msg.message, msg.isSupport);
+                });
             });
-    }
-
-    // Fetch messages every 2 seconds
-    setInterval(fetchMessages, 2000);
+    }, 2000);
 </script>
-
 </body>
 </html>
+
