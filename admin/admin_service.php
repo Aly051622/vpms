@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('includes/auth_check.php'); // Ensure admin is logged in
+include('includes/auth_check.php'); 
 include('includes/dbconnection.php');
 ?>
 
@@ -28,12 +28,8 @@ include('includes/dbconnection.php');
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" rel="stylesheet" />
 
     <title>Admin Customer Service | CTU DANAO Parking System</title>
-
-    
-<!--header-->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<style>
-   body {
+    <style>
+        body {
             font-family: Arial, sans-serif;
             padding: -10px;
             background-color: whitesmoke;
