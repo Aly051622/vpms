@@ -578,7 +578,6 @@ while ($row = $query->fetch_assoc()) {
         </div>
     </div>
 </div>
-</div>
 
 
 <script>
