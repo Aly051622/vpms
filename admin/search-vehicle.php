@@ -35,7 +35,7 @@ if (strlen($_SESSION['vpmsaid']==0)) {
 <style>
      body{ 
         background-color: whitesmoke;
-        overflow: hidden;
+
         height: 100vh;
          }
          .card, .card-header{
@@ -162,7 +162,7 @@ while ($row=mysqli_fetch_array($ret)) {
                   <td><?php  echo $row['OwnerContactNumber'];?></td>
                   <td><?php  echo $row['RegistrationNumber'];?></td>
                   
-                  <td><a href="view-incomingvehicle-detail.php?viewid=<?php echo $row['ID'];?>">View</a></td>
+                  <td><a href="view-register.php?viewid=<?php echo $row['ID']; ?>" class="btn btn-primary" id="viewbtn">🖹 View</a> </td>
                 </tr>
                 <?php 
 $cnt=$cnt+1;
