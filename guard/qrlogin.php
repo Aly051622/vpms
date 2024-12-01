@@ -3,7 +3,7 @@ session_start();
 
 // Ensure the user is logged in
 if (!isset($_SESSION['guardid'])) {
-    // Redirect to the login page if the user is not logged in
+    // If the user is not logged in, redirect to the login page
     header('Location: index.php');
     exit();
 }
@@ -47,22 +47,21 @@ if (isset($_POST['id'])) {
         // Close the statement
         $stmt->close();
     } else {
-        // Log error and notify
-        error_log("Error preparing the statement: " . $conn->error);
         echo "Error preparing the statement.";
     }
+
+    // Exit after sending the response
+    exit;
 } else {
-    echo "No ID provided.";
+    
 }
 
-// Close the connection
 $conn->close();
 ?>
 
 
 
-
-<class="no-js" lang="">
+<html class="no-js" lang="">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script type="text/javascript" src="js/adapter.min.js"></script>
@@ -106,19 +105,27 @@ $conn->close();
 }
 
 video {
-        width: 100%; /* Take full width of the container */
-        max-width: 500px; /* Set a maximum width */
-        height: auto; /* Maintain aspect ratio */
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        display: block;
-        margin: 0 auto;
-    }
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin: 0 auto;
+        }
 
     table {
         width: 100%;
         overflow-x: auto; /* Add horizontal scroll on small screens */
     }
+    table thead {
+            background-color: #1e3c72;
+            color: #fff;
+        }
+        table th, table td {
+            text-align: center;
+            padding: 8px;
+        }
 
     .scanner-label {
         font-weight: bold;
@@ -153,20 +160,22 @@ video {
 
 /* Button styling */
 #switchCameraBtn {
-    margin-top: 10px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-#switchCameraBtn:hover {
-    background-color: #0056b3;
-}
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 10px auto;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #switchCameraBtn:hover {
+            background-color: #0056b3;
+        }
 
 .alert {
     margin-left: auto;
@@ -207,22 +216,17 @@ video {
 }
 
 @media (max-width: 768px) {
-    .container {
-        padding: 10px;
-    }
-
-    video {
-        max-width: 350px;
-    }
-
-    .scanner-label {
-        font-size: 16px;
-    }
-
-    #switchCameraBtn {
-        font-size: 14px;
-    }
-}
+            video {
+                max-width: 100%;
+            }
+            .scanner-label {
+                font-size: 16px;
+            }
+            #switchCameraBtn {
+                font-size: 14px;
+                padding: 8px;
+            }
+        }
 
 @media (max-width: 500px) {
     .container {
@@ -310,6 +314,7 @@ video {
     .nav-link {
         font-size: 0.9rem; /* Reduce font size of links */
     }
+    
 
     @media (max-width: 576px) {
         .navbar-brand {
@@ -325,7 +330,7 @@ video {
 
     </style>
 </head>
-<div>
+<body>
 
 
 <div class="container" style="background: transparent;">
@@ -377,8 +382,6 @@ video {
 
         <!-- Table Section -->
         <div class="row table-container mt-4">
-        <div class="col-12">
-        <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -579,7 +582,6 @@ while ($row = $query->fetch_assoc()) {
         </div>
     </div>
 </div>
-
 
 <script>
     let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
