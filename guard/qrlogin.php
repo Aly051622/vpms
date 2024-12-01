@@ -325,8 +325,7 @@ video {
     </style>
 </head>
 <body>
-<!-- Responsive Navigation Bar -->
-<?php include_once('includes/headerin.php');?>
+
 
 <div class="container" style="background: transparent;">
     <div class="row">
