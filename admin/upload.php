@@ -9,7 +9,7 @@ try {
 
     $email = mysqli_real_escape_string($con, $_POST['email']);
 
-    // Check if email exists
+    // Check if email exists in the database
     $query = "SELECT * FROM tblregusers WHERE Email='$email'";
     $result = mysqli_query($con, $query);
 
@@ -31,18 +31,19 @@ try {
     }
 
     // Move the uploaded file to the target directory
-    if (!move_uploaded_file($_FILES['license_image']['tmp_name'], $upload_path . $license_image)) {
+    $target_file = $upload_path . $license_image;
+    if (!move_uploaded_file($_FILES['license_image']['tmp_name'], $target_file)) {
         die("Failed to move uploaded file.");
     }
 
-    // Tesseract OCR
-    $tesseract_path = '"C:\\Program Files\\Tesseract-OCR\\tesseract.exe"';
+    // Tesseract OCR path
+    $tesseract_path = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe';
     if (!file_exists($tesseract_path)) {
         die("Tesseract executable not found.");
     }
 
     // Execute Tesseract OCR on the uploaded image
-    $tesseract_output = shell_exec($tesseract_path . " " . escapeshellarg($upload_path . $license_image) . " stdout 2>&1");
+    $tesseract_output = shell_exec("\"$tesseract_path\" " . escapeshellarg($target_file) . " stdout 2>&1");
 
     if ($tesseract_output === null) {
         die("Tesseract execution failed.");
@@ -51,7 +52,7 @@ try {
     // Output the raw OCR text for debugging (optional)
     // echo "<pre>$tesseract_output</pre>"; // Uncomment to view the raw OCR output
 
-    // Process expiration date
+    // Process expiration date using regex
     preg_match_all('/\b(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})\b/', $tesseract_output, $matches);
 
     if (empty($matches[0])) {
@@ -77,6 +78,7 @@ try {
         $update_query = "UPDATE tblregusers SET validity = $validity WHERE Email='$email'";
         mysqli_query($con, $update_query);
 
+        // Redirect to validated.php
         header("Location: validated.php");
         exit();
     } else {
