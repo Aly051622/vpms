@@ -39,9 +39,6 @@ include('includes/dbconnection.php');
             rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
             rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     }
-    .left-panel{
-        text-decoration: none !important;
-    }
     .nav-link:hover{
         border-radius: 4px;
         box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
@@ -287,71 +284,16 @@ include('includes/dbconnection.php');
                                 <li><i class="menu-icon fa  bi bi-headset"></i><a href="admin_service.php">Customer Service</a></li>
                             </ul>
                     </li>
+<!--
                     <li>
-                        <a href="#" onclick="showPasswordModal('credentials', 'credentials.php')">
-                            <i class="menu-icon fa bi bi-geo-fill"></i>Credentials
-                        </a>
+                        <a href="manage-slot.php"><i class="menu-icon fa  bi bi-geo-fill"></i> Add Area and Slot</a>
                     </li>
+-->
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
     </aside>
 </div>
-
-<!-- Password Modal -->
-<div id="passwordModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); padding:20px; background:white; border:1px solid #ccc; box-shadow:0 4px 8px rgba(0,0,0,0.2); z-index:1000;">
-    <h3>Enter Password</h3>
-    <input type="password" id="passwordInput" placeholder="Enter password" style="padding:10px; width:100%; margin-bottom:10px;" />
-    <button id="passwordSubmitButton" style="padding:10px 20px; background:#007bff; color:white; border:none; cursor:pointer;">Submit</button>
-    <button onclick="closePasswordModal()" style="padding:10px 20px; background:#ccc; color:black; border:none; cursor:pointer;">Cancel</button>
-</div>
-
-<!-- Modal Background -->
-<div id="modalBackground" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999;" onclick="closePasswordModal()"></div>
-
-<script>
-    let redirectUrl = ""; // Initialize redirect URL
-    const validPasswords = {
-        "information": "reg-users.php",
-        "credentials": "credentials.php"
-    };
-
-    // Show the modal and set the target URL
-    function showPasswordModal(type, url) {
-        redirectUrl = url; // Set redirect URL dynamically
-        document.getElementById('passwordModal').style.display = 'block';
-        document.getElementById('modalBackground').style.display = 'block';
-        document.getElementById('passwordInput').value = ""; // Clear previous input
-    }
-
-    // Close the modal
-    function closePasswordModal() {
-        document.getElementById('passwordModal').style.display = 'none';
-        document.getElementById('modalBackground').style.display = 'none';
-    }
-
-    // Validate the password and redirect
-    document.getElementById('passwordSubmitButton').addEventListener('click', function () {
-        const password = document.getElementById('passwordInput').value.trim();
-
-        // Validate the password and redirect if correct
-        if (!password) {
-            alert("Please enter a password.");
-        } else if (validPasswords[password.toLowerCase()] === redirectUrl) {
-            window.location.href = redirectUrl;
-        } else {
-            alert("Invalid password. Access denied.");
-        }
-    });
-</script>
-
-<!-- Example Buttons -->
-<a href="#" onclick="showPasswordModal('information', 'reg-users.php')">
-    <i class="menu-icon fa fa-address-book"></i> User Information
-</a>
-<a href="#" onclick="showPasswordModal('credentials', 'credentials.php')">
-    <i class="menu-icon fa bi-geo-fill"></i> Credentials
-</a>
 
 <!--content sugod-->
 
