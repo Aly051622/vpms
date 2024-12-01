@@ -5,7 +5,29 @@ include('includes/dbconnection.php');
 if (strlen($_SESSION['vpmsaid']==0)) {
   header('location:logout.php');
   } else{
+// Query to retrieve data from both tblqr_login and tblmanual_login, including TIMEIN
+$query = "
+SELECT 'QR' AS Source, tblqr_login.ID AS qrLoginID, tblqr_login.ParkingSlot, tblqr_login.TIMEIN,
+       tblvehicle.OwnerName, tblqr_login.VehiclePlateNumber
+FROM tblqr_login
+INNER JOIN tblvehicle 
+ON tblqr_login.VehiclePlateNumber = tblvehicle.RegistrationNumber
 
+UNION
+
+SELECT 'Manual' AS Source, tblmanual_login.id AS LoginID, tblmanual_login.ParkingSlot, tblmanual_login.TimeIn,
+       tblvehicle.OwnerName, tblmanual_login.RegistrationNumber AS VehiclePlateNumber
+FROM tblmanual_login
+INNER JOIN tblvehicle 
+ON tblmanual_login.RegistrationNumber = tblvehicle.RegistrationNumber
+ORDER BY TIMEIN DESC";
+
+$result = mysqli_query($con, $query);
+
+if (!$result) {
+// Log SQL error message if the query fails
+error_log("SQL Error in manage-incomingvehicle.php: " . mysqli_error($con), 3, "error_log.txt");
+}
 
 
   ?>
