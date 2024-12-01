@@ -293,32 +293,14 @@ video {
         padding: 6px 12px;
     }
 }
-
-@media (max-width: 576px) {
-        .scanner-label {
-            font-size: 16px; /* Smaller font size for extra-small devices */
-        }
-        .container {
-            padding: 10px; /* Reduce padding on small screens */
-        }
-    }
-
-    .navbar-brand {
-        font-size: 1.25rem; /* Slightly reduce brand font size */
-    }
-
-    .navbar {
-        padding: 0.5rem 1rem; /* Adjust padding for smaller navbar */
-    }
-
-    .nav-link {
-        font-size: 0.9rem; /* Reduce font size of links */
-    }
     
 
     @media (max-width: 576px) {
         .navbar-brand {
             font-size: 1rem; /* Further reduce font size for extra small screens */
+        }
+        .container {
+            padding: 10px; /* Reduce padding on small screens */
         }
         .navbar {
             padding: 0.25rem 0.5rem; /* Minimize padding for smaller screens */
@@ -326,6 +308,20 @@ video {
         .nav-link {
             font-size: 0.8rem; /* Smaller link font size on mobile */
         }
+        table {
+                display: block;
+                overflow-x: auto;
+            }
+            table thead {
+                font-size: 14px;
+            }
+            .scanner-label {
+                font-size: 14px;
+            }
+            #switchCameraBtn {
+                font-size: 12px;
+                padding: 6px;
+            }
     }
 
     </style>
