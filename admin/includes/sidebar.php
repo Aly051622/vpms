@@ -94,7 +94,7 @@
                             </li>
                             <li><i class="menu-icon fa bi-chat-dots-fill"></i><a href="admin_comments.php">Comment</a></li>
                             <li><i class="menu-icon fa bi-envelope-paper-heart"></i><a href="admin_feedbacks.php">Feedback</a></li>
-                            <li><i class="menu-icon fa bi-headset"></i><a href="admin_service.php">Customer Service</a></li>
+                            <!--<li><i class="menu-icon fa bi-headset"></i><a href="admin_service.php">Customer Service</a></li>-->
                         </ul>
                     </li>
 <!--
