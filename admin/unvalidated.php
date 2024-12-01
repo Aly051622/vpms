@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '..DBconnection//dbconnection.php';
+include '../DBconnection//dbconnection.php';
 
 // Fetch unvalidated clients (validity = -2)
 $queryUnvalidated = "
