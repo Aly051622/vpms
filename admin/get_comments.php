@@ -47,3 +47,4 @@ echo json_encode([
 
 // Close the database connection
 mysqli_close($con);
+?>
