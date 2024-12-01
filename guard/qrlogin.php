@@ -61,7 +61,7 @@ $conn->close();
 
 
 
-<class="no-js" lang="">
+<clas="no-js" lang="">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script type="text/javascript" src="js/adapter.min.js"></script>
@@ -580,7 +580,7 @@ while ($row = $query->fetch_assoc()) {
 </div>
 </div>
 </div>
-</div>
+
 
 <script>
     let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
