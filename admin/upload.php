@@ -29,13 +29,14 @@ try {
         die("Failed to move uploaded file.");
     }
 
-    // Tesseract OCR
-    $tesseract_path = '"C:\\Program Files\\Tesseract-OCR\\tesseract.exe"';
+    // Tesseract OCR - Make sure the path is correct
+    $tesseract_path = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'; // Update the path if necessary
     if (!file_exists($tesseract_path)) {
-        die("Tesseract executable not found.");
+        die("Tesseract executable not found. Please ensure Tesseract is installed.");
     }
 
-    $tesseract_output = shell_exec($tesseract_path . " " . escapeshellarg($upload_path . $license_image) . " stdout 2>&1");
+    // Test Tesseract command and capture output
+    $tesseract_output = shell_exec($tesseract_path . ' ' . escapeshellarg($upload_path . $license_image) . ' stdout 2>&1');
 
     if ($tesseract_output === null) {
         die("Tesseract execution failed.");
@@ -61,9 +62,11 @@ try {
                      VALUES ('$email', '$license_image', {$_FILES['license_image']['size']}, '{$_FILES['license_image']['type']}', NOW(), 'approved', '$expiration_date', $validity)";
 
     if (mysqli_query($con, $insert_query)) {
+        // Update user validity based on expiration date
         $update_query = "UPDATE tblregusers SET validity = $validity WHERE Email='$email'";
         mysqli_query($con, $update_query);
 
+        // Redirect after successful upload and processing
         header("Location: validated.php");
         exit();
     } else {
