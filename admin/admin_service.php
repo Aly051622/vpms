@@ -1,6 +1,5 @@
+
 <?php
-session_start();
-include('includes/auth_check.php'); 
 include('includes/dbconnection.php');
 ?>
 
