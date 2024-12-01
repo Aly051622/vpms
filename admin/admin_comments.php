@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 include('includes/dbconnection.php');
 
 // Fetch comments from the database
-$query = "SELECT username, comment, created_at FROM comments ORDER BY created_at DESC";
+$query = "SELECT username, comment";
 $result = mysqli_query($con, $query);
 $comments = [];
 
