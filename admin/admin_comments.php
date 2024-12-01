@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 include('includes/dbconnection.php');
 
 // Fetch comments from the database
-$query = "SELECT username, comment FROM comments ORDER BY created_at DESC";
+$query = "SELECT username, comment, created_at FROM comments ORDER BY created_at DESC";
 $result = mysqli_query($con, $query);
 $comments = [];
 
@@ -511,19 +511,28 @@ if ($result && mysqli_num_rows($result) > 0) {
                     <tr>
                         <th>Username</th>
                         <th>Comment</th>
-                       <!-- <th>Date</th>-->
+                        <th>Date</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (!empty($comments)): ?>
-                        <?php foreach ($comments as $comment): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($comment['username']) ?></td>
-                                <td><?= htmlspecialchars($comment['comment']) ?></td>
-                                <td><?= htmlspecialchars($comment['created_at']) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
+    <?php if (!empty($comments)): ?>
+        <?php foreach ($comments as $comment): ?>
+            <?php 
+                // Format the created_at date
+                $formatted_date = date("h:i A\nm / d / Y", strtotime($comment['created_at']));
+            ?>
+            <tr>
+                <td><?= htmlspecialchars($comment['username']) ?></td>
+                <td><?= htmlspecialchars($comment['comment']) ?></td>
+                <td><?= nl2br(htmlspecialchars($formatted_date)) ?></td>
+            </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <tr>
+            <td colspan="3" class="text-center">No comments available.</td>
+        </tr>
+   
+
                         <tr>
                             <td colspan="3" class="text-center">No data to display.</td>
                         </tr>
