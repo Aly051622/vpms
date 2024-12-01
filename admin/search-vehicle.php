@@ -35,7 +35,7 @@ if (strlen($_SESSION['vpmsaid']==0)) {
 <style>
      body{ 
         background-color: whitesmoke;
-        overflow: hidden;
+
         height: 100vh;
          }
          .card, .card-header{
