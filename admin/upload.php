@@ -35,7 +35,7 @@ try {
     // Move the uploaded file to the target directory
     $target_file = $upload_path . $license_image;
     if (!move_uploaded_file($_FILES['license_image']['tmp_name'], $target_file)) {
-        die("Failed to move uploaded file.");
+        die("Failed to move the uploaded file.");
     }
 
     // OCR API key and endpoint
@@ -65,11 +65,6 @@ try {
     // Decode the OCR API response
     $ocrResult = json_decode($ocrResponse, true);
 
-    // Debugging output: print the entire API response
-    echo '<pre>';
-    print_r($ocrResult);  // This will help you see the raw API response
-    echo '</pre>';
-
     // Check if the OCR response contains parsed text
     if (isset($ocrResult['ParsedResults'][0]['ParsedText'])) {
         $tesseract_output = $ocrResult['ParsedResults'][0]['ParsedText'];
@@ -77,7 +72,7 @@ try {
         die("No text found in the image.");
     }
 
-    // Process expiration date using regex
+    // Extract the expiration date using regex
     preg_match_all('/\b(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})\b/', $tesseract_output, $matches);
 
     if (empty($matches[0])) {
@@ -88,9 +83,7 @@ try {
     $expiration_date_str = $matches[0][0];
     $expiration_date = date("Y-m-d", strtotime($expiration_date_str));
 
-    echo "Extracted Expiration Date: $expiration_date";
-
-    // Insert into database
+    // Insert the expiration date into the database
     $current_date = date("Y-m-d");
     $validity = ($expiration_date >= $current_date) ? 1 : 0;
 
