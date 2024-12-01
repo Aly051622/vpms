@@ -1,15 +1,16 @@
 <?php
-// Enable error reporting for debugging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+// Enable error logging instead of displaying errors
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/error_log.txt');
 error_reporting(E_ALL);
 
+// Set content type to JSON
 header('Content-Type: application/json');
 
 // Include database connection
-include('includes/dbconnection.php');
+include('../DBconnection/dbconnection.php');
 
-// Check if the connection is valid
+// Check if the database connection is valid
 if (!$con) {
     echo json_encode([
         'success' => false,
@@ -22,14 +23,20 @@ if (!$con) {
 $query = "SELECT username, comment FROM comments ORDER BY created_at DESC";
 $result = mysqli_query($con, $query);
 
+if (!$result) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Failed to fetch comments: ' . mysqli_error($con)
+    ]);
+    exit;
+}
+
 $comments = [];
-if ($result && mysqli_num_rows($result) > 0) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $comments[] = [
-            'username' => $row['username'] ?: 'Anonymous',
-            'comment' => $row['comment']
-        ];
-    }
+while ($row = mysqli_fetch_assoc($result)) {
+    $comments[] = [
+        'username' => $row['username'] ?: 'Anonymous', // Default to 'Anonymous' if username is empty
+        'comment' => $row['comment']
+    ];
 }
 
 // Send JSON response

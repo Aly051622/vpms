@@ -3,6 +3,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+date_default_timezone_set('Asia/Manila');
 
 include('includes/dbconnection.php');
 
@@ -515,15 +516,24 @@ if ($result && mysqli_num_rows($result) > 0) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (!empty($comments)): ?>
-                        <?php foreach ($comments as $comment): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($comment['username']) ?></td>
-                                <td><?= htmlspecialchars($comment['comment']) ?></td>
-                                <td><?= htmlspecialchars($comment['created_at']) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
+    <?php if (!empty($comments)): ?>
+        <?php foreach ($comments as $comment): ?>
+            <?php 
+                $utc_date = strtotime($comment['created_at']);  // Convert to timestamp
+                $formatted_date = date("h:i A | m / d / Y", $utc_date);  // Format the date in Philippine time
+            ?>
+            <tr>
+                <td><?= htmlspecialchars($comment['username']) ?></td>
+                <td><?= htmlspecialchars($comment['comment']) ?></td>
+                <td><?= nl2br(htmlspecialchars($formatted_date)) ?></td>
+            </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <tr>
+            <td colspan="3" class="text-center">No comments available.</td>
+        </tr>
+   
+
                         <tr>
                             <td colspan="3" class="text-center">No data to display.</td>
                         </tr>
