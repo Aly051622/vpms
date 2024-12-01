@@ -512,7 +512,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                     <tr>
                         <th>Username</th>
                         <th>Comment</th>
-                        <th>Date</th>
+                       
                     </tr>
                 </thead>
                 <tbody>
@@ -525,7 +525,7 @@ if ($result && mysqli_num_rows($result) > 0) {
             <tr>
                 <td><?= htmlspecialchars($comment['username']) ?></td>
                 <td><?= htmlspecialchars($comment['comment']) ?></td>
-                <td><?= nl2br(htmlspecialchars($formatted_date)) ?></td>
+          
             </tr>
         <?php endforeach; ?>
     <?php else: ?>
