@@ -519,8 +519,8 @@ if ($result && mysqli_num_rows($result) > 0) {
     <?php if (!empty($comments)): ?>
         <?php foreach ($comments as $comment): ?>
             <?php 
-                // Format the created_at date
-                $formatted_date = date("h:i A\nm / d / Y", strtotime($comment['created_at']));
+                $utc_date = strtotime($comment['created_at']);  // Convert to timestamp
+                $formatted_date = date("h:i A | m / d / Y", $utc_date);  // Format the date in Philippine time
             ?>
             <tr>
                 <td><?= htmlspecialchars($comment['username']) ?></td>
