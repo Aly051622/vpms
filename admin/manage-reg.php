@@ -26,11 +26,11 @@ if(isset($_GET['del'])) {
 <html class="no-js" lang="">
 <head>
    
-    <title>CTU Danao | Manage Vehicle</title>
+    <title>Manage Vehicle | CTU Danao</title>
 
 
-    <link rel="apple-touch-icon" href="images/ctu.png">
-    <link rel="shortcut icon" href="images/ctu.png">
+    <link rel="apple-touch-icon" href="../images/aa.png">
+    <link rel="shortcut icon" href="../images/aa.png">
     <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/9/9a/CTU_new_logo.png">
     <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/9/9a/CTU_new_logo.png">
 

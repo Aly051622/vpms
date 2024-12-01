@@ -77,8 +77,8 @@ if (isset($_POST['submit'])) {
       <title>Client Signup | CTU DANAO Parking System</title>
       <script src="js/signup.js"></script>
 
-    <link rel="apple-touch-icon" href="images/ctu.png">
-    <link rel="shortcut icon" href="images/ctu.png">
+      <link rel="apple-touch-icon" href="../images/aa.png">
+      <link rel="shortcut icon" href="../images/aa.png">
       <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/9/9a/CTU_new_logo.png">
       <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/9/9a/CTU_new_logo.png">
 

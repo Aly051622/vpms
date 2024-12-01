@@ -66,8 +66,8 @@ if (strlen($_SESSION['vpmsaid']==0)) {
   <html class="no-js" lang="">
   <head>
      
-  <link rel="apple-touch-icon" href="images/ctu.png">
-      <link rel="shortcut icon" href="images/ctu.png">
+  <link rel="apple-touch-icon" href="../images/aa.png">
+    <link rel="shortcut icon" href="../images/aa.png">
   
   
       <title>Manage Outgoing Vehicle | CTU DANAO Parking System</title>

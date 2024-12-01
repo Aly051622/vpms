@@ -64,11 +64,11 @@ if (strlen($_SESSION['vpmsaid']==0)) {
   <html class="no-js" lang="">
   <head>
      
-      <title>CTU Danao- Manage Incoming Vehicle</title>
+      <title> Manage Incoming Vehicle | CTU Danao Parking System</title>
   
   
-      <link rel="apple-touch-icon" href="images/ctu.png">
-      <link rel="shortcut icon" href="images/ctu.png">
+      <link rel="apple-touch-icon" href="../images/aa.png">
+    <link rel="shortcut icon" href="../images/aa.png">
       <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/9/9a/CTU_new_logo.png">
       <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/9/9a/CTU_new_logo.png">
   

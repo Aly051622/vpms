@@ -18,8 +18,8 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
 
 <html class="no-js" lang="">
 <head>
-    <link rel="apple-touch-icon" href="images/ctu.png">
-    <link rel="shortcut icon" href="images/ctu.png">
+<link rel="apple-touch-icon" href="../images/aa.png">
+<link rel="shortcut icon" href="../images/aa.png">
     <title>Client Information | CTU DANAO Parking System</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
