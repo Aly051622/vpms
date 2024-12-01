@@ -63,13 +63,13 @@ if (strlen($_SESSION['vpmsaid']==0)) {
 <body>
     <!-- Left Panel -->
 
-  <?php include_once('includes/sidebar.php');?>
+
 
     <!-- Left Panel -->
 
     <!-- Right Panel -->
 
-
+     <?php include_once('includes/header.php');?>
 
         <div class="breadcrumbs">
             <div class="breadcrumbs-inner">
