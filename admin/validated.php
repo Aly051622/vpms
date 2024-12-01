@@ -2,9 +2,9 @@
 session_start();
 include('../DBconnection/dbconnection.php');
 
-// Fetch validated clients with expiration date
+// Fetch validated clients with expiration date and ensure uniqueness
 $queryValidated = "
-    SELECT u.email, u.expiration_date, u.validity
+    SELECT DISTINCT u.email, u.expiration_date, u.validity
     FROM uploads u
     JOIN tblregusers r ON u.email = r.Email
     WHERE u.validity > 0 AND u.expiration_date >= CURDATE()
@@ -14,7 +14,10 @@ $validatedClients = [];
 
 if ($resultValidated && mysqli_num_rows($resultValidated) > 0) {
     while ($row = mysqli_fetch_assoc($resultValidated)) {
-        $validatedClients[] = $row;
+        // Check if the email is already in the validated clients array
+        if (!in_array($row['email'], array_column($validatedClients, 'email'))) {
+            $validatedClients[] = $row;
+        }
     }
 }
 
