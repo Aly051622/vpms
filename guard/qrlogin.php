@@ -1,9 +1,9 @@
-<di?php
+<?php
 session_start();
 
 // Ensure the user is logged in
 if (!isset($_SESSION['guardid'])) {
-    // If the user is not logged in, redirect to the login page
+    // Redirect to the login page if the user is not logged in
     header('Location: index.php');
     exit();
 }
@@ -47,17 +47,18 @@ if (isset($_POST['id'])) {
         // Close the statement
         $stmt->close();
     } else {
+        // Log error and notify
+        error_log("Error preparing the statement: " . $conn->error);
         echo "Error preparing the statement.";
     }
-
-    // Exit after sending the response
-    exit;
 } else {
-    
+    echo "No ID provided.";
 }
 
+// Close the connection
 $conn->close();
 ?>
+
 
 
 
