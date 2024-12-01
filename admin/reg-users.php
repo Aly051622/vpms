@@ -58,21 +58,9 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
         }
         .card, .card-header {
             box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
-                }
+        }
         .btn {
             cursor: pointer;
-        }
-        .profile-pic {
-            width: 50px; /* Adjust the size */
-            height: 50px; /* Adjust the size */
-            border-radius: 50%; /* Makes the image circular */
-            object-fit: cover; /* Ensures the image covers the element */
-            transition: transform 0.2s; /* Smooth zoom effect */
-            cursor: pointer; /* Indicates that it's zoomable */
-        }
-        .profile-pic:hover {
-            transform: scale(1.5); /* Zoom in effect on hover */
-            z-index: 10; /* Ensure it appears above other elements */
         }
     </style>
 </head>
@@ -122,10 +110,8 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
                                 <thead>
                                     <tr>
                                         <th>S.NO</th>
-                                        <th>Profile Picture</th> <!-- Added Profile Picture Column -->
                                         <th>Owner Name</th>
                                         <th>Contact Number</th>
-                                        <th>Vehicle Reg. Number</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -137,16 +123,8 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
                                 ?>
                                     <tr>
                                         <td><?php echo $cnt; ?></td>
-                                        <td>
-                                            <?php 
-                                            // Check if profile picture exists, else show default avatar
-                                            $profilePicture = $row['profile_pictures'] ? "../uploads/profile_uploads/" . $row['profile_pictures'] : "images/images.png"; 
-                                            ?>
-                                            <img src="<?php echo $profilePicture; ?>" alt="Profile Picture" class="profile-pic" onClick="window.open('<?php echo $profilePicture; ?>', '_blank');">
-                                        </td> <!-- Display Profile Picture -->
                                         <td><?php echo htmlspecialchars($row['FirstName'] . ' ' . $row['LastName']); ?></td>
                                         <td><?php echo htmlspecialchars($row['MobileNumber']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['LicenseNumber']); ?></td>
                                         <td>
                                             <a href="reg-users.php?del=<?php echo $row['ID']; ?>" class="btn btn-danger" onClick="return confirm('Are you sure you want to delete?')" id="deletebtn">🗑 Delete</a>
                                         </td>
