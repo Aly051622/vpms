@@ -1,12 +1,14 @@
 <?php
 session_start();
-include('../DBconnection/dbconnection.php'); 
+include('../DBconnection/dbconnection.php');
 
-// Fetch validated clients with expiration date
+// Fetch validated clients with expiration date and additional user data
 $queryValidated = "
-    SELECT email, expiration_date 
-    FROM uploads 
-    WHERE validity > 0 AND expiration_date >= CURDATE()
+    SELECT u.email, u.expiration_date, u.validity, 
+           r.cr_image, r.nv_image, r.or_image, r.profile_pictures
+    FROM uploads u
+    JOIN tblregusers r ON u.email = r.Email
+    WHERE u.validity > 0 AND u.expiration_date >= CURDATE()
 ";
 $resultValidated = mysqli_query($con, $queryValidated);
 $validatedClients = [];
@@ -23,7 +25,7 @@ mysqli_close($con);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="apple-touch-icon" href="images/ctu.png">
     <link rel="shortcut icon" href="images/ctu.png">
@@ -180,26 +182,41 @@ mysqli_close($con);
                 <tr>
                     <th>Email</th>
                     <th>Expiration Date</th>
+                    <th>Remaining Days</th>
+                    <th>CR Image</th>
+                    <th>NV Image</th>
+                    <th>OR Image</th>
+                    <th>Profile Picture</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if (!empty($validatedClients)): ?>
                     <?php foreach ($validatedClients as $client): ?>
+                        <?php
+                            $expirationDate = new DateTime($client['expiration_date']);
+                            $currentDate = new DateTime();
+                            $remainingDays = $currentDate->diff($expirationDate)->format('%r%a'); // Positive or negative days
+                        ?>
                         <tr>
                             <td><?= htmlspecialchars($client['email']) ?></td>
                             <td><?= htmlspecialchars($client['expiration_date']) ?></td>
+                            <td><?= $remainingDays ?> days remaining</td>
+                            <td><img src="../uploads/validated/<?= htmlspecialchars($client['cr_image']) ?>" width="100"></td>
+                            <td><img src="../uploads/validated/<?= htmlspecialchars($client['nv_image']) ?>" width="100"></td>
+                            <td><img src="../uploads/validated/<?= htmlspecialchars($client['or_image']) ?>" width="100"></td>
+                            <td><img src="../uploads/profile_uploads/<?= htmlspecialchars($client['profile_pictures']) ?>" width="100"></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="2" class="text-center">No data to display.</td>
+                        <td colspan="7" class="text-center">No data to display.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
         </table>
     </div>
 </div>
-                
+
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
