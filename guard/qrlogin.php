@@ -1,4 +1,4 @@
-<?php
+<di?php
 session_start();
 
 // Ensure the user is logged in
@@ -61,7 +61,7 @@ $conn->close();
 
 
 
-<html class="no-js" lang="">
+<class="no-js" lang="">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script type="text/javascript" src="js/adapter.min.js"></script>
@@ -324,7 +324,7 @@ video {
 
     </style>
 </head>
-<body>
+<div>
 
 
 <div class="container" style="background: transparent;">
@@ -376,6 +376,8 @@ video {
 
         <!-- Table Section -->
         <div class="row table-container mt-4">
+        <div class="col-12">
+        <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -575,6 +577,9 @@ while ($row = $query->fetch_assoc()) {
             </table>
         </div>
     </div>
+</div>
+</div>
+</div>
 </div>
 
 <script>
