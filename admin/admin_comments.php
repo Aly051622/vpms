@@ -520,7 +520,7 @@ if ($result && mysqli_num_rows($result) > 0) {
         <?php foreach ($comments as $comment): ?>
             <?php 
                 // Format the created_at date
-                $formatted_date = date("h:i A\nm/d/Y", strtotime($comment['created_at']));
+                $formatted_date = date("h:i A\nm / d / Y", strtotime($comment['created_at']));
             ?>
             <tr>
                 <td><?= htmlspecialchars($comment['username']) ?></td>
