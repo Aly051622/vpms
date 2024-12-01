@@ -142,7 +142,7 @@ while ($row=mysqli_fetch_array($ret)) {
                   <td><?php  echo $row['OwnerName'];?></td>
                   <td><?php  echo $row['RegistrationNumber'];?></td>
                   
-                  <td><a href="view-incomingvehicle-detail.php?viewid=<?php echo $row['ID'];?>">🖹 View</a></td>
+                  <td><a href="view-incomingvehicle-detail.php?viewid=<?php echo $row['qrLoginID']; ?>&source=<?php echo $row['source']; ?>" class="btn btn-primary" id="viewbtn">🖹 View</a></td>
                 </tr>
                 <?php 
 $cnt=$cnt+1;
