@@ -139,10 +139,7 @@ mysqli_close($con);
                                 <td><?= htmlspecialchars($client['email']) ?></td>
                                 <td><?= htmlspecialchars($client['expiration_date']) ?></td>
                                 <td><?= htmlspecialchars($client['validity']) ?></td>
-                                <td><img src="uploads/validated/<?= htmlspecialchars($client['cr_image']) ?>" width="100" class="img-fluid"></td>
-                                <td><img src="uploads/validated/<?= htmlspecialchars($client['nv_image']) ?>" width="100" class="img-fluid"></td>
-                                <td><img src="uploads/validated/<?= htmlspecialchars($client['or_image']) ?>" width="100" class="img-fluid"></td>
-                                <td><img src="../uploads/profile_uploads/<?= htmlspecialchars($client['profile_pictures']) ?>" width="100" class="img-fluid"></td>
+                               
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
