@@ -36,21 +36,38 @@ try {
         die("Failed to move uploaded file.");
     }
 
-    // Tesseract OCR path
-    $tesseract_path = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe';
-    if (!file_exists($tesseract_path)) {
-        die("Tesseract executable not found.");
+    // OCR.space API endpoint and key
+    $apiKey = 'K86756414488957'; // Your OCR.space API key
+    $ocrApiUrl = 'https://api.ocr.space/parse/image';
+
+    // Prepare data for API request
+    $data = [
+        'apikey' => $apiKey,
+        'language' => 'eng',  // Use appropriate language code
+        'isOverlayRequired' => false,
+        'file' => new CURLFile($target_file),
+    ];
+
+    // Make API request
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $ocrApiUrl);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $ocrResponse = curl_exec($ch);
+    curl_close($ch);
+
+    if ($ocrResponse === false) {
+        die("OCR API request failed.");
     }
 
-    // Execute Tesseract OCR on the uploaded image
-    $tesseract_output = shell_exec("\"$tesseract_path\" " . escapeshellarg($target_file) . " stdout 2>&1");
-
-    if ($tesseract_output === null) {
-        die("Tesseract execution failed.");
+    // Decode the response from OCR.space
+    $ocrResult = json_decode($ocrResponse, true);
+    if (isset($ocrResult['ParsedResults'][0]['ParsedText'])) {
+        $tesseract_output = $ocrResult['ParsedResults'][0]['ParsedText'];
+    } else {
+        die("No text found in the image.");
     }
-
-    // Output the raw OCR text for debugging (optional)
-    // echo "<pre>$tesseract_output</pre>"; // Uncomment to view the raw OCR output
 
     // Process expiration date using regex
     preg_match_all('/\b(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})\b/', $tesseract_output, $matches);
