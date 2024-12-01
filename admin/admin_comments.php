@@ -511,7 +511,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                     <tr>
                         <th>Username</th>
                         <th>Comment</th>
-                        <th>Date</th>
+                       <!-- <th>Date</th>-->
                     </tr>
                 </thead>
                 <tbody>
