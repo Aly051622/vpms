@@ -19,7 +19,7 @@
             <div id="main-menu">
                 <ul class="nav navbar-nav">
                     <li class="active">
-                        <a href="dashboard.php"><i class="menu-icon fa fa-dashboard"></i>Dashboard</a>
+                        <a href="dashboard.php"><i class="menu-icon fa bi-laptop-fill"></i>Dashboard</a>
                     </li>
 
                     <li class="menu-item-has-children dropdown">
