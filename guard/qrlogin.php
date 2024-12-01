@@ -53,7 +53,7 @@ if (isset($_POST['id'])) {
     // Exit after sending the response
     exit;
 } else {
-    
+    echo "ID not provided."; // Return error if 'id' is not set
 }
 
 $conn->close();
@@ -105,27 +105,14 @@ $conn->close();
 }
 
 video {
-        width: 100%; /* Take full width of the container */
-        max-width: 500px; /* Set a maximum width */
-        height: auto; /* Maintain aspect ratio */
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        display: block;
-        margin: 0 auto;
-    }
-
-    table {
-        width: 100%;
-        overflow-x: auto; /* Add horizontal scroll on small screens */
-    }
-
-    .scanner-label {
-        font-weight: bold;
-        color: orange;
-        font-size: 18px; /* Slightly smaller for better fit on mobile */
-        text-align: center;
-        margin-top: 10px;
-    }
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 auto;
+}
 
 .scanner-label {
     font-weight: bold;
@@ -289,48 +276,16 @@ video {
     }
 }
 
-@media (max-width: 576px) {
-        .scanner-label {
-            font-size: 16px; /* Smaller font size for extra-small devices */
-        }
-        .container {
-            padding: 10px; /* Reduce padding on small screens */
-        }
-    }
-
-    .navbar-brand {
-        font-size: 1.25rem; /* Slightly reduce brand font size */
-    }
-
-    .navbar {
-        padding: 0.5rem 1rem; /* Adjust padding for smaller navbar */
-    }
-
-    .nav-link {
-        font-size: 0.9rem; /* Reduce font size of links */
-    }
-
-    @media (max-width: 576px) {
-        .navbar-brand {
-            font-size: 1rem; /* Further reduce font size for extra small screens */
-        }
-        .navbar {
-            padding: 0.25rem 0.5rem; /* Minimize padding for smaller screens */
-        }
-        .nav-link {
-            font-size: 0.8rem; /* Smaller link font size on mobile */
-        }
-    }
-
     </style>
 </head>
 <body>
-
+<!-- Responsive Navigation Bar -->
+<?php include_once('includes/headerin.php');?>
 
 <div class="container" style="background: transparent;">
     <div class="row">
         <!-- Scanner Section -->
-        <div class="col-lg-6 col-md-12" style=" margin-top: 7em;">
+        <div class="col-md-12 scanner-container" style=" margin-top: 7em;">
         <video id="preview"></video>
         <div id="scanner-status" style="text-align: center; font-weight: bold; color: orange; margin-top: 10px;"></div>
         <button id="switchCameraBtn" class="btn btn-primary">Switch Camera</button> <!-- Add button here -->
@@ -363,7 +318,7 @@ video {
         </div>
 
         <!-- Area Selection Dropdown -->
-        <div class="col-lg-6 col-md-12">
+        <div class="col-md-12">
             <label for="areaSelect" style="font-weight: bold; color: orange; font-size: 18px;">Select Area:</label>
             <select id="areaSelect" class="form-control" required>
                 <option value="">--Select Area--</option>
@@ -375,7 +330,7 @@ video {
         </div>
 
         <!-- Table Section -->
-        <div class="row table-container mt-4">
+        <div class="col-md-12 table-container">
             <table class="table table-bordered">
                 <thead>
                     <tr>
