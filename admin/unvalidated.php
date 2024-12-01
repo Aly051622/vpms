@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('includes/dbconnection.php');
+include('../DBconnection/dbconnection.php');
 
 // Fetch unvalidated clients
 $queryUnvalidated = "SELECT email FROM uploads WHERE validity = 0 OR expiration_date < CURDATE()";
