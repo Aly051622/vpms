@@ -2,8 +2,10 @@
 session_start();
 include 'includes/dbconnection.php';
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Include Composer's autoloader
+require_once 'vendor/autoload.php'; // Adjust the path if necessary
+
+use thiagoalessio\TesseractOCR\TesseractOCR;
 
 try {
     if (isset($_POST['email'])) {
@@ -20,28 +22,21 @@ try {
         } else {
             if (isset($_FILES['license_image'])) {
                 $license_image = $_FILES['license_image']['name'];
-                $upload_path = '..\\uploads\\validated\\'; // Update the path to point to the validated uploads
+                $upload_path = '../uploads/validated/'; // Correct the path to the validated uploads folder
 
                 // Proceed with uploading the file
                 if (move_uploaded_file($_FILES['license_image']['tmp_name'], $upload_path . $license_image)) {
-                    // Path to the Tesseract executable
-                    $tesseract_path = '"C:/Program Files/Tesseract-OCR/tesseract.exe"'; // Enclose in double quotes
-
-                    // Run Tesseract to extract text from the uploaded image
-                    $tesseract_output = shell_exec($tesseract_path . " " . escapeshellarg($upload_path . $license_image) . " stdout 2>&1");
+                    
+                    // Initialize TesseractOCR
+                    $tesseract = new TesseractOCR($upload_path . $license_image);
+                    $tesseract->executable('C:\Program Files\Tesseract-OCR\tesseract.exe'); // Specify the Tesseract executable path
+                    $tesseract_output = $tesseract->run(); // Run OCR on the image
 
                     // Debugging: log the output for inspection
-                    error_log("Tesseract Output: " . $tesseract_output); // Log output for debugging
+                    error_log("Tesseract Output: " . $tesseract_output);
 
-                    // Display the extracted text on the validation.php page
-                    $_SESSION['extracted_text'] = trim($tesseract_output); // Store extracted text in session
-
-                    // Show the extracted text for debugging
-                    if (empty($_SESSION['extracted_text'])) {
-                        $_SESSION['error_message'] = "Extracted text is empty.";
-                        header('Location: validation.php');
-                        exit();
-                    }
+                    // Store the extracted text in the session
+                    $_SESSION['extracted_text'] = trim($tesseract_output);
 
                     // Regex to find expiration date
                     preg_match_all('/\b(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})\b/', $tesseract_output, $matches);
@@ -57,11 +52,10 @@ try {
                         // Insert into `uploads` table
                         $insert_query = "INSERT INTO uploads (email, filename, file_size, file_type, uploaded_at, status, expiration_date, validity) 
                                          VALUES ('$email', '$license_image', {$_FILES['license_image']['size']}, '{$_FILES['license_image']['type']}', NOW(), 'approved', '$expiration_date', $validity)";
-                        error_log("Insert Query: $insert_query"); // Log for debugging
+
                         if (mysqli_query($con, $insert_query)) {
                             // Update validity in tblregusers based on expiration
                             $update_query = "UPDATE tblregusers SET validity = $validity WHERE Email='$email'";
-                            error_log("Update Query: $update_query"); // Log for debugging
                             mysqli_query($con, $update_query);
                             
                             header("Location: validated.php");
@@ -84,7 +78,7 @@ try {
             }
         }
     }
-} catch (mysqli_sql_exception $e) {
+} catch (Exception $e) {
     $_SESSION['error_message'] = "An unexpected error occurred: " . $e->getMessage();
     header('Location: upload_form.php');
     exit();
