@@ -1,8 +1,9 @@
+<?php
 session_start();
 include('../DBconnection/dbconnection.php');
 
-// Fetch unvalidated clients (those who have not validated yet)
-$queryUnvalidated = "SELECT email FROM uploads WHERE validity IS NULL OR validity = 0";
+// Fetch unvalidated clients
+$queryUnvalidated = "SELECT email FROM tblregusers WHERE validity = 0 OR expiration_date < CURDATE()";
 $resultUnvalidated = mysqli_query($con, $queryUnvalidated);
 $unvalidatedClients = [];
 
@@ -18,7 +19,7 @@ mysqli_close($con);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="apple-touch-icon" href="images/ctu.png">
     <link rel="shortcut icon" href="images/ctu.png">
@@ -54,7 +55,7 @@ mysqli_close($con);
             font-size: 1.1em;
             color: #555;
         }
-        .bg-primary{
+         .bg-primary{
             color: white;
         }
         .alert-info {
