@@ -53,7 +53,7 @@ if (isset($_POST['id'])) {
     // Exit after sending the response
     exit;
 } else {
-    
+    echo "ID not provided."; // Return error if 'id' is not set
 }
 
 $conn->close();
@@ -105,35 +105,14 @@ $conn->close();
 }
 
 video {
-            width: 100%;
-            max-width: 500px;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: block;
-            margin: 0 auto;
-        }
-
-    table {
-        width: 100%;
-        overflow-x: auto; /* Add horizontal scroll on small screens */
-    }
-    table thead {
-            background-color: #1e3c72;
-            color: #fff;
-        }
-        table th, table td {
-            text-align: center;
-            padding: 8px;
-        }
-
-    .scanner-label {
-        font-weight: bold;
-        color: orange;
-        font-size: 18px; /* Slightly smaller for better fit on mobile */
-        text-align: center;
-        margin-top: 10px;
-    }
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 auto;
+}
 
 .scanner-label {
     font-weight: bold;
@@ -160,22 +139,20 @@ video {
 
 /* Button styling */
 #switchCameraBtn {
-            display: block;
-            width: 100%;
-            max-width: 300px;
-            margin: 10px auto;
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        #switchCameraBtn:hover {
-            background-color: #0056b3;
-        }
+    margin-top: 10px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#switchCameraBtn:hover {
+    background-color: #0056b3;
+}
 
 .alert {
     margin-left: auto;
@@ -216,17 +193,22 @@ video {
 }
 
 @media (max-width: 768px) {
-            video {
-                max-width: 100%;
-            }
-            .scanner-label {
-                font-size: 16px;
-            }
-            #switchCameraBtn {
-                font-size: 14px;
-                padding: 8px;
-            }
-        }
+    .container {
+        padding: 10px;
+    }
+
+    video {
+        max-width: 350px;
+    }
+
+    .scanner-label {
+        font-size: 16px;
+    }
+
+    #switchCameraBtn {
+        font-size: 14px;
+    }
+}
 
 @media (max-width: 500px) {
     .container {
@@ -293,46 +275,17 @@ video {
         padding: 6px 12px;
     }
 }
-    
-
-    @media (max-width: 576px) {
-        .navbar-brand {
-            font-size: 1rem; /* Further reduce font size for extra small screens */
-        }
-        .container {
-            padding: 10px; /* Reduce padding on small screens */
-        }
-        .navbar {
-            padding: 0.25rem 0.5rem; /* Minimize padding for smaller screens */
-        }
-        .nav-link {
-            font-size: 0.8rem; /* Smaller link font size on mobile */
-        }
-        table {
-                display: block;
-                overflow-x: auto;
-            }
-            table thead {
-                font-size: 14px;
-            }
-            .scanner-label {
-                font-size: 14px;
-            }
-            #switchCameraBtn {
-                font-size: 12px;
-                padding: 6px;
-            }
-    }
 
     </style>
 </head>
 <body>
-
+<!-- Responsive Navigation Bar -->
+<?php include_once('includes/headerin.php');?>
 
 <div class="container" style="background: transparent;">
     <div class="row">
         <!-- Scanner Section -->
-        <div class="col-lg-6 col-md-12" style=" margin-top: 7em;">
+        <div class="col-md-12 scanner-container" style=" margin-top: 7em;">
         <video id="preview"></video>
         <div id="scanner-status" style="text-align: center; font-weight: bold; color: orange; margin-top: 10px;"></div>
         <button id="switchCameraBtn" class="btn btn-primary">Switch Camera</button> <!-- Add button here -->
@@ -365,7 +318,7 @@ video {
         </div>
 
         <!-- Area Selection Dropdown -->
-        <div class="col-lg-6 col-md-12">
+        <div class="col-md-12">
             <label for="areaSelect" style="font-weight: bold; color: orange; font-size: 18px;">Select Area:</label>
             <select id="areaSelect" class="form-control" required>
                 <option value="">--Select Area--</option>
@@ -377,7 +330,7 @@ video {
         </div>
 
         <!-- Table Section -->
-        <div class="row table-container mt-4">
+        <div class="col-md-12 table-container">
             <table class="table table-bordered">
                 <thead>
                     <tr>
