@@ -520,7 +520,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                             <tr>
                                 <td><?= htmlspecialchars($comment['username']) ?></td>
                                 <td><?= htmlspecialchars($comment['comment']) ?></td>
-                                <td><?= htmlspecialchars($comment['created_at']) ?></td>
+                                <<td><?= htmlspecialchars//($comment['created_at']) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
