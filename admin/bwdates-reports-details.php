@@ -5,72 +5,7 @@ include('includes/dbconnection.php');
 if (strlen($_SESSION['vpmsaid']==0)) {
   header('location:logout.php');
   } else{
-    $cid = mysqli_real_escape_string($con, $_GET['viewid']);
-    $query = "
-SELECT 
-  ParkingSlot, 
-  VehicleCategory, 
-  VehicleCompanyname, 
-  Model, 
-  Color, 
-  RegistrationNumber, 
-  OwnerName, 
-  OwnerContactNumber, 
-  FormattedInTimeFromLogin, 
-  FormattedOutTime, 
-  Source 
-FROM (
-  SELECT 
-      tblqr_login.ParkingSlot, 
-      tblqr_login.TIMEIN AS FormattedInTime, 
-      tblvehicle.VehicleCategory, 
-      tblvehicle.VehicleCompanyname, 
-      tblvehicle.Model, 
-      tblvehicle.Color, 
-      tblvehicle.RegistrationNumber, 
-      tblvehicle.OwnerName, 
-      tblvehicle.OwnerContactNumber, 
-      DATE_FORMAT(tblqr_login.TIMEIN, '%h:%i %p %m-%d-%Y') AS FormattedInTimeFromLogin, 
-      DATE_FORMAT(tblqr_logout.TIMEOUT, '%h:%i %p %m-%d-%Y') AS FormattedOutTime,
-      'QR' AS Source 
-  FROM 
-      tblqr_login 
-  INNER JOIN 
-      tblvehicle ON tblqr_login.VehiclePlateNumber = tblvehicle.RegistrationNumber 
-  LEFT JOIN 
-      tblqr_logout ON tblqr_login.VehiclePlateNumber = tblqr_logout.VehiclePlateNumber 
-  WHERE 
-      tblqr_login.ID = '$cid'
 
-  UNION ALL
-
-  SELECT 
-      tblmanual_login.ParkingSlot, 
-      tblmanual_login.TimeIn AS FormattedInTime, 
-      tblvehicle.VehicleCategory, 
-      tblvehicle.VehicleCompanyname, 
-      tblvehicle.Model, 
-      tblvehicle.Color, 
-      tblvehicle.RegistrationNumber, 
-      tblvehicle.OwnerName, 
-      tblvehicle.OwnerContactNumber, 
-      DATE_FORMAT(tblmanual_login.TimeIn, '%h:%i %p %m-%d-%Y') AS FormattedInTimeFromLogin, 
-      DATE_FORMAT(tblmanual_logout.TimeOut, '%h:%i %p %m-%d-%Y') AS FormattedOutTime,
-      'Manual' AS Source 
-  FROM 
-      tblmanual_login 
-  INNER JOIN 
-      tblvehicle ON tblmanual_login.RegistrationNumber = tblvehicle.RegistrationNumber 
-  LEFT JOIN 
-      tblmanual_logout ON tblmanual_login.RegistrationNumber = tblmanual_logout.RegistrationNumber 
-  WHERE 
-      tblmanual_login.id = '$cid'
-) AS CombinedResults";
-
-$result = mysqli_query($con, $query);
-if (!$result) {
-  error_log("SQL Error in view-incomingvehicle-detail.php: " . mysqli_error($con), 3, "error_log.txt");
-}
 
 
   ?>
@@ -207,7 +142,7 @@ while ($row=mysqli_fetch_array($ret)) {
                   <td><?php  echo $row['OwnerName'];?></td>
                   <td><?php  echo $row['RegistrationNumber'];?></td>
                   
-                  <td><a href="view-incomingvehicle-detail.php?viewid=<?php echo $row['qrLoginID']; ?>&source=<?php echo $row['source']; ?>" class="btn btn-primary" id="viewbtn">🖹 View</a></td>
+                  <td><a href="view-register.php?viewid=<?php echo $row['ID']; ?>" class="btn btn-primary" id="viewbtn">🖹 View</a> </td>
                 </tr>
                 <?php 
 $cnt=$cnt+1;
