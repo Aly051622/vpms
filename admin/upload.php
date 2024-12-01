@@ -2,6 +2,9 @@
 session_start();
 include 'includes/dbconnection.php';
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 try {
     if (isset($_POST['email'])) {
         $email = mysqli_real_escape_string($con, $_POST['email']);
@@ -22,7 +25,7 @@ try {
                 // Proceed with uploading the file
                 if (move_uploaded_file($_FILES['license_image']['tmp_name'], $upload_path . $license_image)) {
                     // Path to the Tesseract executable
-                    $tesseract_path = '"C:\Program Files\Tesseract-OCR\tesseract.exe"'; // Enclose in double quotes
+                    $tesseract_path = '"C:/Program Files/Tesseract-OCR/tesseract.exe"'; // Enclose in double quotes
 
                     // Run Tesseract to extract text from the uploaded image
                     $tesseract_output = shell_exec($tesseract_path . " " . escapeshellarg($upload_path . $license_image) . " stdout 2>&1");
@@ -54,10 +57,11 @@ try {
                         // Insert into `uploads` table
                         $insert_query = "INSERT INTO uploads (email, filename, file_size, file_type, uploaded_at, status, expiration_date, validity) 
                                          VALUES ('$email', '$license_image', {$_FILES['license_image']['size']}, '{$_FILES['license_image']['type']}', NOW(), 'approved', '$expiration_date', $validity)";
-
+                        error_log("Insert Query: $insert_query"); // Log for debugging
                         if (mysqli_query($con, $insert_query)) {
                             // Update validity in tblregusers based on expiration
                             $update_query = "UPDATE tblregusers SET validity = $validity WHERE Email='$email'";
+                            error_log("Update Query: $update_query"); // Log for debugging
                             mysqli_query($con, $update_query);
                             
                             header("Location: validated.php");
@@ -87,4 +91,3 @@ try {
 } finally {
     mysqli_close($con);
 }
-?>
