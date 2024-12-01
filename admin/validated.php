@@ -2,10 +2,9 @@
 session_start();
 include('../DBconnection/dbconnection.php');
 
-// Fetch validated clients with expiration date and additional user data
+// Fetch validated clients with expiration date
 $queryValidated = "
-    SELECT u.email, u.expiration_date, u.validity, 
-           r.cr_image, r.nv_image, r.or_image, r.profile_pictures
+    SELECT u.email, u.expiration_date, u.validity
     FROM uploads u
     JOIN tblregusers r ON u.email = r.Email
     WHERE u.validity > 0 AND u.expiration_date >= CURDATE()
@@ -183,10 +182,6 @@ mysqli_close($con);
                     <th>Email</th>
                     <th>Expiration Date</th>
                     <th>Remaining Days</th>
-                    <th>CR Image</th>
-                    <th>NV Image</th>
-                    <th>OR Image</th>
-                    <th>Profile Picture</th>
                 </tr>
             </thead>
             <tbody>
@@ -201,15 +196,11 @@ mysqli_close($con);
                             <td><?= htmlspecialchars($client['email']) ?></td>
                             <td><?= htmlspecialchars($client['expiration_date']) ?></td>
                             <td><?= $remainingDays ?> days remaining</td>
-                            <td><img src="../uploads/validated/<?= htmlspecialchars($client['cr_image']) ?>" width="100"></td>
-                            <td><img src="../uploads/validated/<?= htmlspecialchars($client['nv_image']) ?>" width="100"></td>
-                            <td><img src="../uploads/validated/<?= htmlspecialchars($client['or_image']) ?>" width="100"></td>
-                            <td><img src="../uploads/profile_uploads/<?= htmlspecialchars($client['profile_pictures']) ?>" width="100"></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="7" class="text-center">No data to display.</td>
+                        <td colspan="3" class="text-center">No data to display.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
