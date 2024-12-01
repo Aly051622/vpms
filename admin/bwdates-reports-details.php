@@ -5,28 +5,71 @@ include('includes/dbconnection.php');
 if (strlen($_SESSION['vpmsaid']==0)) {
   header('location:logout.php');
   } else{
-// Query to retrieve data from both tblqr_login and tblmanual_login, including TIMEIN
-$query = "
-SELECT 'QR' AS Source, tblqr_login.ID AS qrLoginID, tblqr_login.ParkingSlot, tblqr_login.TIMEIN,
-       tblvehicle.OwnerName, tblqr_login.VehiclePlateNumber
-FROM tblqr_login
-INNER JOIN tblvehicle 
-ON tblqr_login.VehiclePlateNumber = tblvehicle.RegistrationNumber
+    $cid = mysqli_real_escape_string($con, $_GET['viewid']);
+    $query = "
+SELECT 
+  ParkingSlot, 
+  VehicleCategory, 
+  VehicleCompanyname, 
+  Model, 
+  Color, 
+  RegistrationNumber, 
+  OwnerName, 
+  OwnerContactNumber, 
+  FormattedInTimeFromLogin, 
+  FormattedOutTime, 
+  Source 
+FROM (
+  SELECT 
+      tblqr_login.ParkingSlot, 
+      tblqr_login.TIMEIN AS FormattedInTime, 
+      tblvehicle.VehicleCategory, 
+      tblvehicle.VehicleCompanyname, 
+      tblvehicle.Model, 
+      tblvehicle.Color, 
+      tblvehicle.RegistrationNumber, 
+      tblvehicle.OwnerName, 
+      tblvehicle.OwnerContactNumber, 
+      DATE_FORMAT(tblqr_login.TIMEIN, '%h:%i %p %m-%d-%Y') AS FormattedInTimeFromLogin, 
+      DATE_FORMAT(tblqr_logout.TIMEOUT, '%h:%i %p %m-%d-%Y') AS FormattedOutTime,
+      'QR' AS Source 
+  FROM 
+      tblqr_login 
+  INNER JOIN 
+      tblvehicle ON tblqr_login.VehiclePlateNumber = tblvehicle.RegistrationNumber 
+  LEFT JOIN 
+      tblqr_logout ON tblqr_login.VehiclePlateNumber = tblqr_logout.VehiclePlateNumber 
+  WHERE 
+      tblqr_login.ID = '$cid'
 
-UNION
+  UNION ALL
 
-SELECT 'Manual' AS Source, tblmanual_login.id AS LoginID, tblmanual_login.ParkingSlot, tblmanual_login.TimeIn,
-       tblvehicle.OwnerName, tblmanual_login.RegistrationNumber AS VehiclePlateNumber
-FROM tblmanual_login
-INNER JOIN tblvehicle 
-ON tblmanual_login.RegistrationNumber = tblvehicle.RegistrationNumber
-ORDER BY TIMEIN DESC";
+  SELECT 
+      tblmanual_login.ParkingSlot, 
+      tblmanual_login.TimeIn AS FormattedInTime, 
+      tblvehicle.VehicleCategory, 
+      tblvehicle.VehicleCompanyname, 
+      tblvehicle.Model, 
+      tblvehicle.Color, 
+      tblvehicle.RegistrationNumber, 
+      tblvehicle.OwnerName, 
+      tblvehicle.OwnerContactNumber, 
+      DATE_FORMAT(tblmanual_login.TimeIn, '%h:%i %p %m-%d-%Y') AS FormattedInTimeFromLogin, 
+      DATE_FORMAT(tblmanual_logout.TimeOut, '%h:%i %p %m-%d-%Y') AS FormattedOutTime,
+      'Manual' AS Source 
+  FROM 
+      tblmanual_login 
+  INNER JOIN 
+      tblvehicle ON tblmanual_login.RegistrationNumber = tblvehicle.RegistrationNumber 
+  LEFT JOIN 
+      tblmanual_logout ON tblmanual_login.RegistrationNumber = tblmanual_logout.RegistrationNumber 
+  WHERE 
+      tblmanual_login.id = '$cid'
+) AS CombinedResults";
 
 $result = mysqli_query($con, $query);
-
 if (!$result) {
-// Log SQL error message if the query fails
-error_log("SQL Error in manage-incomingvehicle.php: " . mysqli_error($con), 3, "error_log.txt");
+  error_log("SQL Error in view-incomingvehicle-detail.php: " . mysqli_error($con), 3, "error_log.txt");
 }
 
 
