@@ -5,11 +5,7 @@ include('../DBconnection/dbconnection.php');
 // Fetch invalidated clients (validity = 0) without duplicates based on email
 $queryInvalidated = "
     SELECT u.email, 
-           u.expiration_date, 
-           r.cr_image, 
-           r.nv_image, 
-           r.or_image, 
-           r.profile_pictures
+           MAX(u.expiration_date) AS expiration_date
     FROM uploads u
     JOIN tblregusers r ON u.email = r.Email
     WHERE u.validity = 0
@@ -27,11 +23,10 @@ if ($resultInvalidated && mysqli_num_rows($resultInvalidated) > 0) {
 
 mysqli_close($con);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="apple-touch-icon" href="images/ctu.png">
     <link rel="shortcut icon" href="images/ctu.png">
@@ -130,10 +125,6 @@ mysqli_close($con);
                     <tr>
                         <th>Email</th>
                         <th>Expiration Date</th>
-                        <th>CR Image</th>
-                        <th>NV Image</th>
-                        <th>OR Image</th>
-                        <th>Profile Picture</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -142,21 +133,18 @@ mysqli_close($con);
                             <tr>
                                 <td><?= htmlspecialchars($client['email']) ?></td>
                                 <td><?= htmlspecialchars($client['expiration_date']) ?></td>
-                                <td><img src="uploads/validated/<?= htmlspecialchars($client['cr_image']) ?>" width="100" class="img-fluid"></td>
-                                <td><img src="uploads/validated/<?= htmlspecialchars($client['nv_image']) ?>" width="100" class="img-fluid"></td>
-                                <td><img src="uploads/validated/<?= htmlspecialchars($client['or_image']) ?>" width="100" class="img-fluid"></td>
-                                <td><img src="../uploads/profile_uploads/<?= htmlspecialchars($client['profile_pictures']) ?>" width="100" class="img-fluid"></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="6" class="text-center">No data to display.</td>
+                            <td colspan="2" class="text-center">No data to display.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
             </table>
         </div>
     </div>
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
