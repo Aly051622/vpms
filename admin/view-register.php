@@ -30,11 +30,11 @@ if (strlen($_SESSION['vpmsaid']==0)) {
   <html class="no-js" lang="">
   <head>
      
-      <title>VPMS - View Vehicle Detail</title>
+      <title>View Register Detail | CTU Danao Parking System</title>
      
   
-      <link rel="apple-touch-icon" href="images/ctu.png">
-      <link rel="shortcut icon" href="images/ctu.png">
+      <link rel="apple-touch-icon" href="../images/aa.png">
+    <link rel="shortcut icon" href="../images/aa.png">
   
   
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
