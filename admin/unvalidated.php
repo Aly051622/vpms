@@ -3,7 +3,7 @@ session_start();
 include('../DBconnection/dbconnection.php');
 
 // Fetch unvalidated clients
-$queryUnvalidated = "SELECT email FROM uploads WHERE validity = 0 OR expiration_date < CURDATE()";
+$queryUnvalidated = "SELECT email FROM tblregusers WHERE validity = 0 OR expiration_date < CURDATE()";
 $resultUnvalidated = mysqli_query($con, $queryUnvalidated);
 $unvalidatedClients = [];
 
