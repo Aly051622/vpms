@@ -4,16 +4,15 @@ include('includes/dbconnection.php');
 
 // Fetch unvalidated clients (validity = -2)
 $queryUnvalidated = "
-    SELECT r.email, r.validity, 
-           r.cr_image, r.nv_image, r.or_image, r.profile_pictures 
+    SELECT r.email 
     FROM tblregusers r
     WHERE r.validity = -2
 ";
 
 $resultUnvalidated = mysqli_query($con, $queryUnvalidated);
-$unvalidatedClients = [];
 
-if ($resultUnvalidated && mysqli_num_rows($resultUnvalidated) > 0) {
+if (mysqli_num_rows($resultUnvalidated) > 0) {
+    $unvalidatedClients = [];
     while ($row = mysqli_fetch_assoc($resultUnvalidated)) {
         $unvalidatedClients[] = $row;
     }
@@ -25,7 +24,7 @@ mysqli_close($con);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="apple-touch-icon" href="images/ctu.png">
     <link rel="shortcut icon" href="images/ctu.png">
@@ -61,7 +60,7 @@ mysqli_close($con);
             font-size: 1.1em;
             color: #555;
         }
-        .bg-primary{
+         .bg-primary{
             color: white;
         }
         .alert-info {
@@ -186,11 +185,6 @@ mysqli_close($con);
             <thead class="bg-primary">
                 <tr>
                     <th>Email</th>
-                    <th>Validity</th>
-                    <th>CR Image</th>
-                    <th>NV Image</th>
-                    <th>OR Image</th>
-                    <th>Profile Picture</th>
                 </tr>
             </thead>
             <tbody>
@@ -198,23 +192,18 @@ mysqli_close($con);
                     <?php foreach ($unvalidatedClients as $client): ?>
                         <tr>
                             <td><?= htmlspecialchars($client['email']) ?></td>
-                            <td><?= htmlspecialchars($client['validity']) ?></td>
-                            <td><img src='uploads/validated/<?= htmlspecialchars($client['cr_image']) ?>' width='100'></td>
-                            <td><img src='uploads/validated/<?= htmlspecialchars($client['nv_image']) ?>' width='100'></td>
-                            <td><img src='uploads/validated/<?= htmlspecialchars($client['or_image']) ?>' width='100'></td>
-                            <td><img src='../uploads/profile_uploads/<?= htmlspecialchars($client['profile_pictures']) ?>' width='100'></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="6" class="text-center">No data to display.</td>
+                        <td colspan="1" class="text-center">No data to display.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
         </table>
     </div>
 </div>
-
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
