@@ -53,7 +53,7 @@ if (isset($_POST['id'])) {
     // Exit after sending the response
     exit;
 } else {
-    echo "ID not provided."; // Return error if 'id' is not set
+    
 }
 
 $conn->close();
@@ -363,7 +363,7 @@ video {
         </div>
 
         <!-- Area Selection Dropdown -->
-        <div class="col-md-12">
+        <div class="col-lg-6 col-md-12">
             <label for="areaSelect" style="font-weight: bold; color: orange; font-size: 18px;">Select Area:</label>
             <select id="areaSelect" class="form-control" required>
                 <option value="">--Select Area--</option>
@@ -375,7 +375,7 @@ video {
         </div>
 
         <!-- Table Section -->
-        <div class="col-md-12 table-container">
+        <div class="row table-container mt-4">
             <table class="table table-bordered">
                 <thead>
                     <tr>
