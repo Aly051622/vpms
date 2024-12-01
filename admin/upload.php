@@ -3,6 +3,7 @@ session_start();
 include 'includes/dbconnection.php';
 
 try {
+    // Check if email is provided in the POST request
     if (!isset($_POST['email'])) {
         die("Email not provided.");
     }
@@ -17,11 +18,12 @@ try {
         die("Email not found in the database.");
     }
 
+    // Check if license image is uploaded
     if (!isset($_FILES['license_image'])) {
         die("No file uploaded.");
     }
 
-    // Upload file
+    // Upload the license image
     $license_image = $_FILES['license_image']['name'];
     $upload_path = realpath('../uploads/validated/') . DIRECTORY_SEPARATOR;
 
@@ -36,33 +38,39 @@ try {
         die("Failed to move uploaded file.");
     }
 
-    // OCR.space API endpoint and key
-    $apiKey = 'K86756414488957'; // Your OCR.space API key
-    $ocrApiUrl = 'https://api.ocr.space/parse/image';
+    // OCR API key and endpoint
+    $ocr_api_key = 'K86756414488957'; // Replace with your actual API key
+    $ocr_url = 'https://api.ocr.space/parse/image';
 
-    // Prepare data for API request
-    $data = [
-        'apikey' => $apiKey,
-        'language' => 'eng',  // Use appropriate language code
-        'isOverlayRequired' => false,
-        'file' => new CURLFile($target_file),
-    ];
+    // Prepare the cURL request for OCR API
+    $data = array(
+        'apikey' => $ocr_api_key,
+        'language' => 'eng',
+        'file' => new CURLFile($target_file)
+    );
 
-    // Make API request
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $ocrApiUrl);
+    curl_setopt($ch, CURLOPT_URL, $ocr_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    
     $ocrResponse = curl_exec($ch);
-    curl_close($ch);
-
+    
+    // Check for errors in the cURL request
     if ($ocrResponse === false) {
-        die("OCR API request failed.");
+        die("OCR API request failed: " . curl_error($ch));
     }
 
-    // Decode the response from OCR.space
+    // Decode the OCR API response
     $ocrResult = json_decode($ocrResponse, true);
+
+    // Debugging output: print the entire API response
+    echo '<pre>';
+    print_r($ocrResult);  // This will help you see the raw API response
+    echo '</pre>';
+
+    // Check if the OCR response contains parsed text
     if (isset($ocrResult['ParsedResults'][0]['ParsedText'])) {
         $tesseract_output = $ocrResult['ParsedResults'][0]['ParsedText'];
     } else {
@@ -101,6 +109,7 @@ try {
     } else {
         die("Database insert error: " . mysqli_error($con));
     }
+
 } catch (Exception $e) {
     // Log the error message for debugging
     error_log("Error: " . $e->getMessage());
