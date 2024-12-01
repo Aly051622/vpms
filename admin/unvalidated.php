@@ -1,16 +1,43 @@
 <?php
 session_start();
-include('../DBconnection/dbconnection.php');
+include '..DBconnection//dbconnection.php';
 
-// Fetch unvalidated clients
-$queryUnvalidated = "SELECT email FROM tblregusers WHERE validity = 0 OR expiration_date < CURDATE()";
+// Fetch unvalidated clients (validity = -2)
+$queryUnvalidated = "
+    SELECT r.email, r.validity, 
+           r.cr_image, r.nv_image, r.or_image, r.profile_pictures 
+    FROM tblregusers r
+    WHERE r.validity = -2
+";
+
 $resultUnvalidated = mysqli_query($con, $queryUnvalidated);
-$unvalidatedClients = [];
 
-if ($resultUnvalidated && mysqli_num_rows($resultUnvalidated) > 0) {
+if (mysqli_num_rows($resultUnvalidated) > 0) {
+    echo "<h1>Unvalidated Clients</h1>";
+    echo "<table border='1'>";
+    echo "<tr>
+            <th>Email</th>
+           
+            <th>Validity</th>
+            <th>CR Image</th>
+            <th>NV Image</th>
+            <th>OR Image</th>
+            <th>Profile Picture</th>
+          </tr>";
+
     while ($row = mysqli_fetch_assoc($resultUnvalidated)) {
-        $unvalidatedClients[] = $row;
+        echo "<tr>
+                <td>{$row['email']}</td>
+                <td>{$row['validity']}</td>
+                <td><img src='uploads/validated/{$row['cr_image']}' width='100'></td>
+                <td><img src='uploads/validated/{$row['nv_image']}' width='100'></td>
+                <td><img src='uploads/validated/{$row['or_image']}' width='100'></td>
+                <td><img src='../uploads/profile_uploads/{$row['profile_pictures']}' width='100'></td>
+              </tr>";
     }
+    echo "</table>";
+} else {
+    echo "No unvalidated clients found.";
 }
 
 mysqli_close($con);
