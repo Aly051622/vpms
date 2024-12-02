@@ -33,18 +33,22 @@ try {
     }
 
     // Check if the file already exists in the database
-    $query_check = "SELECT * FROM uploads WHERE filename = '$license_image'";
+    // First, sanitize the filename to ensure it’s safe
+    $license_image_safe = basename($license_image);
+
+    // Check if the file already exists in the database
+    $query_check = "SELECT * FROM uploads WHERE filename = '$license_image_safe'";
     $result_check = mysqli_query($con, $query_check);
 
+    // If file exists, append a unique identifier (e.g., timestamp or random string)
     if (mysqli_num_rows($result_check) > 0) {
-        // Append a unique identifier to the filename to avoid duplicates
-        $file_extension = pathinfo($license_image, PATHINFO_EXTENSION);
-        $filename_without_extension = pathinfo($license_image, PATHINFO_FILENAME);
-        $license_image = $filename_without_extension . '_' . time() . '.' . $file_extension;
+        $file_extension = pathinfo($license_image_safe, PATHINFO_EXTENSION);
+        $filename_without_extension = pathinfo($license_image_safe, PATHINFO_FILENAME);
+        $license_image_safe = $filename_without_extension . '_' . time() . '.' . $file_extension;
     }
 
     // Move the uploaded file to the target directory
-    $target_file = $upload_path . $license_image;
+    $target_file = $upload_path . $license_image_safe;
     if (!move_uploaded_file($_FILES['license_image']['tmp_name'], $target_file)) {
         die("Failed to move the uploaded file.");
     }
@@ -115,7 +119,7 @@ try {
 
     // Prepare the insert query
     $insert_query = "INSERT INTO uploads (email, filename, file_size, file_type, uploaded_at, status, expiration_date, validity) 
-                     VALUES ('$email', '$license_image', {$_FILES['license_image']['size']}, '{$_FILES['license_image']['type']}', NOW(), 'approved', '$expiration_date', $validity)";
+                     VALUES ('$email', '$license_image_safe', {$_FILES['license_image']['size']}, '{$_FILES['license_image']['type']}', NOW(), 'approved', '$expiration_date', $validity)";
 
     if (mysqli_query($con, $insert_query)) {
         // Update the user's validity status in the tblregusers table
