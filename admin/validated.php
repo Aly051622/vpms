@@ -10,9 +10,15 @@ $queryValidated = "
     WHERE u.validity > 0 AND u.expiration_date >= CURDATE()
 ";
 $resultValidated = mysqli_query($con, $queryValidated);
+
+// Check if the query was successful and handle errors
+if (!$resultValidated) {
+    die('Query failed: ' . mysqli_error($con)); // Display error if query fails
+}
+
 $validatedClients = [];
 
-if ($resultValidated && mysqli_num_rows($resultValidated) > 0) {
+if (mysqli_num_rows($resultValidated) > 0) {
     while ($row = mysqli_fetch_assoc($resultValidated)) {
         // Calculate the remaining days
         $current_date = new DateTime();
@@ -23,6 +29,9 @@ if ($resultValidated && mysqli_num_rows($resultValidated) > 0) {
         $row['remaining_days'] = $remaining_days;
         $validatedClients[] = $row;
     }
+} else {
+    // Display a message if no validated clients are found
+    $validatedClients = null;
 }
 
 ?>
@@ -39,24 +48,29 @@ if ($resultValidated && mysqli_num_rows($resultValidated) > 0) {
 
     <!-- Table to display validated clients -->
     <h2>Validated Clients</h2>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Email</th>
-                <th>Expiration Date</th>
-                <th>Remaining Days</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($validatedClients as $client): ?>
+    
+    <?php if ($validatedClients): ?>
+        <table border="1">
+            <thead>
                 <tr>
-                    <td><?php echo htmlspecialchars($client['email']); ?></td>
-                    <td><?php echo htmlspecialchars($client['expiration_date']); ?></td>
-                    <td><?php echo $client['remaining_days']; ?> days</td>
+                    <th>Email</th>
+                    <th>Expiration Date</th>
+                    <th>Remaining Days</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php foreach ($validatedClients as $client): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($client['email']); ?></td>
+                        <td><?php echo htmlspecialchars($client['expiration_date']); ?></td>
+                        <td><?php echo $client['remaining_days']; ?> days</td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>No validated clients found or no data matches the criteria.</p>
+    <?php endif; ?>
 
 </body>
 </html>
