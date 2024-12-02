@@ -90,8 +90,8 @@ try {
     }
 
     // Attempt to extract the expiration date from the OCR output
-    // Regex for date: This will match dates in the format of YYYY/MM/DD or YYYY/MM/DDD
-    preg_match_all('/(\d{4})\/(\d{2})\/(\d{2,3})/', $tesseract_output, $matches);
+    // Regex for date: This will match dates in various formats like YYYY/MM/DD, YYYY-MM-DD, etc.
+    preg_match_all('/(\d{4})[\/\-\s]?\d{1,2}[\/\-\s]?\d{1,3}/', $tesseract_output, $matches);
 
     // Debugging: Output the matches
     // echo "<pre>" . print_r($matches, true) . "</pre>";
