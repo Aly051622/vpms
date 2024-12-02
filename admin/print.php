@@ -32,6 +32,16 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
                 margin-right: 50vh;
                 padding-top: 20px;
             }
+            .header-content, .footer-content {
+                width: 100%; 
+                height: auto; 
+                margin-left: auto; 
+                margin-right: auto;
+                display: flex; 
+                justify-content: center;
+                align-items: center; 
+                position: relative; 
+            }
             .receipt-table {
                 margin: 10px;
             }
@@ -100,50 +110,50 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
         while ($row = mysqli_fetch_array($ret)) {
         ?>
             <div id="exampl" class="receipt-table">
-                <div class="container">
                     <div class="header-content">
-                        <img src="../images/head.png" alt="header" class="center">
+                        <img src="images/header.png" alt="header" class="center">
                     </div>
+                <div class="container">   
                 </div>
-                <table border="1" class="table table-bordered mg-b-0">
-                    <tr>
-                        <th colspan="4" style="text-align: center; font-size:22px;">Vehicle Parking Receipt</th>
-                        <div onclick="CallPrint()" id="printbtn">🖶</div>
-                    </tr>
-                    <tr>
-                        <th>Vehicle Company Name</th>
-                        <td><?php echo $row['VehicleCompanyname']; ?></td>
-                        <th>Registration Number</th>
-                        <td><?php echo $row['RegistrationNumber']; ?></td>
-                    </tr>
-                    <tr>
-                        <th>Owner Name</th>
-                        <td><?php echo $row['OwnerName']; ?></td>
-                        <th>Owner Contact Number</th>
-                        <td><?php echo $row['OwnerContactNumber']; ?></td>
-                    </tr>
-                    <tr>
-                        <th>In Time</th>
-                        <td>
-                            <?php 
-                            $datetime = new DateTime($row['InTime']);
-                            echo $datetime->format('m/d/Y h:i A'); 
-                            ?>
-                        </td>
-                        <th>Status</th>
-                        <td><?php echo $row['Status'] == "Out" ? "Outgoing Vehicle" : "Incoming Vehicle"; ?></td>
-                    </tr>
-                    <?php if ($row['Status'] == "Out") { ?>
+                    <table border="1" class="table table-bordered mg-b-0">
                         <tr>
-                            <th>Out Time</th>
-                            <td><?php echo $row['OutTime']; ?></td>
-                            <th>Remark</th>
-                            <td><?php echo $row['Remark']; ?></td>
+                            <th colspan="4" style="text-align: center; font-size:22px;">Vehicle Parking Receipt</th>
+                            <div onclick="CallPrint()" id="printbtn">🖶</div>
                         </tr>
-                    <?php } ?>
-                </table>
+                        <tr>
+                            <th>Vehicle Company Name</th>
+                            <td><?php echo $row['VehicleCompanyname']; ?></td>
+                            <th>Registration Number</th>
+                            <td><?php echo $row['RegistrationNumber']; ?></td>
+                        </tr>
+                        <tr>
+                            <th>Owner Name</th>
+                            <td><?php echo $row['OwnerName']; ?></td>
+                            <th>Owner Contact Number</th>
+                            <td><?php echo $row['OwnerContactNumber']; ?></td>
+                        </tr>
+                        <tr>
+                            <th>In Time</th>
+                            <td>
+                                <?php 
+                                $datetime = new DateTime($row['InTime']);
+                                echo $datetime->format('m/d/Y h:i A'); 
+                                ?>
+                            </td>
+                            <th>Status</th>
+                            <td><?php echo $row['Status'] == "Out" ? "Outgoing Vehicle" : "Incoming Vehicle"; ?></td>
+                        </tr>
+                        <?php if ($row['Status'] == "Out") { ?>
+                            <tr>
+                                <th>Out Time</th>
+                                <td><?php echo $row['OutTime']; ?></td>
+                                <th>Remark</th>
+                                <td><?php echo $row['Remark']; ?></td>
+                            </tr>
+                        <?php } ?>
+                    </table>
                 <div class="footer-content">
-                    <img src="../images/foot.png" alt="footer" class="center">
+                    <img src="images/footer.png" alt="footer" class="center">
                 </div>
             </div>
         <?php
@@ -164,9 +174,26 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
                         <link rel="stylesheet" href="assets/css/style.css">
                         <style>
                             @media print {
-                                #printbtn { display: none; }
-                                body { margin: 0; font-size: 12px; }
+                            #printbtn {
+                                display: none; 
                             }
+                            body {
+                                margin: 0;
+                            }
+                           #head{
+                                display: none;
+                           }
+                              .header-content, .footer-content {
+                                width: 100%; 
+                                height: auto; 
+                                margin-left: auto; 
+                                margin-right: auto;
+                                display: flex; 
+                                justify-content: center;
+                                align-items: center; 
+                                position: relative; 
+                            }
+                        }
                         </style>
                     </head>
                     <body>
