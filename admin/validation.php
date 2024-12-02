@@ -1,54 +1,15 @@
 <?php
-session_start();
-
-// Include the database connection
-include_once('includes/dbconnection.php');  // Adjust path if necessary
-
-// Enable error reporting (for debugging)
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
-    $expiration_date = $_POST['expiration_date'];
-
-    // Get the current date
-    $current_date = date('Y-m-d');
-
-    // Use a prepared statement to insert the data securely
-    $sql = "INSERT INTO uploads(email, expiration_date) VALUES (?, ?)";
-    $stmt = mysqli_prepare($con, $sql);  // Use $con here instead of $conn
-
-    if ($stmt) {
-        // Bind the parameters to the prepared statement
-        mysqli_stmt_bind_param($stmt, "ss", $email, $expiration_date);
-
-        // Execute the statement
-        if (mysqli_stmt_execute($stmt)) {
-            // Compare the current date with the expiration date
-            if ($current_date > $expiration_date) {
-                header("Location: invalidated.php");
-            } else {
-                header("Location: validated.php");
-            }
-            exit();
-        } else {
-            $_SESSION['error_message'] = "Error executing query: " . mysqli_stmt_error($stmt);
-            header("Location: validation.php");
-            exit();
+        session_start();
+        if (isset($_SESSION['error_message'])) {
+            echo "<div class='alert alert-danger'>{$_SESSION['error_message']}</div>";
+            unset($_SESSION['error_message']); // Clear the message after displaying
         }
-    } else {
-        $_SESSION['error_message'] = "Error preparing statement: " . mysqli_error($con);  // Use $con here instead of $conn
-        header("Location: validation.php");
-        exit();
-    }
-}
-?>
-
+        ?>
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="apple-touch-icon" href="../images/aa.png">
     <link rel="shortcut icon" href="../images/aa.png">
@@ -188,16 +149,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- Form Container Section -->
         <h2 class="mb-5">Update Driver's License</h2>
         <div class="container">
-        <form action="validation.php" method="POST">
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" placeholder="Enter your email" required><br>
+        <form action="upload.php" method="POST" enctype="multipart/form-data">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required><br>
 
-    <label for="expiration_date">Expiration or Renewal Date:</label>
-    <input type="date" id="expiration_date" name="expiration_date" required><br>
+            <label for="license_image">Select Driver's License Image:</label>
+            <input type="file" id="license_image" name="license_image" accept="image/*" required><br>
 
-    <button type="submit" id="submit">Submit</button>
-</form>
-
+            <button type="submit" id="submit">Submit</button>
+        </form>
     </div>
 
     <!-- Scripts -->
