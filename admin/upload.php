@@ -32,17 +32,6 @@ try {
         die("Upload directory does not exist.");
     }
 
-    // Check if the file already exists in the database
-    $query_check = "SELECT * FROM uploads WHERE filename = '$license_image'";
-    $result_check = mysqli_query($con, $query_check);
-
-    if (mysqli_num_rows($result_check) > 0) {
-        // Append a unique identifier to the filename to avoid duplicates
-        $file_extension = pathinfo($license_image, PATHINFO_EXTENSION);
-        $filename_without_extension = pathinfo($license_image, PATHINFO_FILENAME);
-        $license_image = $filename_without_extension . '_' . time() . '.' . $file_extension;
-    }
-
     // Move the uploaded file to the target directory
     $target_file = $upload_path . $license_image;
     if (!move_uploaded_file($_FILES['license_image']['tmp_name'], $target_file)) {
@@ -83,11 +72,8 @@ try {
         die("No text found in the image.");
     }
 
-    // Debugging: print the raw OCR output
-    // echo "<pre>" . htmlspecialchars($tesseract_output) . "</pre>";
-
-    // Enhance the regex to handle different formats
-    preg_match_all('/\b(\d{4})[-\/\s]?(0[1-9]|1[0-2])[-\/\s]?(0[1-9]|[12][0-9]|3[01])\b/', $tesseract_output, $matches);
+    // Extract the expiration date using regex
+    preg_match_all('/\b(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})\b/', $tesseract_output, $matches);
 
     if (empty($matches[0])) {
         die("No expiration date found in the image.");
