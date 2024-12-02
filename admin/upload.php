@@ -54,9 +54,9 @@ try {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    
+
     $ocrResponse = curl_exec($ch);
-    
+
     // Check for errors in the cURL request
     if ($ocrResponse === false) {
         die("OCR API request failed: " . curl_error($ch));
@@ -72,11 +72,11 @@ try {
         die("No text found in the image.");
     }
 
-    // Output the extracted text
-    echo "<pre>" . htmlspecialchars($tesseract_output) . "</pre>";
+    // Clean the extracted text to remove unwanted content
+    $cleaned_output = preg_replace('/(Field Office:.*?No expiration date found in the image.)/s', '', $tesseract_output);
 
     // Extract the expiration date using regex
-    preg_match_all('/\b(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})\b/', $tesseract_output, $matches);
+    preg_match_all('/\b(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})\b/', $cleaned_output, $matches);
 
     if (empty($matches[0])) {
         die("No expiration date found in the image.");
@@ -89,20 +89,12 @@ try {
     // Calculate renewal date (3 months after expiration)
     $renewal_date = date("Y-m-d", strtotime("+3 months", strtotime($expiration_date)));
 
-    // Calculate remaining days until expiration
-    $current_date = date("Y-m-d");
-    $remaining_days = (strtotime($expiration_date) - strtotime($current_date)) / (60 * 60 * 24);
-
-    // Prepare the message
-    $message = "This payment is valid until " . date("F j, Y", strtotime($expiration_date)) . 
-               " and due for renewal on " . date("F j, Y", strtotime($renewal_date)) . 
-               ". You have " . $remaining_days . " days remaining until expiration.";
-
-    // Output the message
-    echo $message;
+    // Output only the required message
+    echo "This payment is valid until " . date("m/Y", strtotime($expiration_date)) . 
+         " and due for renewal on " . date("m/d/Y", strtotime($renewal_date)) . ".";
 
     // Insert the expiration date into the database
-    $validity = ($expiration_date >= $current_date) ? 1 : 0;
+    $validity = ($expiration_date >= date("Y-m-d")) ? 1 : 0;
 
     // Prepare the insert query
     $insert_query = "INSERT INTO uploads (email, filename, file_size, file_type, uploaded_at, status, expiration_date, validity) 
