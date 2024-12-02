@@ -1,11 +1,14 @@
 <?php
-        session_start();
-        if (isset($_SESSION['error_message'])) {
-            echo "<div class='alert alert-danger'>{$_SESSION['error_message']}</div>";
-            unset($_SESSION['error_message']); // Clear the message after displaying
-        }
-        ?>
- 
+session_start();
+
+// Handle error messages from session
+if (isset($_SESSION['error_message'])) {
+    echo "<div class='alert alert-danger'>{$_SESSION['error_message']}</div>";
+    unset($_SESSION['error_message']); // Clear the message after displaying
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -149,17 +152,17 @@
     <!-- Form Container Section -->
         <h2 class="mb-5">Update Driver's License</h2>
         <div class="container">
-        <form action="upload.php" method="POST">
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" placeholder="Enter your email" required><br>
+        <form action="validation.php" method="POST">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required><br>
 
-    <label for="expiration_date">Expiration or Renewal Date:</label>
-    <input type="date" id="expiration_date" name="expiration_date" required><br>
+            <label for="expiration_date">Expiration or Renewal Date:</label>
+            <input type="date" id="expiration_date" name="expiration_date" required><br>
 
-    <button type="submit" id="submit">Submit</button>
-</form>
+            <button type="submit" id="submit">Submit</button>
+        </form>
 
-    </div>
+        </div>
 
     <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
@@ -170,3 +173,28 @@
 
 </body>
 </html>
+
+<?php
+// Handle form submission logic
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = mysqli_real_escape_string($con, $_POST['email']);
+    $expiration_date = mysqli_real_escape_string($con, $_POST['expiration_date']);
+
+    // Validate expiration date format (YYYY-MM-DD)
+    if (preg_match("/\d{4}-\d{2}-\d{2}/", $expiration_date)) {
+        // Update the expiration date in the tblregusers table
+        $update_query = "UPDATE tblregusers SET expiration_date = '$expiration_date' WHERE email = '$email'";
+
+        if (mysqli_query($con, $update_query)) {
+            $_SESSION['success_message'] = "Expiration date updated successfully!";
+            header('Location: validated.php');
+        } else {
+            $_SESSION['error_message'] = "Error updating expiration date: " . mysqli_error($con);
+            header('Location: validation.php');
+        }
+    } else {
+        $_SESSION['error_message'] = "Invalid date format. Please use YYYY-MM-DD.";
+        header('Location: validation.php');
+    }
+}
+?>
