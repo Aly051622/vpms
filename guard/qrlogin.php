@@ -340,7 +340,7 @@ video {
 <div class="container" style="background: transparent;">
     <div class="row">
         <!-- Scanner Section -->
-        <div class="col-md-12 scanner-container" style=" margin-top: 5em;">
+        <div class="col-md-12 scanner-container" style=" margin-top: 2em;">
         <video id="preview"></video>
         <div id="scanner-status" style="text-align: center; font-weight: bold; color: orange; margin-top: 10px;"></div>
         <button id="switchCameraBtn" class="btn btn-primary">Switch Camera</button> <!-- Add button here -->
