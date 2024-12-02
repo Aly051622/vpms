@@ -28,20 +28,21 @@
     /*qrbutton add css*/
     .dropbtns{
             color: white;
-            padding: 8px;
-            font-size: 16px;
+            padding: 10px 15px;
+            font-size: 1em;
             border: none;
             cursor: pointer;
             background-color: orange;
-            border-radius: 9px;
+            border-radius: 8px;
             font-weight: bold;
             border: solid;
             box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+            transition: all 0.3s ease-in-out;
         }
         .dropbtns:hover{
             background-color: white;
             color: orange;
-            border: solid orange;
+            border: 2px solid orange;
         }
         .navbar-toggler {
     font-size: 1.5em;
@@ -51,6 +52,13 @@
     border: none;
     background: none;
 }
+/* Smaller Button Styling When Menu is Toggled */
+.navbar-menu.show .dropbtns {
+    padding: 5px 10px;
+    font-size: 0.9em;
+    border-radius: 5px;
+}
+
     @media (max-width: 480px){
     .container{
         padding-top:10px;
