@@ -52,12 +52,11 @@ if (isset($_POST['id'])) {
 
     // Exit after sending the response
     exit;
-} else {
-    echo "ID not provided."; // Return error if 'id' is not set
 }
 
 $conn->close();
 ?>
+
 
 
 
