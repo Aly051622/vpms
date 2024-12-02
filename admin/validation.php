@@ -193,7 +193,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header('Location: validation.php');
         }
     } else {
-        $_SESSION['error_message'] = "Invalid date format. Please use YYYY-MM-DD.";
+        $_SESSION['error_message'] = "Invalid date format. Please use MM-DD-YYYY.";
         header('Location: validation.php');
     }
 }
