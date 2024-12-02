@@ -32,8 +32,12 @@ try {
         die("Upload directory does not exist.");
     }
 
+    // Generate a unique filename
+    $file_extension = pathinfo($license_image, PATHINFO_EXTENSION); // Get the file extension
+    $unique_filename = uniqid('license_', true) . '.' . $file_extension; // Create a unique filename
+    $target_file = $upload_path . $unique_filename;
+
     // Move the uploaded file to the target directory
-    $target_file = $upload_path . $license_image;
     if (!move_uploaded_file($_FILES['license_image']['tmp_name'], $target_file)) {
         die("Failed to move the uploaded file.");
     }
@@ -89,7 +93,7 @@ try {
 
     // Insert the expiration date into the database
     $insert_query = "INSERT INTO uploads (email, filename, file_size, file_type, uploaded_at, status, expiration_date, validity) 
-                     VALUES ('$email', '$license_image', {$_FILES['license_image']['size']}, '{$_FILES['license_image']['type']}', NOW(), 'approved', '$expiration_date', $validity)";
+                     VALUES ('$email', '$unique_filename', {$_FILES['license_image']['size']}, '{$_FILES['license_image']['type']}', NOW(), 'approved', '$expiration_date', $validity)";
 
     if (mysqli_query($con, $insert_query)) {
         // Update the user's validity status in the tblregusers table
