@@ -85,6 +85,9 @@ $conn->close();
 
     <style>
       body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
     color: black;
     background-color: #f9fcff;
     background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
@@ -96,8 +99,35 @@ $conn->close();
 }
 
 .container {
-    padding: 20px;
+    padding: 1em;
+    margin: auto;
+    max-width: 1200px;
+    width: 90%;
 }
+
+/* Responsive Table */
+.table-container {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    -webkit-overflow-scrolling: touch;
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1em;
+}
+
+.table-container th,
+.table-container td {
+    text-align: left;
+    padding: 0.5em;
+    border: 1px solid #ddd;
+}
+
+.table-container th {
+    background-color: #f4f4f4;
+}
+
 
 .scanner-container, 
 .table-container {
@@ -135,31 +165,51 @@ video {
         box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, 
             rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
             rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0.5em 1em;
+}
+
+.navbar .navbar-toggler {
+    display: none;
 }
 
 /* Button styling */
 #switchCameraBtn {
-    margin-top: 10px;
-    cursor: pointer;
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    margin: 1em auto;
+    padding: 0.5em 1em;
+    font-size: 1rem;
+    text-align: center;
     background-color: #007bff;
     color: white;
-    border: none;
-    padding: 10px 20px;
     border-radius: 5px;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s;
 }
 
 #switchCameraBtn:hover {
     background-color: #0056b3;
 }
 
-.alert {
+/*.alert {
     margin-left: auto;
     margin-right: auto;
     width: 50%;
     text-align: center;
     display: block;
+} */
+
+/* Alerts */
+.alert {
+    width: 100%;
+    max-width: 600px;
+    margin: 1em auto;
+    padding: 1em;
+    text-align: center;
+    border-radius: 5px;
 }
 
 /* Responsive Styles */
@@ -193,6 +243,9 @@ video {
 }
 
 @media (max-width: 768px) {
+    .navbar .navbar-toggler {
+        display: inline-block;
+    }
     .container {
         padding: 10px;
     }
@@ -207,6 +260,9 @@ video {
 
     #switchCameraBtn {
         font-size: 14px;
+    }
+    .table-container table {
+        font-size: 0.9em;
     }
 }
 
