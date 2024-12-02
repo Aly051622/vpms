@@ -39,7 +39,7 @@ try {
     }
 
     // Call Python script for OCR text extraction
-    $command = escapeshellcmd("python3 /path/to/ocr.py $target_file");
+    $pythonScript = 'C:\\xampp\\htdocs\\vpms\\admin\\ocr.py';  // Adjust path as needed
     $ocr_output = shell_exec($command);
 
     if (!$ocr_output) {
