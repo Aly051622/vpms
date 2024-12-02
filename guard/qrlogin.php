@@ -167,11 +167,41 @@ video {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 0.5em 1em;
+    padding: 0.8em 1.5em; /* Adjust padding for better appearance */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
 }
 
 .navbar .navbar-toggler {
     display: none;
+}
+
+.navbar h1 {
+    color: white;
+    font-size: 1.5em; /* Slightly larger font for the title */
+    margin: 0;
+    font-weight: bold;
+}
+
+.navbar button {
+    background-color: #ffa500; /* Bright orange buttons */
+    border: none;
+    padding: 0.6em 1.2em; /* Increase button size */
+    border-radius: 5px;
+    font-size: 1em;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-left: 10px; /* Add spacing between buttons */
+}
+
+.navbar button:hover {
+    background-color: #ff7f00; /* Darker orange on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+.navbar button:active {
+    transform: scale(0.95); /* Button presses inward slightly */
 }
 
 /* Button styling */
@@ -263,6 +293,19 @@ video {
     .table-container table {
         font-size: 0.9em;
     }
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .navbar h1 {
+        margin-bottom: 1em;
+    }
+
+    .navbar button {
+        margin: 0.5em;
+    }
 }
 
 @media (max-width: 500px) {
@@ -282,7 +325,7 @@ video {
         font-size: 13px;
         padding: 8px 15px;
     }
-}
+}   
 
 @media (max-width: 480px) {
     .container {
