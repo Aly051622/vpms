@@ -83,18 +83,13 @@ try {
     // Check if the OCR response contains parsed text
     if (isset($ocrResult['ParsedResults'][0]['ParsedText'])) {
         $tesseract_output = $ocrResult['ParsedResults'][0]['ParsedText'];
-        // Debugging: Print the raw OCR output
-        // echo "<pre>" . htmlspecialchars($tesseract_output) . "</pre>";
     } else {
         die("No text found in the image.");
     }
 
     // Attempt to extract the expiration date from the OCR output
     // Regex for date: This will match dates in various formats like YYYY/MM/DD, YYYY-MM-DD, etc.
-    preg_match_all('/(\d{4})[\/\-\s]?\d{1,2}[\/\-\s]?\d{1,3}/', $tesseract_output, $matches);
-
-    // Debugging: Output the matches
-    // echo "<pre>" . print_r($matches, true) . "</pre>";
+    preg_match_all('/\b(\d{4})[\/\-\s]?\d{1,2}[\/\-\s]?\d{1,2}\b/', $tesseract_output, $matches);
 
     if (empty($matches[0])) {
         die("No expiration date found in the image.");
@@ -103,17 +98,20 @@ try {
     // Extract the first match (assuming it's the expiration date)
     $expiration_date_str = $matches[0][0];
 
-    // Correct the date format by ensuring valid day part (strip out invalid days)
-    // Replace the 3-digit day with a valid 2-digit day (if it is invalid)
+    // Debugging: Display the extracted expiration date
+    // echo "Extracted Expiration Date: " . $expiration_date_str . "<br>";
+
+    // Normalize the expiration date to a standard format (YYYY-MM-DD)
+    // Fix any invalid date formats if necessary, e.g., 2033/10103 -> 2033/10/03
     $expiration_date_str = preg_replace('/(\d{4})\/(\d{2})\/(\d{3})/', '$1/$2/01', $expiration_date_str);
 
     // Convert to standard date format (YYYY-MM-DD)
     $expiration_date = date("Y-m-d", strtotime($expiration_date_str));
 
-    // Debugging: Display the extracted expiration date
-    // echo "Extracted Expiration Date: " . $expiration_date . "<br>";
+    // Display or use the expiration date as needed
+    echo "Expiration Date: " . $expiration_date . "<br>";
 
-    // Insert the expiration date into the database
+    // Insert the expiration date into the database (optional)
     $current_date = date("Y-m-d");
     $validity = ($expiration_date >= $current_date) ? 1 : 0;
 
