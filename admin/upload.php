@@ -79,14 +79,13 @@ try {
     // Check if the OCR response contains parsed text
     if (isset($ocrResult['ParsedResults'][0]['ParsedText'])) {
         $tesseract_output = $ocrResult['ParsedResults'][0]['ParsedText'];
+        // Debugging: Print the raw OCR output
+        echo "<pre>" . htmlspecialchars($tesseract_output) . "</pre>";
     } else {
         die("No text found in the image.");
     }
 
-    // Debugging: print the raw OCR output
-    // echo "<pre>" . htmlspecialchars($tesseract_output) . "</pre>";
-
-    // Enhance the regex to handle different formats
+    // Attempt to extract the expiration date from the OCR output
     preg_match_all('/\b(\d{4})[-\/\s]?(0[1-9]|1[0-2])[-\/\s]?(0[1-9]|[12][0-9]|3[01])\b/', $tesseract_output, $matches);
 
     if (empty($matches[0])) {
