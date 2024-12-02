@@ -70,8 +70,7 @@ if (isset($_SESSION['error_message'])) {
             font-family: 'Poppins', sans-serif;
         }
         input[type="email"],
-        input[type="file"],
-        input[type="date"] {
+        input[type="file"] {
             width: 100%;
             padding: 8px;
             margin: 10px 0;
@@ -81,8 +80,7 @@ if (isset($_SESSION['error_message'])) {
             font-family: 'Poppins', sans-serif;
         }
         input[type="email"]:hover,
-        input[type="file"]:hover,
-        input[type="date"]:hover {
+        input[type="file"]:hover {
             background-color: whitesmoke;
             box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
         }
@@ -112,11 +110,6 @@ if (isset($_SESSION['error_message'])) {
             padding: 10px;
             margin-bottom: 20px;
             border-radius: 5px;
-        }
-
-        /* Additional styling for the new inputs */
-        .form-group {
-            margin-bottom: 15px;
         }
     </style>
 </head>
@@ -159,15 +152,8 @@ if (isset($_SESSION['error_message'])) {
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" placeholder="Enter your email" required><br>
 
-            <div class="form-group">
-                <label for="license_image">Select Driver's License Image:</label>
-                <input type="file" id="license_image" name="license_image" accept="image/*"><br>
-            </div>
-
-            <div class="form-group">
-                <label for="expiration_date">Expiration Date:</label>
-                <input type="date" id="expiration_date" name="expiration_date" required><br>
-            </div>
+            <label for="license_image">Select Driver's License Image:</label>
+            <input type="file" id="license_image" name="license_image" accept="image/*" required><br>
 
             <button type="submit" id="submit">Submit</button>
         </form>
