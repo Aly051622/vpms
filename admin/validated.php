@@ -1,28 +1,25 @@
 <?php
 session_start();
-include('../DBconnection/dbconnection.php');
+include_once('includes/db.php');
 
-// Fetch validated clients with expiration date and ensure uniqueness
-$queryValidated = "
-    SELECT DISTINCT u.email, u.expiration_date, u.validity
-    FROM uploads u
-    JOIN tblregusers r ON u.email = r.Email
-    WHERE u.validity > 0 AND u.expiration_date >= CURDATE()
-";
-$resultValidated = mysqli_query($con, $queryValidated);
-$validatedClients = [];
-
-if ($resultValidated && mysqli_num_rows($resultValidated) > 0) {
-    while ($row = mysqli_fetch_assoc($resultValidated)) {
-        // Check if the email is already in the validated clients array
-        if (!in_array($row['email'], array_column($validatedClients, 'email'))) {
-            $validatedClients[] = $row;
-        }
-    }
+if (isset($_SESSION['error_message'])) {
+    echo "<div class='alert alert-danger'>{$_SESSION['error_message']}</div>";
+    unset($_SESSION['error_message']);
 }
 
-mysqli_close($con);
+// Fetch the latest record from the 'validations' table
+$sql = "SELECT email, expiration_date FROM validations ORDER BY id DESC LIMIT 1";
+$result = mysqli_query($conn, $sql);
+
+if ($result && mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    echo "Email: " . htmlspecialchars($row['email']) . "<br>";
+    echo "Expiration Date: " . htmlspecialchars($row['expiration_date']) . "<br>";
+} else {
+    echo "No data found.";
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

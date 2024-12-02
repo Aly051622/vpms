@@ -1,29 +1,34 @@
 <?php
-    session_start();
-    if (isset($_SESSION['error_message'])) {
-        echo "<div class='alert alert-danger'>{$_SESSION['error_message']}</div>";
-        unset($_SESSION['error_message']); // Clear the message after displaying
-    }
+session_start();
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $email = $_POST['email'];
-        $expiration_date = $_POST['expiration_date'];
-        
-        // Get the current date
-        $current_date = date('Y-m-d');
-        
+// Assuming you already have a connection to the database (e.g., $conn)
+include_once('includes/db.php');
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = $_POST['email'];
+    $expiration_date = $_POST['expiration_date'];
+    
+    // Get the current date
+    $current_date = date('Y-m-d');
+    
+    // Insert the data into the database
+    $sql = "INSERT INTO validations (email, expiration_date) VALUES ('$email', '$expiration_date')";
+    if (mysqli_query($conn, $sql)) {
         // Compare the current date with the expiration date
         if ($current_date > $expiration_date) {
-            // If the current date is greater than the expiration date, redirect to invalidated.php
             header("Location: invalidated.php");
-            exit();
         } else {
-            // If the current date is less than or equal to the expiration date, redirect to validated.php
             header("Location: validated.php");
-            exit();
         }
+        exit();
+    } else {
+        $_SESSION['error_message'] = "Error: " . mysqli_error($conn);
+        header("Location: validation.php");
+        exit();
     }
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
