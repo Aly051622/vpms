@@ -2,7 +2,7 @@
 session_start();
 include('../DBconnection/dbconnection.php');
 
-// Fetch validated clients with expiration date and ensure uniqueness
+// Fetch validated clients with expiration date greater than current date
 $queryValidated = "
     SELECT DISTINCT u.email, u.expiration_date, u.validity
     FROM uploads u
