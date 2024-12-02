@@ -32,6 +32,17 @@ try {
         die("Upload directory does not exist.");
     }
 
+    // Check if the file already exists in the database
+    $query_check = "SELECT * FROM uploads WHERE filename = '$license_image'";
+    $result_check = mysqli_query($con, $query_check);
+
+    if (mysqli_num_rows($result_check) > 0) {
+        // Append a unique identifier to the filename to avoid duplicates
+        $file_extension = pathinfo($license_image, PATHINFO_EXTENSION);
+        $filename_without_extension = pathinfo($license_image, PATHINFO_FILENAME);
+        $license_image = $filename_without_extension . '_' . time() . '.' . $file_extension;
+    }
+
     // Move the uploaded file to the target directory
     $target_file = $upload_path . $license_image;
     if (!move_uploaded_file($_FILES['license_image']['tmp_name'], $target_file)) {
