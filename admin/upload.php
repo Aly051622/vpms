@@ -74,12 +74,18 @@ try {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    
+
+    // Debugging: Enable verbose output to check for errors
+    curl_setopt($ch, CURLOPT_VERBOSE, true);
+
     $ocrResponse = curl_exec($ch);
     
     // Check for errors in the cURL request
     if ($ocrResponse === false) {
-        die("OCR API request failed: " . curl_error($ch));
+        // Get the cURL error details
+        $curl_error = curl_error($ch);
+        $curl_info = curl_getinfo($ch);
+        die("OCR API request failed: $curl_error. cURL info: " . print_r($curl_info, true));
     }
 
     // Decode the OCR API response
@@ -93,10 +99,8 @@ try {
     }
 
     // Attempt to extract the expiration date from the OCR output
-    // Regex to capture the expiration date in various formats like YYYY/MM/DD, YYYY-MM-DD
     preg_match_all('/\b(\d{4})[\/\-\s]?\d{1,2}[\/\-\s]?\d{1,2}\b/', $tesseract_output, $matches);
 
-    // Check if a valid expiration date was found
     if (empty($matches[0])) {
         die("No expiration date found in the image.");
     }
