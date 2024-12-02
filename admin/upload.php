@@ -83,6 +83,16 @@ try {
     $expiration_date_str = $matches[0][0];
     $expiration_date = date("Y-m-d", strtotime($expiration_date_str));
 
+    // Calculate renewal date (3 months after expiration)
+    $renewal_date = date("Y-m-d", strtotime("+3 months", strtotime($expiration_date)));
+
+    // Prepare the message
+    $message = "This payment is valid until " . date("F j, Y", strtotime($expiration_date)) . 
+               " and due for renewal on " . date("F j, Y", strtotime($renewal_date)) . ".";
+
+    // Output the message
+    echo $message;
+
     // Insert the expiration date into the database
     $current_date = date("Y-m-d");
     $validity = ($expiration_date >= $current_date) ? 1 : 0;
