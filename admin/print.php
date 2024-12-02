@@ -102,7 +102,7 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
             <div id="exampl" class="receipt-table">
                 <div class="container">
                     <div class="header-content">
-                        <img src="images/header.png" alt="header" class="center">
+                        <img src="images/head.png" alt="header" class="center">
                     </div>
                 </div>
                 <table border="1" class="table table-bordered mg-b-0">
@@ -143,7 +143,7 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
                     <?php } ?>
                 </table>
                 <div class="footer-content">
-                    <img src="images/footer.png" alt="footer" class="center">
+                    <img src="images/foot.png" alt="footer" class="center">
                 </div>
             </div>
         <?php
