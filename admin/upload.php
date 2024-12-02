@@ -72,6 +72,9 @@ try {
         die("No text found in the image.");
     }
 
+    // Output the extracted text
+    echo "<pre>" . htmlspecialchars($tesseract_output) . "</pre>";
+
     // Extract the expiration date using regex
     preg_match_all('/\b(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})\b/', $tesseract_output, $matches);
 
