@@ -1,26 +1,12 @@
 <?php
 session_start();
-include_once('includes/db.php');
+include_once('includes/dbconnection.php');
 
-if (isset($_SESSION['error_message'])) {
-    echo "<div class='alert alert-danger'>{$_SESSION['error_message']}</div>";
-    unset($_SESSION['error_message']);
-}
-
-// Fetch the latest record from the 'validations' table
-$sql = "SELECT email, expiration_date FROM validations ORDER BY id DESC LIMIT 1";
-$result = mysqli_query($conn, $sql);
-
-if ($result && mysqli_num_rows($result) > 0) {
-    $row = mysqli_fetch_assoc($result);
-    echo "Email: " . htmlspecialchars($row['email']) . "<br>";
-    echo "Expiration Date: " . htmlspecialchars($row['expiration_date']) . "<br>";
-} else {
-    echo "No data found.";
-}
+// Fetch validated clients
+$query = "SELECT email, expiration_date FROM validations WHERE validity = 1 ORDER BY expiration_date DESC";
+$result = mysqli_query($conn, $query);
+$validatedClients = mysqli_fetch_all($result, MYSQLI_ASSOC);
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,46 +14,14 @@ if ($result && mysqli_num_rows($result) > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Validated | CTU Danao Parking System</title>
     <style>
-        body {
-            background: whitesmoke;
-            font-family: Arial, sans-serif;
-            overflow-x: hidden;
-        }
-        h1 {
-            text-align: center;
-            margin-top: 7px;
-            color: #1e3c72;
-            font-weight: bold;
-        }
-        .bg-primary {
-            color: white;
-        }
-        .table {
-            margin: 20px auto;
-            width: 90%;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .table th, .table td {
-            text-align: center;
-            padding: 10px;
-        }
+        /* Add your styles here */
     </style>
 </head>
 <body>
-
-<div class="container">
-    <?php if (empty($validatedClients)): ?>
-        <div class="alert alert-info">
-            No validated clients found in the system.
-        </div>
-    <?php endif; ?>
-
-    <h4 class="text-center">Validated Clients</h4>
-    <div class="table-responsive">
+    <h1 class="text-center">Validated Clients</h1>
+    <div class="container">
         <table class="table table-striped table-bordered">
-            <thead class="bg-primary">
+            <thead>
                 <tr>
                     <th>Email</th>
                     <th>Expiration Date</th>
@@ -76,39 +30,27 @@ if ($result && mysqli_num_rows($result) > 0) {
                 </tr>
             </thead>
             <tbody>
-                <?php if (!empty($validatedClients)): ?>
-                    <?php foreach ($validatedClients as $client): ?>
-                        <?php
-                            $expirationDate = new DateTime($client['expiration_date']);
-                            $currentDate = new DateTime();
-                            $remainingDays = $currentDate->diff($expirationDate)->format('%r%a'); // Positive or negative days
-
-                            // Determine if the expiration date is far or not met
-                            $status = '';
-                            if ($remainingDays > 0) {
-                                $status = 'Expiration is coming up in ' . $remainingDays . ' days.';
-                            } elseif ($remainingDays == 0) {
-                                $status = 'Expiration is today.';
-                            } else {
-                                $status = 'Expired ' . abs($remainingDays) . ' days ago.';
-                            }
-                        ?>
-                        <tr>
-                            <td><?= htmlspecialchars($client['email']) ?></td>
-                            <td><?= htmlspecialchars($client['expiration_date']) ?></td>
-                            <td><?= $remainingDays ?> days remaining</td>
-                            <td><?= $status ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
+                <?php foreach ($validatedClients as $client): ?>
+                    <?php
+                        $expirationDate = new DateTime($client['expiration_date']);
+                        $currentDate = new DateTime();
+                        $remainingDays = $currentDate->diff($expirationDate)->format('%r%a');
+                        $status = $remainingDays > 0 ? "Valid" : "Expired";
+                    ?>
                     <tr>
-                        <td colspan="4" class="text-center">No data to display.</td>
+                        <td><?= htmlspecialchars($client['email']) ?></td>
+                        <td><?= htmlspecialchars($client['expiration_date']) ?></td>
+                        <td><?= $remainingDays ?> days</td>
+                        <td><?= $status ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                <?php if (empty($validatedClients)): ?>
+                    <tr>
+                        <td colspan="4" class="text-center">No validated clients found.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
         </table>
     </div>
-</div>
-
 </body>
 </html>
