@@ -139,19 +139,17 @@ $conn->close();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
     <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="apple-touch-icon" href="images/ctu.png">
-    <link rel="shortcut icon" href="images/ctu.png">
-    <link rel="stylesheet" href="guard.css">
+    <link rel="apple-touch-icon" href="../images/aa.png">
+    <link rel="shortcut icon" href="../images/ctu.png">
 
     <title>QR Code Login Scanner | CTU DANAO Parking System</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
      .containers{
-        padding-top:10px;
-        margin-top:-3em;
-        padding: 10px;
-        margin-left: 27em;
+        width: 90%; /* Make the container occupy most of the screen */
+    max-width: 1200px;
+    margin: auto;
+    padding: 15px;
     }
     /*qrbutton add css*/
     .dropbtns{
@@ -191,30 +189,8 @@ $conn->close();
         margin-left: 11em;
     }
 }
-</style>
-
-<nav class="navbar">
-    
-<div class="navbar-brand"><a href="monitor.php" style="color: white; margin-top: 10px; margin-left: 10px;">Parking Slot Manager</a></div>
-<div class="containers">
-    <div class="navbar-toggler" onclick="toggleMenu()">&#9776;</div>
-    <div class="navbar-menu" id="navbarMenu" >
-
-        <!-- QR Login Button -->
-        <a href="qrlogin.php" class=" dropbtns"><i class="bi bi-car-front-fill"></i> QR Log-in</a>
-      
-
-        <!-- Manual Input Button -->
-        <a href="malogin.php" class=" dropbtns"><i class="bi bi-display-fill"></i> Manual Log-in</a>
-
-        <a href="logout.php" class=" dropbtns"><i class="bi bi-house-fill"></i> Home</a>
-       
-    </div>
-</div>
-</nav>
-    <style>
-         /* Body and Container */
-        body {
+  /* Body and Container */
+  body {
             color: black;
             background-color: whitesmoke;
         }
@@ -300,15 +276,15 @@ $conn->close();
             background-color: #c9302c;
         }
         .table-responsive {
-        display: flex;
+        display: block;
         flex-direction: column;
         width: 100%;
         margin-top: 20px;
         align-items: center;
-        overflow-x: hidden; /* Prevent horizontal scrolling */
+        overflow-x: auto; /* Prevent horizontal scrolling */
     }
     .table {
-        width: 50%;
+        width: 100%;
         table-layout: fixed; /* Ensure columns fit within the table width */
         border-collapse: collapse;
         background-color: #f9fcff;
@@ -319,6 +295,8 @@ $conn->close();
         text-align: left;
         border: 1px solid #ddd;
         white-space: normal; /* Allow text wrapping */
+        font-size: 0.9rem;
+        word-wrap: break-word;
     }
     .table th {
         font-weight: bold;
@@ -337,6 +315,27 @@ $conn->close();
             font-size: 12px;
             padding: 6px;
         }
+        .containers {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    .navbar-toggler {
+        margin-left: 1em;
+    }
+
+    .btn-primary, .btn-success, .btn-danger, .btn-warning {
+        font-size: 0.8rem; /* Smaller font for buttons on small screens */
+        padding: 8px;
+    }
+
+    .form-group label, .form-control {
+        font-size: 0.9rem;
+    }
+
+    .modal-content {
+        width: 90%; /* Full width modal for small screens */
+    }
     }
     #deletebtn{
                 border: solid darkred;
@@ -385,7 +384,30 @@ $conn->close();
             border: solid orange;
             border-radius: 9px;
         }
-    </style>
+        /* Extra small screens */
+@media (max-width: 480px) {
+    h2, h3 {
+        font-size: 1.5rem;
+    }
+
+    .dropbtns {
+        font-size: 0.8rem;
+        padding: 6px;
+    }
+
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .table th, .table td {
+        font-size: 0.8rem;
+        padding: 6px;
+    }
+}
+</style>
+
+<?php include_once('includes/headerin.php');?>
+
 </head>
 <body>
 
