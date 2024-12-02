@@ -44,7 +44,7 @@ try {
 
     // Define the path to the Python script
     $python_script_path = 'C:/xampp/htdocs/vpms/admin/extract.py';  // Ensure this path is correct
-    $command = "python $python_script_path $target_file";  // Or use 'python3' if needed
+    $command = "python $python_script_path $target_file 2>&1";  // Capture both stdout and stderr
 
     // Execute the Python script and capture the output
     $output = shell_exec($command);
