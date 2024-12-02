@@ -32,64 +32,39 @@ try {
         die("Upload directory does not exist.");
     }
 
+    // Generate a unique filename
+    $file_extension = pathinfo($license_image, PATHINFO_EXTENSION); // Get the file extension
+    $unique_filename = uniqid('license_', true) . '.' . $file_extension; // Create a unique filename
+    $target_file = $upload_path . $unique_filename;
+
     // Move the uploaded file to the target directory
-    $target_file = $upload_path . $license_image;
     if (!move_uploaded_file($_FILES['license_image']['tmp_name'], $target_file)) {
         die("Failed to move the uploaded file.");
     }
 
-    // OCR API key and endpoint
-    $ocr_api_key = 'K86756414488957'; // Your free OCR.space API key
-    $ocr_url = 'https://api.ocr.space/parse/image';
+    // Call the Python script to extract the expiration date
+    $python_script_path = 'C:/path/to/extract.py'; // Make sure to set the correct path
+    $command = "python $python_script_path $target_file";
+    $output = shell_exec($command);
 
-    // Prepare the cURL request for OCR API
-    $data = array(
-        'apikey' => $ocr_api_key,
-        'language' => 'eng',
-        'file' => new CURLFile($target_file)
-    );
+    // Parse the output from the Python script
+    preg_match('/Expiration Date Found: (\d{2}[-/]\d{2}[-/]\d{4})/', $output, $matches);
 
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $ocr_url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    
-    $ocrResponse = curl_exec($ch);
-    
-    // Check for errors in the cURL request
-    if ($ocrResponse === false) {
-        die("OCR API request failed: " . curl_error($ch));
-    }
-
-    // Decode the OCR API response
-    $ocrResult = json_decode($ocrResponse, true);
-
-    // Check if the OCR response contains parsed text
-    if (isset($ocrResult['ParsedResults'][0]['ParsedText'])) {
-        $tesseract_output = $ocrResult['ParsedResults'][0]['ParsedText'];
-    } else {
-        die("No text found in the image.");
-    }
-
-    // Extract the expiration date using regex
-    preg_match_all('/\b(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})\b/', $tesseract_output, $matches);
-
-    if (empty($matches[0])) {
+    if (empty($matches)) {
         die("No expiration date found in the image.");
     }
 
-    // Assuming the first match is the correct expiration date
-    $expiration_date_str = $matches[0][0];
+    // Get the expiration date
+    $expiration_date_str = $matches[1];
     $expiration_date = date("Y-m-d", strtotime($expiration_date_str));
 
-    // Insert the expiration date into the database
+    // Determine if the license is valid or expired
     $current_date = date("Y-m-d");
     $validity = ($expiration_date >= $current_date) ? 1 : 0;
 
-    // Prepare the insert query
+    // Insert the expiration date into the database
     $insert_query = "INSERT INTO uploads (email, filename, file_size, file_type, uploaded_at, status, expiration_date, validity) 
-                     VALUES ('$email', '$license_image', {$_FILES['license_image']['size']}, '{$_FILES['license_image']['type']}', NOW(), 'approved', '$expiration_date', $validity)";
+                     VALUES ('$email', '$unique_filename', {$_FILES['license_image']['size']}, '{$_FILES['license_image']['type']}', NOW(), 'approved', '$expiration_date', $validity)";
 
     if (mysqli_query($con, $insert_query)) {
         // Update the user's validity status in the tblregusers table
