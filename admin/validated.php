@@ -1,6 +1,6 @@
 <?php
 // Database connection
-include('includes/db.php');
+include('includes/dbconnection.php');
 
 // Query to fetch valid users
 $query = "SELECT DISTINCT u.email, u.expiration_date, u.validity 
