@@ -38,42 +38,16 @@ try {
         die("Failed to move the uploaded file.");
     }
 
-    // OCR API key and endpoint
-    $ocr_api_key = 'K86756414488957'; // Replace with your actual API key
-    $ocr_url = 'https://api.ocr.space/parse/image';
+    // Call Python script for OCR text extraction
+    $command = escapeshellcmd("python3 /path/to/ocr.py $target_file");
+    $ocr_output = shell_exec($command);
 
-    // Prepare the cURL request for OCR API
-    $data = array(
-        'apikey' => $ocr_api_key,
-        'language' => 'eng',
-        'file' => new CURLFile($target_file)
-    );
-
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $ocr_url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    
-    $ocrResponse = curl_exec($ch);
-    
-    // Check for errors in the cURL request
-    if ($ocrResponse === false) {
-        die("OCR API request failed: " . curl_error($ch));
+    if (!$ocr_output) {
+        die("OCR extraction failed.");
     }
 
-    // Decode the OCR API response
-    $ocrResult = json_decode($ocrResponse, true);
-
-    // Check if the OCR response contains parsed text
-    if (isset($ocrResult['ParsedResults'][0]['ParsedText'])) {
-        $tesseract_output = $ocrResult['ParsedResults'][0]['ParsedText'];
-    } else {
-        die("No text found in the image.");
-    }
-
-    // Extract the expiration date using regex
-    preg_match_all('/\b(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})\b/', $tesseract_output, $matches);
+    // Assuming the OCR output contains the expiration date, extract it
+    preg_match_all('/\b(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})\b/', $ocr_output, $matches);
 
     if (empty($matches[0])) {
         die("No expiration date found in the image.");
@@ -111,4 +85,3 @@ try {
     // Close the database connection
     mysqli_close($con);
 }
-?>
