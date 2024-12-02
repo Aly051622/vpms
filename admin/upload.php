@@ -32,41 +32,21 @@ try {
         die("Upload directory does not exist.");
     }
 
-    // Check if the file already exists in the database
-    $license_image_safe = basename($license_image);
-
-    // Check if the file already exists in the database
-    $query_check = "SELECT * FROM uploads WHERE filename = '$license_image_safe'";
-    $result_check = mysqli_query($con, $query_check);
-
-    if (mysqli_num_rows($result_check) > 0) {
-        $file_extension = pathinfo($license_image_safe, PATHINFO_EXTENSION);
-        $filename_without_extension = pathinfo($license_image_safe, PATHINFO_FILENAME);
-        $license_image_safe = $filename_without_extension . '_' . time() . '.' . $file_extension;
-    }
-
     // Move the uploaded file to the target directory
-    $target_file = $upload_path . $license_image_safe;
+    $target_file = $upload_path . $license_image;
     if (!move_uploaded_file($_FILES['license_image']['tmp_name'], $target_file)) {
         die("Failed to move the uploaded file.");
     }
 
-    // Preprocess the image using OpenCV or other tools to enhance it before sending it to OCR
-    // This could involve increasing contrast, resizing, and converting to grayscale
-    
-    // Call Tesseract with configurations for better small text recognition
+    // OCR API key and endpoint
     $ocr_api_key = 'K86756414488957'; // Replace with your actual API key
     $ocr_url = 'https://api.ocr.space/parse/image';
 
-    // Preprocess the image to enhance it
-    // Resize image for better recognition of small text (e.g., increase DPI)
-    $processed_image = 'path_to_processed_image.jpg'; // Save your preprocessed image here
-    
     // Prepare the cURL request for OCR API
     $data = array(
         'apikey' => $ocr_api_key,
         'language' => 'eng',
-        'file' => new CURLFile($processed_image)
+        'file' => new CURLFile($target_file)
     );
 
     $ch = curl_init();
@@ -74,18 +54,12 @@ try {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-    // Debugging: Enable verbose output to check for errors
-    curl_setopt($ch, CURLOPT_VERBOSE, true);
-
+    
     $ocrResponse = curl_exec($ch);
     
     // Check for errors in the cURL request
     if ($ocrResponse === false) {
-        // Get the cURL error details
-        $curl_error = curl_error($ch);
-        $curl_info = curl_getinfo($ch);
-        die("OCR API request failed: $curl_error. cURL info: " . print_r($curl_info, true));
+        die("OCR API request failed: " . curl_error($ch));
     }
 
     // Decode the OCR API response
@@ -98,35 +72,24 @@ try {
         die("No text found in the image.");
     }
 
-    // Attempt to extract the expiration date from the OCR output
-    preg_match_all('/\b(\d{4})[\/\-\s]?\d{1,2}[\/\-\s]?\d{1,2}\b/', $tesseract_output, $matches);
+    // Extract the expiration date using regex
+    preg_match_all('/\b(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})\b/', $tesseract_output, $matches);
 
     if (empty($matches[0])) {
         die("No expiration date found in the image.");
     }
 
-    // Extract the first match (assuming it's the expiration date)
+    // Assuming the first match is the correct expiration date
     $expiration_date_str = $matches[0][0];
-
-    // Debugging: Display the extracted expiration date
-    echo "Extracted Expiration Date: " . $expiration_date_str . "<br>";
-
-    // Normalize the expiration date to a standard format (YYYY-MM-DD)
-    $expiration_date_str = preg_replace('/(\d{4})\/(\d{2})\/(\d{3})/', '$1/$2/01', $expiration_date_str);
-
-    // Convert to standard date format (YYYY-MM-DD)
     $expiration_date = date("Y-m-d", strtotime($expiration_date_str));
 
-    // Display or use the expiration date as needed
-    echo "Expiration Date: " . $expiration_date . "<br>";
-
-    // Insert the expiration date into the database (optional)
+    // Insert the expiration date into the database
     $current_date = date("Y-m-d");
     $validity = ($expiration_date >= $current_date) ? 1 : 0;
 
     // Prepare the insert query
     $insert_query = "INSERT INTO uploads (email, filename, file_size, file_type, uploaded_at, status, expiration_date, validity) 
-                     VALUES ('$email', '$license_image_safe', {$_FILES['license_image']['size']}, '{$_FILES['license_image']['type']}', NOW(), 'approved', '$expiration_date', $validity)";
+                     VALUES ('$email', '$license_image', {$_FILES['license_image']['size']}, '{$_FILES['license_image']['type']}', NOW(), 'approved', '$expiration_date', $validity)";
 
     if (mysqli_query($con, $insert_query)) {
         // Update the user's validity status in the tblregusers table
