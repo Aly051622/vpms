@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-// Assuming you already have a connection to the database (e.g., $conn)
-include_once('includes/db.php');
+// Include the database connection
+include_once('includes/dbconnection.php');  // Adjust path if necessary
 
 // Enable error reporting (for debugging)
 error_reporting(E_ALL);
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Use a prepared statement to insert the data securely
     $sql = "INSERT INTO validations (email, expiration_date) VALUES (?, ?)";
-    $stmt = mysqli_prepare($conn, $sql);
+    $stmt = mysqli_prepare($con, $sql);  // Use $con here instead of $conn
 
     if ($stmt) {
         // Bind the parameters to the prepared statement
@@ -38,14 +38,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit();
         }
     } else {
-        $_SESSION['error_message'] = "Error preparing statement: " . mysqli_error($conn);
+        $_SESSION['error_message'] = "Error preparing statement: " . mysqli_error($con);  // Use $con here instead of $conn
         header("Location: validation.php");
         exit();
     }
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
