@@ -155,7 +155,7 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
         <?php 
         // Assuming $row['InTime'] is in 'YYYY-MM-DD HH:MM:SS' format
         $datetime = new DateTime($row['InTime']);
-        echo $datetime->format('d/m/Y h:i A'); // Format: day/month/year hours:minutes AM/PM
+        echo $datetime->format('m/d/Y h:i A'); // Format: month/day/year hours:minutes AM/PM
         ?>
     </td>
     <th>Status</th>
