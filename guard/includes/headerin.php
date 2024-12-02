@@ -5,8 +5,26 @@
         margin-top:-8px;
     }
     .navbar{
-        padding: 10px;
+        background-color: #1e3c72; /* Solid blue background */
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px; /* Subtle shadow */
     }
+
+    .navbar a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+.navbar a:hover {
+    color: orange; /* Highlight effect */
+}
     /*qrbutton add css*/
     .dropbtns{
             color: white;
@@ -25,6 +43,14 @@
             color: orange;
             border: solid orange;
         }
+        .navbar-toggler {
+    font-size: 1.5em;
+    color: white;
+    cursor: pointer;
+    display: none; /* Hidden by default */
+    border: none;
+    background: none;
+}
     @media (max-width: 480px){
     .container{
         padding-top:10px;
@@ -36,6 +62,35 @@
     .navbar-toggler{
         margin-top: -33px;
         margin-left: 11em;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .navbar-toggler {
+        display: block; /* Show toggler on small screens */
+    }
+
+    .navbar-menu {
+        display: none; /* Hidden by default */
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        background-color: #1e3c72;
+        padding: 10px 0;
+    }
+
+    .navbar-menu a {
+        margin: 10px 20px;
+    }
+
+    .navbar-menu.show {
+        display: flex; /* Show menu when toggled */
     }
 }
 </style>
