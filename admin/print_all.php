@@ -73,6 +73,9 @@ include('includes/dbconnection.php');
 <body onload="printPage()">
     <div class="heading-container">
         <div class="print-container">
+                    <div class="header-content">
+                        <img src="images/header.png" alt="header" class="center">
+                    </div>
                 <h3 class="text-center">All Vehicle Records</h3>
             <table class="table table-bordered table-striped">
                     <thead>
@@ -112,6 +115,9 @@ include('includes/dbconnection.php');
                         <?php } ?>
                     </tbody>
             </table>
+                <div class="footer-content">
+                        <img src="images/footer.png" alt="footer" class="center">
+                </div>
         </div>
     </div>
 </body>
