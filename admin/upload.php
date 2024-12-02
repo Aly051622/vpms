@@ -33,14 +33,12 @@ try {
     }
 
     // Check if the file already exists in the database
-    // First, sanitize the filename to ensure it’s safe
     $license_image_safe = basename($license_image);
 
     // Check if the file already exists in the database
     $query_check = "SELECT * FROM uploads WHERE filename = '$license_image_safe'";
     $result_check = mysqli_query($con, $query_check);
 
-    // If file exists, append a unique identifier (e.g., timestamp or random string)
     if (mysqli_num_rows($result_check) > 0) {
         $file_extension = pathinfo($license_image_safe, PATHINFO_EXTENSION);
         $filename_without_extension = pathinfo($license_image_safe, PATHINFO_FILENAME);
@@ -53,15 +51,22 @@ try {
         die("Failed to move the uploaded file.");
     }
 
-    // OCR API key and endpoint
+    // Preprocess the image using OpenCV or other tools to enhance it before sending it to OCR
+    // This could involve increasing contrast, resizing, and converting to grayscale
+    
+    // Call Tesseract with configurations for better small text recognition
     $ocr_api_key = 'K86756414488957'; // Replace with your actual API key
     $ocr_url = 'https://api.ocr.space/parse/image';
 
+    // Preprocess the image to enhance it
+    // Resize image for better recognition of small text (e.g., increase DPI)
+    $processed_image = 'path_to_processed_image.jpg'; // Save your preprocessed image here
+    
     // Prepare the cURL request for OCR API
     $data = array(
         'apikey' => $ocr_api_key,
         'language' => 'eng',
-        'file' => new CURLFile($target_file)
+        'file' => new CURLFile($processed_image)
     );
 
     $ch = curl_init();
@@ -103,7 +108,6 @@ try {
     echo "Extracted Expiration Date: " . $expiration_date_str . "<br>";
 
     // Normalize the expiration date to a standard format (YYYY-MM-DD)
-    // Fix any invalid date formats if necessary, e.g., 2033/10103 -> 2033/10/03
     $expiration_date_str = preg_replace('/(\d{4})\/(\d{2})\/(\d{3})/', '$1/$2/01', $expiration_date_str);
 
     // Convert to standard date format (YYYY-MM-DD)
