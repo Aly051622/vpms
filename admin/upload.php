@@ -88,9 +88,10 @@ try {
     }
 
     // Attempt to extract the expiration date from the OCR output
-    // Regex for date: This will match dates in various formats like YYYY/MM/DD, YYYY-MM-DD, etc.
+    // Regex to capture the expiration date in various formats like YYYY/MM/DD, YYYY-MM-DD
     preg_match_all('/\b(\d{4})[\/\-\s]?\d{1,2}[\/\-\s]?\d{1,2}\b/', $tesseract_output, $matches);
 
+    // Check if a valid expiration date was found
     if (empty($matches[0])) {
         die("No expiration date found in the image.");
     }
@@ -99,7 +100,7 @@ try {
     $expiration_date_str = $matches[0][0];
 
     // Debugging: Display the extracted expiration date
-    // echo "Extracted Expiration Date: " . $expiration_date_str . "<br>";
+    echo "Extracted Expiration Date: " . $expiration_date_str . "<br>";
 
     // Normalize the expiration date to a standard format (YYYY-MM-DD)
     // Fix any invalid date formats if necessary, e.g., 2033/10103 -> 2033/10/03
