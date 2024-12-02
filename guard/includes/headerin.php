@@ -112,3 +112,11 @@
     </div>
 </div>
 </nav>
+
+<script>
+/* Toggle Navbar Menu */
+function toggleMenu() {
+    const menu = document.getElementById('navbarMenu');
+    menu.classList.toggle('show');
+}
+</script>
