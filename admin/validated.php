@@ -18,9 +18,17 @@ if ($resultValidated && mysqli_num_rows($resultValidated) > 0) {
         $current_date = new DateTime();
         $expiration_date = new DateTime($row['expiration_date']);
         $remaining_days = $current_date->diff($expiration_date)->days;
-        
+
         // Add the client to the array with remaining days
         $row['remaining_days'] = $remaining_days;
+        
+        // Check if the expiration date is far in the future (e.g., more than 30 days)
+        if ($remaining_days > 30) {
+            $row['status'] = "License is valid for a long time.";
+        } else {
+            $row['status'] = "License is approaching expiration.";
+        }
+        
         $validatedClients[] = $row;
     }
 }
@@ -45,6 +53,7 @@ if ($resultValidated && mysqli_num_rows($resultValidated) > 0) {
                 <th>Email</th>
                 <th>Expiration Date</th>
                 <th>Remaining Days</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -53,6 +62,7 @@ if ($resultValidated && mysqli_num_rows($resultValidated) > 0) {
                     <td><?php echo htmlspecialchars($client['email']); ?></td>
                     <td><?php echo htmlspecialchars($client['expiration_date']); ?></td>
                     <td><?php echo $client['remaining_days']; ?> days</td>
+                    <td><?php echo $client['status']; ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
