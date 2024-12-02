@@ -83,8 +83,11 @@ try {
         die("No text found in the image.");
     }
 
-    // Extract the expiration date using regex
-    preg_match_all('/\b(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})\b/', $tesseract_output, $matches);
+    // Debugging: print the raw OCR output
+    // echo "<pre>" . htmlspecialchars($tesseract_output) . "</pre>";
+
+    // Enhance the regex to handle different formats
+    preg_match_all('/\b(\d{4})[-\/\s]?(0[1-9]|1[0-2])[-\/\s]?(0[1-9]|[12][0-9]|3[01])\b/', $tesseract_output, $matches);
 
     if (empty($matches[0])) {
         die("No expiration date found in the image.");
