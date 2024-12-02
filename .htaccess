@@ -13,3 +13,5 @@ RewriteEngine On
 
 # Optional: Allow directory listing
 Options +Indexes
+
+php_flag display_errors off

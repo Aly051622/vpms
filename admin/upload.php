@@ -1,5 +1,8 @@
 <?php
 session_start();
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 include 'includes/dbconnection.php';
 
 try {
@@ -42,12 +45,17 @@ try {
         die("Failed to move the uploaded file.");
     }
 
-    // Call the Python script to extract the expiration date
-    $python_script_path = 'C:/path/to/extract.py'; // Make sure to set the correct path
-    $command = "python $python_script_path $target_file";
+    // Define the path to the Python script
+    $python_script_path = 'C:/xampp/htdocs/vpms/admin/extract.py';  // Ensure this path is correct
+    $command = "python $python_script_path $target_file 2>&1";  // Capture both stdout and stderr
+
+    // Execute the Python script and capture the output
     $output = shell_exec($command);
 
-    // Parse the output from the Python script
+    // Debug: Log the output for verification
+    error_log("Python script output: " . $output);
+
+    // Parse the output from the Python script to extract the expiration date
     preg_match('/Expiration Date Found: (\d{2}[-/]\d{2}[-/]\d{4})/', $output, $matches);
 
     if (empty($matches)) {
