@@ -149,15 +149,16 @@
     <!-- Form Container Section -->
         <h2 class="mb-5">Update Driver's License</h2>
         <div class="container">
-        <form action="upload.php" method="POST" enctype="multipart/form-data">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required><br>
+        <form action="upload.php" method="POST">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" placeholder="Enter your email" required><br>
 
-            <label for="license_image">Select Driver's License Image:</label>
-            <input type="file" id="license_image" name="license_image" accept="image/*" required><br>
+    <label for="expiration_date">Expiration or Renewal Date:</label>
+    <input type="date" id="expiration_date" name="expiration_date" required><br>
 
-            <button type="submit" id="submit">Submit</button>
-        </form>
+    <button type="submit" id="submit">Submit</button>
+</form>
+
     </div>
 
     <!-- Scripts -->
