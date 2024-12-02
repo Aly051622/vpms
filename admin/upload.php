@@ -42,49 +42,20 @@ try {
         die("Failed to move the uploaded file.");
     }
 
-    // OCR API key and endpoint
-    $ocr_api_key = 'K86756414488957'; // Your free OCR.space API key
-    $ocr_url = 'https://api.ocr.space/parse/image';
+    // Call the Python script to extract the expiration date
+    $python_script_path = 'C:/path/to/extract.py'; // Make sure to set the correct path
+    $command = "python $python_script_path $target_file";
+    $output = shell_exec($command);
 
-    // Prepare the cURL request for OCR API
-    $data = array(
-        'apikey' => $ocr_api_key,
-        'language' => 'eng',
-        'file' => new CURLFile($target_file)
-    );
+    // Parse the output from the Python script
+    preg_match('/Expiration Date Found: (\d{2}[-/]\d{2}[-/]\d{4})/', $output, $matches);
 
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $ocr_url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    
-    $ocrResponse = curl_exec($ch);
-    
-    // Check for errors in the cURL request
-    if ($ocrResponse === false) {
-        die("OCR API request failed: " . curl_error($ch));
-    }
-
-    // Decode the OCR API response
-    $ocrResult = json_decode($ocrResponse, true);
-
-    // Check if the OCR response contains parsed text
-    if (isset($ocrResult['ParsedResults'][0]['ParsedText'])) {
-        $tesseract_output = $ocrResult['ParsedResults'][0]['ParsedText'];
-    } else {
-        die("No text found in the image.");
-    }
-
-    // Extract the expiration date using regex
-    preg_match_all('/\b(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})\b/', $tesseract_output, $matches);
-
-    if (empty($matches[0])) {
+    if (empty($matches)) {
         die("No expiration date found in the image.");
     }
 
-    // Find and assume the first valid expiration date
-    $expiration_date_str = $matches[0][0];
+    // Get the expiration date
+    $expiration_date_str = $matches[1];
     $expiration_date = date("Y-m-d", strtotime($expiration_date_str));
 
     // Determine if the license is valid or expired
