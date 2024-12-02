@@ -1,18 +1,34 @@
 <?php
-session_start();
+    session_start();
+    if (isset($_SESSION['error_message'])) {
+        echo "<div class='alert alert-danger'>{$_SESSION['error_message']}</div>";
+        unset($_SESSION['error_message']); // Clear the message after displaying
+    }
 
-// Handle error messages from session
-if (isset($_SESSION['error_message'])) {
-    echo "<div class='alert alert-danger'>{$_SESSION['error_message']}</div>";
-    unset($_SESSION['error_message']); // Clear the message after displaying
-}
-
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $email = $_POST['email'];
+        $expiration_date = $_POST['expiration_date'];
+        
+        // Get the current date
+        $current_date = date('Y-m-d');
+        
+        // Compare the current date with the expiration date
+        if ($current_date > $expiration_date) {
+            // If the current date is greater than the expiration date, redirect to invalidated.php
+            header("Location: invalidated.php");
+            exit();
+        } else {
+            // If the current date is less than or equal to the expiration date, redirect to validated.php
+            header("Location: validated.php");
+            exit();
+        }
+    }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="apple-touch-icon" href="../images/aa.png">
     <link rel="shortcut icon" href="../images/aa.png">
@@ -153,16 +169,16 @@ if (isset($_SESSION['error_message'])) {
         <h2 class="mb-5">Update Driver's License</h2>
         <div class="container">
         <form action="validation.php" method="POST">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required><br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" placeholder="Enter your email" required><br>
 
-            <label for="expiration_date">Expiration or Renewal Date:</label>
-            <input type="date" id="expiration_date" name="expiration_date" required><br>
+    <label for="expiration_date">Expiration or Renewal Date:</label>
+    <input type="date" id="expiration_date" name="expiration_date" required><br>
 
-            <button type="submit" id="submit">Submit</button>
-        </form>
+    <button type="submit" id="submit">Submit</button>
+</form>
 
-        </div>
+    </div>
 
     <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
@@ -173,28 +189,3 @@ if (isset($_SESSION['error_message'])) {
 
 </body>
 </html>
-
-<?php
-// Handle form submission logic
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = mysqli_real_escape_string($con, $_POST['email']);
-    $expiration_date = mysqli_real_escape_string($con, $_POST['expiration_date']);
-
-    // Validate expiration date format (YYYY-MM-DD)
-    if (preg_match("/\d{4}-\d{2}-\d{2}/", $expiration_date)) {
-        // Update the expiration date in the tblregusers table
-        $update_query = "UPDATE tblregusers SET expiration_date = '$expiration_date' WHERE email = '$email'";
-
-        if (mysqli_query($con, $update_query)) {
-            $_SESSION['success_message'] = "Expiration date updated successfully!";
-            header('Location: validated.php');
-        } else {
-            $_SESSION['error_message'] = "Error updating expiration date: " . mysqli_error($con);
-            header('Location: validation.php');
-        }
-    } else {
-        $_SESSION['error_message'] = "Invalid date format. Please use MM-DD-YYYY.";
-        header('Location: validation.php');
-    }
-}
-?>
