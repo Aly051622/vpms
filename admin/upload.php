@@ -79,15 +79,15 @@ try {
         die("No expiration date found in the image.");
     }
 
-    // Assuming the first match is the correct expiration date
+    // Find and assume the first valid expiration date
     $expiration_date_str = $matches[0][0];
     $expiration_date = date("Y-m-d", strtotime($expiration_date_str));
 
-    // Insert the expiration date into the database
+    // Determine if the license is valid or expired
     $current_date = date("Y-m-d");
     $validity = ($expiration_date >= $current_date) ? 1 : 0;
 
-    // Prepare the insert query
+    // Insert the expiration date into the database
     $insert_query = "INSERT INTO uploads (email, filename, file_size, file_type, uploaded_at, status, expiration_date, validity) 
                      VALUES ('$email', '$license_image', {$_FILES['license_image']['size']}, '{$_FILES['license_image']['type']}', NOW(), 'approved', '$expiration_date', $validity)";
 
