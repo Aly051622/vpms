@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['license_image'])) {
 <body>
     <div class="container">
         <h2>Update Driver's License</h2>
-        <form action="this_page.php" method="POST" enctype="multipart/form-data">
+        <form action="validation.php" method="POST" enctype="multipart/form-data">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" placeholder="Enter your email" required><br>
             <label for="license_image">Select Driver's License Image:</label>
