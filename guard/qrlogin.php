@@ -63,6 +63,8 @@ $conn->close();
 
 <html class="no-js" lang="">
 <head>
+<link rel="apple-touch-icon" href="../images/aa.png">
+<link rel="shortcut icon" href="../images/aa.png">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script type="text/javascript" src="js/adapter.min.js"></script>
     <script type="text/javascript" src="js/vue.min.js"></script>
@@ -76,8 +78,6 @@ $conn->close();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
     <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="apple-touch-icon" href="../images/aa.png">
-    <link rel="shortcut icon" href="../images/aa.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     
 
