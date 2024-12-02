@@ -4,30 +4,47 @@ session_start();
 // Assuming you already have a connection to the database (e.g., $conn)
 include_once('includes/db.php');
 
+// Enable error reporting (for debugging)
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $expiration_date = $_POST['expiration_date'];
-    
+
     // Get the current date
     $current_date = date('Y-m-d');
-    
-    // Insert the data into the database
-    $sql = "INSERT INTO validations (email, expiration_date) VALUES ('$email', '$expiration_date')";
-    if (mysqli_query($conn, $sql)) {
-        // Compare the current date with the expiration date
-        if ($current_date > $expiration_date) {
-            header("Location: invalidated.php");
+
+    // Use a prepared statement to insert the data securely
+    $sql = "INSERT INTO validations (email, expiration_date) VALUES (?, ?)";
+    $stmt = mysqli_prepare($conn, $sql);
+
+    if ($stmt) {
+        // Bind the parameters to the prepared statement
+        mysqli_stmt_bind_param($stmt, "ss", $email, $expiration_date);
+
+        // Execute the statement
+        if (mysqli_stmt_execute($stmt)) {
+            // Compare the current date with the expiration date
+            if ($current_date > $expiration_date) {
+                header("Location: invalidated.php");
+            } else {
+                header("Location: validated.php");
+            }
+            exit();
         } else {
-            header("Location: validated.php");
+            $_SESSION['error_message'] = "Error executing query: " . mysqli_stmt_error($stmt);
+            header("Location: validation.php");
+            exit();
         }
-        exit();
     } else {
-        $_SESSION['error_message'] = "Error: " . mysqli_error($conn);
+        $_SESSION['error_message'] = "Error preparing statement: " . mysqli_error($conn);
         header("Location: validation.php");
         exit();
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
