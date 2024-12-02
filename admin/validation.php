@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $current_date = date('Y-m-d');
 
     // Use a prepared statement to insert the data securely
-    $sql = "INSERT INTO validations (email, expiration_date) VALUES (?, ?)";
+    $sql = "INSERT INTO uploads(email, expiration_date) VALUES (?, ?)";
     $stmt = mysqli_prepare($con, $sql);  // Use $con here instead of $conn
 
     if ($stmt) {
