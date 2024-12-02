@@ -28,7 +28,7 @@
     /*qrbutton add css*/
     .dropbtns{
             color: white;
-            padding: 10px 15px;
+            padding: 8px 15px;
             font-size: 1em;
             border: none;
             cursor: pointer;
