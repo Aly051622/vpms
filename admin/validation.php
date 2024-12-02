@@ -1,15 +1,15 @@
 <?php
-        session_start();
-        if (isset($_SESSION['error_message'])) {
-            echo "<div class='alert alert-danger'>{$_SESSION['error_message']}</div>";
-            unset($_SESSION['error_message']); // Clear the message after displaying
-        }
-        ?>
- 
+session_start();
+if (isset($_SESSION['error_message'])) {
+    echo "<div class='alert alert-danger'>{$_SESSION['error_message']}</div>";
+    unset($_SESSION['error_message']); // Clear the message after displaying
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="apple-touch-icon" href="../images/aa.png">
     <link rel="shortcut icon" href="../images/aa.png">
@@ -70,7 +70,8 @@
             font-family: 'Poppins', sans-serif;
         }
         input[type="email"],
-        input[type="file"] {
+        input[type="file"],
+        input[type="date"] {
             width: 100%;
             padding: 8px;
             margin: 10px 0;
@@ -80,7 +81,8 @@
             font-family: 'Poppins', sans-serif;
         }
         input[type="email"]:hover,
-        input[type="file"]:hover {
+        input[type="file"]:hover,
+        input[type="date"]:hover {
             background-color: whitesmoke;
             box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
         }
@@ -111,7 +113,11 @@
             margin-bottom: 20px;
             border-radius: 5px;
         }
-        
+
+        /* Additional styling for the new inputs */
+        .form-group {
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -147,25 +153,32 @@
     </div>
 
     <!-- Form Container Section -->
-        <h2 class="mb-5">Update Driver's License</h2>
-        <div class="container">
+    <h2 class="mb-5">Update Driver's License</h2>
+    <div class="container">
         <form action="upload.php" method="POST" enctype="multipart/form-data">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" placeholder="Enter your email" required><br>
 
-            <label for="license_image">Select Driver's License Image:</label>
-            <input type="file" id="license_image" name="license_image" accept="image/*" required><br>
+            <div class="form-group">
+                <label for="license_image">Select Driver's License Image:</label>
+                <input type="file" id="license_image" name="license_image" accept="image/*"><br>
+            </div>
+
+            <div class="form-group">
+                <label for="expiration_date">Expiration Date:</label>
+                <input type="date" id="expiration_date" name="expiration_date" required><br>
+            </div>
 
             <button type="submit" id="submit">Submit</button>
         </form>
     </div>
 
     <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
-<script src="assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+    <script src="assets/js/main.js"></script>
 
 </body>
 </html>
