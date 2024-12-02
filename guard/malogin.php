@@ -139,10 +139,8 @@ $conn->close();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
     <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="apple-touch-icon" href="images/ctu.png">
-    <link rel="shortcut icon" href="images/ctu.png">
-    <link rel="stylesheet" href="guard.css">
+    <link rel="apple-touch-icon" href="../images/aa.png">
+    <link rel="shortcut icon" href="../images/ctu.png">
 
     <title>QR Code Login Scanner | CTU DANAO Parking System</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -193,25 +191,7 @@ $conn->close();
 }
 </style>
 
-<nav class="navbar">
-    
-<div class="navbar-brand"><a href="monitor.php" style="color: white; margin-top: 10px; margin-left: 10px;">Parking Slot Manager</a></div>
-<div class="containers">
-    <div class="navbar-toggler" onclick="toggleMenu()">&#9776;</div>
-    <div class="navbar-menu" id="navbarMenu" >
-
-        <!-- QR Login Button -->
-        <a href="qrlogin.php" class=" dropbtns"><i class="bi bi-car-front-fill"></i> QR Log-in</a>
-      
-
-        <!-- Manual Input Button -->
-        <a href="malogin.php" class=" dropbtns"><i class="bi bi-display-fill"></i> Manual Log-in</a>
-
-        <a href="logout.php" class=" dropbtns"><i class="bi bi-house-fill"></i> Home</a>
-       
-    </div>
-</div>
-</nav>
+<?php include_once('includes/headerin.php');?>
     <style>
          /* Body and Container */
         body {
