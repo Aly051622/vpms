@@ -558,7 +558,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
                 <label for="contactNumber">Contact Number:</label>
                 <input type="text" class="form-control" id="contactNumber" name="contactNumber" placeholder="Enter contact number">
             </div>
-            <button type="submit" class="submit">Submit</button>    
+            <button type="submit" class="btn btn-primary">Submit</button>    
         </form>
 
         <!-- Error Modal -->
