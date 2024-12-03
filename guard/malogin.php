@@ -167,7 +167,7 @@ $conn->close();
 .form-container .form-group input {
     width: 100%; /* Ensure input fields are wide */
     max-width: 700px; /* Limit maximum width */
-    margin: 10px auto; /* Center-align the input fields */
+     /* Center-align the input fields */
     display: block;
     padding: 10px;
     font-size: 1.1rem;
@@ -207,7 +207,6 @@ $conn->close();
 .hidden-field .form-group input,
 .hidden-field .form-group select {
     width: 100%; /* Full width */
-    align-items: center;
     padding: 8px;
     font-size: 1rem;
     border: 1px solid #ccc;
