@@ -551,7 +551,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
 </nav>
 
         <!-- Vehicle Information Table -->
-        <div class="container " style="margin-top: 5em; width: 500px;">
+        <div class="container " style="margin-top: 2em; width: 500px;">
         <h2>Logout Vehicle</h2>
         <form id="logoutForm" method="post">
             <div class="form-group">
