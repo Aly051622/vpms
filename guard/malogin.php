@@ -212,10 +212,9 @@ $conn->close();
     background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
         }
         .container {
-            padding: 1em;
-    margin: auto;
-    max-width: 1200px;
-    width: 90%;
+            max-width: 600px;
+            margin-top: 100px;
+            text-align: center;
         }
         .hidden-field{
             display: none;
