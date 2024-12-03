@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $expiration_date_input = filter_var($_POST['expiration_date'], FILTER_SANITIZE_STRING);
 
     // Validate the expiration date format
-    $expiration_date = DateTime::createFromFormat('Y-m-d', $expiration_date_input);
+    $expiration_date = DateTime::createFromFormat('m-m-Y', $expiration_date_input);
     $current_date = new DateTime();
 
     if (!$expiration_date) {
