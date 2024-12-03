@@ -371,8 +371,10 @@ $conn->close();
 
 
 .container{
-        padding-top:10px;
-        margin-top:-8px;
+    padding: 1em;
+    margin: auto;
+    max-width: 1200px;
+    width: 90%;
     }
     .navbar {
     background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
