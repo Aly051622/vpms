@@ -279,16 +279,6 @@ if (isset($_POST['submit'])) {
                         <a href="dashboard.php"><i class="menu-icon fa fa-dashboard"></i>Dashboard</a>
                     </li>
 
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="menu-icon fa fa-list-alt"></i>Vehicle Category
-                        </a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-road"></i><a href="add-category.php">Add Vehicle Category</a></li>
-                            <li><i class="menu-icon fa bi bi-p-square-fill"></i><a href="manage-category.php">Manage Vehicle Category</a></li>
-                        </ul>
-                    </li>
-
                     <li>
                         <a href="add-vehicle.php"><i class="menu-icon fa fa-user-circle-o"></i>Add Vehicle</a>
                     </li>
@@ -301,16 +291,6 @@ if (isset($_POST['submit'])) {
                              <li><i class="menu-icon fa fa-user-circle-o"> <a href="manage-reg.php"></i>Manage Registered Client Vehicles </a></li>
                             <li><i class="menu-icon bi bi-car-front-fill"></i><a href="manage-incomingvehicle.php">Manage In Vehicle</a></li>
                             <li><i class="menu-icon bi bi-car-front"></i><a href="manage-outgoingvehicle.php">Manage Out Vehicle</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="menu-icon fa fa-solid fa-qrcode"></i>QR Code Scanner
-                        </a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa bi bi-qr-code-scan"></i><a href="qrlogin.php">Login Scanner</a></li>
-                            <li><i class="menu-icon fa bi bi-qr-code"></i><a href="qrlogout.php">Logout Scanner</a></li>
                         </ul>
                     </li>
 
