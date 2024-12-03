@@ -145,14 +145,54 @@ $conn->close();
     <title>QR Code Login Scanner | CTU DANAO Parking System</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
+     .containers{
+        width: 90%; /* Make the container occupy most of the screen */
+    max-width: 1200px;
+    margin: auto;
+    padding: 15px;
+    }
+    /*qrbutton add css*/
+    .dropbtns{
+        margin-top: 40px;
+            color: white;
+            padding:1px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: orange;
+            border-radius: 9px;
+            font-weight: bold;
+            border: solid;
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        }
+        .dropbtns:hover{
+            background-color: white;
+            color: orange;
+            border: solid orange;
+        }
+        .navbar{
+            background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, 
+                rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
+                rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+            }
+    @media (max-width: 480px){
+    .containers{
+        padding-top:10px;
+        margin-top:-8px;
+    }
+    .navbar-brand{
+        margin-left: 10px;
+    }
+    .navbar-toggler{
+        margin-top: -33px;
+        margin-left: 11em;
+    }
+}
   /* Body and Container */
   body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    color: black;
-    background-color: #f9fcff;
-    background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
+            color: black;
+            background-color: whitesmoke;
         }
         .container {
             max-width: 600px;
@@ -269,9 +309,6 @@ $conn->close();
     h3{
         text-align: center;
     }
-    .navbar .navbar-toggler {
-    display: none;
-}
     /* Column Responsiveness */
     @media (max-width: 768px) {
         .table th,
@@ -279,11 +316,13 @@ $conn->close();
             font-size: 12px;
             padding: 6px;
         }
-        .containers{
-        width: 90%; /* Make the container occupy most of the screen */
-    max-width: 1200px;
-    margin: auto;
-    padding: 15px;
+        .containers {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    .navbar-toggler {
+        margin-left: 1em;
     }
 
     .btn-primary, .btn-success, .btn-danger, .btn-warning {
@@ -298,11 +337,7 @@ $conn->close();
     .modal-content {
         width: 90%; /* Full width modal for small screens */
     }
-    .navbar .navbar-toggler {
-        display: inline-block;
     }
-    }
-
     #deletebtn{
                 border: solid darkred;
                 border-radius: 10px;
@@ -369,167 +404,13 @@ $conn->close();
         font-size: 0.8rem;
         padding: 6px;
     }
-    .navbar-toggler {
-        margin-top: -33px;
-        margin-left: 11em;
-    }
-
-}
-
-@media (max-width: 480px){
-    .containers{
-        padding-top:10px;
-        margin-top:-8px;
-    }
-    .navbar-brand{
-        margin-left: 10px;
-    }
-    .navbar-toggler{
-        margin-top: -33px;
-        margin-left: 11em;
-    }
-}
-.containers{
-        width: 90%; /* Make the container occupy most of the screen */
-    max-width: 1200px;
-    margin: auto;
-    padding: 15px;
-    }
-    .navbar {
-    display: flex;
-    justify-content: space-between; /* Space between brand and buttons */
-    align-items: center;
-    padding: 0.5em 1em;
-    background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, 
-                rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
-                rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-}
-
-.navbar-brand a {
-    color: white;
-    font-size: 1.5em;
-    font-weight: bold;
-    text-decoration: none;
-}
-.navbar-menu {
-    display: flex;
-    gap: 10px; /* Space between buttons */
-}
-
-.navbar a:hover {
-    color: orange; /* Highlight effect */
-}
-    /*qrbutton add css*/
-    .dropbtns {
-    color: white;
-    padding: 8px 15px;
-    font-size: 1em;
-    font-weight: bold;
-    border: solid;
-    border-radius: 8px;
-    background-color: orange;
-    cursor: pointer;
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-    transition: all 0.3s ease-in-out;
-}
-
-.dropbtns:hover {
-    background-color: white;
-    color: orange;
-    border: 2px solid orange;
-}
-.navbar-toggler {
-    display: none;
-    font-size: 1.5em;
-    color: white;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.navbar-menu.show {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background-color: #1e3c72;
-    padding: 10px;
-}
-/* Smaller Button Styling When Menu is Toggled */
-.navbar-menu.show .dropbtns {
-    padding: 5px 10px;
-    font-size: 0.9em;
-    border-radius: 5px;
-}
-
-    @media (max-width: 480px){
-    .container{
-        padding-top:10px;
-        margin-top:-8px;
-    }
-    .navbar-brand{
-        margin-left: 10px;
-    }
-    .navbar-toggler{
-        margin-top: -33px;
-        margin-left: 11em;
-    }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .navbar {
-        flex-wrap: wrap;
-        justify-content: space-between;
-    }
-
-    .navbar-toggler {
-        display: block; /* Show toggler on small screens */
-    }
-
-    .navbar-menu {
-        display: none; /* Hidden by default */
-        flex-direction: column;
-        align-items: flex-start;
-        width: 100%;
-        background-color: #1e3c72;
-        padding: 10px 0;
-    }
-
-    .navbar-menu a {
-        margin: 10px 20px;
-    }
-
-    .navbar-menu.show {
-        display: flex; /* Show menu when toggled */
-    }
-    .navbar-toggler {
-        display: block; /* Show toggler on small screens */
-    }
 }
 </style>
+
+<?php include_once('includes/headerin.php');?>
+
 </head>
 <body>
-
-<nav class="navbar">
-    <div class="containers">
-        <!-- Brand on the Left -->
-        <div class="navbar-brand">
-            <a href="monitor.php">Parking Slot Manager</a>
-        </div>
-
-        <!-- Navbar toggler for mobile view -->
-        <div class="navbar-toggler" onclick="toggleMenu()">&#9776;</div>
-
-        <!-- Navigation Buttons -->
-        <div class="navbar-menu" id="navbarMenu">
-            <a href="qrlogin.php" class="navbar-item dropbtns"><i class="bi bi-car-front-fill"></i> QR Log-in</a>
-            <a href="malogin.php" class="navbar-item dropbtns"><i class="bi bi-display-fill"></i> Manual Log-in</a>
-            <a href="logout.php" class="navbar-item dropbtns"><i class="bi bi-house-fill"></i> Home</a>
-        </div>
-    </div>
-</nav>
-
 
 <!-- Form for Contact Number and Plate Number Search -->
 <div class="container">
@@ -627,15 +508,14 @@ $conn->close();
             <?php endif; ?>
         </tbody>
     </table>
-    </div>
-                </div>
+
     <!-- Pagination Links -->
     <div class="pagination">
         <?php for ($i = 1; $i <= $totalPages; $i++): ?>
             <a href="?page=<?= $i ?>" class="page-link <?= $i === $page ? 'active' : '' ?>"><?= $i ?></a>
         <?php endfor; ?>
     </div>
-
+</div>
 
 
 
