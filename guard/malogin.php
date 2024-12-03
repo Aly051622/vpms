@@ -224,24 +224,6 @@ $conn->close();
     }
 }
 
-/* Center align the Add to Table button */
-.btn btn-success {
-    display: block;
-    margin: 20px auto; /* Center horizontally */
-    padding: 10px 20px; /* Add padding for better click area */
-    font-size: 1rem;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    transition: background-color 0.3s ease;
-}
-
-.btn btn-success {
-    background-color: #218838;
-}
 
 
         h2, h3 {
