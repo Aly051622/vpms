@@ -4,22 +4,24 @@
         padding-top:10px;
         margin-top:-8px;
     }
-    .navbar{
-        background-color: #1e3c72; /* Solid blue background */
-    color: white;
+    .navbar {
+    background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+                rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+                rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px; /* Subtle shadow */
-    }
+    padding: 0.5em 1em;
+}
 
-    .navbar a {
+.navbar a {
     text-decoration: none;
     color: white;
     font-size: 1.2em;
     font-weight: bold;
-    margin-right: 15px;
+    margin-left: 10px;
 }
 
 .navbar a:hover {
