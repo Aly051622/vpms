@@ -342,10 +342,12 @@ include('includes/dbconnection.php');
     });
 </script>
 
-<!-- Example Buttons -->
+<!-- Example Buttons 
 <a href="#" onclick="showPasswordModal('information', 'reg-users.php')">
     <i class="menu-icon fa fa-address-book"></i> User Information
 </a>
+-->
+
 <a href="#" onclick="showPasswordModal('credentials', 'credentials.php')">
     <i class="menu-icon fa bi-geo-fill"></i> Credentials
 </a>
