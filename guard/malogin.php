@@ -651,7 +651,7 @@ $conn->close();
 </div>
 
 <!-- Add to Table Button -->
-<button type="button" class="btn btn-success" id="addToTableButton" style="display:none;">Add to Table</button>
+<button type="button" class="btn btn-success" id="addToTableButton" style="display:none; background-color: orange;">Add to Table</button>
 
 </div>
 
