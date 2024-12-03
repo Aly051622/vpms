@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('includes/db.php'); // Include your database connection
+require_once('includes/dbconnection.php'); // Include your database connection
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Collect the email and expiration date from the form
