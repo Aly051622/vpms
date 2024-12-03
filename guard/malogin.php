@@ -165,7 +165,7 @@ $conn->close();
 
   /* Adjust Input Field Width */
 .form-container .form-group input {
-    width: 100%; /* Make input fields wider */
+    width: 120%; /* Make input fields wider */
     max-width: 400px; /* Optional: Limit maximum width */
     margin: 0 auto; /* Center-align the input fields */
     display: block;
@@ -249,7 +249,7 @@ $conn->close();
         .table-responsive {
     margin: 0 auto; /* Center the table container */
     text-align: center; /* Center-align content within */
-    max-width: 80%; /* Adjust width as needed */
+    max-width: 100%; /* Adjust width as needed */
     display: block;
     overflow-x: auto;
 }
