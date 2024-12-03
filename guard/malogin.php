@@ -646,9 +646,7 @@ $conn->close();
                 <input type="text" class="form-control" id="slotArea" name="slotArea" placeholder="Enter slot area">
             </div>
         </div>
-        </div>
-        </div>
-        </div>
+
 
             <div id="slotWarning" style="color: red; display: none;">
         Please enter a valid parking slot with the required prefix or suffix.
