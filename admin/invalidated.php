@@ -8,18 +8,15 @@ $currentDate = date('Y-m-d');
 // Fetch invalidated clients (validity = 0) where expiration_date is less than the current date, without duplicates based on email
 $queryInvalidated = "
     SELECT 
-        u.email, 
-        MAX(u.expiration_date) AS expiration_date
+        r.Email AS email, 
+        r.expiration_date 
     FROM 
-        uploads u
-    JOIN 
-        tblregusers r 
-        ON u.email = r.Email
+        tblregusers r
     WHERE 
-        u.validity = 0
-        AND u.expiration_date < '$currentDate'
+        r.validity = 0
+        AND r.expiration_date < '$currentDate'
     GROUP BY 
-        u.email
+        r.Email
 ";
 
 $resultInvalidated = mysqli_query($con, $queryInvalidated);
@@ -34,6 +31,7 @@ $invalidatedClients = mysqli_fetch_all($resultInvalidated, MYSQLI_ASSOC);
 // Close the database connection
 mysqli_close($con);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -132,21 +130,12 @@ mysqli_close($con);
                             $expirationDate = new DateTime($client['expiration_date']);
                             $formattedExpirationDate = $expirationDate->format('F j, Y'); // Month Day, Year format
                             $currentDate = new DateTime();
-                            $remainingDays = $currentDate->diff($expirationDate)->format('%r%a'); // Remaining days
+                            $remainingDays = $currentDate->diff($expirationDate)->format('%r%a'); // Get remaining days
                             ?>
                             <tr>
-                                <td><?= htmlspecialchars($client['email']) ?></td>
-                                <td><?= htmlspecialchars($formattedExpirationDate) ?></td>
-                                <td>
-                                    <?php
-                                    // Display the remaining days or expired
-                                    if ($remainingDays > 0) {
-                                        echo "$remainingDays days remaining";
-                                    } else {
-                                        echo "Expired"; // You can display '0' remaining here if you want
-                                    }
-                                    ?>
-                                </td>
+                                <td><?php echo $client['email']; ?></td>
+                                <td><?php echo $formattedExpirationDate; ?></td>
+                                <td><?php echo $remainingDays; ?> days</td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -155,9 +144,7 @@ mysqli_close($con);
         <?php endif; ?>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
-    <script src="assets/js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

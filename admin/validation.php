@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Determine validity and update the database
     try {
+        // Check if the expiration date is in the past (expired) or in the future (valid)
         if ($expiration_date < $current_date) {
             // License expired
             $update_query = "UPDATE tblregusers SET validity = 0, expiration_date = ? WHERE Email = ?";
@@ -48,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($stmt_update->affected_rows > 0) {
                 $_SESSION['success_message'] = "License status updated to expired.";
+                // Debugging: Check the redirect URL and session variable
                 header('Location: invalidated.php');
             } else {
                 $_SESSION['error_message'] = "Failed to update the driver's license status.";
@@ -79,6 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $con->close();
 }
 ?>
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
