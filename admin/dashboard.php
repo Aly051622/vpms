@@ -249,7 +249,7 @@ $count_total_vehexits=mysqli_num_rows($query2);
 <div class="col-lg-3 col-md-6">
     <?php
     // Total Registered Users
-    $query = mysqli_query($con, "SELECT ID FROM tblvehicle");
+    $query = mysqli_query($con, "SELECT ID FROM tblregusers");
     $regdusers = mysqli_num_rows($query);
     ?>
     <div class="card">
