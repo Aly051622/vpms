@@ -22,27 +22,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
+    // Check if the email exists in the database
+    $email_check_query = "SELECT * FROM tblregusers WHERE email = ?";
+    $stmt = $con->prepare($email_check_query);
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 0) {
+        // No user found with the provided email
+        $_SESSION['error_message'] = "No user found with the provided email.";
+        $stmt->close();
+        header('Location: validation.php');
+        exit();
+    }
+
     // Check if the license is expired
     if ($expiration_date < $current_date) {
         $_SESSION['error_message'] = "The driver's license has expired.";
     } else {
         // Update the database
         try {
-            $stmt = $con->prepare("UPDATE tblregusers SET validity = 1 WHERE email = ?");
-            if ($stmt === false) {
+            $update_query = "UPDATE tblregusers SET validity = 1 WHERE email = ?";
+            $stmt_update = $con->prepare($update_query);
+            if ($stmt_update === false) {
                 throw new Exception("Database error: " . $con->error);
             }
 
-            $stmt->bind_param('s', $email);
-            $stmt->execute();
+            $stmt_update->bind_param('s', $email);
+            $stmt_update->execute();
 
-            if ($stmt->affected_rows > 0) {
+            if ($stmt_update->affected_rows > 0) {
                 $_SESSION['success_message'] = "Driver's license expiration date successfully updated!";
             } else {
-                $_SESSION['error_message'] = "No user found with the provided email.";
+                $_SESSION['error_message'] = "Failed to update the driver's license status.";
             }
 
-            $stmt->close();
+            $stmt_update->close();
         } catch (Exception $e) {
             $_SESSION['error_message'] = $e->getMessage();
         }
