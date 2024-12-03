@@ -249,7 +249,7 @@ $conn->close();
         .table-responsive {
     margin: 0 auto; /* Center the table container */
     text-align: center; /* Center-align content within */
-    max-width: 100%; /* Adjust width as needed */
+    max-width: 80%; /* Adjust width as needed */
     display: block;
     overflow-x: auto;
 }
@@ -259,6 +259,7 @@ $conn->close();
         table-layout: auto; /* Ensure columns fit within the table width */
         border-collapse: collapse;
         background-color: #f9fcff;
+        text-align: center; /* Center-align content within */
         
     }
     .table th, .table td {
