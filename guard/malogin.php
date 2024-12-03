@@ -594,14 +594,14 @@ $conn->close();
             <?php endif; ?>
         </tbody>
     </table>
-
+    </div>
+</div>
     <!-- Pagination Links -->
     <div class="pagination">
         <?php for ($i = 1; $i <= $totalPages; $i++): ?>
             <a href="?page=<?= $i ?>" class="page-link <?= $i === $page ? 'active' : '' ?>"><?= $i ?></a>
         <?php endfor; ?>
-    </div>
-</div>
+
 
 
 
