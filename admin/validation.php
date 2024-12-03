@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Check if the email exists in the database
-    $email_check_query = "SELECT * FROM tblregusers WHERE email = ?";
+    $email_check_query = "SELECT * FROM tblregusers WHERE Email = ?";
     $stmt = $con->prepare($email_check_query);
     $stmt->bind_param('s', $email);
     $stmt->execute();
@@ -37,35 +37,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Check if the license is expired
-    if ($expiration_date < $current_date) {
-        $_SESSION['error_message'] = "The driver's license has expired.";
-    } else {
-        // Update the database
-        try {
-            $update_query = "UPDATE tblregusers SET validity = 1 WHERE email = ?";
+    // Determine validity and update the database
+    try {
+        if ($expiration_date < $current_date) {
+            // License expired
+            $update_query = "UPDATE tblregusers SET validity = 0 WHERE Email = ?";
             $stmt_update = $con->prepare($update_query);
-            if ($stmt_update === false) {
-                throw new Exception("Database error: " . $con->error);
-            }
-
             $stmt_update->bind_param('s', $email);
             $stmt_update->execute();
 
             if ($stmt_update->affected_rows > 0) {
-                $_SESSION['success_message'] = "Driver's license expiration date successfully updated!";
+                $_SESSION['success_message'] = "License status updated to expired.";
+                header('Location: invalidated.php');
             } else {
                 $_SESSION['error_message'] = "Failed to update the driver's license status.";
+                header('Location: validation.php');
             }
+        } else {
+            // License valid
+            $update_query = "UPDATE tblregusers SET validity = 1 WHERE Email = ?";
+            $stmt_update = $con->prepare($update_query);
+            $stmt_update->bind_param('s', $email);
+            $stmt_update->execute();
 
-            $stmt_update->close();
-        } catch (Exception $e) {
-            $_SESSION['error_message'] = $e->getMessage();
+            if ($stmt_update->affected_rows > 0) {
+                $_SESSION['success_message'] = "Driver's license is valid.";
+                header('Location: validated.php');
+            } else {
+                $_SESSION['error_message'] = "Failed to update the driver's license status.";
+                header('Location: validation.php');
+            }
         }
+
+        $stmt_update->close();
+    } catch (Exception $e) {
+        $_SESSION['error_message'] = $e->getMessage();
+        header('Location: validation.php');
+        exit();
     }
 
-    header('Location: validation.php');
-    exit();
+    $stmt->close();
+    $con->close();
 }
 ?>
 
