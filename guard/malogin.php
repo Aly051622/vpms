@@ -192,13 +192,13 @@ $conn->close();
 
 .form-container .btn-primary {
     display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
+    border: solid lightgray;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: rgb(53, 97, 255);
     font-size: 1.1rem;
-    background-color: rgb(53, 97, 255);
     color: white;
     border-radius: 10px;
-    border: 1px solid lightgray;
     cursor: pointer;
     text-align: center;
     transition: background-color 0.3s ease;
