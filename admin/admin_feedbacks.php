@@ -347,11 +347,11 @@ include('includes/dbconnection.php');
     <i class="menu-icon fa fa-address-book"></i> User Information
 </a>
 -->
-
+<!--
 <a href="#" onclick="showPasswordModal('credentials', 'credentials.php')">
     <i class="menu-icon fa bi-geo-fill"></i> Credentials
 </a>
-
+-->
 <!--content sugod-->
 
     <style>
