@@ -424,31 +424,39 @@ $conn->close();
     color: orange; /* Highlight effect */
 }
     /*qrbutton add css*/
-    .dropbtns{
-            color: white;
-            padding: 8px 15px;
-            font-size: 1em;
-            border: none;
-            cursor: pointer;
-            background-color: orange;
-            border-radius: 8px;
-            font-weight: bold;
-            border: solid;
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-            transition: all 0.3s ease-in-out;
-        }
-        .dropbtns:hover{
-            background-color: white;
-            color: orange;
-            border: 2px solid orange;
-        }
-        .navbar-toggler {
+    .dropbtns {
+    color: white;
+    padding: 8px 15px;
+    font-size: 1em;
+    font-weight: bold;
+    border: solid;
+    border-radius: 8px;
+    background-color: orange;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    transition: all 0.3s ease-in-out;
+}
+
+.dropbtns:hover {
+    background-color: white;
+    color: orange;
+    border: 2px solid orange;
+}
+.navbar-toggler {
+    display: none;
     font-size: 1.5em;
     color: white;
-    cursor: pointer;
-    display: none; /* Hidden by default */
-    border: none;
     background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.navbar-menu.show {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #1e3c72;
+    padding: 10px;
 }
 /* Smaller Button Styling When Menu is Toggled */
 .navbar-menu.show .dropbtns {
@@ -498,6 +506,9 @@ $conn->close();
     .navbar-menu.show {
         display: flex; /* Show menu when toggled */
     }
+    .navbar-toggler {
+        display: block; /* Show toggler on small screens */
+    }
 }
 </style>
 </head>
@@ -524,7 +535,7 @@ $conn->close();
 
 
 <!-- Form for Contact Number and Plate Number Search -->
-<div class="containers">
+<div class="container">
     <h2>Search Vehicle</h2>
     <form id="searchForm">
         <div class="form-group">
