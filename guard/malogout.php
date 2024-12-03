@@ -118,136 +118,437 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
 
     <html class="no-js" lang="">
     <head>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
         <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
-        <link rel="stylesheet" href="assets/css/style.css">
         <link rel="apple-touch-icon" href="images/ctu.png">
         <link rel="shortcut icon" href="images/ctu.png">
-        <link rel="stylesheet" href="guard.css">
         <title>QR Code Logout | Parking System</title>
 
         <style>
-            body {
-                color: black;
-                background-color:whitesmoke;
-                height: 100vh;
-            }
-            .container {
-                max-width: 1000px;
-                text-align: center;
-            }
-            .navbar{
-                background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
-                box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, 
-                    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
-                    rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-            }
-            .submit {
-                width: 100%;
-                font-size: 1.2em;
+  /* Body and Container */
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: black;
+    background-color: #f9fcff;
+    background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
+        }
+        .form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+
+/* Adjust Input Field Width */
+.form-container .form-group input {
+    width: 100%; /* Ensure input fields are wide */
+    max-width: 700px; /* Limit maximum width */
+    margin: 10px auto; /* Center-align the input fields */
+    display: block;
+    padding: 10px;
+    font-size: 1.1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+        .hidden-field{
+            display: none;
+        }
+        h2, h3 {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+/* Center the Search Button */
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-container .btn-primary {
+    display: inline-block;
+    border: solid lightgray;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: rgb(53, 97, 255);
+    font-size: 1.1rem;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.form-container .btn-primary:hover {
+    background-color: darkblue;
+    border: 1px solid blue;
+}
+
+        label {
+            font-weight: bold;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        /* Search Button */
+            .btn-primary{
+                border: solid lightgray;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: rgb(53, 97, 255);
                 color: white;
+                cursor: pointer;
+                font-family: 'Montserrat',sans-serif;
+                font-weight: bolder;
+                align-items: center;
+                text-align: center;
+        }
+
+           .btn-primary:hover{
+                background-color: darkblue;
+                border: solid blue;
+            }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+        }
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fefefe;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .modal-content p {
+            color: #d9534f;
+            font-size: 16px;
+            margin: 0;
+            padding: 10px 0;
+        }
+        .close-button {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .close-button:hover {
+            background-color: #c9302c;
+        }
+        .table-responsive {
+    margin: 0 auto; /* Center the table container */
+    text-align: center; /* Center-align content within */
+    max-width: 90%; /* Adjust width as needed */
+    display: block;
+    overflow-x: auto;
+}
+    .table {
+        margin: 20px auto; /* Center the table */
+    width: 100%; /* Full width */ 
+        table-layout: auto; /* Ensure columns fit within the table width */
+        border-collapse: collapse;
+        background-color: #f9fcff;
+        text-align: center; /* Center-align content within */
+    }
+    .table th, .table td {
+        padding: 8px;
+        text-align: center;
+        border: 1px solid #ddd;
+        white-space: normal; /* Allow text wrapping */
+        font-size: 1rem;
+        word-wrap: break-word;
+        white-space: nowrap;
+    }
+    .table th {
+        font-weight: bold;
+        background-color: #e0e6ed;
+    }
+    .table td {
+        background-color: #ffffff;
+    }
+    /* Column Responsiveness */
+    @media (max-width: 768px) {
+        .table th,
+        .table td {
+            font-size: 0.9rem;
+            padding: 6px;
+        }
+        .container {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    .navbar-toggler {
+        margin-left: 1em;
+    }
+
+    .btn-primary, .btn-success, .btn-danger, .btn-warning {
+        font-size: 0.8rem; /* Smaller font for buttons on small screens */
+        padding: 8px;
+    }
+
+    .form-group label, .form-control {
+        font-size: 0.9rem;
+    }
+
+    .modal-content {
+        width: 90%; /* Full width modal for small screens */
+    }
+    .form-container .form-group input {
+        width: 90%; /* Reduce width for smaller screens */
+    }
+    }
+         #deletebtn{
+                border: solid darkred;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: red;
+                color: white;
+                cursor: pointer;
+                font-family: 'Montserrat',sans-serif;
+                font-weight: bolder;
+        }
+        #deletebtn:hover{
+            background-color: darkblue;
+            border: solid blue;
+        }
+            #editbtn{
+                border: solid lightgray;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: rgb(53, 97, 255);
+                color: white;
+                cursor: pointer;
+                font-family: 'Montserrat',sans-serif;
+                font-weight: bolder;
+        }
+
+           #editbtn:hover{
+                background-color: darkblue;
+                border: solid blue;
+            }
+            .dropbtns{
+            color: white;
             padding: 8px;
             font-size: 16px;
             border: none;
             cursor: pointer;
-            background-color: rgb(53, 97, 255);
+            background-color: orange;
             border-radius: 9px;
             font-weight: bold;
             border: solid;
             box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-            }
-            .submit:hover{
-                background-color: darkblue;
-            color: white;
-            border: solid blue;
+        }
+        .navbar-item .dropbtns:hover{
+            background-color: white;
+            color: orange;
+            border: solid orange;
             border-radius: 9px;
-            }
-            .modal-overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.6);
-                z-index: 1000;
-            }
-            .modal-content {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background-color: #fefefe;
-                padding: 20px;
-                border-radius: 8px;
-                width: 300px;
-                text-align: center;
-            }
-            .modal-content.success {
-                border: 2px solid green;
-            }
-            .modal-content.error {
-                border: 2px solid red;
-            }
-            .close-button {
-                border: none;
-                border-radius: 4px;
-                padding: 5px 10px;
-                font-size: 14px;
-                cursor: pointer;
-            }
-            .close-button.error {
-                background-color: #d9534f;
-                color: white;
-            }
-            .close-button.error:hover {
-                background-color: #c9302c;
-            }
-            .close-button.success {
-                background-color: #5cb85c;
-                color: white;
-            }
-            .close-button.success:hover {
-                background-color: #4cae4c;
-            }
-            #btn-sm{
-                border: solid darkred;
-                border-radius: 10px;
-                padding: 10px;
-                background-color: red;
-                color: white;
-                cursor: pointer;
-                font-family: 'Montserrat',sans-serif;
-                font-weight: bolder;
         }
-        #btn-sm:hover{
-            background-color: darkblue;
-            border: solid blue;
+        /* Extra small screens */
+@media (max-width: 480px) {
+    h2, h3 {
+        font-size: 1.5rem;
+    }
+
+    .dropbtns {
+        font-size: 0.8rem;
+        padding: 6px;
+    }
+
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .table th, .table td {
+        font-size: 0.9rem;
+        padding: 6px;
+    }
+}
+
+
+
+
+
+.container{
+    padding: 10px;
+    margin: auto;
+    max-width: 1200px;
+    width: 90%;
+    }
+    .navbar {
+    background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+                rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+                rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em 1em;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.navbar a:hover {
+    color: orange; /* Highlight effect */
+}
+    /*qrbutton add css*/
+    .dropbtns{
+            color: white;
+            padding: 8px 15px;
+            font-size: 1em;
+            border: none;
+            cursor: pointer;
+            background-color: orange;
+            border-radius: 8px;
+            font-weight: bold;
+            border: solid;
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+            transition: all 0.3s ease-in-out;
         }
-        #btn-danger{
-                border: solid darkred;
-                border-radius: 10px;
-                padding: 10px;
-                background-color: red;
-                color: white;
-                cursor: pointer;
-                font-family: 'Montserrat',sans-serif;
-                font-weight: bolder;
+        .dropbtns:hover{
+            background-color: white;
+            color: orange;
+            border: 2px solid orange;
         }
-        #btn-danger:hover{
-            background-color: darkblue;
-            border: solid blue;
-        }
-        </style>
-    </head>
-    <body>
-            <!-- Responsive Navigation Bar -->
-    <?php include_once('includes/headerout.php');?>
+        .navbar-toggler {
+    font-size: 1.5em;
+    color: white;
+    cursor: pointer;
+    display: none; /* Hidden by default */
+    border: none;
+    background: none;
+}
+/* Smaller Button Styling When Menu is Toggled */
+.navbar-menu.show .dropbtns {
+    padding: 5px 10px;
+    font-size: 0.9em;
+    border-radius: 5px;
+}
+
+    @media (max-width: 480px){
+    .container{
+        padding-top:10px;
+        margin-top:-8px;
+    }
+    .navbar-brand{
+        margin-left: 10px;
+    }
+    .navbar-toggler{
+        margin-top: -33px;
+        margin-left: 11em;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .navbar-toggler {
+        display: block; /* Show toggler on small screens */
+    }
+
+    .navbar-menu {
+        display: none; /* Hidden by default */
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        background-color: #1e3c72;
+        padding: 10px 0;
+    }
+
+    .navbar-menu a {
+        margin: 10px 20px;
+    }
+
+    .navbar-menu.show {
+        display: flex; /* Show menu when toggled */
+    }
+}
+
+
+/* Center Pagination */
+.pagination {
+    display: flex;
+    justify-content: center; /* Center-align pagination */
+    margin-top: 20px;
+}
+
+.pagination .page-link {
+    margin: 0 5px; /* Add spacing between pagination links */
+    padding: 8px 12px; /* Adjust padding */
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.pagination .page-link.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+<div class="container">
+    <div class="navbar-brand"><a href="monitor.php">Parking Slot Manager</a></div>
+    <div class="navbar-toggler" onclick="toggleMenu()">&#9776;</div>
+    <div class="navbar-menu" id="navbarMenu">
+        <!-- QR Login Button -->
+        <a href="qrlogin.php" class="navbar-item dropbtns"><i class="bi bi-car-front-fill"></i> QR Log-in</a>
+      
+
+        <!-- Manual Input Button -->
+        <a href="malogin.php" class="navbar-item dropbtns"><i class="bi bi-display-fill"></i> Manual Log-in</a>
+
+        <a href="logout.php" class="navbar-item dropbtns"><i class="bi bi-house-fill"></i> Home</a>
+       
+    </div>
+</div>
+</nav>
 
         <!-- Vehicle Information Table -->
         <div class="container " style="margin-top: 5em; width: 500px;">
