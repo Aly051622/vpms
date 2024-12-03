@@ -290,14 +290,13 @@ $count_total_vehexits=mysqli_num_rows($query2);
             </div>
         </div>
     </div>
-</div>
-<!-- Validated Clients -->
+</div><!-- Validated Clients -->
 <div class="col-lg-3 col-md-6">
     <?php
-    // Total Validated Users: validity = 1 AND expiration date >= current date
+    // Total Validated Users: validity = 1 AND expiration_date >= current date
     $queryValidated = mysqli_query($con, "
         SELECT COUNT(*) AS validatedCount 
-        FROM uploads 
+        FROM tblregusers 
         WHERE validity = 1 AND expiration_date >= CURDATE()
     ");
     $validatedCount = mysqli_fetch_assoc($queryValidated)['validatedCount'];
@@ -318,13 +317,14 @@ $count_total_vehexits=mysqli_num_rows($query2);
         </div>
     </div>
 </div>
+
 <!-- Invalidated Clients -->
 <div class="col-lg-3 col-md-6">
     <?php
     // Total Invalidated Users: validity = 0
     $queryInvalidated = mysqli_query($con, "
-        SELECT COUNT(DISTINCT email) AS invalidatedCount 
-        FROM uploads 
+        SELECT COUNT(*) AS invalidatedCount 
+        FROM tblregusers 
         WHERE validity = 0
     ");
     $invalidatedCount = mysqli_fetch_assoc($queryInvalidated)['invalidatedCount'];
@@ -346,14 +346,14 @@ $count_total_vehexits=mysqli_num_rows($query2);
     </div>
 </div>
 
-</div><!-- Unvalidated Clients -->
+<!-- Unvalidated Clients -->
 <div class="col-lg-3 col-md-6">
     <?php
-    // Total Unvalidated Users: validity = -2
+    // Total Unvalidated Users: validity IS NULL OR validity = -2
     $queryUnvalidated = mysqli_query($con, "
         SELECT COUNT(*) AS unvalidatedCount 
         FROM tblregusers 
-        WHERE validity = -2
+        WHERE validity IS NULL OR validity = -2
     ");
     $unvalidatedCount = mysqli_fetch_assoc($queryUnvalidated)['unvalidatedCount'];
     ?>
