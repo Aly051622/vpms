@@ -180,7 +180,7 @@ $conn->close();
     display: none; /* Initially hidden */
     width: 100%; /* Full width */
     padding: 10px;
-    margin-top: 20px;
+    margin-top: 100px;
     background-color: #f9fcff;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -593,8 +593,6 @@ $conn->close();
 }
 </style>
 </head>
-<body>
-
 <nav class="navbar">
 <div class="container">
     <div class="navbar-brand"><a href="monitor.php">Parking Slot Manager</a></div>
@@ -648,6 +646,7 @@ $conn->close();
                 <input type="text" class="form-control" id="slotArea" name="slotArea" placeholder="Enter slot area">
             </div>
         </div>
+
 
             <div id="slotWarning" style="color: red; display: none;">
         Please enter a valid parking slot with the required prefix or suffix.
