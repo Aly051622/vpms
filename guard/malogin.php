@@ -154,19 +154,22 @@ $conn->close();
     background-color: #f9fcff;
     background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
         }
-        .containers {
-            max-width: 600px;
-            margin-top: 100px;
-            text-align: center;
-        }
+        .form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 50px;
+    margin-bottom: 20px;
+  }
         .hidden-field{
             display: none;
         }
-        h2 {
-            font-size: 2em;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
+        h2, h3 {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
         label {
             font-weight: bold;
         }
@@ -238,13 +241,14 @@ $conn->close();
         .table-responsive {
         display: block;
      
-        width: 100%;
-        margin-top: 20px;
+        width: 80%;
+        margin: 0 auto;
         align-items: center;
         overflow-x: auto; /* Prevent horizontal scrolling */
     }
     .table {
-        width: 100%;
+        width: auto; /* Adjust width to content */
+    max-width: 100%; 
         table-layout: auto; /* Ensure columns fit within the table width */
         border-collapse: collapse;
         background-color: #f9fcff;
@@ -265,9 +269,6 @@ $conn->close();
     }
     .table td {
         background-color: #ffffff;
-    }
-    h3{
-        text-align: center;
     }
     /* Column Responsiveness */
     @media (max-width: 768px) {
@@ -498,7 +499,7 @@ $conn->close();
 </nav>
 
 <!-- Form for Contact Number and Plate Number Search -->
-<div class="containers">
+<div class="form-container">
     <h2>Search Vehicle</h2>
     <form id="searchForm">
         <div class="form-group">
