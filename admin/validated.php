@@ -10,10 +10,13 @@ $queryValidated = "
 ";
 $resultValidated = mysqli_query($con, $queryValidated);
 $validatedClients = [];
-if (mysqli_num_rows($resultValidated) > 0) {
+if ($resultValidated && mysqli_num_rows($resultValidated) > 0) {
     while ($row = mysqli_fetch_assoc($resultValidated)) {
         $validatedClients[] = $row;
     }
+} else {
+    // Optional: Log or debug the query error if needed
+    // echo "Error: " . mysqli_error($con);
 }
 
 mysqli_close($con);
@@ -22,7 +25,7 @@ mysqli_close($con);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="apple-touch-icon" href="../images/aa.png">
     <link rel="shortcut icon" href="../images/aa.png">
@@ -36,27 +39,19 @@ mysqli_close($con);
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 
     <style>
         body {
             background: whitesmoke;
             font-family: Arial, sans-serif;
-            overflow-x: hidden;
         }
-
         h1 {
             text-align: center;
             margin-top: 10px;
             color: #1e3c72;
             font-weight: bold;
         }
-
-        .bg-primary {
-            color: white;
-        }
-
         .table {
             margin: 20px auto;
             width: 90%;
@@ -64,7 +59,6 @@ mysqli_close($con);
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
         .table th, .table td {
             text-align: center;
             padding: 10px;
@@ -108,7 +102,6 @@ mysqli_close($con);
                 <tr>
                     <th>Email</th>
                     <th>Expiration Date</th>
-                    
                     <th>Remaining Days</th>
                 </tr>
             </thead>
@@ -118,17 +111,17 @@ mysqli_close($con);
                         <?php
                         $expirationDate = new DateTime($client['expiration_date']);
                         $currentDate = new DateTime();
-                        $remainingDays = $currentDate->diff($expirationDate)->format('%r%a'); // Positive or negative days
+                        $remainingDays = $currentDate->diff($expirationDate)->format('%r%a'); // Remaining days
                         ?>
                         <tr>
                             <td><?= htmlspecialchars($client['email']) ?></td>
                             <td><?= htmlspecialchars($client['expiration_date']) ?></td>
-                            <td><?= $remainingDays ?> days remaining</td>
+                            <td><?= $remainingDays >= 0 ? "$remainingDays days remaining" : "Expired" ?></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="4" class="text-center">No validated clients found.</td>
+                        <td colspan="3" class="text-center">No validated clients found.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
