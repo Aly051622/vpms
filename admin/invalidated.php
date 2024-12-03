@@ -19,17 +19,14 @@ $queryInvalidated = "
 ";
 
 $resultInvalidated = mysqli_query($con, $queryInvalidated);
-$invalidatedClients = [];
-
-if ($resultInvalidated) {
-    while ($row = mysqli_fetch_assoc($resultInvalidated)) {
-        $invalidatedClients[] = $row;
-    }
-} else {
+if (!$resultInvalidated) {
     // Handle potential errors during query execution
     die("Error fetching invalidated clients: " . mysqli_error($con));
 }
 
+$invalidatedClients = mysqli_fetch_all($resultInvalidated, MYSQLI_ASSOC);
+
+// Close the database connection
 mysqli_close($con);
 ?>
 <!DOCTYPE html>
@@ -72,6 +69,7 @@ mysqli_close($con);
             padding: 15px;
             border-radius: 10px;
         }
+
         .bg-primary {
             color: white;
         }

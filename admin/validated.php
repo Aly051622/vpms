@@ -74,6 +74,7 @@ mysqli_close($con);
             padding: 10px;
         }
     </style>
+
     <title>Validated | CTU Danao Parking System</title>
 </head>
 <body>
@@ -121,12 +122,13 @@ mysqli_close($con);
                         <?php
                         // Format expiration date
                         $expirationDate = new DateTime($client['expiration_date']);
+                        $formattedExpirationDate = $expirationDate->format('F j, Y'); // Month Day, Year format
                         $currentDate = new DateTime();
                         $remainingDays = $currentDate->diff($expirationDate)->format('%r%a'); // Remaining days
                         ?>
                         <tr>
                             <td><?= htmlspecialchars($client['email']) ?></td>
-                            <td><?= htmlspecialchars($client['expiration_date']) ?></td>
+                            <td><?= htmlspecialchars($formattedExpirationDate) ?></td>
                             <td>
                                 <?php
                                 // Display the remaining days or expired
