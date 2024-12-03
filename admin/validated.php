@@ -4,7 +4,7 @@ include('includes/dbconnection.php');
 
 // Fetch validated clients (validity = 1)
 $queryValidated = "
-    SELECT u.email, u.expiration_date, u.validity
+    SELECT u.email, u.expiration_date
     FROM uploads u
     WHERE u.validity = 1
 ";
@@ -123,7 +123,6 @@ mysqli_close($con);
                         <tr>
                             <td><?= htmlspecialchars($client['email']) ?></td>
                             <td><?= htmlspecialchars($client['expiration_date']) ?></td>
-                            <td><?= htmlspecialchars($client['validity']) ?></td>
                             <td><?= $remainingDays ?> days remaining</td>
                         </tr>
                     <?php endforeach; ?>
