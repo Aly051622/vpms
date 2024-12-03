@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Determine validity and update the database
     try {
+        // Check if the expiration date is in the past (expired) or in the future (valid)
         if ($expiration_date < $current_date) {
             // License expired
             $update_query = "UPDATE tblregusers SET validity = 0, expiration_date = ? WHERE Email = ?";
@@ -79,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $con->close();
 }
 ?>
+
 
 
 <!DOCTYPE html>
