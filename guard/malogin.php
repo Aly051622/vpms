@@ -170,7 +170,7 @@ $conn->close();
     margin: 10px auto; /* Center-align the input fields */
     display: block;
     padding: 10px;
-    font-size: 1rem;
+    font-size: 1.2rem;
     border: 1px solid #ddd;
     border-radius: 5px;
 }
