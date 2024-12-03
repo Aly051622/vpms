@@ -204,8 +204,12 @@ $conn->close();
 
   /* Body and Container */
   body {
-            color: black;
-            background-color: whitesmoke;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: black;
+    background-color: #f9fcff;
+    background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
         }
         .container {
             max-width: 600px;
