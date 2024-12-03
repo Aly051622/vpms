@@ -180,10 +180,10 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
 .form-container .btn-primary {
     display: inline-block;
     border: solid lightgray;
-                border-radius: 10px;
+                border-radius: 7px;
                 padding: 10px;
                 background-color: rgb(53, 97, 255);
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: white;
     border-radius: 10px;
     cursor: pointer;
