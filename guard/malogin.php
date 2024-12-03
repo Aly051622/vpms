@@ -456,7 +456,7 @@ $conn->close();
 
 
 <!-- Form for Contact Number and Plate Number Search -->
-<div class="containers">
+<div class="container">
     <h2>Search Vehicle</h2>
     <form id="searchForm">
         <div class="form-group">
