@@ -166,11 +166,11 @@ $conn->close();
 /* Adjust Input Field Width */
 .form-container .form-group input {
     width: 100%; /* Ensure input fields are wide */
-    max-width: 600px; /* Limit maximum width */
+    max-width: 700px; /* Limit maximum width */
     margin: 10px auto; /* Center-align the input fields */
     display: block;
     padding: 10px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     border: 1px solid #ddd;
     border-radius: 5px;
 }
