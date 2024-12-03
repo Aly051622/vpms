@@ -145,79 +145,244 @@ $conn->close();
     <title>QR Code Login Scanner | CTU DANAO Parking System</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
-        /* General Styles */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            color: black;
-            background-color: #f9fcff;
-            background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
-        }
+     .containers{
+        width: 90%; /* Make the container occupy most of the screen */
+    max-width: 1200px;
+    margin: auto;
+    padding: 15px;
+    }
 
+  /* Body and Container */
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: black;
+    background-color: #f9fcff;
+    background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
+        }
         .container {
-            max-width: 1200px;
-            margin: auto;
-            padding: 20px;
-        }
-
-        .header {
+            max-width: 600px;
+            margin-top: 100px;
             text-align: center;
-            padding: 20px;
+        }
+        .hidden-field{
+            display: none;
+        }
+        h2 {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
         }
 
-        .header h1 {
+        /* Form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        /* Search Button */
+            .btn-primary{
+                border: solid lightgray;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: rgb(53, 97, 255);
+                color: white;
+                cursor: pointer;
+                font-family: 'Montserrat',sans-serif;
+                font-weight: bolder;
+        }
+
+           .btn-primary:hover{
+                background-color: darkblue;
+                border: solid blue;
+            }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+        }
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fefefe;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .modal-content p {
+            color: #d9534f;
+            font-size: 16px;
             margin: 0;
-            color: #1e3c72;
+            padding: 10px 0;
         }
-
-        .header p {
-            color: #2a5298;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 1em;
+        .close-button {
+            background-color: #d9534f;
             color: white;
-            background-color: orange;
             border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            text-align: center;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 14px;
             cursor: pointer;
-            transition: background-color 0.3s ease-in-out;
+        }
+        .close-button:hover {
+            background-color: #c9302c;
+        }
+        .table-responsive {
+        display: block;
+     
+        width: 100%;
+        margin-top: 20px;
+        align-items: center;
+        overflow-x: auto; /* Prevent horizontal scrolling */
+    }
+    .table {
+        width: 100%;
+        table-layout: auto; /* Ensure columns fit within the table width */
+        border-collapse: collapse;
+        background-color: #f9fcff;
+        
+    }
+    .table th, .table td {
+        padding: 8px;
+        text-align: left;
+        border: 1px solid #ddd;
+        white-space: normal; /* Allow text wrapping */
+        font-size: 0.9rem;
+        word-wrap: break-word;
+        white-space: nowrap;
+    }
+    .table th {
+        font-weight: bold;
+        background-color: #e0e6ed;
+    }
+    .table td {
+        background-color: #ffffff;
+    }
+    h3{
+        text-align: center;
+    }
+    .navbar .navbar-toggler {
+    display: none;
+}
+    /* Column Responsiveness */
+    @media (max-width: 768px) {
+        .table th,
+        .table td {
+            font-size: 12px;
+            padding: 6px;
+        }
+        .containers {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    .btn-primary, .btn-success, .btn-danger, .btn-warning {
+        font-size: 0.8rem; /* Smaller font for buttons on small screens */
+        padding: 8px;
+    }
+
+    .form-group label, .form-control {
+        font-size: 0.9rem;
+    }
+
+    .modal-content {
+        width: 90%; /* Full width modal for small screens */
+    }
+    .navbar .navbar-toggler {
+        display: inline-block;
+    }
+    }
+
+    #deletebtn{
+                border: solid darkred;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: red;
+                color: white;
+                cursor: pointer;
+                font-family: 'Montserrat',sans-serif;
+                font-weight: bolder;
+        }
+        #deletebtn:hover{
+            background-color: darkblue;
+            border: solid blue;
+        }
+            #editbtn{
+                border: solid lightgray;
+                border-radius: 10px;
+                padding: 10px;
+                background-color: rgb(53, 97, 255);
+                color: white;
+                cursor: pointer;
+                font-family: 'Montserrat',sans-serif;
+                font-weight: bolder;
         }
 
-        .btn:hover {
+           #editbtn:hover{
+                background-color: darkblue;
+                border: solid blue;
+            }
+            .dropbtns{
+            color: white;
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            background-color: orange;
+            border-radius: 9px;
+            font-weight: bold;
+            border: solid;
+            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+        }
+        .navbar-item .dropbtns:hover{
             background-color: white;
             color: orange;
-            border: 2px solid orange;
+            border: solid orange;
+            border-radius: 9px;
         }
+        /* Extra small screens */
+@media (max-width: 480px) {
+    h2, h3 {
+        font-size: 1.5rem;
+    }
 
-        #editbutton, #deletebutton {
-            font-size: 0.9em;
-            padding: 8px 15px;
-            margin: 5px;
-            background-color: #2a5298;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease-in-out;
-        }
+    .dropbtns {
+        font-size: 0.8rem;
+        padding: 6px;
+    }
 
-        #editbutton:hover {
-            background-color: #1e3c72;
-        }
+    .navbar-brand {
+        font-size: 1rem;
+    }
 
-        #deletebutton:hover {
-            background-color: red;
-        }
+    .table th, .table td {
+        font-size: 0.8rem;
+        padding: 6px;
+    }
+    .navbar-toggler {
+        margin-top: -33px;
+        margin-left: 11em;
+    }
 
-        /* Navbar */
-        .navbar {
+}
+
+     /* Navbar */
+     .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -265,174 +430,8 @@ $conn->close();
             display: none;
         }
 
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            width: 90%;
-        }
-
-        .modal-header, .modal-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-header {
-            border-bottom: 1px solid #ddd;
-        }
-
-        .modal-footer {
-            border-top: 1px solid #ddd;
-        }
-
-        .modal-footer button {
-            padding: 8px 15px;
-            font-size: 0.9em;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .modal-footer .close-btn {
-            background-color: gray;
-            color: white;
-        }
-
-        .modal-footer .close-btn:hover {
-            background-color: #333;
-        }
-
-        .modal-footer .save-btn {
-            background-color: orange;
-            color: white;
-        }
-
-        .modal-footer .save-btn:hover {
-            background-color: #e68a00;
-        }
-
-        /* Table Styles */
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        .table th, .table td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .table th {
-            background-color: #1e3c72;
-            color: white;
-        }
-
-        .table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        /* Responsive Design for Screens up to 768px */
-        @media (max-width: 768px) {
-            .navbar {
-                flex-wrap: wrap;
-            }
-
-            .navbar-toggler {
-                display: block;
-                font-size: 1.5em;
-                color: white;
-                background: none;
-                border: none;
-                cursor: pointer;
-            }
-
-            .navbar-menu {
-                display: none;
-                flex-direction: column;
-                align-items: flex-start;
-                width: 100%;
-                background-color: #1e3c72;
-                padding: 10px 0;
-            }
-
-            .navbar-menu.show {
-                display: flex;
-            }
-
-            .navbar-menu a {
-                margin: 10px 20px;
-            }
-
-            .btn, #editbutton, #deletebutton {
-                font-size: 0.9em;
-                padding: 8px 15px;
-            }
-
-            .table th, .table td {
-                padding: 8px;
-            }
-
-            .modal-content {
-                width: 95%;
-            }
-        }
-
-        /* Responsive Design for Screens up to 480px */
-        @media (max-width: 480px) {
-            .navbar {
-                padding: 0.3em 0.8em;
-            }
-
-            .navbar-brand a {
-                font-size: 1.2em;
-            }
-
-            .navbar-menu a {
-                font-size: 0.9em;
-                padding: 8px 10px;
-            }
-
-            .dropbtns {
-                font-size: 0.9em;
-            }
-
-            .btn, #editbutton, #deletebutton {
-                font-size: 0.8em;
-                padding: 5px 10px;
-            }
-
-            .table {
-                font-size: 0.8em;
-            }
-
-            .table th, .table td {
-                padding: 5px;
-            }
-
-            .modal-content {
-                width: 90%;
-            }
-        }
-    </style>
+        
+</style>
 </head>
 <body>
 
@@ -457,7 +456,7 @@ $conn->close();
 
 
 <!-- Form for Contact Number and Plate Number Search -->
-<div class="container">
+<div class="containers">
     <h2>Search Vehicle</h2>
     <form id="searchForm">
         <div class="form-group">
