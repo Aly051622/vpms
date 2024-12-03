@@ -165,10 +165,22 @@ $conn->close();
 
   /* Adjust Input Field Width */
 .form-container .form-group input {
-    width: 120%; /* Make input fields wider */
+    width: 100%; /* Make input fields wider */
     max-width: 400px; /* Optional: Limit maximum width */
     margin: 0 auto; /* Center-align the input fields */
     display: block;
+}
+
+/* Adjust Input Field Width */
+.form-container .form-group input {
+    width: 100%; /* Ensure input fields are wide */
+    max-width: 500px; /* Limit maximum width */
+    margin: 10px auto; /* Center-align the input fields */
+    display: block;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
         .hidden-field{
             display: none;
@@ -249,22 +261,21 @@ $conn->close();
         .table-responsive {
     margin: 0 auto; /* Center the table container */
     text-align: center; /* Center-align content within */
-    max-width: 80%; /* Adjust width as needed */
+    max-width: 90%; /* Adjust width as needed */
     display: block;
     overflow-x: auto;
 }
     .table {
-        width: auto; /* Adjust width to content */
-    max-width: 100%; 
+        margin: 20px auto; /* Center the table */
+    width: 100%; /* Full width */ 
         table-layout: auto; /* Ensure columns fit within the table width */
         border-collapse: collapse;
         background-color: #f9fcff;
         text-align: center; /* Center-align content within */
-        
     }
     .table th, .table td {
         padding: 8px;
-        text-align: left;
+        text-align: center;
         border: 1px solid #ddd;
         white-space: normal; /* Allow text wrapping */
         font-size: 0.9rem;
@@ -282,7 +293,7 @@ $conn->close();
     @media (max-width: 768px) {
         .table th,
         .table td {
-            font-size: 12px;
+            font-size: 0.8rem;
             padding: 6px;
         }
         .container {
@@ -305,6 +316,9 @@ $conn->close();
 
     .modal-content {
         width: 90%; /* Full width modal for small screens */
+    }
+    .form-container .form-group input {
+        width: 90%; /* Reduce width for smaller screens */
     }
     }
          #deletebtn{
