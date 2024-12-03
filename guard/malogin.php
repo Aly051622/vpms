@@ -161,11 +161,6 @@ $conn->close();
     background-color: #f9fcff;
     background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
         }
-        .container {
-            max-width: 600px;
-            margin-top: 100px;
-            text-align: center;
-        }
         .hidden-field{
             display: none;
         }
