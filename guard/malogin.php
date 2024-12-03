@@ -145,54 +145,14 @@ $conn->close();
     <title>QR Code Login Scanner | CTU DANAO Parking System</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
-     .containers{
-        width: 90%; /* Make the container occupy most of the screen */
-    max-width: 1200px;
-    margin: auto;
-    padding: 15px;
-    }
-    /*qrbutton add css*/
-    .dropbtns{
-        margin-top: 40px;
-            color: white;
-            padding:1px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            background-color: orange;
-            border-radius: 9px;
-            font-weight: bold;
-            border: solid;
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-        }
-        .dropbtns:hover{
-            background-color: white;
-            color: orange;
-            border: solid orange;
-        }
-        .navbar{
-            background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, 
-                rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
-                rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-            }
-    @media (max-width: 480px){
-    .containers{
-        padding-top:10px;
-        margin-top:-8px;
-    }
-    .navbar-brand{
-        margin-left: 10px;
-    }
-    .navbar-toggler{
-        margin-top: -33px;
-        margin-left: 11em;
-    }
-}
   /* Body and Container */
   body {
-            color: black;
-            background-color: whitesmoke;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: black;
+    background-color: #f9fcff;
+    background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
         }
         .container {
             max-width: 600px;
