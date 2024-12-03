@@ -179,8 +179,9 @@ $conn->close();
 .hidden-field {
     display: none; /* Initially hidden */
     width: 100%; /* Full width */
+    align-items: center;
     padding: 10px;
-    margin-top: 100px;
+    margin-top: 10px;
     background-color: #f9fcff;
     border: 1px solid #ddd;
     border-radius: 5px;
