@@ -8,9 +8,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Collect the email and expiration date from the form
-    $email = $_POST['email'];
-    $expiration_date_input = $_POST['expiration_date'];
+    // Collect and sanitize email and expiration date from the form
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    $expiration_date_input = filter_var($_POST['expiration_date'], FILTER_SANITIZE_STRING);
 
     // Validate the expiration date format
     $expiration_date = DateTime::createFromFormat('Y-m-d', $expiration_date_input);
@@ -27,26 +27,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['error_message'] = "The driver's license has expired.";
     } else {
         // Update the database
-        $stmt = $con->prepare("UPDATE tblregusers SET validity = 1 WHERE email = ?");
-        if ($stmt === false) {
-            $_SESSION['error_message'] = "Database error: " . $con->error;
-            header('Location: validation.php');
-            exit();
-        }
+        try {
+            $stmt = $con->prepare("UPDATE tblregusers SET validity = 1 WHERE email = ?");
+            if ($stmt === false) {
+                throw new Exception("Database error: " . $con->error);
+            }
 
-        $stmt->bind_param('s', $email);
+            $stmt->bind_param('s', $email);
+            $stmt->execute();
 
-        if ($stmt->execute()) {
             if ($stmt->affected_rows > 0) {
                 $_SESSION['success_message'] = "Driver's license expiration date successfully updated!";
             } else {
                 $_SESSION['error_message'] = "No user found with the provided email.";
             }
-        } else {
-            $_SESSION['error_message'] = "An error occurred while updating the record: " . $stmt->error;
-        }
 
-        $stmt->close();
+            $stmt->close();
+        } catch (Exception $e) {
+            $_SESSION['error_message'] = $e->getMessage();
+        }
     }
 
     header('Location: validation.php');
@@ -57,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="apple-touch-icon" href="../images/aa.png">
     <link rel="shortcut icon" href="../images/aa.png">
@@ -84,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-family: 'Poppins', sans-serif;
             color: black;
             font-size: 30px;
-            margin-left: 12em;
+            text-align: center;
         }
         label {
             font-size: 14px;
