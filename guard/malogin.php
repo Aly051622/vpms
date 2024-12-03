@@ -184,7 +184,6 @@ $conn->close();
     background-color: #f9fcff;
     border: 1px solid #ddd;
     border-radius: 5px;
-    
 }
 
 /* Flexbox Layout for Hidden Fields */
@@ -625,7 +624,8 @@ $conn->close();
     </form>
      <!-- Hidden Area and Parking Slot Input Fields -->
 <div id="additionalFields" class="hidden-field">
-    <div class="row">       
+    <div class="row">
+        <div class="col-md-5">
             <div class="form-group">
                 <label for="area">Area:</label>
                 <select class="form-control" id="area" name="area">
@@ -636,7 +636,8 @@ $conn->close();
                     <option value="D">D</option>
                 </select>
             </div>
-        </div>     
+        </div>
+        <div class="col-md-5">
             <div class="form-group">
                 <label for="slotArea">Parking Slot:</label>
                 <input type="text" class="form-control" id="slotArea" name="slotArea" placeholder="Enter slot area">
