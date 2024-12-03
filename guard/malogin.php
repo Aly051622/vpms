@@ -299,7 +299,7 @@ $conn->close();
         text-align: center;
         border: 1px solid #ddd;
         white-space: normal; /* Allow text wrapping */
-        font-size: 1rem;
+        font-size: 1.5rem;
         word-wrap: break-word;
         white-space: nowrap;
     }
@@ -405,7 +405,7 @@ $conn->close();
     }
 
     .table th, .table td {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         padding: 6px;
     }
 }
