@@ -63,7 +63,7 @@ $conn->close();
 <html class="no-js" lang="">
 <head>
 <link rel="apple-touch-icon" href="../images/aa.png">
-<link rel="shortcut icon" href="../images/aa.png">
+    <link rel="shortcut icon" href="../images/aa.png">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script type="text/javascript" src="js/adapter.min.js"></script>
     <script type="text/javascript" src="js/vue.min.js"></script>

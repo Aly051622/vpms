@@ -140,7 +140,7 @@ $conn->close();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
     <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
     <link rel="apple-touch-icon" href="../images/aa.png">
-    <link rel="shortcut icon" href="../images/ctu.png">
+    <link rel="shortcut icon" href="../images/aa.png">
 
     <title>QR Code Login Scanner | CTU DANAO Parking System</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">

@@ -82,8 +82,8 @@ $con->close();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
     <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
-    <link rel="apple-touch-icon" href="images/ctu.png">
-    <link rel="shortcut icon" href="images/ctu.png">
+    <link rel="apple-touch-icon" href="../images/aa.png">
+    <link rel="shortcut icon" href="../images/aa.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <title>QR Code Logout Scanner | CTU DANAO Parking System</title>

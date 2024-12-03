@@ -156,8 +156,8 @@ function fetchAndDisplaySlots($conn, $area, $prefix) {
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" href="images/ctul.png">
-    <link rel="shortcut icon" href="images/ctul.png">
+    <link rel="apple-touch-icon" href="../images/aa.png">
+    <link rel="shortcut icon" href="../images/aa.png">
     <title>Parking Slot Manager</title>
     <link rel="stylesheet" href="guard.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
