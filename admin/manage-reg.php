@@ -140,6 +140,7 @@ if(isset($_GET['del'])) {
                             <strong class="card-title">Manage Registered Vehicle</strong>
                         </div>
                         <div class="card-body">
+                        <a href="print.php" style="cursor:pointer" target="_blank" class="btn btn-warning" id="printbtn">🖶 Print All</a>
                              <table class="table">
                 <thead>
                                         <tr>
