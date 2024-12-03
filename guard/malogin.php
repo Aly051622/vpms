@@ -142,10 +142,6 @@ $conn->close();
     <link rel="apple-touch-icon" href="../images/aa.png">
     <link rel="shortcut icon" href="../images/aa.png">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js">
-    <link rel="stylesheet" href="../admin/assets/css/cs-skin-elastic.css">
-    <link rel="stylesheet" href="../admin/assets/css/style.css">
-
     <title>QR Code Login Scanner | CTU DANAO Parking System</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
@@ -184,7 +180,7 @@ $conn->close();
     display: none; /* Initially hidden */
     width: 100%; /* Full width */
     padding: 10px;
-    margin-top: 10px;
+    margin-top: 100px;
     background-color: #f9fcff;
     border: 1px solid #ddd;
     border-radius: 5px;
