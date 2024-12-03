@@ -197,15 +197,13 @@ $conn->close();
     color: orange; /* Highlight effect */
 }
 
+.navbar-item .dropbtns:hover {
+    background-color: white;
+    color: orange;
+    border: solid orange;
+    border-radius: 9px;
+}
 
-.navbar-menu {
-        display: none; /* Hidden by default */
-        flex-direction: column;
-        align-items: flex-start;
-        width: 100%;
-        background-color: #1e3c72;
-        padding: 10px 0;
-    }
 
   /* Body and Container */
   body {
