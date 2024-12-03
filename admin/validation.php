@@ -12,8 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $expiration_date_input = filter_var($_POST['expiration_date'], FILTER_SANITIZE_STRING);
 
+    // Normalize the date format to use dashes instead of slashes
+    $normalized_expiration_date = str_replace('/', '-', $expiration_date_input);
+
     // Validate the expiration date format (MM-DD-YYYY)
-    $expiration_date = DateTime::createFromFormat('m-d-Y', $expiration_date_input);
+    $expiration_date = DateTime::createFromFormat('m-d-Y', $normalized_expiration_date);
     $current_date = new DateTime();
 
     if (!$expiration_date) {
@@ -82,6 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $con->close();
 }
 ?>
+
 
 
 <!DOCTYPE html>
