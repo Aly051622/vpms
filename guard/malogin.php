@@ -201,6 +201,8 @@ $conn->close();
                 cursor: pointer;
                 font-family: 'Montserrat',sans-serif;
                 font-weight: bolder;
+                align-items: center;
+                text-align: center;
         }
 
            .btn-primary:hover{
