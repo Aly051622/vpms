@@ -24,7 +24,16 @@ if (!$resultValidated) {
 $validatedClients = [];
 if (mysqli_num_rows($resultValidated) > 0) {
     while ($row = mysqli_fetch_assoc($resultValidated)) {
-        $validatedClients[] = $row;
+        // Check if the client has expired
+        $expirationDate = new DateTime($row['expiration_date']);
+        $currentDate = new DateTime();
+        $remainingDays = $currentDate->diff($expirationDate)->format('%r%a'); // Remaining days
+
+        // Only add the client to the list if they are not expired
+        if ($remainingDays >= 0) {
+            $row['remaining_days'] = $remainingDays;
+            $validatedClients[] = $row;
+        }
     }
 }
 
@@ -112,30 +121,21 @@ mysqli_close($con);
             <thead class="bg-primary">
                 <tr>
                     <th>Email</th>
-                    <th>Expiration Date</th>
                     <th>Remaining Days</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if (!empty($validatedClients)): ?>
                     <?php foreach ($validatedClients as $client): ?>
-                        <?php
-                        // Format expiration date
-                        $expirationDate = new DateTime($client['expiration_date']);
-                        $formattedExpirationDate = $expirationDate->format('F j, Y'); // Month Day, Year format
-                        $currentDate = new DateTime();
-                        $remainingDays = $currentDate->diff($expirationDate)->format('%r%a'); // Remaining days
-                        ?>
                         <tr>
                             <td><?= htmlspecialchars($client['email']) ?></td>
-                            <td><?= htmlspecialchars($formattedExpirationDate) ?></td>
                             <td>
                                 <?php
-                                // Only display remaining days if it's more than 0
-                                if ($remainingDays > 0) {
-                                    echo "$remainingDays days remaining";
+                                // Display remaining days
+                                if ($client['remaining_days'] > 0) {
+                                    echo "$client[remaining_days] days remaining";
                                 } else {
-                                    echo "Expired"; // Expired for clients whose license has already expired
+                                    echo "Expired"; // This will not show as we've already excluded expired users
                                 }
                                 ?>
                             </td>
@@ -143,7 +143,7 @@ mysqli_close($con);
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="3" class="text-center">No validated clients found.</td>
+                        <td colspan="2" class="text-center">No validated clients found.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
