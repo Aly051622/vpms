@@ -170,25 +170,41 @@ $conn->close();
             color: orange;
             border: solid orange;
         }
-        .navbar{
-            background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, 
-                rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
-                rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-            }
-    @media (max-width: 480px){
-    .containers{
-        padding-top:10px;
-        margin-top:-8px;
-    }
-    .navbar-brand{
-        margin-left: 10px;
-    }
-    .navbar-toggler{
-        margin-top: -33px;
-        margin-left: 11em;
-    }
+        .navbar {
+    background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, 
+            rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
+            rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0.5em 1em;
 }
+
+.navbar .navbar-toggler {
+    display: none;
+}
+
+    .navbar a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+.navbar a:hover {
+    color: orange; /* Highlight effect */
+}
+
+.navbar-item .dropbtns:hover {
+    background-color: white;
+    color: orange;
+    border: solid orange;
+    border-radius: 9px;
+}
+
+
   /* Body and Container */
   body {
             color: black;
@@ -321,10 +337,6 @@ $conn->close();
         padding: 10px;
     }
 
-    .navbar-toggler {
-        margin-left: 1em;
-    }
-
     .btn-primary, .btn-success, .btn-danger, .btn-warning {
         font-size: 0.8rem; /* Smaller font for buttons on small screens */
         padding: 8px;
@@ -338,6 +350,7 @@ $conn->close();
         width: 90%; /* Full width modal for small screens */
     }
     }
+
     #deletebtn{
                 border: solid darkred;
                 border-radius: 10px;
@@ -403,6 +416,20 @@ $conn->close();
     .table th, .table td {
         font-size: 0.8rem;
         padding: 6px;
+    }
+}
+
+@media (max-width: 480px){
+    .containers{
+        padding-top:10px;
+        margin-top:-8px;
+    }
+    .navbar-brand{
+        margin-left: 10px;
+    }
+    .navbar-toggler{
+        margin-top: -33px;
+        margin-left: 11em;
     }
 }
 </style>
@@ -509,14 +536,14 @@ $conn->close();
         </tbody>
     </table>
     </div>
-
+                </div>
     <!-- Pagination Links -->
     <div class="pagination">
         <?php for ($i = 1; $i <= $totalPages; $i++): ?>
             <a href="?page=<?= $i ?>" class="page-link <?= $i === $page ? 'active' : '' ?>"><?= $i ?></a>
         <?php endfor; ?>
     </div>
-</div>
+
 
 
 
