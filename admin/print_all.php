@@ -7,6 +7,8 @@ include('includes/dbconnection.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" href="../images/aa.png">
+    <link rel="shortcut icon" href="../images/aa.png">
     <title>Print All | CTU DANAO Parking System</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
     <style>
