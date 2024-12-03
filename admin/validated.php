@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('includes/dbconnection.php');
+include('../DBconnection/dbconnection.php');
 
 // Check database connection
 if (!$con) {
@@ -20,6 +20,7 @@ if (!$resultValidated) {
     die("Query failed: " . mysqli_error($con));
 }
 
+// Initialize array to store validated clients
 $validatedClients = [];
 if (mysqli_num_rows($resultValidated) > 0) {
     while ($row = mysqli_fetch_assoc($resultValidated)) {
