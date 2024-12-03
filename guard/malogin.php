@@ -151,56 +151,6 @@ $conn->close();
     margin: auto;
     padding: 15px;
     }
-    /*qrbutton add css*/
-    .dropbtns{
-        margin-top: 40px;
-            color: white;
-            padding:1px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            background-color: orange;
-            border-radius: 9px;
-            font-weight: bold;
-            border: solid;
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-        }
-        .dropbtns:hover{
-            background-color: white;
-            color: orange;
-            border: solid orange;
-        }
-        .navbar {
-    background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
-        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, 
-            rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
-            rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 0.5em 1em;
-}
-
-
-    .navbar a {
-    text-decoration: none;
-    color: white;
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-right: 15px;
-}
-
-.navbar a:hover {
-    color: orange; /* Highlight effect */
-}
-
-.navbar-item .dropbtns:hover {
-    background-color: white;
-    color: orange;
-    border: solid orange;
-    border-radius: 9px;
-}
-
 
   /* Body and Container */
   body {
@@ -449,23 +399,25 @@ $conn->close();
         margin-top:-8px;
     }
     .navbar {
-    background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
-                rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
-                rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-
+    justify-content: space-between; /* Space between brand and buttons */
+    align-items: center;
     padding: 0.5em 1em;
+    background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, 
+                rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
+                rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
-.navbar a {
-    text-decoration: none;
+.navbar-brand a {
     color: white;
-    font-size: 1.2em;
+    font-size: 1.5em;
     font-weight: bold;
-    margin-left: 10px;
+    text-decoration: none;
+}
+.navbar-menu {
+    display: flex;
+    gap: 10px; /* Space between buttons */
 }
 
 .navbar a:hover {
@@ -552,25 +504,27 @@ $conn->close();
 <body>
 
 <nav class="navbar">
-<div class="container">
-    <div class="navbar-brand"><a href="monitor.php">Parking Slot Manager</a></div>
-    <div class="navbar-toggler" onclick="toggleMenu()">&#9776;</div>
-    <div class="navbar-menu" id="navbarMenu">
-        <!-- QR Login Button -->
-        <a href="qrlogin.php" class="navbar-item dropbtns"><i class="bi bi-car-front-fill"></i> QR Log-in</a>
-      
+    <div class="container">
+        <!-- Brand on the Left -->
+        <div class="navbar-brand">
+            <a href="monitor.php">Parking Slot Manager</a>
+        </div>
 
-        <!-- Manual Input Button -->
-        <a href="malogin.php" class="navbar-item dropbtns"><i class="bi bi-display-fill"></i> Manual Log-in</a>
+        <!-- Navbar toggler for mobile view -->
+        <div class="navbar-toggler" onclick="toggleMenu()">&#9776;</div>
 
-        <a href="logout.php" class="navbar-item dropbtns"><i class="bi bi-house-fill"></i> Home</a>
-       
+        <!-- Navigation Buttons -->
+        <div class="navbar-menu" id="navbarMenu">
+            <a href="qrlogin.php" class="navbar-item dropbtns"><i class="bi bi-car-front-fill"></i> QR Log-in</a>
+            <a href="malogin.php" class="navbar-item dropbtns"><i class="bi bi-display-fill"></i> Manual Log-in</a>
+            <a href="logout.php" class="navbar-item dropbtns"><i class="bi bi-house-fill"></i> Home</a>
+        </div>
     </div>
-</div>
 </nav>
 
+
 <!-- Form for Contact Number and Plate Number Search -->
-<div class="container">
+<div class="containers">
     <h2>Search Vehicle</h2>
     <form id="searchForm">
         <div class="form-group">
