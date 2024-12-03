@@ -178,9 +178,9 @@ $conn->close();
     /* Responsive Design for Hidden Fields */
 .hidden-field {
     display: none; /* Initially hidden */
-    width: 10%; /* Full width */
+    width: 100%; /* Full width */
     padding: 10px;
-    margin-top: 20px;
+    margin-top: 5px;
     background-color: #f9fcff;
     border: 1px solid #ddd;
     border-radius: 5px;
