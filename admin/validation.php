@@ -12,21 +12,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $expiration_date_input = filter_var($_POST['expiration_date'], FILTER_SANITIZE_STRING);
 
-    // Normalize the date format to use dashes instead of slashes
-    $normalized_expiration_date = str_replace('/', '-', $expiration_date_input);
-
-    // Validate the expiration date format (MM-DD-YYYY)
-    $expiration_date = DateTime::createFromFormat('m-d-Y', $normalized_expiration_date);
+    // Validate the expiration date format
+    $expiration_date = DateTime::createFromFormat('Y-m-d', $expiration_date_input);
     $current_date = new DateTime();
 
     if (!$expiration_date) {
-        $_SESSION['error_message'] = "Invalid date format. Please enter the date in MM-DD-YYYY format.";
+        $_SESSION['error_message'] = "Invalid date format. Please enter the date in YYYY-MM-DD format.";
         header('Location: validation.php');
         exit();
     }
 
     // Check if the email exists in the database
-    $email_check_query = "SELECT * FROM tblregusers WHERE Email = ?";
+    $email_check_query = "SELECT * FROM tblregusers WHERE email = ?";
     $stmt = $con->prepare($email_check_query);
     $stmt->bind_param('s', $email);
     $stmt->execute();
@@ -40,53 +37,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Prepare the formatted expiration date (store as Y-m-d in the database)
-    $formatted_expiration_date = $expiration_date->format('Y-m-d');
-
-    // Determine validity and update the database
-    try {
-        if ($expiration_date < $current_date) {
-            // License expired
-            $update_query = "UPDATE tblregusers SET validity = 0, expiration_date = ? WHERE Email = ?";
+    // Check if the license is expired
+    if ($expiration_date < $current_date) {
+        $_SESSION['error_message'] = "The driver's license has expired.";
+    } else {
+        // Update the database
+        try {
+            $update_query = "UPDATE tblregusers SET validity = 1 WHERE email = ?";
             $stmt_update = $con->prepare($update_query);
-            $stmt_update->bind_param('ss', $formatted_expiration_date, $email);
+            if ($stmt_update === false) {
+                throw new Exception("Database error: " . $con->error);
+            }
+
+            $stmt_update->bind_param('s', $email);
             $stmt_update->execute();
 
             if ($stmt_update->affected_rows > 0) {
-                $_SESSION['success_message'] = "License status updated to expired.";
-                header('Location: invalidated.php');
+                $_SESSION['success_message'] = "Driver's license expiration date successfully updated!";
             } else {
                 $_SESSION['error_message'] = "Failed to update the driver's license status.";
-                header('Location: validation.php');
             }
-        } else {
-            // License valid
-            $update_query = "UPDATE tblregusers SET validity = 1, expiration_date = ? WHERE Email = ?";
-            $stmt_update = $con->prepare($update_query);
-            $stmt_update->bind_param('ss', $formatted_expiration_date, $email);
-            $stmt_update->execute();
 
-            if ($stmt_update->affected_rows > 0) {
-                $_SESSION['success_message'] = "Driver's license is valid.";
-                header('Location: validated.php');
-            } else {
-                $_SESSION['error_message'] = "Failed to update the driver's license status.";
-                header('Location: validation.php');
-            }
+            $stmt_update->close();
+        } catch (Exception $e) {
+            $_SESSION['error_message'] = $e->getMessage();
         }
-
-        $stmt_update->close();
-    } catch (Exception $e) {
-        $_SESSION['error_message'] = $e->getMessage();
-        header('Location: validation.php');
-        exit();
     }
-    $stmt->close();
-    $con->close();
+
+    header('Location: validation.php');
+    exit();
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
