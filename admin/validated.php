@@ -1,107 +1,67 @@
 <?php
 session_start();
-include_once('includes/dbconnection.php');
+include 'includes/dbconnection.php';
 
-if (isset($_SESSION['error_message'])) {
-    echo "<div class='alert alert-danger'>{$_SESSION['error_message']}</div>";
-    unset($_SESSION['error_message']);
-}
+// Fetch validated clients (validity = 1)
+$queryValidated = "
+    SELECT u.email, u.expiration_date, u.validity, 
+           r.cr_image, r.nv_image, r.or_image, r.profile_pictures 
+    FROM uploads u
+    JOIN tblregusers r ON u.email = r.Email
+    WHERE u.validity = 1
+";
 
-// Fetch validated clients from the 'uploads' table
-$sql = "SELECT email, expiration_date FROM uploads WHERE validity = 1 ORDER BY id DESC";
-$result = mysqli_query($conn, $sql);
+$resultValidated = mysqli_query($con, $queryValidated);
 
-$validatedClients = [];
-if ($result && mysqli_num_rows($result) > 0) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $validatedClients[] = $row;
+if (mysqli_num_rows($resultValidated) > 0) {
+    echo "<h1>Validated Clients</h1>";
+    echo "<table border='1'>";
+    echo "<tr>
+            <th>Email</th>
+            <th>Expiration Date</th>
+            <th>Validity</th>
+            <th>Remaining Days</th>
+            <th>CR Image</th>
+            <th>NV Image</th>
+            <th>OR Image</th>
+            <th>Profile Picture</th>
+            <th>Action</th>
+          </tr>";
+
+    while ($row = mysqli_fetch_assoc($resultValidated)) {
+        $expirationDate = new DateTime($row['expiration_date']);
+        $currentDate = new DateTime();
+        $remainingDays = $currentDate->diff($expirationDate)->format('%r%a'); // Positive or negative days
+
+        // If expiration has passed, update validity and skip further processing
+        if ($remainingDays < 0) {
+            $updateQuery = "UPDATE uploads SET validity = 0 WHERE email = '{$row['email']}'";
+            mysqli_query($con, $updateQuery);
+            continue;
+        }
+
+        echo "<tr>
+                <td>{$row['email']}</td>
+                <td>{$row['expiration_date']}</td>
+                <td>{$row['validity']}</td>
+                <td>$remainingDays days remaining</td>
+                <td><img src='uploads/validated/{$row['cr_image']}' width='100'></td>
+                <td><img src='uploads/validated/{$row['nv_image']}' width='100'></td>
+                <td><img src='uploads/validated/{$row['or_image']}' width='100'></td>
+                <td><img src='../uploads/profile_uploads/{$row['profile_pictures']}' width='100'></td>
+                <td>
+                    <form action='delete_client.php' method='POST'>
+                        <input type='hidden' name='email' value='{$row['email']}'>
+                        <button type='submit' onclick='return confirm(\"Delete this client?\")'>Delete</button>
+                    </form>
+                </td>
+              </tr>";
     }
+    echo "</table>";
+} else {
+    echo "No validated clients found.";
 }
+
+mysqli_close($con);
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Validated | CTU Danao Parking System</title>
-    <style>
-        body {
-            background: whitesmoke;
-            font-family: Arial, sans-serif;
-            overflow-x: hidden;
-        }
-        h1 {
-            text-align: center;
-            margin-top: 7px;
-            color: #1e3c72;
-            font-weight: bold;
-        }
-        .bg-primary {
-            background-color: #1e3c72;
-            color: white;
-        }
-        .table {
-            margin: 20px auto;
-            width: 90%;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .table th, .table td {
-            text-align: center;
-            padding: 10px;
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <?php if (empty($validatedClients)): ?>
-        <div class="alert alert-info">
-            No validated clients found in the system.
-        </div>
-    <?php else: ?>
-        <h4 class="text-center">Validated Clients</h4>
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered">
-                <thead class="bg-primary">
-                    <tr>
-                        <th>Email</th>
-                        <th>Expiration Date</th>
-                        <th>Remaining Days</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($validatedClients as $client): ?>
-                        <?php
-                            $expirationDate = new DateTime($client['expiration_date']);
-                            $currentDate = new DateTime();
-                            $remainingDays = $currentDate->diff($expirationDate)->format('%r%a'); // Positive or negative days
-
-                            // Determine the status based on expiration
-                            $status = '';
-                            if ($remainingDays > 0) {
-                                $status = 'Expiration is coming up in ' . $remainingDays . ' days.';
-                            } elseif ($remainingDays == 0) {
-                                $status = 'Expiration is today.';
-                            } else {
-                                $status = 'Expired ' . abs($remainingDays) . ' days ago.';
-                            }
-                        ?>
-                        <tr>
-                            <td><?= htmlspecialchars($client['email']) ?></td>
-                            <td><?= htmlspecialchars($client['expiration_date']) ?></td>
-                            <td><?= $remainingDays ?> days remaining</td>
-                            <td><?= $status ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    <?php endif; ?>
-</div>
-
-</body>
-</html>
+<button onclick="window.history.back()">Back</button>
