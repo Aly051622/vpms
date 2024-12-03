@@ -154,7 +154,7 @@ $conn->close();
     background-color: #f9fcff;
     background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
         }
-        .container {
+        .containers {
             max-width: 600px;
             margin-top: 100px;
             text-align: center;
@@ -370,7 +370,7 @@ $conn->close();
 
 
 
-.containers{
+.container{
     padding: 1em;
     margin: auto;
     max-width: 1200px;
@@ -480,7 +480,7 @@ $conn->close();
 <body>
 
 <nav class="navbar">
-<div class="containers">
+<div class="container">
     <div class="navbar-brand"><a href="monitor.php">Parking Slot Manager</a></div>
     <div class="navbar-toggler" onclick="toggleMenu()">&#9776;</div>
     <div class="navbar-menu" id="navbarMenu">
@@ -498,7 +498,7 @@ $conn->close();
 </nav>
 
 <!-- Form for Contact Number and Plate Number Search -->
-<div class="container">
+<div class="containers">
     <h2>Search Vehicle</h2>
     <form id="searchForm">
         <div class="form-group">
