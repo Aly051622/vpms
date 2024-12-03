@@ -76,7 +76,7 @@ include('includes/dbconnection.php');
     <div class="heading-container">
         <div class="print-container">
                     <div class="header-content">
-                        <img src="images/header.png" alt="header" class="center">
+                       <!-- <img src="images/header.png" alt="header" class="center">-->
                     </div>
                 <h3 class="text-center">All Vehicle Records</h3>
             <table class="table table-bordered table-striped">
@@ -118,7 +118,7 @@ include('includes/dbconnection.php');
                     </tbody>
             </table>
                 <div class="footer-content">
-                        <img src="images/footer.png" alt="footer" class="center">
+                       <!-- <img src="images/footer.png" alt="footer" class="center"> -->
                 </div>
         </div>
     </div>
