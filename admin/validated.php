@@ -2,7 +2,7 @@
 session_start();
 include('includes/dbconnection.php');
 
-// Fetch validated clients
+// Fetch validated clients (validity = 1)
 $queryValidated = "
     SELECT u.email, u.expiration_date
     FROM uploads u
@@ -26,7 +26,17 @@ mysqli_close($con);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="apple-touch-icon" href="../images/aa.png">
     <link rel="shortcut icon" href="../images/aa.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/jqvmap@1.5.1/dist/jqvmap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/weathericons@2.1.0/css/weather-icons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 
     <style>
@@ -98,6 +108,7 @@ mysqli_close($con);
                 <tr>
                     <th>Email</th>
                     <th>Expiration Date</th>
+                    <th>Validity</th>
                     <th>Remaining Days</th>
                 </tr>
             </thead>
@@ -117,7 +128,7 @@ mysqli_close($con);
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="3" class="text-center">No validated clients found.</td>
+                        <td colspan="4" class="text-center">No validated clients found.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
@@ -128,6 +139,7 @@ mysqli_close($con);
 <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>
