@@ -2,11 +2,11 @@
 session_start();
 include('includes/dbconnection.php');
 
-// Fetch validated clients (validity = 1)
+// Fetch validated clients (validity = 1) from tblregusers
 $queryValidated = "
-    SELECT u.email, u.expiration_date
-    FROM uploads u
-    WHERE u.validity = 1
+    SELECT email, expiration_date 
+    FROM tblregusers 
+    WHERE validity = 1
 ";
 $resultValidated = mysqli_query($con, $queryValidated);
 $validatedClients = [];
@@ -128,6 +128,7 @@ mysqli_close($con);
         </table>
     </div>
 </div>
+
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
