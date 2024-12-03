@@ -2,6 +2,11 @@
 session_start();
 include('includes/dbconnection.php');
 
+// Check database connection
+if (!$con) {
+    die("Database connection failed: " . mysqli_connect_error());
+}
+
 // Fetch validated clients (validity = 1) from tblregusers
 $queryValidated = "
     SELECT email, expiration_date 
@@ -9,8 +14,14 @@ $queryValidated = "
     WHERE validity = 1
 ";
 $resultValidated = mysqli_query($con, $queryValidated);
+
+// Check if the query executed successfully
+if (!$resultValidated) {
+    die("Query failed: " . mysqli_error($con));
+}
+
 $validatedClients = [];
-if ($resultValidated && mysqli_num_rows($resultValidated) > 0) {
+if (mysqli_num_rows($resultValidated) > 0) {
     while ($row = mysqli_fetch_assoc($resultValidated)) {
         $validatedClients[] = $row;
     }
@@ -110,12 +121,14 @@ mysqli_close($con);
                         // Calculate remaining days until expiration
                         $expirationDate = DateTime::createFromFormat('Y-m-d', $client['expiration_date']);
                         $currentDate = new DateTime();
-                        $remainingDays = $currentDate->diff($expirationDate)->format('%r%a');
+                        $remainingDays = $expirationDate ? $currentDate->diff($expirationDate)->format('%r%a') : 'N/A';
                         ?>
                         <tr>
                             <td><?= htmlspecialchars($client['email']) ?></td>
                             <td><?= htmlspecialchars($client['expiration_date']) ?></td>
-                            <td><?= $remainingDays >= 0 ? "$remainingDays days remaining" : "Expired" ?></td>
+                            <td>
+                                <?= $remainingDays !== 'N/A' ? ($remainingDays >= 0 ? "$remainingDays days remaining" : "Expired") : "Invalid date" ?>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
