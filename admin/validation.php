@@ -2,11 +2,16 @@
 session_start();
 require_once('includes/dbconnection.php'); // Include your database connection
 
+// Turn on error reporting for debugging (remove in production)
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Collect the email and expiration date from the form
     $email = $_POST['email'];
     $expiration_date_input = $_POST['expiration_date'];
-    
+
     // Validate the expiration date format
     $expiration_date = DateTime::createFromFormat('Y-m-d', $expiration_date_input);
     $current_date = new DateTime();
@@ -21,22 +26,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($expiration_date < $current_date) {
         $_SESSION['error_message'] = "The driver's license has expired.";
     } else {
-        // Update the database (example query)
-        $stmt = $conn->prepare("UPDATE tblregusers SET validity = 1 WHERE email = ?");
+        // Update the database
+        $stmt = $con->prepare("UPDATE tblregusers SET validity = 1 WHERE email = ?");
+        if ($stmt === false) {
+            $_SESSION['error_message'] = "Database error: " . $con->error;
+            header('Location: validation.php');
+            exit();
+        }
+
         $stmt->bind_param('s', $email);
 
         if ($stmt->execute()) {
-            $_SESSION['success_message'] = "Driver's license expiration date successfully updated!";
+            if ($stmt->affected_rows > 0) {
+                $_SESSION['success_message'] = "Driver's license expiration date successfully updated!";
+            } else {
+                $_SESSION['error_message'] = "No user found with the provided email.";
+            }
         } else {
-            $_SESSION['error_message'] = "An error occurred while updating the record. Please try again.";
+            $_SESSION['error_message'] = "An error occurred while updating the record: " . $stmt->error;
         }
+
+        $stmt->close();
     }
 
     header('Location: validation.php');
     exit();
 }
 ?>
- 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
