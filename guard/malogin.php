@@ -159,14 +159,14 @@ $conn->close();
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-top: 50px;
+    margin-top: 10px;
     margin-bottom: 20px;
   }
 
   /* Adjust Input Field Width */
 .form-container .form-group input {
-    width: 100%; /* Make input fields wider */
-    max-width: 400px; /* Optional: Limit maximum width */
+    max-width: 100%; /* Make input fields wider */
+    width: 400px; /* Optional: Limit maximum width */
     margin: 0 auto; /* Center-align the input fields */
     display: block;
 }
