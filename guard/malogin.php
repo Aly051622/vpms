@@ -415,7 +415,7 @@ $conn->close();
 
 
 .container{
-    padding-top:10px;
+    padding: 10px;
     margin: auto;
     max-width: 1200px;
     width: 90%;
