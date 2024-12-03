@@ -175,69 +175,51 @@ $conn->close();
     border-radius: 5px;
 }
         
-/* Updated styles for the hidden-field and addToTableButton */
-
-/* Center the hidden fields container */
+    /* Responsive Design for Hidden Fields */
 .hidden-field {
     display: none; /* Initially hidden */
     width: 100%; /* Full width */
-    padding: 20px;
+    padding: 10px;
     margin-top: 20px;
     background-color: #f9fcff;
     border: 1px solid #ddd;
     border-radius: 5px;
+    
+}
+
+/* Flexbox Layout for Hidden Fields */
+.hidden-field .row {
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    flex-direction: column; /* Stack elements vertically */
-    text-align: center; /* Center-align text */
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+    gap: 10px;
 }
 
-/* Center each form group within hidden fields */
 .hidden-field .form-group {
-    width: 100%;
-    max-width: 500px; /* Limit the width of each input field */
-    margin-bottom: 20px;
+    flex: 1 1 calc(50% - 10px); /* Each field takes half the width with some gap */
+    min-width: 200px; /* Minimum width for very small screens */
 }
 
-/* Center the input fields and dropdown */
+.hidden-field .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
 .hidden-field .form-group input,
 .hidden-field .form-group select {
-    width: 100%;
-    padding: 10px;
+    width: 100%; /* Full width */
+    padding: 8px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-/* Add-to-Table button styling */
-#addToTableButton {
-    display: none; /* Initially hidden */
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    transition: background-color 0.3s ease;
-}
-
-/* Hover effect for Add-to-Table button */
-#addToTableButton:hover {
-    background-color: #218838;
-}
-
-/* Responsive Design for Small Screens */
+/* Adjust layout for smaller screens */
 @media (max-width: 768px) {
     .hidden-field .form-group {
-        max-width: 90%; /* Adjust width for smaller screens */
+        flex: 1 1 100%; /* Each field takes full width */
     }
 }
-
 
 
         h2, h3 {
