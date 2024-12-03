@@ -343,7 +343,7 @@ video {
 <body>
 
 <!-- Responsive Navigation Bar -->
-<?php include_once('includes/headerin.php');?>
+<?php include_once('includes/headerout.php');?>
 
 <div class="container" style="background: transparent;">
     <div class="row">
