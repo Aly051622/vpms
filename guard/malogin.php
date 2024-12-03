@@ -225,7 +225,7 @@ $conn->close();
 }
 
 /* Center align the Add to Table button */
-#addToTableButton {
+.btn btn-success {
     display: block;
     margin: 20px auto; /* Center horizontally */
     padding: 10px 20px; /* Add padding for better click area */
@@ -239,7 +239,7 @@ $conn->close();
     transition: background-color 0.3s ease;
 }
 
-#addToTableButton:hover {
+.btn btn-success {
     background-color: #218838;
 }
 
