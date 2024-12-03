@@ -179,7 +179,6 @@ $conn->close();
 .hidden-field {
     display: none; /* Initially hidden */
     width: 100%; /* Full width */
-    align-items: center;
     padding: 10px;
     margin-top: 10px;
     background-color: #f9fcff;
@@ -208,6 +207,7 @@ $conn->close();
 .hidden-field .form-group input,
 .hidden-field .form-group select {
     width: 100%; /* Full width */
+    align-items: center;
     padding: 8px;
     font-size: 1rem;
     border: 1px solid #ccc;
