@@ -108,7 +108,7 @@ mysqli_close($con);
                 <tr>
                     <th>Email</th>
                     <th>Expiration Date</th>
-                    <th>Validity</th>
+                    
                     <th>Remaining Days</th>
                 </tr>
             </thead>
