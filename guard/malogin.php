@@ -314,7 +314,7 @@ $conn->close();
     @media (max-width: 768px) {
         .table th,
         .table td {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             padding: 6px;
         }
         .container {
@@ -405,7 +405,7 @@ $conn->close();
     }
 
     .table th, .table td {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         padding: 6px;
     }
 }
