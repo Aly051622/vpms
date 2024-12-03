@@ -540,6 +540,7 @@ $conn->close();
     }
     .navbar{
         width: 100%;
+        margin-top: -10px;
         position: fixed;
         overflow: hidden;
     }
