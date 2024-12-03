@@ -389,11 +389,12 @@ $conn->close();
         margin-left: 11em;
     }
 }
-.containers {
-            max-width: 1200px;
-            margin: auto;
-            padding: 20px;
-        }
+.containers{
+        width: 90%; /* Make the container occupy most of the screen */
+    max-width: 1200px;
+    margin: auto;
+    padding: 15px;
+    }
     .navbar {
     display: flex;
     justify-content: space-between; /* Space between brand and buttons */
