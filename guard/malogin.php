@@ -434,11 +434,10 @@ $conn->close();
     }
 }
 </style>
-
-<?php include_once('includes/headerin.php');?>
-
 </head>
 <body>
+
+<?php include_once('includes/headerin.php');?>
 
 <!-- Form for Contact Number and Plate Number Search -->
 <div class="container">
