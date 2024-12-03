@@ -10,8 +10,8 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
     <!DOCTYPE html>
     <html>
     <head>
-        <link rel="apple-touch-icon" href="../images/a.png">
-        <link rel="shortcut icon" href="../images/a.png">
+    <link rel="apple-touch-icon" href="../images/aa.png">
+    <link rel="shortcut icon" href="../images/aa.png">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">

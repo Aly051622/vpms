@@ -82,7 +82,7 @@ include('includes/dbconnection.php');
             <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>Parking Number</th>
+                            <th>Registration Number</th>
                             <th>Vehicle Category</th>
                             <th>Company</th>
                             <th>Owner</th>
@@ -104,7 +104,7 @@ include('includes/dbconnection.php');
                             $remark = ($row['Status'] == "Out") ? $row['Remark'] : "N/A";
                         ?>
                             <tr>
-                                <td><?php echo $row['ParkingNumber']; ?></td>
+                                <td><?php echo $row['RegistrationNumber']; ?></td>
                                 <td><?php echo $row['VehicleCategory']; ?></td>
                                 <td><?php echo $row['VehicleCompanyname']; ?></td>
                                 <td><?php echo $row['OwnerName']; ?></td>
