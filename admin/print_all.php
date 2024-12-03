@@ -90,7 +90,7 @@ include('includes/dbconnection.php');
                             <th>In Time</th>
                             <th>Out Time</th>
                             <th>Status</th>
-                            <th>Remark</th>
+                           
                         </tr>
                     </thead>
                     <tbody>
@@ -101,7 +101,6 @@ include('includes/dbconnection.php');
                         while ($row = mysqli_fetch_array($result)) {
                             $status = ($row['Status'] == "Out") ? "Outgoing Vehicle" : "Incoming Vehicle";
                             $outTime = ($row['Status'] == "Out") ? $row['OutTime'] : "N/A";
-                            $remark = ($row['Status'] == "Out") ? $row['Remark'] : "N/A";
                         ?>
                             <tr>
                                 <td><?php echo $row['RegistrationNumber']; ?></td>
