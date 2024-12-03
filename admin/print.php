@@ -6,11 +6,18 @@ include('includes/dbconnection.php');
 if (strlen($_SESSION['vpmsaid'] == 0)) {
     header('location:logout.php');
 } else {
+ // Ensure `ID` is passed in the query string
+ if (isset($_GET['vid'])) {
+    $id = intval($_GET['vid']); // Get the ID securely
+    $query = "SELECT * FROM tblvehicle WHERE ID = '$id'"; // Fetch only the data for the specified ID
+    $ret = mysqli_query($con, $query);
+
+    if ($row = mysqli_fetch_array($ret)) { // Check if data is found
 ?>
     <!DOCTYPE html>
     <html>
     <head>
-    <link rel="apple-touch-icon" href="../images/aa.png">
+        <link rel="apple-touch-icon" href="../images/aa.png">
     <link rel="shortcut icon" href="../images/aa.png">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
@@ -97,8 +104,7 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
         </div>
 
         <?php
-        $query = "SELECT * FROM tblvehicle WHERE ID = 1";
-
+        $query = "SELECT * FROM tblvehicle";
         if (isset($_GET['from_date']) && isset($_GET['to_date'])) {
             $from_date = $_GET['from_date'];
             $to_date = $_GET['to_date'];
@@ -210,6 +216,12 @@ if (strlen($_SESSION['vpmsaid'] == 0)) {
         </script>
     </body>
     </html>
-<?php
+    <?php
+        } else {
+            echo "<script>alert('No data found for the selected ID.'); window.close();</script>";
+        }
+    } else {
+        echo "<script>alert('Invalid access.'); window.close();</script>";
+    }
 }
 ?>

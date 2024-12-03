@@ -172,7 +172,7 @@ while ($row=mysqli_fetch_array($ret)) {
                   
                   <td>
     <a href="view-register.php?viewid=<?php echo $row['ID']; ?>" class="btn btn-primary" id="viewbtn">🖹 View</a> 
-   <a href="print.php?vid=<?php echo $row['ID']; ?>" style="cursor:pointer" target="_blank" class="btn btn-warning" id="printbtn">🖶 Print</a> 
+    <a href="print.php?vid=<?php echo $row['ID']; ?>" style="cursor:pointer" target="_blank" class="btn btn-warning" id="printbtn">🖶 Print</a>
     <a href="manage-reg.php?del=<?php echo $row['ID']; ?>" class="btn btn-danger" onClick="return confirm('Are you sure you want to delete?')" id="deletebtn">🗑 Delete</a>
 
 </td>
