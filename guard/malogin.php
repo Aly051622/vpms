@@ -176,14 +176,18 @@ $conn->close();
 }
         
     /* Responsive Design for Hidden Fields */
-.hidden-field {
-    display: none; /* Initially hidden */
-    width: 100%; /* Full width */
+    .hidden-field {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Stack fields vertically */
+    width: 100%; /* Full width for flexibility */
     padding: 10px;
-    margin-top: 20px;
+    margin: 20px auto; /* Center horizontally */
     background-color: #f9fcff;
     border: 1px solid #ddd;
     border-radius: 5px;
+    text-align: center;
 }
 
 /* Flexbox Layout for Hidden Fields */
@@ -218,6 +222,25 @@ $conn->close();
     .hidden-field .form-group {
         flex: 1 1 100%; /* Each field takes full width */
     }
+}
+
+/* Center align the Add to Table button */
+#addToTableButton {
+    display: block;
+    margin: 20px auto; /* Center horizontally */
+    padding: 10px 20px; /* Add padding for better click area */
+    font-size: 1rem;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+#addToTableButton:hover {
+    background-color: #218838;
 }
 
 
@@ -624,8 +647,7 @@ $conn->close();
     </form>
      <!-- Hidden Area and Parking Slot Input Fields -->
 <div id="additionalFields" class="hidden-field">
-    <div class="row">
-        
+    <div class="row">       
             <div class="form-group">
                 <label for="area">Area:</label>
                 <select class="form-control" id="area" name="area">
@@ -636,8 +658,7 @@ $conn->close();
                     <option value="D">D</option>
                 </select>
             </div>
-        </div>
-       
+        </div>     
             <div class="form-group">
                 <label for="slotArea">Parking Slot:</label>
                 <input type="text" class="form-control" id="slotArea" name="slotArea" placeholder="Enter slot area">
