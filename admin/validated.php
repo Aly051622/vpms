@@ -7,19 +7,17 @@ if (isset($_SESSION['error_message'])) {
     unset($_SESSION['error_message']);
 }
 
-// Fetch the latest record from the 'validations' table
-$sql = "SELECT email, expiration_date FROM validations ORDER BY id DESC LIMIT 1";
+// Fetch validated clients from the 'uploads' table
+$sql = "SELECT email, expiration_date FROM uploads WHERE validity = 1 ORDER BY id DESC";
 $result = mysqli_query($conn, $sql);
 
+$validatedClients = [];
 if ($result && mysqli_num_rows($result) > 0) {
-    $row = mysqli_fetch_assoc($result);
-    echo "Email: " . htmlspecialchars($row['email']) . "<br>";
-    echo "Expiration Date: " . htmlspecialchars($row['expiration_date']) . "<br>";
-} else {
-    echo "No data found.";
+    while ($row = mysqli_fetch_assoc($result)) {
+        $validatedClients[] = $row;
+    }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,6 +38,7 @@ if ($result && mysqli_num_rows($result) > 0) {
             font-weight: bold;
         }
         .bg-primary {
+            background-color: #1e3c72;
             color: white;
         }
         .table {
@@ -62,28 +61,26 @@ if ($result && mysqli_num_rows($result) > 0) {
         <div class="alert alert-info">
             No validated clients found in the system.
         </div>
-    <?php endif; ?>
-
-    <h4 class="text-center">Validated Clients</h4>
-    <div class="table-responsive">
-        <table class="table table-striped table-bordered">
-            <thead class="bg-primary">
-                <tr>
-                    <th>Email</th>
-                    <th>Expiration Date</th>
-                    <th>Remaining Days</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($validatedClients)): ?>
+    <?php else: ?>
+        <h4 class="text-center">Validated Clients</h4>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="bg-primary">
+                    <tr>
+                        <th>Email</th>
+                        <th>Expiration Date</th>
+                        <th>Remaining Days</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
                     <?php foreach ($validatedClients as $client): ?>
                         <?php
                             $expirationDate = new DateTime($client['expiration_date']);
                             $currentDate = new DateTime();
                             $remainingDays = $currentDate->diff($expirationDate)->format('%r%a'); // Positive or negative days
 
-                            // Determine if the expiration date is far or not met
+                            // Determine the status based on expiration
                             $status = '';
                             if ($remainingDays > 0) {
                                 $status = 'Expiration is coming up in ' . $remainingDays . ' days.';
@@ -100,14 +97,10 @@ if ($result && mysqli_num_rows($result) > 0) {
                             <td><?= $status ?></td>
                         </tr>
                     <?php endforeach; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="4" class="text-center">No data to display.</td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
-    </div>
+                </tbody>
+            </table>
+        </div>
+    <?php endif; ?>
 </div>
 
 </body>
