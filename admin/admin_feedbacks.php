@@ -216,11 +216,13 @@ include('includes/dbconnection.php');
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="menu-icon fa fa-list-alt"></i>Vehicle Category
                         </a>
+                        <!--
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="menu-icon fa fa-road"></i><a href="add-category.php">Add Vehicle Category</a></li>
                             <li><i class="menu-icon fa bi bi-p-square-fill"></i><a href="manage-category.php">Manage Vehicle Category</a></li>
                         </ul>
                     </li>
+-->
 
                     <li>
                         <a href="add-vehicle.php"><i class="menu-icon fa fa-user-circle-o"></i>Add Vehicle</a>
@@ -331,7 +333,7 @@ include('includes/dbconnection.php');
     document.getElementById('passwordSubmitButton').addEventListener('click', function () {
         const password = document.getElementById('passwordInput').value.trim();
 
-        // Validate the password and redirect if correct
+        // Validate the password and redirect if correctF
         if (!password) {
             alert("Please enter a password.");
         } else if (validPasswords[password.toLowerCase()] === redirectUrl) {
