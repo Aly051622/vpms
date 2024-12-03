@@ -370,7 +370,7 @@ $conn->close();
 
 
 
-.container{
+.containers{
     padding: 1em;
     margin: auto;
     max-width: 1200px;
@@ -480,7 +480,7 @@ $conn->close();
 <body>
 
 <nav class="navbar">
-<div class="container">
+<div class="containers">
     <div class="navbar-brand"><a href="monitor.php">Parking Slot Manager</a></div>
     <div class="navbar-toggler" onclick="toggleMenu()">&#9776;</div>
     <div class="navbar-menu" id="navbarMenu">
