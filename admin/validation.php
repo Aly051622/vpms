@@ -1,41 +1,33 @@
 <?php
-session_start();
-include 'includes/dbconnection.php';
-
-// Display any error messages
-if (isset($_SESSION['error_message'])) {
-    echo "<div class='alert alert-danger'>{$_SESSION['error_message']}</div>";
-    unset($_SESSION['error_message']); // Clear the message after displaying
-}
-
-// Display important details if available
-if (isset($_SESSION['email']) && isset($_SESSION['license_date'])) {
-    $email = htmlspecialchars($_SESSION['email']); // Escape output for security
-    $license_date = htmlspecialchars($_SESSION['license_date']); // Escape output for security
-
-    echo "<h2>Submitted Details</h2>";
-    echo "<p>Email: $email</p>";
-    echo "<p>Driver's License Expiration Date: $license_date</p>";
-}
-
-// Display extracted text from Tesseract
-if (isset($_SESSION['extracted_text'])) {
-    echo "<h3>Extracted Text from Image:</h3>";
-    echo "<pre>" . htmlspecialchars($_SESSION['extracted_text']) . "</pre>"; // Display extracted text
-    unset($_SESSION['extracted_text']); // Clear the session variable
-}
-?>
-
+        session_start();
+        if (isset($_SESSION['error_message'])) {
+            echo "<div class='alert alert-danger'>{$_SESSION['error_message']}</div>";
+            unset($_SESSION['error_message']); // Clear the message after displaying
+        }
+        ?>
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="apple-touch-icon" href="../images/aa.png">
     <link rel="shortcut icon" href="../images/aa.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/jqvmap@1.5.1/dist/jqvmap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/weathericons@2.1.0/css/weather-icons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+
     <title>Update Driver's License | CTU Danao Parking System</title>
+
     <style>
         body {
             background: whitesmoke;
@@ -44,12 +36,19 @@ if (isset($_SESSION['extracted_text'])) {
             flex-direction: column;
             justify-content: flex-start;
         }
+
+        /* Breadcrumbs styling */
         .breadcrumbs {
             padding: 15px;
         }
         .breadcrumbs h1 {
             color: black;
         }
+        .page-title ol {
+            margin-bottom: 0;
+        }
+
+        /* Container styling */
         .container {
             background-color: white;
             padding: 40px;
@@ -71,7 +70,7 @@ if (isset($_SESSION['extracted_text'])) {
             font-family: 'Poppins', sans-serif;
         }
         input[type="email"],
-        input[type="date"] {
+        input[type="file"] {
             width: 100%;
             padding: 8px;
             margin: 10px 0;
@@ -81,7 +80,7 @@ if (isset($_SESSION['extracted_text'])) {
             font-family: 'Poppins', sans-serif;
         }
         input[type="email"]:hover,
-        input[type="date"]:hover {
+        input[type="file"]:hover {
             background-color: whitesmoke;
             box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
         }
@@ -103,6 +102,8 @@ if (isset($_SESSION['extracted_text'])) {
             background-color: darkblue;
             border: 2px solid darkblue;
         }
+
+        /* Error message styling */
         .alert-danger {
             background-color: #f8d7da;
             color: #721c24;
@@ -110,12 +111,17 @@ if (isset($_SESSION['extracted_text'])) {
             margin-bottom: 20px;
             border-radius: 5px;
         }
+        
     </style>
 </head>
 <body>
+
     <?php include_once('includes/sidebar.php'); ?>
+    <!-- Right Panel -->
+
     <?php include_once('includes/header.php'); ?>
 
+    <!-- Breadcrumbs Section -->
     <div class="breadcrumbs">
         <div class="breadcrumbs-inner">
             <div class="row m-0">
@@ -140,20 +146,26 @@ if (isset($_SESSION['extracted_text'])) {
         </div>
     </div>
 
-    <h2 class="mb-5">Update Driver's License</h2>
-    <div class="container">
-        <form action="upload.php" method="POST">
+    <!-- Form Container Section -->
+        <h2 class="mb-5">Update Driver's License</h2>
+        <div class="container">
+        <form action="upload.php" method="POST" enctype="multipart/form-data">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" placeholder="Enter your email" required><br>
 
-            <label for="license_date">Enter Expiration Date:</label>
-            <input type="date" id="license_date" name="license_date" required><br>
+            <label for="license_image">Select Driver's License Image:</label>
+            <input type="file" id="license_image" name="license_image" accept="image/*" required><br>
 
             <button type="submit" id="submit">Submit</button>
         </form>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+    <!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+<script src="assets/js/main.js"></script>
+
 </body>
 </html>
