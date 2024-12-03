@@ -326,6 +326,9 @@ $conn->close();
     h3{
         text-align: center;
     }
+    .navbar .navbar-toggler {
+    display: none;
+}
     /* Column Responsiveness */
     @media (max-width: 768px) {
         .table th,
@@ -349,6 +352,9 @@ $conn->close();
 
     .modal-content {
         width: 90%; /* Full width modal for small screens */
+    }
+    .navbar .navbar-toggler {
+        display: inline-block;
     }
     }
 
@@ -418,6 +424,11 @@ $conn->close();
         font-size: 0.8rem;
         padding: 6px;
     }
+    .navbar-toggler {
+        margin-top: -33px;
+        margin-left: 11em;
+    }
+
 }
 
 @media (max-width: 480px){
