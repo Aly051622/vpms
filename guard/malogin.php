@@ -165,8 +165,8 @@ $conn->close();
 
 /* Adjust Input Field Width */
 .form-container .form-group input {
-    width: 120%; /* Ensure input fields are wide */
-    max-width: 700px; /* Limit maximum width */
+    width: 100%; /* Ensure input fields are wide */
+    max-width: 600px; /* Limit maximum width */
     margin: 10px auto; /* Center-align the input fields */
     display: block;
     padding: 10px;
@@ -182,6 +182,33 @@ $conn->close();
     margin-top: 20px;
     margin-bottom: 20px;
   }
+
+/* Center the Search Button */
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-container .btn-primary {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    background-color: rgb(53, 97, 255);
+    color: white;
+    border-radius: 10px;
+    border: 1px solid lightgray;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.form-container .btn-primary:hover {
+    background-color: darkblue;
+    border: 1px solid blue;
+}
+
         label {
             font-weight: bold;
         }
