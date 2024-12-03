@@ -163,18 +163,12 @@ $conn->close();
     margin-bottom: 20px;
   }
 
-  /* Adjust Input Field Width */
-.form-container .form-group input {
-    width: 100%; /* Make input fields wider */
-    max-width: 400px; /* Optional: Limit maximum width */
-    margin: 0 auto; /* Center-align the input fields */
-    display: block;
-}
+
 
 /* Adjust Input Field Width */
 .form-container .form-group input {
     width: 100%; /* Ensure input fields are wide */
-    max-width: 500px; /* Limit maximum width */
+    max-width: 700px; /* Limit maximum width */
     margin: 10px auto; /* Center-align the input fields */
     display: block;
     padding: 10px;
