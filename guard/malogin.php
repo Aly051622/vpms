@@ -145,7 +145,7 @@ $conn->close();
     <title>QR Code Login Scanner | CTU DANAO Parking System</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
-     .containers{
+     .container{
         width: 90%; /* Make the container occupy most of the screen */
     max-width: 1200px;
     margin: auto;
