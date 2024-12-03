@@ -220,6 +220,11 @@ $conn->close();
     }
 }
 
+#addToTableButton:hover{
+    background-color: darkblue;
+    border: 1px solid blue;
+}
+
 
         h2, h3 {
     text-align: center;
