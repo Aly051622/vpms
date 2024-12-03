@@ -9,7 +9,7 @@ if (!$con) {
 
 // Fetch validated clients (validity = 1) from tblregusers
 $queryValidated = "
-    SELECT email, expiration_date 
+    SELECT email 
     FROM tblregusers 
     WHERE validity = 1
 ";
@@ -112,38 +112,18 @@ mysqli_close($con);
             <thead class="bg-primary">
                 <tr>
                     <th>Email</th>
-                    <th>Expiration Date</th>
-                    <th>Remaining Days</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if (!empty($validatedClients)): ?>
                     <?php foreach ($validatedClients as $client): ?>
-                        <?php
-                        // Format expiration date
-                        $expirationDate = new DateTime($client['expiration_date']);
-                        $formattedExpirationDate = $expirationDate->format('F j, Y'); // Month Day, Year format
-                        $currentDate = new DateTime();
-                        $remainingDays = $currentDate->diff($expirationDate)->format('%r%a'); // Remaining days
-                        ?>
                         <tr>
                             <td><?= htmlspecialchars($client['email']) ?></td>
-                            <td><?= htmlspecialchars($formattedExpirationDate) ?></td>
-                            <td>
-                                <?php
-                                // Only display remaining days if it's more than 0
-                                if ($remainingDays > 0) {
-                                    echo "$remainingDays days remaining";
-                                } else {
-                                    echo "Expired"; // Expired for clients whose license has already expired
-                                }
-                                ?>
-                            </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="3" class="text-center">No validated clients found.</td>
+                        <td colspan="1" class="text-center">No validated clients found.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
