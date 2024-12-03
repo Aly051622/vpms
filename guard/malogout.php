@@ -531,7 +531,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
 }
 </style>
 </head>
-<body>
+<>
 
 <nav class="navbar">
 <div class="container">
@@ -539,11 +539,11 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
     <div class="navbar-toggler" onclick="toggleMenu()">&#9776;</div>
     <div class="navbar-menu" id="navbarMenu">
         <!-- QR Login Button -->
-        <a href="qrlogin.php" class="navbar-item dropbtns"><i class="bi bi-car-front-fill"></i> QR Log-in</a>
+        <a href="qrlogout.php" class="navbar-item dropbtns"><i class="bi bi-car-front-fill"></i> QR Log-out</a>
       
 
         <!-- Manual Input Button -->
-        <a href="malogin.php" class="navbar-item dropbtns"><i class="bi bi-display-fill"></i> Manual Log-in</a>
+        <a href="malogout.php" class="navbar-item dropbtns"><i class="bi bi-display-fill"></i> Manual Log-out</a>
 
         <a href="logout.php" class="navbar-item dropbtns"><i class="bi bi-house-fill"></i> Home</a>
        
@@ -580,8 +580,9 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
     </div>
 
 
-    <div class="container mt-5" id="table">
-            <h2>Vehicle Information</h2>
+    
+            <h3>Vehicle Information</h3>
+            <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -617,6 +618,8 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
     </tbody>
 
             </table>
+            </div>
+            
             <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
             <?php if ($page > 1): ?>
