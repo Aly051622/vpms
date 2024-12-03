@@ -176,18 +176,17 @@ $conn->close();
 }
         
     /* Responsive Design for Hidden Fields */
-    .hidden-field {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column; /* Stack fields vertically */
-    width: 100%; /* Full width for flexibility */
+.hidden-field {
+    display: none; /* Initially hidden */
+    width: 100%; /* Full width */
     padding: 10px;
-    margin: 20px auto; /* Center horizontally */
+    margin-top: 20px;
     background-color: #f9fcff;
     border: 1px solid #ddd;
     border-radius: 5px;
-    text-align: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 /* Flexbox Layout for Hidden Fields */
@@ -223,7 +222,6 @@ $conn->close();
         flex: 1 1 100%; /* Each field takes full width */
     }
 }
-
 
 
         h2, h3 {
