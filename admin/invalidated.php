@@ -2,7 +2,10 @@
 session_start();
 include('../DBconnection/dbconnection.php');
 
-// Fetch invalidated clients (validity = 0) without duplicates based on email
+// Get the current date
+$currentDate = date('Y-m-d');
+
+// Fetch invalidated clients (validity = 0) where expiration_date is less than the current date, without duplicates based on email
 $queryInvalidated = "
     SELECT 
         u.email, 
@@ -14,11 +17,13 @@ $queryInvalidated = "
         ON u.email = r.Email
     WHERE 
         u.validity = 0
+        AND u.expiration_date < '$currentDate'
     GROUP BY 
         u.email
 ";
 
 $resultInvalidated = mysqli_query($con, $queryInvalidated);
+
 if (!$resultInvalidated) {
     // Handle potential errors during query execution
     die("Error fetching invalidated clients: " . mysqli_error($con));
