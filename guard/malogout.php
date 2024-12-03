@@ -534,7 +534,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
 
 <nav class="navbar">
 <div class="container">
-    <div class="navbar-brand"><a href="monitor.php">Parking Slot Manager</a></div>
+    <div class="navbar-brand"><a href="monitor2.php">Parking Slot Manager</a></div>
     <div class="navbar-toggler" onclick="toggleMenu()">&#9776;</div>
     <div class="navbar-menu" id="navbarMenu">
         <!-- QR Login Button -->

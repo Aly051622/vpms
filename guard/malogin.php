@@ -174,9 +174,51 @@ $conn->close();
     border: 1px solid #ddd;
     border-radius: 5px;
 }
-        .hidden-field{
-            display: none;
-        }
+/* Responsive Design for Hidden Fields */
+#additionalFields {
+    display: none; /* Initially hidden */
+    width: 100%; /* Full width */
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #f9fcff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Flexbox Layout for Hidden Fields */
+#additionalFields .row {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+    gap: 10px;
+}
+
+#additionalFields .form-group {
+    flex: 1 1 calc(50% - 10px); /* Each field takes half the width with some gap */
+    min-width: 200px; /* Minimum width for very small screens */
+}
+
+#additionalFields .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#additionalFields .form-group input,
+#additionalFields .form-group select {
+    width: 100%; /* Full width */
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Adjust layout for smaller screens */
+@media (max-width: 768px) {
+    #additionalFields .form-group {
+        flex: 1 1 100%; /* Each field takes full width */
+    }
+}
+
         h2, h3 {
     text-align: center;
     margin-top: 20px;
