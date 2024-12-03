@@ -381,56 +381,135 @@ $conn->close();
 
 }
 
-     /* Navbar */
-     .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5em 1em;
-            background-image: linear-gradient(to top, #1e3c72 0%, #2a5298 100%);
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
-                        rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
-                        rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-        }
+@media (max-width: 480px){
+    .containers{
+        padding-top:10px;
+        margin-top:-8px;
+    }
+    .navbar-brand{
+        margin-left: 10px;
+    }
+    .navbar-toggler{
+        margin-top: -33px;
+        margin-left: 11em;
+    }
+}
+.container{
+        padding-top:10px;
+        margin-top:-8px;
+    }
+    .navbar {
+    display: flex;
+    justify-content: space-between; /* Space between brand and buttons */
+    align-items: center;
+    padding: 0.5em 1em;
+    background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, 
+                rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, 
+                rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
 
-        .navbar-brand a {
-            color: white;
-            font-size: 1.5em;
-            font-weight: bold;
-            text-decoration: none;
-        }
+.navbar-brand a {
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-decoration: none;
+}
+.navbar-menu {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+}
 
-        .navbar-menu {
-            display: flex;
-            gap: 10px;
-        }
+.navbar a:hover {
+    color: orange; /* Highlight effect */
+}
+    /*qrbutton add css*/
+    .dropbtns {
+    color: white;
+    padding: 8px 15px;
+    font-size: 1em;
+    font-weight: bold;
+    border: solid;
+    border-radius: 8px;
+    background-color: orange;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    transition: all 0.3s ease-in-out;
+}
 
-        .dropbtns {
-            color: white;
-            padding: 8px 15px;
-            font-size: 1em;
-            font-weight: bold;
-            border: solid;
-            border-radius: 8px;
-            background-color: orange;
-            cursor: pointer;
-            box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
-                        rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
-                        rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-            transition: all 0.3s ease-in-out;
-        }
+.dropbtns:hover {
+    background-color: white;
+    color: orange;
+    border: 2px solid orange;
+}
+.navbar-toggler {
+    display: none;
+    font-size: 1.5em;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
 
-        .dropbtns:hover {
-            background-color: white;
-            color: orange;
-            border: 2px solid orange;
-        }
+.navbar-menu.show {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #1e3c72;
+    padding: 10px;
+}
+/* Smaller Button Styling When Menu is Toggled */
+.navbar-menu.show .dropbtns {
+    padding: 5px 10px;
+    font-size: 0.9em;
+    border-radius: 5px;
+}
 
-        .navbar-toggler {
-            display: none;
-        }
+    @media (max-width: 480px){
+    .container{
+        padding-top:10px;
+        margin-top:-8px;
+    }
+    .navbar-brand{
+        margin-left: 10px;
+    }
+    .navbar-toggler{
+        margin-top: -33px;
+        margin-left: 11em;
+    }
+}
 
-        
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .navbar-toggler {
+        display: block; /* Show toggler on small screens */
+    }
+
+    .navbar-menu {
+        display: none; /* Hidden by default */
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        background-color: #1e3c72;
+        padding: 10px 0;
+    }
+
+    .navbar-menu a {
+        margin: 10px 20px;
+    }
+
+    .navbar-menu.show {
+        display: flex; /* Show menu when toggled */
+    }
+    .navbar-toggler {
+        display: block; /* Show toggler on small screens */
+    }
+}
 </style>
 </head>
 <body>
