@@ -538,6 +538,12 @@ $conn->close();
         margin-top: -33px;
         margin-left: 11em;
     }
+    .navbar{
+        width: 100%;
+        margin-top: -10px;
+        position: fixed;
+        overflow: hidden;
+    }
 }
 
 /* Responsive Design */
