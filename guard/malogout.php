@@ -531,7 +531,6 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
 }
 </style>
 </head>
-<>
 
 <nav class="navbar">
 <div class="container">
