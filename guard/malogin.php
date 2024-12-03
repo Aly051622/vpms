@@ -181,9 +181,6 @@ $conn->close();
     padding: 0.5em 1em;
 }
 
-.navbar .navbar-toggler {
-    display: none;
-}
 
     .navbar a {
     text-decoration: none;
