@@ -14,11 +14,9 @@ if ($resultValidated && mysqli_num_rows($resultValidated) > 0) {
     while ($row = mysqli_fetch_assoc($resultValidated)) {
         $validatedClients[] = $row;
     }
-} else {
-    // Optional: Log or debug the query error if needed
-    // echo "Error: " . mysqli_error($con);
 }
 
+// Close the database connection
 mysqli_close($con);
 ?>
 
@@ -85,7 +83,7 @@ mysqli_close($con);
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
                             <li><a href="dashboard.php">Dashboard</a></li>
-                            <li><a href="validation.php">Validated</a></li>
+                            <li><a href="validated.php">Validated</a></li>
                         </ol>
                     </div>
                 </div>
@@ -109,9 +107,10 @@ mysqli_close($con);
                 <?php if (!empty($validatedClients)): ?>
                     <?php foreach ($validatedClients as $client): ?>
                         <?php
-                        $expirationDate = new DateTime($client['expiration_date']);
+                        // Calculate remaining days until expiration
+                        $expirationDate = DateTime::createFromFormat('Y-m-d', $client['expiration_date']);
                         $currentDate = new DateTime();
-                        $remainingDays = $currentDate->diff($expirationDate)->format('%r%a'); // Remaining days
+                        $remainingDays = $currentDate->diff($expirationDate)->format('%r%a');
                         ?>
                         <tr>
                             <td><?= htmlspecialchars($client['email']) ?></td>
