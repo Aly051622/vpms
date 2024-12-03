@@ -299,7 +299,7 @@ $conn->close();
         text-align: center;
         border: 1px solid #ddd;
         white-space: normal; /* Allow text wrapping */
-        font-size: 1.5rem;
+        font-size: 1rem;
         word-wrap: break-word;
         white-space: nowrap;
     }
@@ -314,7 +314,7 @@ $conn->close();
     @media (max-width: 768px) {
         .table th,
         .table td {
-            font-size: 0.9rem;
+            font-size: 1rem;
             padding: 6px;
         }
         .container {
@@ -405,7 +405,7 @@ $conn->close();
     }
 
     .table th, .table td {
-        font-size: 0.9rem;
+        font-size: 1rem;
         padding: 6px;
     }
 }
