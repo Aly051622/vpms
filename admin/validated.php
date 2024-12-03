@@ -131,8 +131,12 @@ mysqli_close($con);
                             <td><?= htmlspecialchars($formattedExpirationDate) ?></td>
                             <td>
                                 <?php
-                                // Display the remaining days or expired
-                                echo $remainingDays >= 0 ? "$remainingDays days remaining" : "Expired";
+                                // Only display remaining days if it's more than 0
+                                if ($remainingDays > 0) {
+                                    echo "$remainingDays days remaining";
+                                } else {
+                                    echo "Expired"; // Expired for clients whose license has already expired
+                                }
                                 ?>
                             </td>
                         </tr>

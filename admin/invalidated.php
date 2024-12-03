@@ -122,13 +122,31 @@ mysqli_close($con);
                         <tr>
                             <th>Email</th>
                             <th>Expiration Date</th>
+                            <th>Remaining Days</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($invalidatedClients as $client): ?>
+                            <?php
+                            // Format expiration date
+                            $expirationDate = new DateTime($client['expiration_date']);
+                            $formattedExpirationDate = $expirationDate->format('F j, Y'); // Month Day, Year format
+                            $currentDate = new DateTime();
+                            $remainingDays = $currentDate->diff($expirationDate)->format('%r%a'); // Remaining days
+                            ?>
                             <tr>
                                 <td><?= htmlspecialchars($client['email']) ?></td>
-                                <td><?= htmlspecialchars($client['expiration_date']) ?></td>
+                                <td><?= htmlspecialchars($formattedExpirationDate) ?></td>
+                                <td>
+                                    <?php
+                                    // Display the remaining days or expired
+                                    if ($remainingDays > 0) {
+                                        echo "$remainingDays days remaining";
+                                    } else {
+                                        echo "Expired"; // You can display '0' remaining here if you want
+                                    }
+                                    ?>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
