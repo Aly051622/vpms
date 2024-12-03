@@ -245,8 +245,7 @@ $count_total_vehexits=mysqli_num_rows($query2);
                             </div>
                         </div>
                     </div>
-
-<div class="col-lg-3 col-md-6">
+                    <div class="col-lg-3 col-md-6">
     <?php
     // Total Registered Users
     $query = mysqli_query($con, "SELECT ID FROM tblregusers");
@@ -268,6 +267,34 @@ $count_total_vehexits=mysqli_num_rows($query2);
         </div>
     </div>
 </div>
+
+<!-- Total Registered Vehicles -->
+<div class="col-lg-3 col-md-6">
+    <?php
+    // Total Registered Vehicles
+    $queryVehicles = mysqli_query($con, "SELECT ID FROM tblvehicle");
+    $vehicleCount = mysqli_num_rows($queryVehicles);
+    ?>
+    <div class="card">
+        <div class="card-body">
+            <div class="stat-widget-five">
+                <div class="stat-icon dib flat-color-2">
+                    <i class="pe-7s-car"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="text-left dib">
+                        <div class="stat-text"><span class="count"><?php echo $vehicleCount; ?></span></div>
+                        <div class="stat-heading">Total Registered Vehicles</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 
 
 
