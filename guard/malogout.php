@@ -126,6 +126,7 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
         <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
+        <link rel="stylesheet" href="assets/css/style.css">
         <link rel="apple-touch-icon" href="images/ctu.png">
         <link rel="shortcut icon" href="images/ctu.png">
         <title>QR Code Logout | Parking System</title>
