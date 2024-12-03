@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
      .container{
-        padding-top:10px;
+        padding:10px;
         margin-top:-8px;
     }
     .navbar {
