@@ -179,6 +179,7 @@ $conn->close();
 .hidden-field {
     display: none; /* Initially hidden */
     width: 100%; /* Full width */
+    align-items: center;
     padding: 10px;
     margin-top: 10px;
     background-color: #f9fcff;
@@ -190,7 +191,6 @@ $conn->close();
 .hidden-field .row {
     display: flex;
     flex-wrap: wrap; /* Allow wrapping for smaller screens */
-    align-items: center;
     gap: 10px;
 }
 
