@@ -394,10 +394,11 @@ $conn->close();
         margin-left: 11em;
     }
 }
-.container{
-        padding-top:10px;
-        margin-top:-8px;
-    }
+.containers {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
     .navbar {
     display: flex;
     justify-content: space-between; /* Space between brand and buttons */
@@ -515,7 +516,7 @@ $conn->close();
 <body>
 
 <nav class="navbar">
-    <div class="container">
+    <div class="containers">
         <!-- Brand on the Left -->
         <div class="navbar-brand">
             <a href="monitor.php">Parking Slot Manager</a>
