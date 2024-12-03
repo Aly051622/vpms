@@ -277,7 +277,7 @@ $conn->close();
         }
         .table-responsive {
         display: block;
-        flex-direction: column;
+     
         width: 100%;
         margin-top: 20px;
         align-items: center;
@@ -285,10 +285,10 @@ $conn->close();
     }
     .table {
         width: 100%;
-        table-layout: fixed; /* Ensure columns fit within the table width */
+        table-layout: auto; /* Ensure columns fit within the table width */
         border-collapse: collapse;
         background-color: #f9fcff;
-        word-wrap: break-word; /* Wrap text within cells */
+        
     }
     .table th, .table td {
         padding: 8px;
@@ -297,6 +297,7 @@ $conn->close();
         white-space: normal; /* Allow text wrapping */
         font-size: 0.9rem;
         word-wrap: break-word;
+        white-space: nowrap;
     }
     .table th {
         font-weight: bold;
@@ -507,6 +508,7 @@ $conn->close();
             <?php endif; ?>
         </tbody>
     </table>
+    </div>
 
     <!-- Pagination Links -->
     <div class="pagination">
