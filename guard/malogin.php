@@ -593,8 +593,6 @@ $conn->close();
 }
 </style>
 </head>
-<>
-
 <nav class="navbar">
 <div class="container">
     <div class="navbar-brand"><a href="monitor.php">Parking Slot Manager</a></div>
