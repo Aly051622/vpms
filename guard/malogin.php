@@ -593,7 +593,7 @@ $conn->close();
 }
 </style>
 </head>
-<body>
+<>
 
 <nav class="navbar">
 <div class="container">
@@ -647,6 +647,9 @@ $conn->close();
                 <label for="slotArea">Parking Slot:</label>
                 <input type="text" class="form-control" id="slotArea" name="slotArea" placeholder="Enter slot area">
             </div>
+        </div>
+        </div>
+        </div>
         </div>
 
             <div id="slotWarning" style="color: red; display: none;">
