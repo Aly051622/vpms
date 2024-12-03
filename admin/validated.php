@@ -77,6 +77,32 @@ mysqli_close($con);
     <title>Validated | CTU Danao Parking System</title>
 </head>
 <body>
+<?php include_once('includes/sidebar.php'); ?>
+<?php include_once('includes/header.php'); ?>
+
+<div class="breadcrumbs mb-5">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Driver's License Validation</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="dashboard.php">Dashboard</a></li>
+                            <li><a href="validation.php">Validated</a></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="container">
     <h1 class="text-center">Validated Clients</h1>
@@ -93,26 +119,18 @@ mysqli_close($con);
                 <?php if (!empty($validatedClients)): ?>
                     <?php foreach ($validatedClients as $client): ?>
                         <?php
-                        // Ensure the expiration date is in valid format (MM/DD/YYYY)
-                        $expirationDate = DateTime::createFromFormat('m/d/Y', $client['expiration_date']);
-                        
-                        // Check if the expiration date is valid
-                        if ($expirationDate && $expirationDate->format('m/d/Y') === $client['expiration_date']) {
-                            $currentDate = new DateTime();
-                            $remainingDays = $currentDate->diff($expirationDate)->format('%r%a');
-                        } else {
-                            $remainingDays = 'Invalid date';
-                        }
+                        // Format expiration date
+                        $expirationDate = new DateTime($client['expiration_date']);
+                        $currentDate = new DateTime();
+                        $remainingDays = $currentDate->diff($expirationDate)->format('%r%a'); // Remaining days
                         ?>
                         <tr>
                             <td><?= htmlspecialchars($client['email']) ?></td>
                             <td><?= htmlspecialchars($client['expiration_date']) ?></td>
                             <td>
                                 <?php
-                                // Display remaining days or expired
-                                echo $remainingDays !== 'Invalid date' 
-                                    ? ($remainingDays >= 0 ? "$remainingDays days remaining" : "Expired")
-                                    : "Invalid date";
+                                // Display the remaining days or expired
+                                echo $remainingDays >= 0 ? "$remainingDays days remaining" : "Expired";
                                 ?>
                             </td>
                         </tr>
@@ -129,6 +147,9 @@ mysqli_close($con);
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+<script src="assets/js/main.js"></script>
 </body>
 </html>
