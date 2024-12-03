@@ -162,6 +162,14 @@ $conn->close();
     margin-top: 50px;
     margin-bottom: 20px;
   }
+
+  /* Adjust Input Field Width */
+.form-container .form-group input {
+    width: 100%; /* Make input fields wider */
+    max-width: 400px; /* Optional: Limit maximum width */
+    margin: 0 auto; /* Center-align the input fields */
+    display: block;
+}
         .hidden-field{
             display: none;
         }
@@ -239,13 +247,12 @@ $conn->close();
             background-color: #c9302c;
         }
         .table-responsive {
-        display: block;
-     
-        width: 80%;
-        margin: 0 auto;
-        align-items: center;
-        overflow-x: auto; /* Prevent horizontal scrolling */
-    }
+    margin: 0 auto; /* Center the table container */
+    text-align: center; /* Center-align content within */
+    max-width: 80%; /* Adjust width as needed */
+    display: block;
+    overflow-x: auto;
+}
     .table {
         width: auto; /* Adjust width to content */
     max-width: 100%; 
@@ -476,6 +483,29 @@ $conn->close();
         display: flex; /* Show menu when toggled */
     }
 }
+
+
+/* Center Pagination */
+.pagination {
+    display: flex;
+    justify-content: center; /* Center-align pagination */
+    margin-top: 20px;
+}
+
+.pagination .page-link {
+    margin: 0 5px; /* Add spacing between pagination links */
+    padding: 8px 12px; /* Adjust padding */
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.pagination .page-link.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
 </style>
 </head>
 <body>
@@ -594,14 +624,13 @@ $conn->close();
             <?php endif; ?>
         </tbody>
     </table>
-    </div>
 </div>
     <!-- Pagination Links -->
     <div class="pagination">
         <?php for ($i = 1; $i <= $totalPages; $i++): ?>
             <a href="?page=<?= $i ?>" class="page-link <?= $i === $page ? 'active' : '' ?>"><?= $i ?></a>
         <?php endfor; ?>
-
+</div>
 
 
 
