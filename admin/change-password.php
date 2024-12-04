@@ -161,7 +161,7 @@ while ($row=mysqli_fetch_array($ret)) {
             required="true" 
             value=""
         >
-        <i class="bi bi-eye-slash toggle-password" data-target="currentpassword" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
+        <i class="bi bi-eye-slash toggle-password" data-target="currentpassword" style="position: absolute; right: 30px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
     </div>
 </div>
 
@@ -179,7 +179,7 @@ while ($row=mysqli_fetch_array($ret)) {
             pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" 
             title="Password must be at least 8 characters long, include uppercase and lowercase letters, a number, and a special character."
         >
-        <i class="bi bi-eye-slash toggle-password" data-target="newpassword" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
+        <i class="bi bi-eye-slash toggle-password" data-target="newpassword" style="position: absolute; right: 30px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
     </div>
 </div>
 
@@ -196,7 +196,7 @@ while ($row=mysqli_fetch_array($ret)) {
             required="true" 
             value=""
         >
-        <i class="bi bi-eye-slash toggle-password" data-target="confirmpassword" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
+        <i class="bi bi-eye-slash toggle-password" data-target="confirmpassword" style="position: absolute; right: 30px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
     </div>
 </div>
 
