@@ -130,8 +130,8 @@ if (isset($_POST['submit'])) {
     width: 370px;
     transform: translate(-50%, -50%);
     background-color:transparent;
-    margin-top: 50em;
-    margin-left: -20em;
+    margin-top: 40em;
+    margin-left: -15em;
   }
 
 
@@ -416,7 +416,7 @@ input[type="text"]:hover, input[type="password"]:hover {
 <header id="header" class="header" >
             <div class="top-left">
                 <div class="navbar-header" style="background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);" >
-                    <a class="navbar-brand" href="dashboard.php"><img src="images/hylogo.png" alt="Logo" style=" width: 120px; height: auto; margin-top:-15px;"></a>
+                    <a class="navbar-brand" href="dashboard.php"><img src="images/hylogo.png" alt="Logo" style=" width: 120px; height: auto; margin-top:-13px;"></a>
                     <a class="navbar-brand hidden" href="./"><img src="images/logo3.png" alt="Logo"></a>
                     <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
                 </div>
@@ -536,7 +536,7 @@ input[type="text"]:hover, input[type="password"]:hover {
                         <!-- End Page 1 -->
 
                         <!-- Page 2 -->
-                        <div id="page2" style="display: none; text-align:center; margin-top:70px; background: transparent;">
+                        <div id="page2" style="display: none; text-align:center;  background: transparent;">
                             <div class="form-group field space">
                                 <span class="fa bi bi-person-fill" style="font-size: 20px"></span>
                                 <input type="email" name="email" placeholder="Email address" required class="form-control">
