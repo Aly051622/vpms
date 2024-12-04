@@ -400,7 +400,7 @@ if (isset($_POST['submit'])) {
     body{
       overflow: hidden;
     }
-    .content {
+    .content, #page2 {
     border-radius: 20px;
     position: absolute;
     top: 50%;
