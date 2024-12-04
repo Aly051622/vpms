@@ -6,8 +6,6 @@ if (strlen($_SESSION['vpmsaid']==0)) {
   header('location:logout.php');
   } else{
 
-
-
   ?>
 <!doctype html>
 
@@ -117,9 +115,6 @@ $tdate=$_POST['todate'];
                                         <tr>
                                             <tr>
                   <th>S.NO</th>
-            
-                 
-             
                     <th>Owner Name</th>
                     <th>Vehicle Reg Number</th>
                    
@@ -136,12 +131,10 @@ while ($row=mysqli_fetch_array($ret)) {
               
                 <tr>
                   <td><?php echo $cnt;?></td>
-            
-             
                   <td><?php  echo $row['OwnerName'];?></td>
                   <td><?php  echo $row['RegistrationNumber'];?></td>
                   
-                  <td><a href="view-register.php?viewid=<?php echo $row['ID']; ?>" class="btn btn-primary" id="viewbtn">🖹 View</a> </td>
+                  <td><a href="view-register.php?viewid=<?php echo $row['ID']; ?>" class="btn btn-primary" id="viewbtn">🕹 View</a> </td>
                 </tr>
                 <?php 
 $cnt=$cnt+1;
