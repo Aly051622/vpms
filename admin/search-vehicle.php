@@ -53,9 +53,11 @@ if (strlen($_SESSION['vpmsaid']==0)) {
            .btn-sm:hover{
                 background-color: darkblue;
                 border: solid blue;
+                
             }
          .btn{
             cursor: pointer;
+            text-transform: none;
          }
     </style>
 <body>
