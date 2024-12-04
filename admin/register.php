@@ -549,7 +549,7 @@ input[type="text"]:hover, input[type="password"]:hover {
         <input type="email" name="email" placeholder="Email address" required class="form-control">
     </div>
 
-    <div form-group field-space">
+    <div class="form-group field-space">
     
             <input 
                 type="password" 
