@@ -148,33 +148,75 @@ $cnt=1;
 while ($row=mysqli_fetch_array($ret)) {
 
 ?>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Current Password</label></div>
-                                        <div class="col-12 col-md-9"><input type="password" name="currentpassword" class=" form-control" required= "true" value=""></div>
-                                    </div>
-                                    <div class="row form-group">
+                                   <div class="row form-group">
+    <div class="col col-md-3">
+        <label for="text-input" class="form-control-label">Current Password</label>
+    </div>
+    <div class="col-12 col-md-9 position-relative">
+        <input 
+            type="password" 
+            name="currentpassword" 
+            id="currentpassword" 
+            class="form-control" 
+            required="true" 
+            value=""
+        >
+        <i class="bi bi-eye-slash toggle-password" data-target="currentpassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
+    </div>
+</div>
+
+<div class="row form-group">
     <div class="col col-md-3">
         <label for="newpassword" class="form-control-label">New Password</label>
     </div>
-    <div class="col-12 col-md-9">
+    <div class="col-12 col-md-9 position-relative">
         <input 
             type="password" 
             name="newpassword" 
             id="newpassword" 
             class="form-control" 
-            value="" 
-            required
+            required="true" 
             pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" 
             title="Password must be at least 8 characters long, include uppercase and lowercase letters, a number, and a special character."
         >
+        <i class="bi bi-eye-slash toggle-password" data-target="newpassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
     </div>
 </div>
 
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="password-input" class=" form-control-label">Confirm Password</label></div>
-                                        <div class="col-12 col-md-9"> <input type="password" name="confirmpassword" class="form-control" value="" required="true"></div>
-                                    </div>
-                                   
+<div class="row form-group">
+    <div class="col col-md-3">
+        <label for="confirmpassword" class="form-control-label">Confirm Password</label>
+    </div>
+    <div class="col-12 col-md-9 position-relative">
+        <input 
+            type="password" 
+            name="confirmpassword" 
+            id="confirmpassword" 
+            class="form-control" 
+            required="true" 
+            value=""
+        >
+        <i class="bi bi-eye-slash toggle-password" data-target="confirmpassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
+    </div>
+</div>
+
+<script>
+    // Add event listeners to toggle password visibility
+    document.querySelectorAll('.toggle-password').forEach(icon => {
+        icon.addEventListener('click', function () {
+            const targetInput = document.getElementById(this.dataset.target);
+            const isPassword = targetInput.type === 'password';
+            
+            // Toggle the input type
+            targetInput.type = isPassword ? 'text' : 'password';
+            
+            // Toggle the icon class
+            this.classList.toggle('bi-eye');
+            this.classList.toggle('bi-eye-slash');
+        });
+    });
+</script>
+
                                   
                                     
                                     <?php } ?>
@@ -201,7 +243,6 @@ while ($row=mysqli_fetch_array($ret)) {
 
     <div class="clearfix"></div>
 
-   <?php include_once('includes/footer.php');?>
 
 </div><!-- /#right-panel -->
 
