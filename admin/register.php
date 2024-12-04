@@ -514,7 +514,7 @@ input[type="text"]:hover, input[type="password"]:hover {
     <!-- Main Content -->
     <div style="text-align:center; ;">
        
-            <div class="content mb-5">
+            <div class="content mb-5" style="background: transparent;">
                 <div class="login-form mb-5">
                     <form method="post" action="" id="registrationForm" onsubmit="return checkpass();">
                         <!-- Page 1 -->
