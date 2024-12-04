@@ -119,7 +119,7 @@ if (strlen($_SESSION['vpmsaid']==0)) {
                                     
                                     
                                     <p style="text-align: center; color: white;">
-  <button type="submit" class="btn btn-primary btn-sm" name="search" id="searchbtn"><i class="fa fa-search" > Search</i>
+  <button type="submit" class="btn btn-primary btn-sm"  id="searchbtn"><i class="fa fa-search" > Search</i>
   </button>
                                 </form>
 
