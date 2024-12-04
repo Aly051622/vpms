@@ -106,7 +106,8 @@ if (isset($_POST['submit'])) {
       overflow: hidden;
     }
     .content{
-        margin-top: 20px;
+        margin-top: 20em;
+        margin-left: -5em;
     }
     #page1 {
     border-radius: 20px;
