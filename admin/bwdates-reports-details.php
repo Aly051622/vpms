@@ -119,7 +119,7 @@ $tdate=$_POST['todate'];
                   <th>S.NO</th>
             
                  
-                    <th>Parking Number</th>
+             
                     <th>Owner Name</th>
                     <th>Vehicle Reg Number</th>
                    
@@ -137,8 +137,7 @@ while ($row=mysqli_fetch_array($ret)) {
                 <tr>
                   <td><?php echo $cnt;?></td>
             
-                 
-                  <td><?php  echo $row['ParkingNumber'];?></td>
+             
                   <td><?php  echo $row['OwnerName'];?></td>
                   <td><?php  echo $row['RegistrationNumber'];?></td>
                   
