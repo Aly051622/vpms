@@ -397,10 +397,10 @@ input[type="text"]:hover, input[type="password"]:hover {
 }
 
     </style>
-<div id="right-panel" class="right-panel" style="margin-top: -10px;">
-<header id="header" class="header">
+<div id="right-panel" class="right-panel" >
+<header id="header" class="header" >
             <div class="top-left">
-                <div class="navbar-header" style="background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);">
+                <div class="navbar-header" style="background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);" style="margin-top: -10px;">
                     <a class="navbar-brand" href="dashboard.php"><img src="images/hylogo.png" alt="Logo" style=" width: 120px; height: auto;"></a>
                     <a class="navbar-brand hidden" href="./"><img src="images/logo3.png" alt="Logo"></a>
                     <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
