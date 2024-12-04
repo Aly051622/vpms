@@ -117,6 +117,21 @@ if (isset($_POST['submit'])) {
     transform: translate(-50%, -50%);
     background-color:transparent;
     margin-top: 10em;
+    margin-left: 10em;
+  }
+  #page2 {
+    border-radius: 20px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    z-index: 999;
+    text-align: center;
+    padding: 60px 32px;
+    width: 370px;
+    transform: translate(-50%, -50%);
+    background-color:transparent;
+    margin-top: 20em;
+    margin-left: 10em;
   }
 
 
