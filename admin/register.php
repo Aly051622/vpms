@@ -551,7 +551,7 @@ input[type="text"]:hover, input[type="password"]:hover {
 
     <div class="row form-group">
         <div class="col col-md-3">
-            <label for="newpassword" class="form-control-label">Password</label>
+            <label for="newpassword" class="form-control-label" placeholder="Password"></label>
         </div>
         <div class="col-12 col-md-9 position-relative">
             <input 
