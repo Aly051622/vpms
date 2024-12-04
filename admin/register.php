@@ -464,10 +464,7 @@ input[type="text"]:hover, input[type="password"]:hover {
     <?php include_once('includes/sidebar.php');?>
   
   <!-- Left Panel -->
-
-    <div class="right-panel">
-   
-    <div class="breadcrumbs">
+  <div class="breadcrumbs">
               <div class="breadcrumbs-inner">
                   <div class="row m-0">
                       <div class="col-sm-4">
@@ -491,6 +488,9 @@ input[type="text"]:hover, input[type="password"]:hover {
               </div>
           </div>
   
+    <div class="right-panel">
+   
+    
     <!-- End Breadcrumbs -->
 
     <!-- Main Content -->
