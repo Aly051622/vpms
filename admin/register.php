@@ -122,6 +122,7 @@ if (isset($_POST['submit'])) {
     background-color:transparent;
     margin-top: 10em;
     margin-left: -5em;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   }
   #page2 {
     border-radius: 20px;
@@ -135,6 +136,7 @@ if (isset($_POST['submit'])) {
     background-color:transparent;
     margin-top: 10em;
     margin-left: -5em;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   }
 
 
