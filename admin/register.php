@@ -115,7 +115,7 @@ if (isset($_POST['submit'])) {
     padding: 60px 32px;
     width: 370px;
     background-color:transparent;
-    margin-top: 15em;
+    margin-top: 10em;
     margin-left: -5em;
   }
   #page2 {
@@ -128,7 +128,7 @@ if (isset($_POST['submit'])) {
     padding: 60px 32px;
     width: 370px;
     background-color:transparent;
-    margin-top: 15em;
+    margin-top: 10em;
     margin-left: -5em;
   }
 
