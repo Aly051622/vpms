@@ -106,8 +106,8 @@ if (isset($_POST['submit'])) {
       overflow: hidden;
     }
     .content{
-        margin-top: -80px;
-        margin-left: -100px;
+        margin-top: -100px;
+        margin-left: -500px;
         background: transparent;
     }
     #page1 {
@@ -515,7 +515,7 @@ input[type="text"]:hover, input[type="password"]:hover {
     <div style="text-align:center; ;">
        
             <div class="content mb-5" style="background: transparent;">
-                <div class="login-form mb-5">
+                <div class="login-form mb-5" style="background: transparent;">
                     <form method="post" action="" id="registrationForm" onsubmit="return checkpass();">
                         <!-- Page 1 -->
                         <div id="page1">
