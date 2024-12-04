@@ -494,7 +494,7 @@ input[type="text"]:hover, input[type="password"]:hover {
     <!-- End Breadcrumbs -->
 
     <!-- Main Content -->
-    <div style="text-align:center; margin-top:40px;">
+    <div style="text-align:center; margin-top:100px;">
        
             <div class="content mb-5">
                 <div class="login-form mb-5">
