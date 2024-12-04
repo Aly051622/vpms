@@ -264,6 +264,7 @@ if (isset($_POST['submit'])) {
 <style>
     .left-panelbg {
             font-size:12px;
+            background: white;
     }
     .navbar-expand-sm{
         width: 90%;
@@ -271,7 +272,7 @@ if (isset($_POST['submit'])) {
     }
 </style>
 
-<div class="left-panelbg">
+<div class="left-panelbg" style="background: white;">
     <aside id="left-panel" class="left-panel">
         <nav class="navbar navbar-expand-sm navbar-default">
             <div id="main-menu">
@@ -606,7 +607,7 @@ input[type="text"]:hover, input[type="password"]:hover {
    
     </head>
     <body>
-   
+<div class="right-panel">
    <div class="breadcrumbs mb-5">
         <div class="breadcrumbs-inner">
             <div class="row m-0">
@@ -652,7 +653,7 @@ input[type="text"]:hover, input[type="password"]:hover {
         </div>
 
         <!-- Page 2 -->
-        <div id="page2" style="display: none;" class="mb-5">
+        <div id="page2" style="display: none;" class="mb-5"  style="text-align:center;margin-top:60px;">
             <div class="form-group field space ">
                 <span class="fa bi bi-person-fill" style="font-size: 20px"></span>
                 <input type="email" name="email" placeholder="Email address" required class="form-control">
@@ -681,6 +682,7 @@ input[type="text"]:hover, input[type="password"]:hover {
             </button>
         </div>
     </form>
+</div>
 </div>
 
 <script>
@@ -721,6 +723,11 @@ input[type="text"]:hover, input[type="password"]:hover {
 </script>
 
 
-
+ <!-- Scripts -->
+ <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+  <script src="assets/js/main.js"></script>
 </body>
 </html>
