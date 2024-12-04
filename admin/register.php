@@ -542,51 +542,54 @@ input[type="text"]:hover, input[type="password"]:hover {
                         
                         <!-- End Page 1 -->
 
-                        <!-- Page 2 -->
-                        <div id="page2" style="display: none; text-align:center;  background: transparent;">
-                            <div class="form-group field space">
-                                <span class="fa bi bi-person-fill" style="font-size: 20px"></span>
-                                <input type="email" name="email" placeholder="Email address" required class="form-control">
-                            </div>
-                                            
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label for="newpassword" class="form-control-label" placeholder="Password"></label>
-                        </div>
-                        <div class="col-12 col-md-9 position-relative">
-                            <input 
-                                type="password" 
-                                name="newpassword" 
-                                id="newpassword" 
-                                class="form-control-label" 
-                                required="true" 
-                                pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" 
-                                title="Password must be at least 8 characters long, include uppercase and lowercase letters, a number, and a special character.">
-                            <div class="form-group field space">
-                                <span class="fa bi bi-shield-lock-fill" style="font-size: 20px" class="form-control-label"></span>
-                                <input type="password" name="repeatpassword" id="repeatpassword" placeholder="Repeat password" required class="form-control">
-                            </div>
-                            <div class="checkbox">
-                                <label class="pull-right">
-                                    <a href="forgot-password.php" id="astyle">Forgot Password?</a>
-                                </label>
-                                <label class="pull-left">
-                                    <a href="login.php" id="astyle">Sign in</a>
-                                </label>
-                                <br>
-                            </div>
-                            <div>
-                                <input type="submit" name="submit" class="field submitbtn btn-success btn-flat m-b-30 m-t-30" id="submitBtn" value="REGISTER">
-                            </div>
-                            <br>
-                            <button type="button" onclick="prevPage('page1')" class="nextbtn">
-                                <i class="bi bi-caret-left-square-fill"></i> Previous
-                            </button>
-                        </div>
-                        <!-- End Page 2 -->
-                    </form>
-                </div>
+                       <!-- Page 2 -->
+<div id="page2" style="display: none; text-align:center; background: transparent;">
+    <div class="form-group field-space">
+        <span class="fa bi bi-person-fill" style="font-size: 20px;"></span>
+        <input type="email" name="email" placeholder="Email address" required class="form-control">
+    </div>
+
+    <div class="row form-group">
+        <div class="col col-md-3">
+            <label for="newpassword" class="form-control-label">Password</label>
+        </div>
+        <div class="col-12 col-md-9 position-relative">
+            <input 
+                type="password" 
+                name="newpassword" 
+                id="newpassword" 
+                class="form-control" 
+                required
+                pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" 
+                title="Password must be at least 8 characters long, include uppercase and lowercase letters, a number, and a special character.">
+        </div>
+    </div>
+
+    <div class="form-group field-space">
+        <span class="fa bi bi-shield-lock-fill" style="font-size: 20px;"></span>
+        <input type="password" name="repeatpassword" id="repeatpassword" placeholder="Repeat password" required class="form-control">
+    </div>
+
+    <div class="checkbox">
+        <label class="pull-right">
+            <a href="forgot-password.php" id="astyle">Forgot Password?</a>
+        </label>
+        <label class="pull-left">
+            <a href="login.php" id="astyle">Sign in</a>
+        </label>
+        <br>
+    </div>
+
+    <div>
+        <input type="submit" name="submit" class="field submitbtn btn-success btn-flat m-b-30 m-t-30" id="submitBtn" value="REGISTER">
+    </div>
+    <br>
+    <button type="button" onclick="prevPage('page1')" class="nextbtn">
+        <i class="bi bi-caret-left-square-fill"></i> Previous
+    </button>
 </div>
+<!-- End Page 2 -->
+
 
 
 <script>
