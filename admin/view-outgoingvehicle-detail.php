@@ -197,7 +197,6 @@ if (!$result) {
       </div><!-- .content -->
   
       <div class="clearfix"></div>
-      <?php include_once('includes/footer.php');?>
   
   </div><!-- /#right-panel -->
   
