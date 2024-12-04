@@ -396,6 +396,7 @@ input[type="text"]:hover, input[type="password"]:hover {
 }
 
     </style>
+<div id="right-panel" class="right-panel">
 <header id="header" class="header">
             <div class="top-left">
                 <div class="navbar-header" style="background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);">
