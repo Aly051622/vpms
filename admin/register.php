@@ -116,7 +116,7 @@ if (isset($_POST['submit'])) {
     width: 370px;
     transform: translate(-50%, -50%);
     background-color:transparent;
-    margin-top: 40px;
+    margin-top: 10em;
   }
 
 
@@ -494,7 +494,7 @@ input[type="text"]:hover, input[type="password"]:hover {
     <!-- End Breadcrumbs -->
 
     <!-- Main Content -->
-    <div style="text-align:center; margin-top:20em; margin-left: 10em;">
+    <div style="text-align:center; ;">
        
             <div class="content mb-5">
                 <div class="login-form mb-5">
