@@ -107,7 +107,7 @@ if (isset($_POST['submit'])) {
     }
     .content{
         margin-top: -80px;
-        margin-left: -20em;
+        margin-left: -100px;
         background: transparent;
     }
     #page1 {
