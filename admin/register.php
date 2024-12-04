@@ -114,7 +114,6 @@ if (isset($_POST['submit'])) {
     text-align: center;
     padding: 60px 32px;
     width: 370px;
-    transform: translate(-50%, -50%);
     background-color:transparent;
     margin-top: 15em;
     margin-left: -5em;
@@ -128,10 +127,9 @@ if (isset($_POST['submit'])) {
     text-align: center;
     padding: 60px 32px;
     width: 370px;
-    transform: translate(-50%, -50%);
     background-color:transparent;
-    margin-top: 40em;
-    margin-left: -15em;
+    margin-top: 15em;
+    margin-left: -5em;
   }
 
 
