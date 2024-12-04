@@ -130,8 +130,8 @@ if (isset($_POST['submit'])) {
     width: 370px;
     transform: translate(-50%, -50%);
     background-color:transparent;
-    margin-top: 20em;
-    margin-left: -5em;
+    margin-top: 30em;
+    margin-left: -10em;
   }
 
 
