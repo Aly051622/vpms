@@ -105,7 +105,7 @@ if (isset($_POST['submit'])) {
     body{
       overflow: hidden;
     }
-    .content, #page2 {
+    .content, {
     border-radius: 20px;
     position: relative;
     top: 50%;
@@ -116,8 +116,8 @@ if (isset($_POST['submit'])) {
     width: 370px;
     transform: translate(-50%, -50%);
     background-color:transparent;
-    margin-top: 10em;
-    margin-left: 10em;
+    margin-top: 20em;
+    margin-left: -5em;
   }
   #page2 {
     border-radius: 20px;
@@ -131,7 +131,7 @@ if (isset($_POST['submit'])) {
     transform: translate(-50%, -50%);
     background-color:transparent;
     margin-top: 20em;
-    margin-left: 10em;
+    margin-left: -5em;
   }
 
 
