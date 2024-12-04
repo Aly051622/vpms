@@ -198,61 +198,70 @@ $count_today_vehexits = $row_today_exits['count_today_vehexits'];
     </div>
 </div>
 
-                    <div class="col-lg-3 col-md-6">
-                        <?php
-//Total Vehicle Entries
-$query3 = mysqli_query($con, "
-    SELECT ID FROM tblqr_login
-    UNION
-    SELECT id FROM tblmanual_login;
-");
+<?php
+// Total Vehicle Entries
+$query_total_entries = "
+    SELECT COUNT(ID) as count_total_vehentries FROM (
+        SELECT ID FROM tblqr_login
+        UNION ALL
+        SELECT ID FROM tblmanual_login
+    ) as combined_entries
+";
+$result_total_entries = mysqli_query($con, $query_total_entries);
+$row_total_entries = mysqli_fetch_assoc($result_total_entries);
+$count_total_vehentries = $row_total_entries['count_total_vehentries'];
+?>
 
-$count_total_vehentries=mysqli_num_rows($query3);
- ?>
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="stat-widget-five">
-                                    <div class="stat-icon dib flat-color-4">
-                                        <i class="pe-7s-car"></i>
-                                    </div>
-                                    <div class="stat-content">
-                                        <div class="text-left dib">
-                                            <div class="stat-text"><span class="count"><?php echo $count_total_vehentries?></span></div>
-                                            <div class="stat-heading">Total Vehicle Entries</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<div class="col-lg-3 col-md-6">
+    <div class="card">
+        <div class="card-body">
+            <div class="stat-widget-five">
+                <div class="stat-icon dib flat-color-4">
+                    <i class="pe-7s-car"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="text-left dib">
+                        <div class="stat-text"><span class="count"><?php echo $count_total_vehentries; ?></span></div>
+                        <div class="stat-heading">Total Vehicle Entries</div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                    <div class="col-lg-3 col-md-6">
-                        <?php
-//Total Vehicle Exits
-$query2 = mysqli_query($con, "
-    SELECT ID FROM tblqr_logout
-    UNION
-    SELECT id FROM tblmanual_logout;
-");
+<?php
+// Total Vehicle Exits
+$query_total_exits = "
+    SELECT COUNT(ID) as count_total_vehexits FROM (
+        SELECT ID FROM tblqr_logout
+        UNION ALL
+        SELECT ID FROM tblmanual_logout
+    ) as combined_exits
+";
+$result_total_exits = mysqli_query($con, $query_total_exits);
+$row_total_exits = mysqli_fetch_assoc($result_total_exits);
+$count_total_vehexits = $row_total_exits['count_total_vehexits'];
+?>
 
-$count_total_vehexits=mysqli_num_rows($query2);
- ?>
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="stat-widget-five">
-                                    <div class="stat-icon dib flat-color-3">
-                                        <i class="pe-7s-car"></i>
-                                    </div>
-                                    <div class="stat-content">
-                                        <div class="text-left dib">
-                                            <div class="stat-text"><span class="count"><?php echo $count_total_vehexits?></span></div>
-                                            <div class="stat-heading">Total Vehicle Exits</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<div class="col-lg-3 col-md-6">
+    <div class="card">
+        <div class="card-body">
+            <div class="stat-widget-five">
+                <div class="stat-icon dib flat-color-3">
+                    <i class="pe-7s-car"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="text-left dib">
+                        <div class="stat-text"><span class="count"><?php echo $count_total_vehexits; ?></span></div>
+                        <div class="stat-heading">Total Vehicle Exits</div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
                     <div class="col-lg-3 col-md-6">
     <?php
     // Total Registered Users
