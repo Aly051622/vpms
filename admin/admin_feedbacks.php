@@ -211,23 +211,23 @@ include('includes/dbconnection.php');
                     <li class="active">
                         <a href="dashboard.php"><i class="menu-icon fa fa-dashboard"></i>Dashboard</a>
                     </li>
-
+<!--
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="menu-icon fa fa-list-alt"></i>Vehicle Category
                         </a>
-                        <!--
+                        
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="menu-icon fa fa-road"></i><a href="add-category.php">Add Vehicle Category</a></li>
                             <li><i class="menu-icon fa bi bi-p-square-fill"></i><a href="manage-category.php">Manage Vehicle Category</a></li>
                         </ul>
                     </li>
 -->
-
+<!--
                     <li>
                         <a href="add-vehicle.php"><i class="menu-icon fa fa-user-circle-o"></i>Add Vehicle</a>
                     </li>
-
+-->
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="menu-icon fa fa-th"></i>Manage Vehicle
@@ -238,7 +238,7 @@ include('includes/dbconnection.php');
                             <li><i class="menu-icon bi bi-car-front"></i><a href="manage-outgoingvehicle.php">Manage Out Vehicle</a></li>
                         </ul>
                     </li>
-
+<!--
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="menu-icon fa fa-solid fa-qrcode"></i>QR Code Scanner
@@ -248,7 +248,7 @@ include('includes/dbconnection.php');
                             <li><i class="menu-icon fa bi bi-qr-code"></i><a href="qrlogout.php">Logout Scanner</a></li>
                         </ul>
                     </li>
-
+-->
                     <li>
                         <a href="search-vehicle.php"><i class="menu-icon fa fa-search"></i>Search Vehicle</a>
                     </li>
@@ -283,14 +283,16 @@ include('includes/dbconnection.php');
                                 <!--<li><i class="menu-icon fa fa-address-book"></i><a href="reg-users.php">User Information</a></li>-->
                                 <li><i class="menu-icon  fa bi bi-chat-dots-fill"></i><a href="admin_comments.php">Comment</a></li>
                                 <li><i class="menu-icon fa  bi bi-envelope-paper-heart"></i><a href="admin_feedbacks.php">Feedback</a></li>
-                                <li><i class="menu-icon fa  bi bi-headset"></i><a href="admin_service.php">Customer Service</a></li>
+                               <!-- <li><i class="menu-icon fa  bi bi-headset"></i><a href="admin_service.php">Customer Service</a></li>-->
                             </ul>
                     </li>
+                    <!--
                     <li>
                         <a href="#" onclick="showPasswordModal('credentials', 'credentials.php')">
                             <i class="menu-icon fa bi bi-geo-fill"></i>Credentials
                         </a>
                     </li>
+-->
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>

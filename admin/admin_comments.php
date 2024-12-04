@@ -275,7 +275,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                                 <li><i class="menu-icon fa fa-address-book"></i><a href="reg-users.php">User Information</a></li>
                                 <li><i class="menu-icon  fa bi bi-chat-dots-fill"></i><a href="admin_comments.php">Comment</a></li>
                                 <li><i class="menu-icon fa  bi bi-envelope-paper-heart"></i><a href="admin_feedbacks.php">Feedback</a></li>
-                                <li><i class="menu-icon fa  bi bi-headset"></i><a href="admin_service.php">Customer Service</a></li>
+                                <!--<li><i class="menu-icon fa  bi bi-headset"></i><a href="admin_service.php">Customer Service</a></li>-->
                             </ul>
                     </li>
                     <!--
