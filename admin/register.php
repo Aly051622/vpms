@@ -104,6 +104,7 @@ if (isset($_POST['submit'])) {
     }
     body{
       overflow: hidden;
+      background: whitesmoke;
     }
     .content{
         margin-top: -140px;
