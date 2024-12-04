@@ -105,6 +105,7 @@ if (isset($_POST['submit'])) {
     }
     .left-panel{
         text-decoration: none !important;
+        background: white;
     }
     .nav-link:hover{
         border-radius: 4px;
