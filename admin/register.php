@@ -550,7 +550,7 @@ input[type="text"]:hover, input[type="password"]:hover {
     </div>
 
     <div class="form-group field space">
-        <span class="fa bi bi-shield-lock-fill" style="font-size: 20px;"></span>
+        <span class="fa bi bi-shield-lock" style="font-size: 20px;"></span>
         <input type="password" name="newpassword" id="newpassword" placeholder="Password" required class="form-control"
             pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" 
             title="Password must be at least 8 characters long, include uppercase and lowercase letters, a number, and a special character.">
