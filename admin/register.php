@@ -105,7 +105,7 @@ if (isset($_POST['submit'])) {
     body{
       overflow: hidden;
     }
-    .content {
+    #page1 {
     border-radius: 20px;
     position: relative;
     top: 50%;
@@ -533,6 +533,7 @@ input[type="text"]:hover, input[type="password"]:hover {
                                 Next <i class="bi bi-caret-right-square-fill"></i>
                             </button>
                         </div>
+                        
                         <!-- End Page 1 -->
 
                         <!-- Page 2 -->
