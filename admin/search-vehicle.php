@@ -28,7 +28,7 @@ if (strlen($_SESSION['vpmsaid']==0)) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
     <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
     <link rel="stylesheet" href="assets/css/style.css">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
 </head>
@@ -119,8 +119,10 @@ if (strlen($_SESSION['vpmsaid']==0)) {
                                     
                                     
                                     <p style="text-align: center; color: white;">
-  <button type="submit" class="btn btn-primary btn-sm"  id="searchbtn"><i class="fa fa-search" > Search</i>
+  <button type="submit" class="btn btn-primary btn-sm" id="searchbtn"><i class="fa bi bi-search"> search</i>
   </button>
+</p>
+
                                 </form>
 
  <?php
