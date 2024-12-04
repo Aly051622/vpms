@@ -608,53 +608,59 @@ input[type="text"]:hover, input[type="password"]:hover {
    
     </head>
     <body>
-                <div class="breadcrumbs mb-5">
-                        <div class="breadcrumbs-inner">
-                            <div class="row m-0">
-                                <div class="col-sm-4">
-                                    <div class="page-header float-left">
-                                        <h1>Register Client</h1>
-                                    </div>
-                                </div>
-                                <div class="col-sm-8">
-                                    <div class="page-header float-right">
-                                        <ol class="breadcrumb text-right">
-                                            <li><a href="dashboard.php">Dashboard</a></li>
-                                            <li><a href="register.php">Register</a></li>
-                                        </ol>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    <div class="right-panel">
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs mb-5">
+        <div class="breadcrumbs-inner">
+            <div class="row m-0">
+                <div class="col-sm-4">
+                    <div class="page-header float-left">
+                        <h1>Register Client</h1>
                     </div>
-   <div style="text-align:center;margin-top:40px;">
-      <div class="bg-img mb-5">
-         <div class="content mb-5">
+                </div>
+                <div class="col-sm-8">
+                    <div class="page-header float-right">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="dashboard.php">Dashboard</a></li>
+                            <li><a href="register.php">Register</a></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumbs -->
 
-            <div class="login-form mb-5">
-                <form method="post" action="" id="registrationForm" onsubmit="return checkpass();">
-                         <!-- Page 1 -->
+    <!-- Main Content -->
+    <div style="text-align:center; margin-top:40px;">
+        <div class="bg-img mb-5">
+            <div class="content mb-5">
+                <div class="login-form mb-5">
+                    <form method="post" action="" id="registrationForm" onsubmit="return checkpass();">
+                        <!-- Page 1 -->
                         <div id="page1">
-                                <div class="form-group field space">
-                                    <span class="fa bi bi-person-vcard-fill" style="font-size: 20px"></span>
-                                    <input type="text" name="firstname" placeholder="Your First Name..." required class="form-control">
-                                </div>
-                                <div class="form-group field space">
-                                    <span class="fa bi bi-person-vcard" style="font-size: 20px"></span>
-                                    <input type="text" name="lastname" placeholder="Your Last Name..." required class="form-control">
-                                </div>
-                                <div class="form-group field space">
-                                    <span class="fa bi bi-telephone-fill" style="font-size: 20px"></span>
-                                    <input type="text" name="mobilenumber" maxlength="11" pattern="[0-9]{11}" placeholder="Mobile Number" required class="form-control">
-                                </div><br>
+                            <div class="form-group field space">
+                                <span class="fa bi bi-person-vcard-fill" style="font-size: 20px"></span>
+                                <input type="text" name="firstname" placeholder="Your First Name..." required class="form-control">
+                            </div>
+                            <div class="form-group field space">
+                                <span class="fa bi bi-person-vcard" style="font-size: 20px"></span>
+                                <input type="text" name="lastname" placeholder="Your Last Name..." required class="form-control">
+                            </div>
+                            <div class="form-group field space">
+                                <span class="fa bi bi-telephone-fill" style="font-size: 20px"></span>
+                                <input type="text" name="mobilenumber" maxlength="11" pattern="[0-9]{11}" placeholder="Mobile Number" required class="form-control">
+                            </div>
+                            <br>
                             <button type="button" onclick="nextPage('page2')" class="nextbtn" id="nextBtnPage1">
                                 Next <i class="bi bi-caret-right-square-fill"></i>
                             </button>
                         </div>
+                        <!-- End Page 1 -->
 
-                    <!-- Page 2 -->
-                    <div id="page2" style="display: none;" class="mb-5"  style="text-align:center;margin-top:70px; background: transparent;">
-                            <div class="form-group field space ">
+                        <!-- Page 2 -->
+                        <div id="page2" style="display: none; text-align:center; margin-top:70px; background: transparent;">
+                            <div class="form-group field space">
                                 <span class="fa bi bi-person-fill" style="font-size: 20px"></span>
                                 <input type="email" name="email" placeholder="Email address" required class="form-control">
                             </div>
@@ -672,20 +678,26 @@ input[type="text"]:hover, input[type="password"]:hover {
                                 </label>
                                 <label class="pull-left">
                                     <a href="login.php" id="astyle">Sign in</a>
-                                </label><br>
+                                </label>
+                                <br>
                             </div>
                             <div>
                                 <input type="submit" name="submit" class="field submitbtn btn-success btn-flat m-b-30 m-t-30" id="submitBtn" value="REGISTER">
-                            </div><br>
-                                <button type="button" onclick="prevPage('page1')" class="nextbtn">
-                                    <i class="bi bi-caret-left-square-fill"></i> Previous
-                                </button>
-                    </div>
-                </form>
+                            </div>
+                            <br>
+                            <button type="button" onclick="prevPage('page1')" class="nextbtn">
+                                <i class="bi bi-caret-left-square-fill"></i> Previous
+                            </button>
+                        </div>
+                        <!-- End Page 2 -->
+                    </form>
+                </div>
             </div>
-         </div>
-      </div>
+        </div>
     </div>
+    <!-- End Main Content -->
+</div>
+
 
 <script>
     let currentPage = 1;
