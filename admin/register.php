@@ -411,6 +411,7 @@ if (isset($_POST['submit'])) {
     width: 370px;
     transform: translate(-50%, -50%);
     background-color:transparent;
+    margin-top: 40px;
   }
 
 
@@ -607,7 +608,6 @@ input[type="text"]:hover, input[type="password"]:hover {
    
     </head>
     <body>
-<div class="right-panel">
                 <div class="breadcrumbs mb-5">
                         <div class="breadcrumbs-inner">
                             <div class="row m-0">
@@ -686,7 +686,6 @@ input[type="text"]:hover, input[type="password"]:hover {
          </div>
       </div>
     </div>
-</div>
 
 <script>
     let currentPage = 1;
