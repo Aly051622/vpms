@@ -262,28 +262,8 @@ $count_total_vehexits = $row_total_exits['count_total_vehexits'];
     </div>
 </div>
 
-                    <div class="col-lg-3 col-md-6">
-    <?php
-    // Total Registered Users
-    $query = mysqli_query($con, "SELECT ID FROM tblregusers");
-    $regdusers = mysqli_num_rows($query);
-    ?>
-    <div class="card">
-        <div class="card-body">
-            <div class="stat-widget-five">
-                <div class="stat-icon dib flat-color-1">
-                    <i class="pe-7s-users"></i>
-                </div>
-                <div class="stat-content">
-                    <div class="text-left dib">
-                        <div class="stat-text"><span class="count"><?php echo $regdusers; ?></span></div>
-                        <div class="stat-heading">Total Registered Clients</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
+
 
 <!-- Total Registered Vehicles -->
 <div class="col-lg-3 col-md-6">
@@ -311,27 +291,6 @@ $count_total_vehexits = $row_total_exits['count_total_vehexits'];
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="col-lg-3 col-md-6">
     <?php
     // Total Vehicle Categories
@@ -353,7 +312,69 @@ $count_total_vehexits = $row_total_exits['count_total_vehexits'];
             </div>
         </div>
     </div>
-</div><!-- Validated Clients -->
+</div>
+
+
+
+
+
+
+
+                    <div class="col-lg-3 col-md-6">
+    <?php
+    // Total Registered Users
+    $query = mysqli_query($con, "SELECT ID FROM tblregusers");
+    $regdusers = mysqli_num_rows($query);
+    ?>
+    <div class="card">
+        <div class="card-body">
+            <div class="stat-widget-five">
+                <div class="stat-icon dib flat-color-1">
+                    <i class="pe-7s-users"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="text-left dib">
+                        <div class="stat-text"><span class="count"><?php echo $regdusers; ?></span></div>
+                        <div class="stat-heading">Total Registered Clients</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Validated Clients -->
 <div class="col-lg-3 col-md-6">
     <?php
     // Total Validated Users: validity = 1 AND expiration_date >= current date
