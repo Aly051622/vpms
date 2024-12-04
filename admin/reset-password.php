@@ -84,6 +84,7 @@ return true;
       padding: 60px 32px;
       width: 370px;
       transform: translate(-50%, -50%);
+      opacity: 1;
     }
 
     .content:hover {
