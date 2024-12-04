@@ -105,7 +105,7 @@ if (isset($_POST['submit'])) {
     body{
       overflow: hidden;
     }
-    .content, {
+    .content {
     border-radius: 20px;
     position: relative;
     top: 50%;
