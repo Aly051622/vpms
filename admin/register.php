@@ -542,31 +542,21 @@ input[type="text"]:hover, input[type="password"]:hover {
                         
                         <!-- End Page 1 -->
 
-                       <!-- Page 2 -->
+                     <!-- Page 2 -->
 <div id="page2" style="display: none; text-align:center; background: transparent;">
-    <div class="form-group field-space">
+    <div class="form-group field space">
         <span class="fa bi bi-person-fill" style="font-size: 20px;"></span>
         <input type="email" name="email" placeholder="Email address" required class="form-control">
     </div>
 
-    <div class="row form-group">
-        <div class="col col-md-3">
-        
-        <div class="col-12 col-md-9 position-relative">
-            <input 
-                type="password" 
-                name="newpassword" 
-                id="newpassword" 
-                class="form-control"
-                class="form-control-label" placeholder="Password" 
-                required
-                pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" 
-                title="Password must be at least 8 characters long, include uppercase and lowercase letters, a number, and a special character.">
-        </div>
-        
+    <div class="form-group field space">
+        <span class="fa bi bi-shield-lock-fill" style="font-size: 20px;"></span>
+        <input type="password" name="newpassword" id="newpassword" placeholder="Password" required class="form-control"
+            pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" 
+            title="Password must be at least 8 characters long, include uppercase and lowercase letters, a number, and a special character.">
     </div>
 
-    <div class="form-group field-space">
+    <div class="form-group field space">
         <span class="fa bi bi-shield-lock-fill" style="font-size: 20px;"></span>
         <input type="password" name="repeatpassword" id="repeatpassword" placeholder="Repeat password" required class="form-control">
     </div>
@@ -590,7 +580,6 @@ input[type="text"]:hover, input[type="password"]:hover {
     </button>
 </div>
 <!-- End Page 2 -->
-
 
 
 <script>
