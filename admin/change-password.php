@@ -153,9 +153,23 @@ while ($row=mysqli_fetch_array($ret)) {
                                         <div class="col-12 col-md-9"><input type="password" name="currentpassword" class=" form-control" required= "true" value=""></div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="email-input" class=" form-control-label">New Password</label></div>
-                                        <div class="col-12 col-md-9"><input type="password" name="newpassword" class="form-control" value="" required="true"></div>
-                                    </div>
+    <div class="col col-md-3">
+        <label for="newpassword" class="form-control-label">New Password</label>
+    </div>
+    <div class="col-12 col-md-9">
+        <input 
+            type="password" 
+            name="newpassword" 
+            id="newpassword" 
+            class="form-control" 
+            value="" 
+            required
+            pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" 
+            title="Password must be at least 8 characters long, include uppercase and lowercase letters, a number, and a special character."
+        >
+    </div>
+</div>
+
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="password-input" class=" form-control-label">Confirm Password</label></div>
                                         <div class="col-12 col-md-9"> <input type="password" name="confirmpassword" class="form-control" value="" required="true"></div>
