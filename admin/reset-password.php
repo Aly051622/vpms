@@ -195,7 +195,7 @@ return true;
 <body class="bg-dark">
     <div class="content">
         <div> <a href="forgot-password.php" id="x">
-                X</a>
+        <i class="bi bi-x-circle-fill"></i></a>
         </div>
                <a class="space" style="text-decoration:none;">
                        <h2 style="color: white;">R E S E T <br> PASSWORD</h2>

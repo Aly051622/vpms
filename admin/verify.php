@@ -282,7 +282,7 @@ a{
 <div class="bg-img">
 <div class="content">
                <a href="index.php" id="x">
-               <i class=" fa fa-xmark"></i></a>
+               <i class="bi bi-x-circle-fill"></i></a>
       
     <form method="POST" action="">
         <header><h3> SEND VERIFICATION</h3></header>
