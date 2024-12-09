@@ -248,7 +248,7 @@ if(isset($_POST['submit']))
          <div class="content">
          <div>
                <a href="index.php" id="x">
-                X</a>
+                <i class="bi bi-x-circle-fill"></i></a>
                </div>
          <a class="space" style="text-decoration:none;">
             <header >FORGOT PASSWORD</header> </a>
